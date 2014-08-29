@@ -1,0 +1,6 @@
+form.form-search.well name='searchForm'
+  .row
+    .col-md-2
+      input.form-control ng-model='searcher.name' placeholder="{{'name' | translate}}"
+    .col-md-2
+      button.btn.btn-success ng-click='search()' ng-bind='"search" | translate'

@@ -1,0 +1,18 @@
+form name="loginForm"
+  .modal-header
+    h4
+      center ng-bind='"login" | translate'
+  .modal-body
+    .alert.alert-info.text-center
+      | {{'input_login' | translate}}
+    .alert.alert-warning.text-center ng-show="authError"
+      | {{authError | translate}}
+    .form-group
+      label.control-label Email
+      input.form-control type="email" ng-model="user.email" required="" autofocus=""
+    .form-group
+      label.control-label ng-bind='"password" | translate'
+      input.form-control type="password" ng-model="user.password" required=""
+  .modal-footer
+    button.btn.btn-primary.login ng-disabled="!loginForm.$valid" ng-click="login()" ng-bind='"login" | translate'
+    button.btn.btn-werning.cancel ng-click="cancel()" ng-bind='"cancel" | translate'

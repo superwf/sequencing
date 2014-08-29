@@ -1,0 +1,17 @@
+config.yaml
+*.swp
+
+rails/sequencing/.bundle
+rails/sequencing/log/*.log
+rails/sequencing/tmp
+
+
+nodejs/sequencing/node_modules
+nodejs/sequencing/dist
+nodejs/sequencing/*.tmp
+nodejs/sequencing/.sass-cache
+nodejs/sequencing/app/bower_components
+nodejs/sequencing/app/views/*.html
+nodejs/sequencing/app/scripts/*.js
+nodejs/sequencing/app/scripts/*/*.js
+nodejs/sequencing/test/spec/*/*.js

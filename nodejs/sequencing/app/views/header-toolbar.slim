@@ -1,0 +1,24 @@
+ul.nav.navbar-nav
+  li.dropdown ng-repeat="menu in $parent.me.menus"
+    a.dropdown-toggle data-toggle="dropdown" href="#" role="button" aria-expanded="true"
+      | {{menu.name | translate}}
+      b.caret
+    ul.dropdown-menu role="menu"
+      li ng-repeat="m in menu.children"
+        a ng-href="{{m.url}}"
+          | {{m.name | translate}}
+ul.nav.navbar-nav.pull-right
+  li ng-show="me"
+    a
+      i.glyphicon.glyphicon-user
+      | {{ me.name}}
+  li ng-show="me"
+    form.navbar-form
+      button.btn.btn-warning ng-click="logout()"
+        i.glyphicon.glyphicon-log-out
+        | {{'logout' | translate}}
+  li ng-hide="me"
+    form.navbar-form
+      button.btn.btn-success ng-click="showLogin()"
+        i.glyphicon.glyphicon-log-in
+        | {{'login' | translate}}

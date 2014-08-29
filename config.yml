@@ -1,0 +1,29 @@
+default: &default
+  port: ":8080"
+  mysql:
+    host: "localhost"
+    user: root
+    password: "1"
+    database: sequencing
+    network: tcp
+    port: "3306"
+  redis:
+    network: tcp
+    address: "127.0.0.1:6379"
+    password: ""
+  session:
+    size: 24
+    key: sequencing-sec-key
+    name: sequencing-session
+development:
+  <<: *default
+test:
+  <<: *default
+  port: ":8082"
+  mysql:
+    host: "localhost"
+    user: root
+    password: "1"
+    database: sequencing_test
+    network: tcp
+    port: "3306"

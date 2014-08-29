@@ -1,0 +1,40 @@
+# sample procedure
+-
+  name: electrophoresis
+  desc: 电泳
+  type: sample
+  board: true
+  attachment: true
+-
+  name: bacterium
+  desc: 摇菌
+  type: sample
+  board: true
+-
+  name: plasmid
+  desc: 质粒
+  type: sample
+#-
+#  name: precheck
+#  desc: 预检
+#  type: 'sample'
+# reaction procedure
+-
+  name: heat_cycle
+  desc: 热循环
+  type: reaction
+  board: true
+-
+  name: alcohol_purification
+  desc: 酒精纯化
+  type: reaction
+  board: true
+-
+  name: abi_record
+  desc: 上机记录
+  type: reaction
+  board: true
+#-
+#  name: abi_file
+#  desc: 上传测序文件
+#  type: 'reaction'

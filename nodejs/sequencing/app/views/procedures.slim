@@ -1,0 +1,26 @@
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th ng-bind="'name' | translate"
+      th ng-bind="'desc' | translate"
+      th ng-bind="'type' | translate"
+      th ng-bind="'unit' | translate"
+      th ng-bind="'attachment' | translate"
+      th ng-bind="'operation' | translate"
+  tbody
+    tr ng-repeat="r in records"
+      td
+        | {{r.name}}
+      td
+        | {{r.desc}}
+      td
+        | {{r.type}}
+      td
+        | {{r.unit}}
+      td
+        | {{r.attachment}}
+      td
+        a.btn.btn-success ng-href="/procedures/{{r.id}}"
+          | {{'edit' | translate}}
+        a.btn.btn-danger ng-confirm-click="delete(r.id, $index)" message='{{"confirm_operation" | translate}}'
+          | {{'delete' | translate}}
