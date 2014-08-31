@@ -13,7 +13,7 @@ wiredep = require("wiredep")
 
 wiredep
   directory: "app/bower_components"
-  bowerJson: require("bower.json")
+  bowerJson: require("./bower.json")
   src: "app/index.html"
 
 paths =

@@ -1,6 +1,9 @@
 {
   "name": "sequencing",
-  "version": "1.0.0",
+  "version": "0.0.0",
+  "description": "sequencing",
+  "readme": "README.md",
+  "repository": "git@github.com/superwf/sequencing.git",
   "dependencies": {
     "coffee-script": "^1.8.0",
     "gulp": "^3.8.7",

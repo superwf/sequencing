@@ -4,7 +4,7 @@ class CreateMenus < ActiveRecord::Migration
       t.string :name, null: false, default: ''
       t.string :url, null: false, default: ''
       t.integer :parent_id, null: false, default: 0
-      t.text :remark, null: false, default: ''
+      t.text :remark, null: false
     end
     add_index :menus, :parent_id, name: :parent_id
   end

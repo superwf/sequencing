@@ -45,7 +45,7 @@ func main() {
 }
 
 func requireLogin(c martini.Context, session sessions.Session, r render.Render, req *http.Request) {
-  if session.Get("name") == nil && req.URL.String() != "/api/v1/login" {
+  if session.Get("me") == nil && req.URL.String() != "/api/v1/login" {
     r.JSON(http.StatusUnauthorized, map[string]string{"error": "need login"})
   } else {
     c.Next()
