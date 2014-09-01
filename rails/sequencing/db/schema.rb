@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 20140828004433) do
 
   create_table "procedures", force: true do |t|
     t.string   "name",       limit: 100, default: "",       null: false
-    t.string   "desc",       limit: 100, default: "",       null: false
-    t.string   "type",       limit: 100, default: "sample", null: false
+    t.string   "remark",     limit: 100, default: "",       null: false
+    t.string   "flow_type",  limit: 100, default: "sample", null: false
     t.boolean  "board",                  default: false,    null: false
     t.boolean  "attachment",             default: false,    null: false
     t.integer  "creator_id",                                null: false
@@ -40,28 +40,24 @@ ActiveRecord::Schema.define(version: 20140828004433) do
     t.datetime "updated_at"
   end
 
-  create_table "roles", id: false, force: true do |t|
-    t.integer  "id",                     default: 0, null: false
-    t.string   "name",       limit: 100,             null: false
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.text     "remark"
+  create_table "roles", force: true do |t|
+    t.string "name", limit: 100, null: false
   end
 
-  create_table "users", id: false, force: true do |t|
-    t.integer  "id",                                 default: 0,    null: false
+  create_table "users", force: true do |t|
     t.string   "name",                   limit: 100,                null: false
+    t.integer  "department_id",                                     null: false
+    t.integer  "role_id",                                           null: false
+    t.boolean  "active",                             default: true, null: false
     t.string   "signature"
-    t.integer  "department_id"
-    t.integer  "role_id"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "email",                                             null: false
     t.string   "encrypted_password",                 default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0
+    t.integer  "sign_in_count",                      default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -70,11 +66,13 @@ ActiveRecord::Schema.define(version: 20140828004433) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                    default: 0
+    t.integer  "failed_attempts",                    default: 0,    null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.string   "authentication_token"
-    t.boolean  "active",                             default: true, null: false
   end
+
+  add_index "users", ["department_id"], name: "index_users_on_department_id", using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
 
 end

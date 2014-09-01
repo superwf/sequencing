@@ -8,8 +8,10 @@ describe 'Directive: notifyFlash', ->
   scope = {}
   element = null
   $rootScope = null
+  $translate = null
 
-  beforeEach inject ($controller, _$rootScope_, $compile) ->
+  beforeEach inject ($controller, _$rootScope_, $compile, _$translate_) ->
+    $translate = _$translate_
     $rootScope = _$rootScope_
     scope = $rootScope.$new()
     element = angular.element '<div notify-flash=""></div>'
@@ -24,8 +26,9 @@ describe 'Directive: notifyFlash', ->
   it 'when rootScope broadcast event:loading, event:loaded', ->
     $rootScope.$broadcast 'event:loading'
     expect(scope.level).toEqual('info')
-    expect(scope.msg).toEqual('loading')
-
+    $translate('loading').then (l)->
+      expect(scope.msg).toEqual(l)
+    null
     $rootScope.$broadcast 'event:loaded'
     expect(scope.msg).toBeNull()
 

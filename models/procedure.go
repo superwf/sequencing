@@ -21,6 +21,11 @@ func (p Procedure) Validate()(map[string]string, bool) {
       "field": "remark",
       "error": "length"}, false
   }
+  if p.FlowType != "sample" && p.FlowType != "reaction" {
+    return map[string]string{
+      "field": "flow_type",
+      "error": "select"}, false
+  }
   return nil, true
 }
 

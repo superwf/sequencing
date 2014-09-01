@@ -21,7 +21,6 @@ angular.module('sequencingApp').directive 'notifyFlash', ['$rootScope', '$transl
       null
     $rootScope.$on 'event:loading', ()->
       scope.level = 'info'
-      #scope.msg = 'loading'
       $translate('loading').then (l)->
         scope.msg = l
       null
