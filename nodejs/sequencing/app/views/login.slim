@@ -1,4 +1,4 @@
-form name="loginForm"
+form name="form"
   .modal-header
     h4
       center ng-bind='"login" | translate'
@@ -14,5 +14,5 @@ form name="loginForm"
       label.control-label ng-bind='"password" | translate'
       input.form-control type="password" ng-model="user.password" required=""
   .modal-footer
-    button.btn.btn-primary.login ng-disabled="!loginForm.$valid" ng-click="login()" ng-bind='"login" | translate'
+    button.btn.btn-primary.login ng-disabled="!form.$valid" ng-click="login()" ng-bind='"login" | translate'
     button.btn.btn-werning.cancel ng-click="cancel()" ng-bind='"cancel" | translate'

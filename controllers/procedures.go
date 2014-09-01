@@ -5,6 +5,7 @@ import (
   "net/http"
   "github.com/martini-contrib/render"
   "github.com/go-martini/martini"
+  "github.com/martini-contrib/sessions"
   "strconv"
 )
 
@@ -21,14 +22,33 @@ func GetProcedure(params martini.Params, r render.Render) {
   r.JSON(http.StatusOK, record)
 }
 
+func CreateProcedure(r render.Render, req *http.Request, session sessions.Session) {
+  record := models.Procedure{}
+  parseJson(&record, req)
+  record.CreatorId = session.Get("id").(int)
+  errMsg, valid := record.Validate()
+  if valid {
+    models.Db.Create(&record)
+    //if record.Id > 0 {
+    r.JSON(http.StatusCreated, record)
+  } else {
+    r.JSON(http.StatusNotAcceptable, errMsg)
+  }
+}
+
 func UpdateProcedure(params martini.Params, r render.Render, req *http.Request) {
   record := models.Procedure{}
   parseJson(&record, req)
   id, _ := strconv.Atoi(params["id"])
   record.Id = id
   //models.UpdateProcedure(record)
-  models.Db.Save(&record)
-  r.JSON(http.StatusOK, record)
+  errMsg, valid := record.Validate()
+  if valid {
+    models.Db.Save(&record)
+    r.JSON(http.StatusAccepted, record)
+  } else {
+    r.JSON(http.StatusNotAcceptable, errMsg)
+  }
 }
 
 func DeleteProcedure(params martini.Params, r render.Render, req *http.Request) {

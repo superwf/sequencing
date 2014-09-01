@@ -7,7 +7,6 @@ import (
   "sequencing/config"
   "github.com/martini-contrib/render"
   "sequencing/controllers"
-  //"github.com/martini-contrib/binding"
 )
 
 var m *martini.ClassicMartini
@@ -30,10 +29,10 @@ func main() {
   m.Group("/api/v1", func(r martini.Router) {
     m.Get("/users", controllers.GetUsers)
     m.Get("/me", controllers.Me)
-    //m.Get("/navigation", controllers.Navigation)
     m.Post("/login", controllers.Login)
     m.Delete("/logout", controllers.Logout)
     m.Get("/procedures", controllers.GetProcedures)
+    m.Post("/procedures", controllers.CreateProcedure)
     m.Get("/procedures/:id", controllers.GetProcedure)
     m.Put("/procedures/:id", controllers.UpdateProcedure)
     m.Delete("/procedures/:id", controllers.DeleteProcedure)

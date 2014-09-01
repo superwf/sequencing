@@ -3,24 +3,24 @@
     .form-group
       input.form-control ng-model='record.name' required='' placeholder='{{"name" | translate}}'
     .form-group
-      input.form-control ng-model='record.desc' required='' placeholder='{{"desc" | translate}}'
+      input.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}'
     .form-group
-      .col-md-1
+      .col-md-3
         | {{'type' | translate}}
       .btn-group
-        button.btn.btn-primary type='button' ng-model='record.type' btn-radio='t' ng-repeat='t in types'
+        button.btn.btn-primary type='button' ng-model='record.flow_type' btn-radio='t' ng-repeat='t in types'
           | {{t | translate}}
     .form-group
-      .col-md-1
+      .col-md-3
         | {{'board' | translate}}
       .btn-group
         button.btn.btn-primary type='button' ng-model='record.board' btn-radio='k' ng-repeat='k in [false, true]'
           | {{ny[k] | translate}}
     .form-group
-      .col-md-1
+      .col-md-3
         | {{'attachment' | translate}}
       .btn-group
         button.btn.btn-primary type='button' ng-model='record.attachment' btn-radio='k' ng-repeat='k in [false, true]'
           | {{ny[k] | translate}}
     .form-group
-      button.btn.btn-success ng-click='save()' ng-disabled='record.$valid' ng-bind='"save" | translate'
+      button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

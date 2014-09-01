@@ -90,3 +90,11 @@ body {
     border-bottom: 0;
   }
 }
+
+[notify-flash] {
+  position: absolute;
+  z-index: 9999;
+  top: 0;
+  left: 30%;
+  width: 35%;
+}

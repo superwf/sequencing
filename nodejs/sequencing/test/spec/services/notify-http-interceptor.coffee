@@ -26,7 +26,8 @@ describe 'Service: notifyHttpInterceptor', ->
   it 'test response', ->
     response = {
       config: {
-        url: '/a.json'
+        url: '/api/v1/a'
+        method: 'GET'
       }
     }
     spyOn $rootScope, '$broadcast'
@@ -35,7 +36,8 @@ describe 'Service: notifyHttpInterceptor', ->
 
   it 'test request', ->
     config = {
-      url: '/a.json'
+      url: '/api/v1/a'
+      method: 'GET'
     }
     spyOn $rootScope, '$broadcast'
     notifyHttpInterceptor.request config

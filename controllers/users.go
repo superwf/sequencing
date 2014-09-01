@@ -39,7 +39,7 @@ func Login(req *http.Request, session sessions.Session, r render.Render) {
   user := models.User{}
   parseJson(&user, req)
   http_status, user_map := models.Login(&user)
-  if id, ok := user_map["id"]; ok || id.(int) > 0 {
+  if id, ok := user_map["id"]; ok && id.(int) > 0 {
     user_map["menus"] = models.Navigation(&user)
     delete(user_map, "password")
     delete(user_map, "encrypted_password")
@@ -48,6 +48,7 @@ func Login(req *http.Request, session sessions.Session, r render.Render) {
       log.Fatal("session marshal error: ", err)
     } else {
       session.Set("me", data)
+      session.Set("id", id)
     }
   }
   r.JSON(http_status, user_map)

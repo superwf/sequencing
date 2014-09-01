@@ -6,7 +6,10 @@ table.table.table-bordered.table-striped
       th ng-bind="'type' | translate"
       th ng-bind="'unit' | translate"
       th ng-bind="'attachment' | translate"
-      th ng-bind="'operation' | translate"
+      th
+        |{{'operation' | translate}}
+        a.btn.btn-success ng-href='/procedures/new'
+          | {{'create' | translate}}
   tbody
     tr ng-repeat="r in records"
       td

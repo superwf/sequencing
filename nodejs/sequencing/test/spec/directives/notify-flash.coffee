@@ -24,7 +24,7 @@ describe 'Directive: notifyFlash', ->
   it 'when rootScope broadcast event:loading, event:loaded', ->
     $rootScope.$broadcast 'event:loading'
     expect(scope.level).toEqual('info')
-    expect(scope.msg).toEqual('Loading')
+    expect(scope.msg).toEqual('loading')
 
     $rootScope.$broadcast 'event:loaded'
     expect(scope.msg).toBeNull()
