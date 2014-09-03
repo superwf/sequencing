@@ -92,6 +92,7 @@ func TestNoAdminUserMenu(t *testing.T) {
   if len(menus) != 1 {
     t.Errorf("user`s menus count %d", len(menus))
   }
+  //t.Errorf("aaaaaaaaaaaaaaa", len(menus[0]["children"].([]map[string]string)))
   if len(menus[0]["children"].([]map[string]string)) != 2 {
     t.Errorf("children menus count error")
   }

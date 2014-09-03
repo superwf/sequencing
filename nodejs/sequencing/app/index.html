@@ -1,9 +1,9 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" ng-app="sequencingApp" ng-controller="MainCtrl">
   <head>
     <base href="/" />
     <meta charset="utf-8">
-    <title></title>
+    <title ng-bind="title"></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="sequencingApp" ng-controller="MainCtrl">
+  <body>
     <div notify-flash=""></div>
     <header class="navbar navbar-default navbar-fixed-top">
       <div class="navbar-inner">
@@ -81,6 +81,7 @@
     <script src="scripts/directives/confirm.js"></script>
     <script src="scripts/controllers/procedures.js"></script>
     <script src="scripts/controllers/procedure.js"></script>
+    <script src="scripts/services/sample_head.js"></script>
     <!-- endbuild -->
     <script src="http://localhost:35728/livereload.js?snipver=1" type="text/javascript"></script>
 </body>

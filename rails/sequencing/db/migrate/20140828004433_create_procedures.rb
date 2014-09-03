@@ -7,7 +7,6 @@ class CreateProcedures < ActiveRecord::Migration
       t.column :board, 'TINYINT(1) UNSIGNED', limit: 1, null: false, default: false
       t.column :attachment, 'TINYINT(1) UNSIGNED', limit: 1, null: false, default: false
       t.column :creator_id, 'INT(11) UNSIGNED', null: false
-      t.timestamps
     end
   end
 end
