@@ -1,0 +1,11 @@
+# A sample Guardfile
+# More info at https://github.com/guard/guard#readme
+
+guard :shell do
+  watch(%r{.+\.go$}) do |f|
+    r = `export GOENV=test;ginkgo`
+    #a = `echo $PATH`
+    puts r
+    #puts "#{f} changed"
+  end
+end
