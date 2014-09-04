@@ -1,6 +1,6 @@
 'use strict'
 angular.module('sequencingApp').directive 'notifyFlash', ['$rootScope', '$translate', ($rootScope, $translate)->
-  template: '<div class="text-center alert alert-{{level}}" ng-show="msg">{{msg}}<i class="glyphicon glyphicon-remove close" ng-click="close()"></i></div>',
+  template: '<div class="text-center alert alert-{{level}}" ng-show="msg" ng-click="close()">{{msg}}</div>',
   replace: true
   scope: true
   restrict: 'A'

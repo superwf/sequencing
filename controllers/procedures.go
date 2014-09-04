@@ -26,7 +26,7 @@ func CreateProcedure(r render.Render, req *http.Request, session sessions.Sessio
   record := models.Procedure{}
   parseJson(&record, req)
   record.CreatorId = session.Get("id").(int)
-  record.ValidateSaveRender(r)
+  r.JSON(record.ValidateSave())
 }
 
 func UpdateProcedure(params martini.Params, r render.Render, req *http.Request) {
@@ -34,7 +34,7 @@ func UpdateProcedure(params martini.Params, r render.Render, req *http.Request) 
   parseJson(&record, req)
   id, _ := strconv.Atoi(params["id"])
   record.Id = id
-  record.ValidateSaveRender(r)
+  r.JSON(record.ValidateSave())
 }
 
 func DeleteProcedure(params martini.Params, r render.Render, req *http.Request) {

@@ -41,6 +41,10 @@ func init() {
   //Db.DB().SetMaxOpenConns(100)
 }
 
+type ValidateSave interface{
+  ValidateSave()(int, interface{})
+}
+
 func getPage(req *http.Request) int {
   page, err := strconv.Atoi(req.FormValue("pager"))
   if err != nil {

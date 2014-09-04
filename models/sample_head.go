@@ -1,7 +1,6 @@
 package models
 
 import(
-  "github.com/martini-contrib/render"
   "net/http"
 )
 
@@ -9,23 +8,18 @@ type SampleHead struct {
   Id int `json:"id"`
   Name string `json:"name"`
   Remark string `json:"remark"`
-  AutoPrecheck bool `json:"board"`
-  Available bool `json:"attachment"`
+  AutoPrecheck bool `json:"auto_precheck"`
+  Available bool `json:"available"`
 }
 
-func (record SampleHead) ValidateSaveRender(r render.Render) {
+func (record *SampleHead) ValidateSave()(int, interface{}) {
   if len(record.Name) > 100 || len(record.Name) == 0 {
-    r.JSON(http.StatusNotAcceptable, map[string]string{
+    return http.StatusNotAcceptable, map[string]string{
       "field": "name",
-      "error": "length"})
+      "error": "length"}
   }
-  if len(record.Remark) > 100 || len(record.Remark) == 0 {
-    r.JSON(http.StatusNotAcceptable, map[string]string{
-      "field": "remark",
-      "error": "length"})
-  }
-  Db.Save(&record)
-  r.JSON(http.StatusAccepted, record)
+  Db.Save(record)
+  return http.StatusAccepted, record
 }
 
 // should not so much procedure, so no pagination

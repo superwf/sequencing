@@ -9,7 +9,10 @@ angular.module('sequencingApp', [
   'ngTouch'
   'ui.bootstrap'
   'pascalprecht.translate'
-]).constant('api', '/api/v1').config ['$routeProvider', '$locationProvider', '$httpProvider', '$translateProvider', ($routeProvider, $locationProvider, $httpProvider, $translateProvider) ->
+]).constant('map': {
+  'api': '/api/v1'
+  'yesno': {true: 'yes', false: 'no'}
+}).config ['$routeProvider', '$locationProvider', '$httpProvider', '$translateProvider', ($routeProvider, $locationProvider, $httpProvider, $translateProvider) ->
   $translateProvider.preferredLanguage 'cn'
   $translateProvider.useStaticFilesLoader {
     prefix: '/scripts/'
@@ -26,6 +29,12 @@ angular.module('sequencingApp', [
     .when '/procedures/:id',
       templateUrl: 'views/procedure.html',
       controller: 'ProcedureCtrl'
+    .when '/sample_heads',
+      templateUrl: 'views/sample_heads.html',
+      controller: 'SampleHeadsCtrl'
+    .when '/sample_heads/:id',
+      templateUrl: 'views/sample_head.html',
+      controller: 'SampleHeadCtrl'
     .otherwise
       redirectTo: '/'
   $httpProvider.interceptors.push 'notifyHttpInterceptor'

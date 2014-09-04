@@ -1,8 +1,8 @@
 'use strict'
-angular.module('sequencingApp').factory 'Procedure', ['api', '$resource', (api, $resource)->
-  $resource api + '/procedures/:id', id: '@id', {
-    update: {method: 'PUT', url: api + '/procedures/:id'}
-    'delete': {method: 'DELETE', url: api + '/procedures/:id'}
+angular.module('sequencingApp').factory 'Procedure', ['map', '$resource', (map, $resource)->
+  $resource map.api + '/procedures/:id', id: '@id', {
+    update: {method: 'PUT', url: map.api + '/procedures/:id'}
+    'delete': {method: 'DELETE', url: map.api + '/procedures/:id'}
     create: {method: 'POST'}
     query: {isArray: true, method: 'GET'}
   }

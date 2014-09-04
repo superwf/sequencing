@@ -14,14 +14,14 @@ func (m *Menu) Children(u *User) []Menu {
     Db.Where("parent_id = ?", m.Id).Find(&submenus)
   } else {
     role := Role{Id: u.RoleId}
-    Db.First(&role).Where("parent_id = ?", m.Id).Related(&submenus, "Menus")
+    Db.Find(&role).Where("parent_id = ?", m.Id).Related(&submenus, "Menus")
   }
   return submenus
 }
 
 func Navigation(u *User) []map[string]interface{} {
   var root_menus []Menu
-  db := Db.Where("parent_id = 0")
+  db := Db.Where("parent_id = 0").Order("id")
   if u.Admin() {
     db.Find(&root_menus)
   } else {
