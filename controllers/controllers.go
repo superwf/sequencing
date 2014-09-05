@@ -1,3 +1,6 @@
+/*
+  some common methods of controller are here
+*/
 package controllers
 import(
   "net/http"
@@ -10,6 +13,7 @@ import(
   "strconv"
 )
 
+// for common json render
 var Ok_true map[string]bool = map[string]bool{"ok": true}
 var Ok_false map[string]bool = map[string]bool{"ok": false}
 
@@ -80,8 +84,8 @@ func UpdateRecord(params martini.Params, r render.Render, req *http.Request) {
 }
 
 func CreateRecord(params martini.Params, r render.Render, req *http.Request, session sessions.Session) {
-  var record models.ValidateSave
-  record = initRecord(params["resources"], 0)
+  //var record models.ValidateSave
+  record := initRecord(params["resources"], 0)
   parseJson(record, req)
   record.SetCreator(session.Get("id").(int))
   r.JSON(record.ValidateSave())

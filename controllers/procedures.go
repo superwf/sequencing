@@ -5,7 +5,7 @@ import (
   "net/http"
   "github.com/martini-contrib/render"
   "github.com/go-martini/martini"
-  "github.com/martini-contrib/sessions"
+  //"github.com/martini-contrib/sessions"
   "strconv"
 )
 

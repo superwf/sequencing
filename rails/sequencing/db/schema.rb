@@ -30,28 +30,28 @@ ActiveRecord::Schema.define(version: 20140905061853) do
   add_index "companies", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "menus", force: true do |t|
-    t.string  "name"
+    t.string  "name",      default: "", null: false
     t.string  "url",       default: "", null: false
     t.integer "parent_id", default: 0,  null: false
-    t.text    "remark"
+    t.text    "remark",                 null: false
   end
 
   add_index "menus", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "menus_roles", id: false, force: true do |t|
-    t.integer "menu_id"
-    t.integer "role_id"
+    t.integer "menu_id", null: false
+    t.integer "role_id", null: false
   end
 
   add_index "menus_roles", ["role_id", "menu_id"], name: "role_menu", unique: true, using: :btree
 
   create_table "procedures", force: true do |t|
-    t.string   "name",       limit: 100,                 null: false
-    t.string   "remark",     limit: 100,                 null: false
-    t.string   "flow_type",  limit: 100,                 null: false
-    t.boolean  "board",                  default: false, null: false
-    t.boolean  "attachment",             default: false, null: false
-    t.integer  "creator_id",                             null: false
+    t.string   "name",       limit: 100, default: "",       null: false
+    t.string   "remark",     limit: 100, default: "",       null: false
+    t.string   "flow_type",  limit: 100, default: "sample", null: false
+    t.boolean  "board",                  default: false,    null: false
+    t.boolean  "attachment",             default: false,    null: false
+    t.integer  "creator_id",                                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -65,10 +65,11 @@ ActiveRecord::Schema.define(version: 20140905061853) do
   end
 
   create_table "sample_heads", force: true do |t|
-    t.string  "name",          limit: 100,                 null: false
-    t.string  "remark",        limit: 100, default: "",    null: false
-    t.boolean "auto_precheck",             default: false, null: false
-    t.boolean "available",                 default: true,  null: false
+    t.string  "name",                          null: false
+    t.string  "remark",        default: "",    null: false
+    t.boolean "auto_precheck", default: false, null: false
+    t.boolean "available",     default: true,  null: false
+    t.integer "creator_id",    default: 0,     null: false
   end
 
   create_table "users", id: false, force: true do |t|

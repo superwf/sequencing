@@ -1,40 +1,40 @@
 # sample procedure
 -
   name: electrophoresis
-  desc: 电泳
-  type: sample
+  remark: 电泳
+  flow_type: sample
   board: true
   attachment: true
 -
   name: bacterium
-  desc: 摇菌
-  type: sample
+  remark: 摇菌
+  flow_type: sample
   board: true
 -
   name: plasmid
-  desc: 质粒
-  type: sample
+  remark: 质粒
+  flow_type: sample
 #-
 #  name: precheck
-#  desc: 预检
-#  type: 'sample'
+#  remark: 预检
+#  flow_type: 'sample'
 # reaction procedure
 -
   name: heat_cycle
-  desc: 热循环
-  type: reaction
+  remark: 热循环
+  flow_type: reaction
   board: true
 -
   name: alcohol_purification
-  desc: 酒精纯化
-  type: reaction
+  remark: 酒精纯化
+  flow_type: reaction
   board: true
 -
   name: abi_record
-  desc: 上机记录
-  type: reaction
+  remark: 上机记录
+  flow_type: reaction
   board: true
 #-
 #  name: abi_file
-#  desc: 上传测序文件
-#  type: 'reaction'
+#  remark: 上传测序文件
+#  flow_type: 'reaction'

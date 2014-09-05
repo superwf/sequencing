@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 db = ::Menu.connection
-seeds = %w{procedures}
+seeds = %w{procedures menus}
 seeds.each do |f|
   yml = ::Rails.root.join("test/fixtures/#{f}.yml")
   table_name = f

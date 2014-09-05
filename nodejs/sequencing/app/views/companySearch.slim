@@ -5,7 +5,7 @@ form.form-search.well name='searchForm'
     .col-md-2
       input.form-control ng-model='searcher.code' placeholder="{{'code' | translate}}"
     .col-md-2
-      button.btn.btn-primary type='button' ng-model='searcher.absolute_code' btn-checkbox='' btn-checkbox-true='true' btn-checkbox-false='false'
+      button.btn.btn-info type='button' ng-model='searcher.absolute_code' btn-checkbox='' btn-checkbox-true='true' btn-checkbox-false='false'
         | {{'absolute' | translate}}{{'code' | translate}}
     .col-md-2
       button.btn.btn-success ng-click='search()' ng-bind='"search" | translate'

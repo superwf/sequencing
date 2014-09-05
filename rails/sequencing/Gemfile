@@ -7,6 +7,8 @@ gem 'rails', '4.1.4'
 gem 'mysql2'
 
 gem 'convert_memory_engine'
+
+gem 'factory_girl'
 # Use SCSS for stylesheets
 #gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets

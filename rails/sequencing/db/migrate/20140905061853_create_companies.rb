@@ -9,7 +9,7 @@ class CreateCompanies < ActiveRecord::Migration
       t.column :creator_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.timestamps
     end
-    %i[name code parent_id].each do |a|
+    [:name, :code, :parent_id].each do |a|
       add_index :companies, a, name: a
     end
   end
