@@ -1,0 +1,12 @@
+.col-md-6.col-md-offset-3
+  form.form-horizontal.well.text-center
+    .form-group
+      h2 ng-bind='record.name'
+    .form-group
+      .text-left ng-repeat='root in menus'
+        button.btn.btn-primary type='button' ng-model='root.active' ng-bind='root.name | translate' btn-checkbox='' ng-change='update(root.id, root.active)' btn-checkbox-true='true' btn-checkbox-false='false'
+        /| {{root.name}}
+        .col-md-offset-1.text-left
+          span ng-repeat='c in root.children'
+            button.btn.btn-primary type='button' ng-model='c.active' ng-bind='c.name | translate' btn-checkbox='' ng-change='update(c.id, c.active)' btn-checkbox-true='true' btn-checkbox-false='false'
+            b.glyphicon.glyphicon-leaf ng-show='! $last'

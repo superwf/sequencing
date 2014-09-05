@@ -12,21 +12,9 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id%>
-  name: role
+  name: privilege
   url: '/roles'
   parent_id: <%= system_id%>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id%>
-  name: permission
-  url: '/permissions'
-  parent_id: <%= system_id%>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id%>
-  name: menu
-  url: '/menus'
-  parent_id: <%= system_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>

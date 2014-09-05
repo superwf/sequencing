@@ -23,6 +23,18 @@ angular.module('sequencingApp', [
     .when '/',
       templateUrl: 'views/home.html',
       controller: 'HomeCtrl'
+    .when '/roles',
+      templateUrl: 'views/roles.html',
+      controller: 'RolesCtrl'
+    .when '/roles/:id',
+      templateUrl: 'views/role.html',
+      controller: 'RoleCtrl'
+    .when '/companies',
+      templateUrl: 'views/companies.html',
+      controller: 'CompaniesCtrl'
+    .when '/companies/:id',
+      templateUrl: 'views/company.html',
+      controller: 'CompanyCtrl'
     .when '/procedures',
       templateUrl: 'views/procedures.html',
       controller: 'ProceduresCtrl'

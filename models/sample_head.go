@@ -10,6 +10,7 @@ type SampleHead struct {
   Remark string `json:"remark"`
   AutoPrecheck bool `json:"auto_precheck"`
   Available bool `json:"available"`
+  Creator
 }
 
 func (record *SampleHead) ValidateSave()(int, interface{}) {
@@ -23,10 +24,18 @@ func (record *SampleHead) ValidateSave()(int, interface{}) {
 }
 
 // should not so much procedure, so no pagination
-func GetSampleHeads()([]SampleHead){
+func GetSampleHeads(req *http.Request)([]SampleHead, int){
+  page := getPage(req)
+  db := Db.Model(SampleHead{})
+  name := req.FormValue("name")
+  if name != "" {
+    db = db.Where("name LIKE ?", (name + "%"))
+  }
+  var count int
+  db.Count(&count)
   records := []SampleHead{}
-  Db.Find(&records)
-  return records
+  db.Limit(PerPage).Offset(page * PerPage).Find(&records)
+  return records, count
 }
 
 func UpdateSampleHead(record SampleHead) {

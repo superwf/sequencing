@@ -10,10 +10,10 @@ import (
 )
 
 
-func GetProcedures(r render.Render) {
-  records := models.GetProcedures()
-  r.JSON(http.StatusOK, records)
-}
+//func GetProcedures(r render.Render) {
+//  records := models.GetProcedures()
+//  r.JSON(http.StatusOK, records)
+//}
 
 func GetProcedure(params martini.Params, r render.Render) {
   id, _ := strconv.Atoi(params["id"])
@@ -22,12 +22,12 @@ func GetProcedure(params martini.Params, r render.Render) {
   r.JSON(http.StatusOK, record)
 }
 
-func CreateProcedure(r render.Render, req *http.Request, session sessions.Session) {
-  record := models.Procedure{}
-  parseJson(&record, req)
-  record.CreatorId = session.Get("id").(int)
-  r.JSON(record.ValidateSave())
-}
+//func CreateProcedure(r render.Render, req *http.Request, session sessions.Session) {
+//  record := models.Procedure{}
+//  parseJson(&record, req)
+//  //record.CreatorId = session.Get("id").(int)
+//  r.JSON(record.ValidateSave())
+//}
 
 func UpdateProcedure(params martini.Params, r render.Render, req *http.Request) {
   record := models.Procedure{}

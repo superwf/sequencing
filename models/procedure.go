@@ -11,7 +11,8 @@ type Procedure struct {
   FlowType string `json:"flow_type"`
   Board bool `json:"board"`
   Attachment bool `json:"attachment"`
-  CreatorId int `json:"creator_id"`
+  //CreatorId int `json:"creator_id"`
+  Creator
 }
 
 func (p Procedure) ValidateSave()(int, interface{}) {
@@ -35,10 +36,23 @@ func (p Procedure) ValidateSave()(int, interface{}) {
 }
 
 // should not so much procedure, so no pagination
-func GetProcedures()([]Procedure){
-  procedures := []Procedure{}
-  Db.Find(&procedures)
-  return procedures
+//func GetProcedures()([]Procedure){
+//  procedures := []Procedure{}
+//  Db.Find(&procedures)
+//  return procedures
+//}
+func GetProcedures(req *http.Request)([]Procedure, int){
+  page := getPage(req)
+  db := Db.Model(Procedure{})
+  name := req.FormValue("name")
+  if name != "" {
+    db = db.Where("name LIKE ?", (name + "%"))
+  }
+  var count int
+  db.Count(&count)
+  records := []Procedure{}
+  db.Limit(PerPage).Offset(page * PerPage).Find(&records)
+  return records, count
 }
 
 //func UpdateProcedure(record Procedure) {

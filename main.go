@@ -31,17 +31,15 @@ func main() {
     m.Get("/me", controllers.Me)
     m.Post("/login", controllers.Login)
     m.Delete("/logout", controllers.Logout)
-    m.Get("/procedures", controllers.GetProcedures)
-    //m.Post("/procedures", controllers.CreateProcedure)
-    //m.Put("/procedures/:id", controllers.UpdateProcedure)
-    m.Delete("/procedures/:id", controllers.DeleteProcedure)
+    m.Get("/menus", controllers.GetMenus)
+    m.Put("/roles/:id", controllers.UpdateRole)
 
-    m.Get("/sample_heads", controllers.GetSampleHeads)
-    //m.Post("/sample_heads", controllers.CreateSampleHead)
+    // for simple rest
+    m.Get("/:resources", controllers.GetRecords)
     m.Post("/:resources", controllers.CreateRecord)
     m.Get("/:resources/:id", controllers.GetRecord)
     m.Put("/:resources/:id", controllers.UpdateRecord)
-    //m.Delete("/sample_heads/:id", controllers.DeleteSampleHead)
+    m.Delete("/:resources/:id", controllers.DeleteRecord)
 
     //m.Get("/testing", controllers.Testing)
   })

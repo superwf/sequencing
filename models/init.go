@@ -43,7 +43,16 @@ func init() {
 
 type ValidateSave interface{
   ValidateSave()(int, interface{})
+  SetCreator(int)
 }
+
+type Creator struct{
+  CreatorId int `json:"creator_id"`
+}
+func (c *Creator) SetCreator(id int) {
+  c.CreatorId = id
+}
+
 
 func getPage(req *http.Request) int {
   page, err := strconv.Atoi(req.FormValue("pager"))

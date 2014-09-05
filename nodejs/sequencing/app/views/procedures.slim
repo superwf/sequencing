@@ -26,3 +26,5 @@ table.table.table-bordered.table-striped
           | {{'edit' | translate}}
         a.btn.btn-danger ng-confirm-click="delete(r.id, $index)" message='{{"confirm_operation" | translate}}'
           | {{'delete' | translate}}
+.navbar.navbar-fixed-bottom.text-center
+  ng-include src="'/views/pager.html'"

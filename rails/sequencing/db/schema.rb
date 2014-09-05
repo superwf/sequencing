@@ -11,7 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140903043022) do
+ActiveRecord::Schema.define(version: 20140905061853) do
+
+  create_table "companies", force: true do |t|
+    t.string   "name",                                  null: false
+    t.string   "code",                                  null: false
+    t.integer  "parent_id",               default: 0,   null: false
+    t.string   "price",                   default: "0", null: false
+    t.string   "DECIMAL(10, 2) UNSIGNED", default: "0", null: false
+    t.string   "full_name",                             null: false
+    t.integer  "creator_id",              default: 0,   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "companies", ["code"], name: "code", using: :btree
+  add_index "companies", ["name"], name: "name", using: :btree
+  add_index "companies", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "menus", force: true do |t|
     t.string  "name"

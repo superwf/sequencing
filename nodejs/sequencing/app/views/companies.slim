@@ -1,26 +1,27 @@
+ng-include src="'/views/companySearch.html'"
+h2 ng-bind='inModal'
 table.table.table-bordered.table-striped
   thead
     tr
       th ng-bind="'name' | translate"
-      th ng-bind="'remark' | translate"
-      th
-        | {{'auto' | translate}}{{'precheck' | translate}}
-      th ng-bind="'available' | translate"
-      th
+      th ng-bind="'code' | translate"
+      th ng-bind="'price' | translate"
+      th ng-bind="'full_name' | translate"
+      th ng-show='!inModal'
         |{{'operation' | translate}}
-        a.btn.btn-success ng-href='/sample_heads/new' ng-bind="'create' | translate"
+        a.btn.btn-success ng-href='/companies/new' ng-bind="'create' | translate"
   tbody
     tr ng-repeat="r in records"
       td
         | {{r.name}}
       td
-        | {{r.remark}}
+        | {{r.code}}
       td
-        | {{yesno[r.auto_precheck] | translate}}
+        | {{r.price}}
       td
-        | {{yesno[r.available] | translate}}
-      td
-        a.btn.btn-success ng-href="/sample_heads/{{r.id}}"
+        | {{r.full_name}}
+      td ng-show='!inModal'
+        a.btn.btn-success ng-href="/companies/{{r.id}}"
           | {{'edit' | translate}}
         a.btn.btn-danger ng-confirm-click="delete(r.id, $index)" message='{{"confirm_operation" | translate}}'
           | {{'delete' | translate}}

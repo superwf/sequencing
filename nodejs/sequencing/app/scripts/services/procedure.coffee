@@ -4,6 +4,6 @@ angular.module('sequencingApp').factory 'Procedure', ['map', '$resource', (map, 
     update: {method: 'PUT', url: map.api + '/procedures/:id'}
     'delete': {method: 'DELETE', url: map.api + '/procedures/:id'}
     create: {method: 'POST'}
-    query: {isArray: true, method: 'GET'}
+    query: {isArray: false, method: 'GET'}
   }
 ]
