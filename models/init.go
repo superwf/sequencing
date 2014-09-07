@@ -63,3 +63,14 @@ func getPage(req *http.Request) int {
   }
   return page
 }
+
+// scopes
+func RootTree(db *gorm.DB) *gorm.DB {
+  return db.Where("parent_id = 0")
+}
+
+func ChildrenTree(parent_id int) func(db *gorm.DB)(*gorm.DB) {
+  return func(db *gorm.DB) *gorm.DB {
+    return db.Where("parent_id = ?", parent_id)
+  }
+}

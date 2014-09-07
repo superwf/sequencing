@@ -17,7 +17,6 @@ import (
 //}
 
 func GetMenus(r render.Render) {
-  //menus := []models.Menu{}
   var records []map[string]interface{}
   rows, _ := models.Db.Table("menus").Select("id, name, parent_id, url, menus_roles.role_id").Joins("LEFT JOIN menus_roles ON menus.id = menus_roles.menu_id").Rows()
   for rows.Next() {

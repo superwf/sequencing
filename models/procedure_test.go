@@ -41,7 +41,7 @@ var _ = Describe("test procedure", func(){
     status, _ = p.ValidateSave()
     Expect(status).To(Equal(http.StatusNotAcceptable))
     p.Name = "a"
-    for i := 0; i < 101; i++ {
+    for i := 0; i < 201; i++ {
       p.Name = p.Name + "a"
     }
     status, _ = p.ValidateSave()
@@ -59,12 +59,6 @@ var _ = Describe("test procedure", func(){
     status, _ = p.ValidateSave()
     Expect(status).To(Equal(http.StatusAccepted))
     p.Remark = ""
-    status, _ = p.ValidateSave()
-    Expect(status).To(Equal(http.StatusNotAcceptable))
-    p.Remark = "a"
-    for i := 0; i < 101; i++ {
-      p.Remark = p.Remark + "a"
-    }
     status, _ = p.ValidateSave()
     Expect(status).To(Equal(http.StatusNotAcceptable))
   })

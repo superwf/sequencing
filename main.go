@@ -33,6 +33,7 @@ func main() {
     m.Delete("/logout", controllers.Logout)
     m.Get("/menus", controllers.GetMenus)
     m.Put("/roles/:id", controllers.UpdateRole)
+    m.Get("/company_tree/:id", controllers.GetCompanyTree)
 
     // for simple rest
     m.Get("/:resources", controllers.GetRecords)

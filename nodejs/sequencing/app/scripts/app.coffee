@@ -29,6 +29,9 @@ angular.module('sequencingApp', [
     .when '/roles/:id',
       templateUrl: 'views/role.html',
       controller: 'RoleCtrl'
+    .when '/company_root',
+      templateUrl: 'views/companyRoot.html',
+      controller: 'CompanyTreeCtrl'
     .when '/companies',
       templateUrl: 'views/companies.html',
       controller: 'CompaniesCtrl'

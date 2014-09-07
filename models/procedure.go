@@ -16,16 +16,16 @@ type Procedure struct {
 }
 
 func (p Procedure) ValidateSave()(int, interface{}) {
-  if len(p.Name) > 100 || len(p.Name) == 0 {
+  if len(p.Name) > 200 || len(p.Name) == 0 {
     return http.StatusNotAcceptable, map[string]string{
       "field": "name",
       "error": "length"}
   }
-  if len(p.Remark) > 100 || len(p.Remark) == 0 {
-    return http.StatusNotAcceptable, map[string]string{
-      "field": "remark",
-      "error": "length"}
-  }
+  //if len(p.Remark) > 100 || len(p.Remark) == 0 {
+  //  return http.StatusNotAcceptable, map[string]string{
+  //    "field": "remark",
+  //    "error": "length"}
+  //}
   if p.FlowType != "sample" && p.FlowType != "reaction" {
     return http.StatusNotAcceptable, map[string]string{
       "field": "flow_type",

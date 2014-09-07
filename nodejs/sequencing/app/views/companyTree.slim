@@ -1,0 +1,7 @@
+ol.tree
+  li ng-repeat='record in record.children'
+    i.glyphicon ng-class='{true: "glyphicon-minus-sign", false: "glyphicon-plus pointer"}[record.children_count == 0]' ng-click='expand(record)'
+    | {{record.name}}
+    | [ {{record.code}} ]
+    | ( {{record.price}} )
+    ng-include src="'/views/companyTree.html'"

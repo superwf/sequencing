@@ -15,10 +15,15 @@ type Company struct {
 }
 
 func (record Company) ValidateSave()(int, interface{}) {
-  if len(record.Name) > 100 || len(record.Name) == 0 {
+  if len(record.Name) > 200 || len(record.Name) == 0 {
     return http.StatusNotAcceptable, map[string]string{
       "field": "name",
       "error": "length"}
+  }
+  if record.ParentId != 0 && record.ParentId == record.Id {
+    return http.StatusNotAcceptable, map[string]string{
+      "field": "parent",
+      "error": "self_parent"}
   }
   Db.Save(&record)
   return http.StatusAccepted, record
@@ -45,4 +50,22 @@ func GetCompanies(req *http.Request)([]Company, int){
   records := []Company{}
   db.Limit(PerPage).Offset(page * PerPage).Find(&records)
   return records, count
+}
+
+func GetRootCompanies()([]Company){
+  records := []Company{}
+  Db.Model(Company{}).Scopes(RootTree).Find(&records)
+  return records
+}
+
+func GetCompanyTree(id int)([]Company) {
+  records := []Company{}
+  Db.Model(Company{}).Scopes(ChildrenTree(id)).Find(&records)
+  return records
+}
+
+func (c Company)GetChildrenCount()(int){
+  var count int
+  Db.Model(Company{}).Scopes(ChildrenTree(c.Id)).Count(&count)
+  return count
 }

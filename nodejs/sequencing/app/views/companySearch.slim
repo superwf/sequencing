@@ -1,5 +1,7 @@
 form.form-search.well name='searchForm'
   .row
+    .col-md-1 ng-show='!inModal'
+      a.btn.btn-success ng-href='/companies/new' ng-bind="'create' | translate"
     .col-md-2
       input.form-control ng-model='searcher.name' placeholder="{{'name' | translate}}"
     .col-md-2
@@ -7,5 +9,5 @@ form.form-search.well name='searchForm'
     .col-md-2
       button.btn.btn-info type='button' ng-model='searcher.absolute_code' btn-checkbox='' btn-checkbox-true='true' btn-checkbox-false='false'
         | {{'absolute' | translate}}{{'code' | translate}}
-    .col-md-2
+    .col-md-1
       button.btn.btn-success ng-click='search()' ng-bind='"search" | translate'
