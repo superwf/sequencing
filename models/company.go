@@ -69,3 +69,15 @@ func (c Company)GetChildrenCount()(int){
   Db.Model(Company{}).Scopes(ChildrenTree(c.Id)).Count(&count)
   return count
 }
+
+func DeleteCompany(id int)(int interface{}){
+  company = Company{Id: id}
+  Db.Model(Company{}).First(&company)
+  if company.GetChildrenCount() > 0 {
+    return http.StatusNotAcceptable, map[string]string{
+      "field": "children",
+      "error": "has_children"}
+  }
+  Db.Delete(&company)
+  return http.StatusAccepted, company
+}
