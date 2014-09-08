@@ -1,7 +1,11 @@
 ol.tree
-  li ng-repeat='record in record.children'
+  li ng-repeat='record in record.children' ng-show='!record.deleted'
     i.glyphicon ng-class='{true: "glyphicon-minus-sign", false: "glyphicon-plus pointer"}[record.children_count == 0]' ng-click='expand(record)'
-    | {{record.name}}
-    | [ {{record.code}} ]
-    | ( {{record.price}} )
+    .btn-group
+      a.btn.btn-default ng-href='/companies/{{record.id}}'
+        | {{record.name}} 
+        | [ {{record.code}} ] 
+        | ( {{record.price}} )
+      button.btn.btn-danger ng-confirm-click='delete(record)' message='{{"confirm_operation" | translate}}' ng-show='record.children_count==0'
+        | {{'delete' | translate}}
     ng-include src="'/views/companyTree.html'"

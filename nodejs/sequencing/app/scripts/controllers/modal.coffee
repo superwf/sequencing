@@ -2,6 +2,7 @@
 
 angular.module('sequencingApp').controller 'ModalCtrl', ['$scope', 'Modal', '$rootScope', ($scope, Modal, $rootScope) ->
   $scope.inModal = true
+  $scope.searcher = {}
   $scope.search = ->
     Modal.resource.query $scope.searcher, (data) ->
       $scope.records = data.records

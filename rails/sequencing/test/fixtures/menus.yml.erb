@@ -345,10 +345,10 @@ end
   name: prepayment
   url: '/prepayments'
   parent_id: <%= checkout_id %>
-<% send_mail_id = ::FactoryGirl.generate :menu %>
+<% mail_id = ::FactoryGirl.generate :menu %>
 -
-  id: <%= send_mail_id %>
-  name: send_mail
+  id: <%= mail_id %>
+  name: email
   url: ''
   parent_id: 0
 <% id = ::FactoryGirl.generate :menu %>
@@ -356,13 +356,13 @@ end
   id: <%= id %>
   name: order_mail
   url: '/order_mails'
-  parent_id: <%= send_mail_id %>
+  parent_id: <%= mail_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
   name: primer_mail
   url: '/primer_mails'
-  parent_id: <%= send_mail_id %>
+  parent_id: <%= mail_id %>
 <% statistic_id = ::FactoryGirl.generate :menu %>
 -
   id: <%= statistic_id %>

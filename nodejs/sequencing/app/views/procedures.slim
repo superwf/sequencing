@@ -21,9 +21,9 @@ table.table.table-bordered.table-striped
       td
         | {{ny[r.attachment] | translate}}
       td
-        a.btn.btn-success ng-href="/procedures/{{r.id}}"
+        a.btn.btn-success ng-href='/procedures/{{r.id}}'
           | {{'edit' | translate}}
-        a.btn.btn-danger ng-confirm-click="delete(r.id, $index)" message='{{"confirm_operation" | translate}}'
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
           | {{'delete' | translate}}
 .navbar.navbar-fixed-bottom.text-center
   ng-include src="'/views/pager.html'"

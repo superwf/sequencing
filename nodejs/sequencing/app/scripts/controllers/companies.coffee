@@ -13,7 +13,4 @@ angular.module('sequencingApp').controller 'CompaniesCtrl', ['$scope', 'Company'
   $scope.setPage = ()->
     $scope.search()
  
-  $scope.delete = (id, index)->
-    Company.delete {id: id}
-    $scope.records.splice index, 1
 ]

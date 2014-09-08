@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'CompanyTreeCtrl', ['$scope', 'CompanyTree', ($scope, CompanyTree) ->
+angular.module('sequencingApp').controller 'CompanyTreeCtrl', ['$scope', 'CompanyTree', 'Company', ($scope, CompanyTree, Company) ->
   CompanyTree.records(0).then (data)->
     $scope.record =
       children: data.data
@@ -14,4 +14,8 @@ angular.module('sequencingApp').controller 'CompanyTreeCtrl', ['$scope', 'Compan
       else
         record.children = []
     null
+  $scope.delete = (record)->
+    Company.delete {id: record.id}
+    record.deleted = true
+  null
 ]
