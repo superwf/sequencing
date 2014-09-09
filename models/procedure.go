@@ -35,12 +35,6 @@ func (p Procedure) ValidateSave()(int, interface{}) {
   return http.StatusAccepted, p
 }
 
-// should not so much procedure, so no pagination
-//func GetProcedures()([]Procedure){
-//  procedures := []Procedure{}
-//  Db.Find(&procedures)
-//  return procedures
-//}
 func GetProcedures(req *http.Request)([]Procedure, int){
   page := getPage(req)
   db := Db.Model(Procedure{})
@@ -54,9 +48,3 @@ func GetProcedures(req *http.Request)([]Procedure, int){
   db.Limit(PerPage).Offset(page * PerPage).Find(&records)
   return records, count
 }
-
-//func UpdateProcedure(record Procedure) {
-//  origin := new(Procedure)
-//  Db.First(origin, record.Id)
-//  Db.Exec("UPDATE procedures SET name = ?, `remark` = ?, `flow_type` = ?, board = ?, attachment = ? WHERE id = ?", record.Name, record.Remark, record.FlowType, record.Board, record.Attachment, record.Id)
-//}

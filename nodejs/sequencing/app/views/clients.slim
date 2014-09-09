@@ -1,0 +1,30 @@
+ng-include src="'/views/clientSearch.html'"
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th ng-bind="'name' | translate"
+      th ng-bind="'company' | translate"
+      th ng-bind="'email' | translate"
+      th ng-bind="'tel' | translate"
+      th ng-bind="'address' | translate"
+      th
+        a.btn.btn-success ng-href='/clients/new' ng-bind="'create' | translate"
+  tbody
+    tr ng-repeat="r in records"
+      td
+        | {{r.name}}
+      td
+        | {{r.company}}
+      td
+        | {{r.email}}
+      td
+        | {{r.tel}}
+      td
+        | {{r.address}}
+      td
+        a.btn.btn-success ng-click='edit(r)'
+          | {{'edit' | translate}}
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
+          | {{'delete' | translate}}
+.navbar.navbar-fixed-bottom.text-center
+  ng-include src="'/views/pager.html'"

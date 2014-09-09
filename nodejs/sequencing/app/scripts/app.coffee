@@ -8,6 +8,7 @@ angular.module('sequencingApp', [
   'ngSanitize'
   'ngTouch'
   'ui.bootstrap'
+  'ui.drop'
   'pascalprecht.translate'
 ]).constant('map': {
   'api': '/api/v1'
@@ -29,7 +30,25 @@ angular.module('sequencingApp', [
     .when '/roles/:id',
       templateUrl: 'views/role.html',
       controller: 'RoleCtrl'
-    .when '/company_root',
+    .when '/primerBoards',
+      templateUrl: 'views/primerBoards.html',
+      controller: 'PrimerBoardsCtrl'
+    .when '/primerBoards/:id',
+      templateUrl: 'views/primerBoard.html',
+      controller: 'PrimerBoardCtrl'
+    .when '/primerHeads',
+      templateUrl: 'views/primerHeads.html',
+      controller: 'PrimerHeadsCtrl'
+    .when '/primerHeads/:id',
+      templateUrl: 'views/primerHead.html',
+      controller: 'PrimerHeadCtrl'
+    .when '/clients',
+      templateUrl: 'views/clients.html',
+      controller: 'ClientsCtrl'
+    .when '/clients/:id',
+      templateUrl: 'views/client.html',
+      controller: 'ClientCtrl'
+    .when '/companyRoot',
       templateUrl: 'views/companyRoot.html',
       controller: 'CompanyTreeCtrl'
     .when '/companies',
@@ -44,11 +63,11 @@ angular.module('sequencingApp', [
     .when '/procedures/:id',
       templateUrl: 'views/procedure.html',
       controller: 'ProcedureCtrl'
-    .when '/sample_heads',
-      templateUrl: 'views/sample_heads.html',
+    .when '/sampleHeads',
+      templateUrl: 'views/sampleHeads.html',
       controller: 'SampleHeadsCtrl'
-    .when '/sample_heads/:id',
-      templateUrl: 'views/sample_head.html',
+    .when '/sampleHeads/:id',
+      templateUrl: 'views/sampleHead.html',
       controller: 'SampleHeadCtrl'
     .otherwise
       redirectTo: '/'

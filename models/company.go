@@ -11,6 +11,7 @@ type Company struct {
   ParentId int `json:"parent_id"`
   Price float64 `json:"price"`
   FullName string `json:"full_name"`
+  Client []Client
   Creator
 }
 
@@ -25,6 +26,7 @@ func (record Company) ValidateSave()(int, interface{}) {
       "field": "parent",
       "error": "self_parent"}
   }
+  record.FullName = record.GetFullName()
   Db.Save(&record)
   return http.StatusAccepted, record
 }
@@ -70,13 +72,46 @@ func (c Company)GetChildrenCount()(int){
   return count
 }
 
-func DeleteCompany(id int)(int interface{}){
-  company = Company{Id: id}
+func (c Company)Parent()(Company) {
+  if c.ParentId == 0 {
+    return Company{}
+  } else {
+    parent := Company{Id: c.ParentId}
+    Db.First(&parent)
+    return parent
+  }
+}
+
+func (c Company)GetFullName()(string){
+  parent_id := c.ParentId
+  full_name := c.Name
+  for {
+    if parent_id > 0 {
+      parent := Company{Id: parent_id}
+      Db.First(&parent)
+      full_name = parent.Name + "-" + full_name
+      parent_id = parent.ParentId
+    } else {
+      break
+    }
+  }
+  return full_name
+}
+
+func DeleteCompany(id int)(int, interface{}){
+  company := Company{Id: id}
   Db.Model(Company{}).First(&company)
   if company.GetChildrenCount() > 0 {
     return http.StatusNotAcceptable, map[string]string{
-      "field": "children",
-      "error": "has_children"}
+      "field": "company",
+      "error": "exist"}
+  }
+  var client Client
+  Db.Model(Client{}).Where("company_id = ?", id).First(&client)
+  if client.Id > 0 {
+    return http.StatusNotAcceptable, map[string]string{
+      "field": "client",
+      "error": "exist"}
   }
   Db.Delete(&company)
   return http.StatusAccepted, company

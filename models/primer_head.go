@@ -4,16 +4,16 @@ import(
   "net/http"
 )
 
-type SampleHead struct {
+type PrimerHead struct {
   Id int `json:"id"`
   Name string `json:"name"`
   Remark string `json:"remark"`
-  AutoPrecheck bool `json:"auto_precheck"`
+  WithDate bool `json:"with_date"`
   Available bool `json:"available"`
   Creator
 }
 
-func (record *SampleHead) ValidateSave()(int, interface{}) {
+func (record *PrimerHead) ValidateSave()(int, interface{}) {
   if len(record.Name) > 200 || len(record.Name) == 0 {
     return http.StatusNotAcceptable, map[string]string{
       "field": "name",
@@ -23,22 +23,16 @@ func (record *SampleHead) ValidateSave()(int, interface{}) {
   return http.StatusAccepted, record
 }
 
-func GetSampleHeads(req *http.Request)([]SampleHead, int){
+func GetPrimerHeads(req *http.Request)([]PrimerHead, int){
   page := getPage(req)
-  db := Db.Model(SampleHead{})
+  db := Db.Model(PrimerHead{})
   name := req.FormValue("name")
   if name != "" {
     db = db.Where("name LIKE ?", (name + "%"))
   }
   var count int
   db.Count(&count)
-  records := []SampleHead{}
+  records := []PrimerHead{}
   db.Limit(PerPage).Offset(page * PerPage).Find(&records)
   return records, count
-}
-
-func UpdateSampleHead(record SampleHead) {
-  origin := new(Procedure)
-  Db.First(origin, record.Id)
-  Db.Exec("UPDATE procedures SET name = ?, remark = ?, auto_precheck = ?, available = ? WHERE id = ?", record.Name, record.Remark, record.AutoPrecheck, record.Available, record.Id)
 }

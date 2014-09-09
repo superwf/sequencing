@@ -17,9 +17,16 @@ func GetCompanyTree(params martini.Params, req *http.Request, r render.Render) {
       "name": r.Name,
       "code": r.Code,
       "price": r.Price,
+      "parent_id": r.ParentId,
+      "parent": r.Parent().Name,
       "children_count": r.GetChildrenCount(),
     }
     result = append(result, d)
   }
   r.JSON(http.StatusOK, result)
+}
+
+func DeleteCompany(params martini.Params, r render.Render){
+  id, _ := strconv.Atoi(params["id"])
+  r.JSON(models.DeleteCompany(id))
 }

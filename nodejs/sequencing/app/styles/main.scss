@@ -95,13 +95,10 @@ body {
   position: absolute;
   z-index: 9999;
   top: 0;
-  left: 30%;
-  width: 35%;
+  right: 0;
+  width: auto;
 }
 
-ol.tree li {
-  list-style: none;
-}
 .pointer {
   cursor: pointer;
 }
