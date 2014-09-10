@@ -1,5 +1,11 @@
 'use strict'
 angular.module('sequencingApp').controller 'MainCtrl', ['Security', '$scope', '$rootScope', (Security, $scope, $rootScope)->
+  $rootScope.dateOption =
+    changeYear: true
+    changeMonth: true
+    dateFormat: 'yy-mm-dd'
+  $rootScope.yesno = {true: 'yes', false: 'no'}
+
   $scope.title = 'sequencing'
   $scope.$on 'event:unauthorized', ->
     if !Security.modal

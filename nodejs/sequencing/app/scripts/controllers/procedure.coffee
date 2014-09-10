@@ -10,7 +10,6 @@ angular.module('sequencingApp').controller 'ProcedureCtrl', ['$scope', 'Procedur
   else
     $scope.record = Procedure.get id: $routeParams.id
   $scope.types = ['sample', 'reaction']
-  $scope.ny = {true: 'yes', false: 'no'}
 
   $scope.save = ->
     if $scope.record.id

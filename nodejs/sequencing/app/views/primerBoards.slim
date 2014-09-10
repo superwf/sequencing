@@ -3,7 +3,6 @@ table.table.table-bordered.table-striped
     tr
       th ng-bind="'sn' | translate"
       th ng-bind="'created_date' | translate"
-      th ng-bind="'primer_head' | translate"
       th
         | {{'primer' | translate}}{{'count' | translate}}
       th
@@ -11,15 +10,14 @@ table.table.table-bordered.table-striped
   tbody
     tr ng-repeat="r in records"
       td
-        | {{r.name}}
+        | {{r.sn}}
       td
-        | {{r.remark}}
+        | {{r.created_date | date: 'yyyy-MM-dd'}}
+        /| {{r.created_date.toUTCString()}}
       td
-        | {{yn[r.with_date] | translate}}
       td
-        | {{yn[r.available] | translate}}
-      td
-        a.btn.btn-success ng-click='edit(r)'
+        /a.btn.btn-success ng-click='edit(r)'
+        a.btn.btn-success ng-href='/primerBoards/{{r.id}}'
           | {{'edit' | translate}}
         a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
           | {{'delete' | translate}}

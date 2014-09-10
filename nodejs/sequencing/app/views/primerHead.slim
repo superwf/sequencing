@@ -9,12 +9,12 @@
         | {{'with_date' | translate}}
       .btn-group
         button.btn.btn-primary type='button' ng-model='record.with_date' btn-radio='k' ng-repeat='k in [true, false]'
-          | {{yn[k] | translate}}
+          | {{yesno[k] | translate}}
     .form-group
       .col-md-3
         | {{'available' | translate}}
       .btn-group
         button.btn.btn-primary type='button' ng-model='record.available' btn-radio='k' ng-repeat='k in [true, false]'
-          | {{yn[k] | translate}}
+          | {{yesno[k] | translate}}
     .form-group
       button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

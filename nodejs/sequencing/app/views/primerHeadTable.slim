@@ -1,0 +1,14 @@
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th ng-bind="'name' | translate"
+      th ng-bind="'remark' | translate"
+      th ng-bind="'with_date' | translate"
+  tbody
+    tr ng-repeat='r in records' ng-click='click(r.id, r.name)'
+      td
+        | {{r.name}}
+      td
+        | {{r.remark}}
+      td
+        | {{yn[r.with_date] | translate}}

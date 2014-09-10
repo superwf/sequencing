@@ -9,6 +9,7 @@ angular.module('sequencingApp', [
   'ngTouch'
   'ui.bootstrap'
   'ui.drop'
+  'ui.date'
   'pascalprecht.translate'
 ]).constant('map': {
   'api': '/api/v1'

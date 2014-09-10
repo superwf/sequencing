@@ -4,6 +4,8 @@ angular.module('sequencingApp').controller 'PrimerBoardsCtrl', ['$scope', 'Prime
   $scope.searcher = {}
   $scope.search = ->
     PrimerBoard.query $scope.searcher, (data) ->
+      angular.forEach data.records, (d)->
+        d.created_date = new Date(d.created_date)
       $scope.records = data.records
       $scope.totalItems = data.totalItems
       $scope.perPage = data.perPage

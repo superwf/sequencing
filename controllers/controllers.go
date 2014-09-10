@@ -24,6 +24,11 @@ func parseJson(record interface{}, req *http.Request) {
   if err != nil {
     log.Fatal(err)
   }
+  defer func(){
+    if r := recover(); r != nil {
+      log.Fatal(r)
+    }
+  }()
 }
 
 func initRecords(resources string, req *http.Request)(interface{}, int) {
@@ -40,6 +45,8 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetClients(req)
   case "primerHeads":
     return models.GetPrimerHeads(req)
+  case "primerBoards":
+    return models.GetPrimerBoards(req)
   default:
     return nil, 0
   }
@@ -68,6 +75,8 @@ func initRecord(resources string, id int) models.ValidateSave {
     return &models.Client{Id: id}
   case "primerHeads":
     return &models.PrimerHead{Id: id}
+  case "primerBoards":
+    return &models.PrimerBoard{Id: id}
   default:
     return nil
   }
@@ -102,6 +111,10 @@ func CreateRecord(params martini.Params, r render.Render, req *http.Request, ses
 func DeleteRecord(params martini.Params, r render.Render, req *http.Request) {
   id, _ := strconv.Atoi(params["id"])
   record := initRecord(params["resources"], id)
-  models.Db.Delete(record)
-  r.JSON(http.StatusOK, record)
+  deleted := models.Db.Delete(record)
+  if deleted.Error != nil {
+    r.JSON(http.StatusNotAcceptable, deleted.Error.Error())
+  } else {
+    r.JSON(http.StatusOK, record)
+  }
 }

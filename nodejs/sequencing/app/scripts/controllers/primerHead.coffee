@@ -7,7 +7,6 @@ angular.module('sequencingApp').controller 'PrimerHeadCtrl', ['$scope', '$routeP
       $scope.record = Modal.record
     else
       $scope.record = PrimerHead.get id: $routeParams.id
-  $scope.yn = map.yesno
 
   $scope.save = ->
     if $scope.record.id

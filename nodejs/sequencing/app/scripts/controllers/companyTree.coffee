@@ -2,7 +2,6 @@
 
 angular.module('sequencingApp').controller 'CompanyTreeCtrl', ['$scope', 'CompanyTree', 'Company', '$modal', 'Modal', ($scope, CompanyTree, Company, $modal, Modal) ->
   CompanyTree.records id: 0, (data)->
-    console.log data
     $scope.record =
       children: data
     return
