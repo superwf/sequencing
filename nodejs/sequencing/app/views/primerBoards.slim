@@ -16,8 +16,8 @@ table.table.table-bordered.table-striped
         /| {{r.created_date.toUTCString()}}
       td
       td
-        /a.btn.btn-success ng-click='edit(r)'
-        a.btn.btn-success ng-href='/primerBoards/{{r.id}}'
+        /a.btn.btn-success ng-href='/primerBoards/{{r.id}}'
+        a.btn.btn-success ng-click='edit(r)'
           | {{'edit' | translate}}
         a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
           | {{'delete' | translate}}

@@ -63,7 +63,7 @@ func GetPrimerBoards(req *http.Request)([]map[string]interface{}, int){
       "sn": sn,
       "primer_head_id": primer_head_id,
       "number": number,
-      "created_date": created_date,
+      "created_date": created_date.Format("2006-01-02"),
       "primer_head": primer_head,
     }
     result = append(result, d)
