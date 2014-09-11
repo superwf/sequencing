@@ -35,6 +35,7 @@ func main() {
     m.Put("/roles/:id", controllers.UpdateRole)
     m.Get("/companyTree/:id", controllers.GetCompanyTree)
     m.Delete("/companies/:id", controllers.DeleteCompany)
+    //m.Delete("/primerHeads/:id", controllers.DeletePrimerHead)
 
     // for simple rest
     m.Get("/:resources", controllers.GetRecords)

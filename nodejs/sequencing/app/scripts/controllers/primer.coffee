@@ -1,12 +1,12 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$routeParams', 'Modal', '$modal', 'SequencingConst', 'Client', '$rootScope', 'PrimerBoard', 'PrimerHead', ($scope, Primer, $routeParams, Modal, $modal, SequencingConst, Client, $rootScope, PrimerBoard, PrimerHead) ->
+angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$routeParams', 'Modal', '$modal', 'SequencingConst', 'Client', '$rootScope', 'PrimerBoard', 'PrimerHead', '$location', ($scope, Primer, $routeParams, Modal, $modal, SequencingConst, Client, $rootScope, PrimerBoard, PrimerHead, $location) ->
   $scope.storeType = SequencingConst.primerStoreType
   PrimerHead.query (data)->
     $scope.primer_heads = data.records
     if data.records.length == 0
       $rootScope.$broadcast 'event:notacceptable', {error: 'noexist', field: 'primer_head'}
-      return $location.path '/primerHeads/new'
+      #return $location.path '/primerHeads/new'
     else
       $scope.primer_head = data.records[0]
   if $routeParams.id == 'new'

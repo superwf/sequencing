@@ -2,6 +2,7 @@ package models
 
 import(
   "net/http"
+  "errors"
 )
 
 type PrimerHead struct {
@@ -35,4 +36,13 @@ func GetPrimerHeads(req *http.Request)([]PrimerHead, int){
   records := []PrimerHead{}
   db.Limit(PerPage).Offset(page * PerPage).Find(&records)
   return records, count
+}
+
+func (head *PrimerHead)BeforeDelete()(error){
+  record := PrimerBoard{}
+  Db.Model(PrimerBoard{}).Where("primer_head_id = ?", head.Id).First(&record)
+  if record.Id > 0 {
+    return errors.New("primer_board exist")
+  }
+  return nil
 }
