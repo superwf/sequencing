@@ -1,24 +1,25 @@
+ng-include src="'/views/primerBoardSearch.html'"
 table.table.table-bordered.table-striped
   thead
     tr
-      th ng-bind="'sn' | translate"
-      th ng-bind="'created_date' | translate"
+      th
+        | {{'sn' | translate}}
+        a.btn.btn-success ng-href='/primerBoards/new' ng-bind="'create' | translate"
+      th ng-bind="'primer_head' | translate"
+      th
+        | {{'create' | translate}}{{'date' | translate}}
       th
         | {{'primer' | translate}}{{'count' | translate}}
-      th
-        a.btn.btn-success ng-href='/primerBoards/new' ng-bind="'create' | translate"
   tbody
-    tr ng-repeat="r in records"
+    tr ng-repeat='r in records' ng-click='click(r.id, r.sn)'
       td
-        | {{r.sn}}
-      td
-        | {{r.created_date | date: 'yyyy-MM-dd'}}
-        /| {{r.created_date.toUTCString()}}
-      td
-      td
-        /a.btn.btn-success ng-href='/primerBoards/{{r.id}}'
         a.btn.btn-success ng-click='edit(r)'
-          | {{'edit' | translate}}
+          | {{r.sn}}
+      td
+        | {{r.primer_head}}
+      td
+        | {{r.create_date | date: 'yyyy-MM-dd'}}
+      td
         a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
           | {{'delete' | translate}}
 .navbar.navbar-fixed-bottom.text-center

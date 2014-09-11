@@ -11,10 +11,7 @@ angular.module('sequencingApp', [
   'ui.drop'
   'ui.date'
   'pascalprecht.translate'
-]).constant('map': {
-  'api': '/api/v1'
-  'yesno': {true: 'yes', false: 'no'}
-}).config ['$routeProvider', '$locationProvider', '$httpProvider', '$translateProvider', ($routeProvider, $locationProvider, $httpProvider, $translateProvider) ->
+]).config ['$routeProvider', '$locationProvider', '$httpProvider', '$translateProvider', ($routeProvider, $locationProvider, $httpProvider, $translateProvider) ->
   $translateProvider.preferredLanguage 'cn'
   $translateProvider.useStaticFilesLoader {
     prefix: '/scripts/'
@@ -31,6 +28,18 @@ angular.module('sequencingApp', [
     .when '/roles/:id',
       templateUrl: 'views/role.html',
       controller: 'RoleCtrl'
+    .when '/primers',
+      templateUrl: 'views/primers.html',
+      controller: 'PrimersCtrl'
+    .when '/primers/:id',
+      templateUrl: 'views/primer.html',
+      controller: 'PrimerCtrl'
+    .when '/vectors',
+      templateUrl: 'views/vectors.html',
+      controller: 'VectorsCtrl'
+    .when '/vectors/:id',
+      templateUrl: 'views/vector.html',
+      controller: 'VectorCtrl'
     .when '/primerBoards',
       templateUrl: 'views/primerBoards.html',
       controller: 'PrimerBoardsCtrl'

@@ -7,10 +7,10 @@ table.table.table-bordered.table-striped
       th ng-bind="'email' | translate"
       th ng-bind="'tel' | translate"
       th ng-bind="'address' | translate"
-      th
+      th ng-show='!inModal'
         a.btn.btn-success ng-href='/clients/new' ng-bind="'create' | translate"
   tbody
-    tr ng-repeat="r in records"
+    tr ng-repeat="r in records" ng-click='click(r.id, r.name)'
       td
         | {{r.name}}
       td
@@ -21,10 +21,10 @@ table.table.table-bordered.table-striped
         | {{r.tel}}
       td
         | {{r.address}}
-      td
+      td ng-show='!inModal'
         a.btn.btn-success ng-click='edit(r)'
           | {{'edit' | translate}}
         a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
           | {{'delete' | translate}}
-.navbar.navbar-fixed-bottom.text-center
+.navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"
   ng-include src="'/views/pager.html'"

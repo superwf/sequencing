@@ -11,18 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140909082735) do
+ActiveRecord::Schema.define(version: 20140911012757) do
 
   create_table "clients", force: true do |t|
-    t.string   "name",       default: "", null: false
-    t.integer  "company_id", default: 0,  null: false
-    t.string   "email",      default: "", null: false
-    t.string   "address",    default: "", null: false
-    t.string   "tel",        default: "", null: false
-    t.text     "remark",                  null: false
-    t.integer  "creator_id",              null: false
+    t.string   "name",       null: false
+    t.integer  "company_id", null: false
+    t.string   "email",      null: false
+    t.text     "remark"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "creator_id", null: false
+    t.string   "address",    null: false
+    t.string   "tel",        null: false
   end
 
   add_index "clients", ["company_id"], name: "company_id", using: :btree
@@ -30,13 +30,12 @@ ActiveRecord::Schema.define(version: 20140909082735) do
   add_index "clients", ["name"], name: "name", using: :btree
 
   create_table "companies", force: true do |t|
-    t.string   "name",                                  null: false
-    t.string   "code",                                  null: false
-    t.integer  "parent_id",               default: 0,   null: false
-    t.string   "price",                   default: "0", null: false
-    t.string   "DECIMAL(10, 2) UNSIGNED", default: "0", null: false
-    t.string   "full_name",                             null: false
-    t.integer  "creator_id",              default: 0,   null: false
+    t.string   "name",                     null: false
+    t.string   "code",                     null: false
+    t.integer  "parent_id",  default: 0,   null: false
+    t.string   "price",      default: "0", null: false
+    t.string   "full_name",                null: false
+    t.integer  "creator_id", default: 0,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -46,7 +45,7 @@ ActiveRecord::Schema.define(version: 20140909082735) do
   add_index "companies", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "menus", force: true do |t|
-    t.string  "name",      default: "", null: false
+    t.string  "name"
     t.string  "url",       default: "", null: false
     t.integer "parent_id", default: 0,  null: false
     t.text    "remark"
@@ -55,8 +54,8 @@ ActiveRecord::Schema.define(version: 20140909082735) do
   add_index "menus", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "menus_roles", id: false, force: true do |t|
-    t.integer "menu_id", null: false
-    t.integer "role_id", null: false
+    t.integer "menu_id"
+    t.integer "role_id"
   end
 
   add_index "menus_roles", ["role_id", "menu_id"], name: "role_menu", unique: true, using: :btree
@@ -87,9 +86,9 @@ ActiveRecord::Schema.define(version: 20140909082735) do
 
   create_table "primers", force: true do |t|
     t.string   "name",                                                      null: false
-    t.decimal  "origin_thickness", precision: 10, scale: 2, default: 5.0,   null: false
+    t.decimal  "origin_thickness", precision: 10, scale: 2,                 null: false
     t.string   "annealing",                                 default: "",    null: false
-    t.text     "sequence"
+    t.string   "sequence",                                  default: "",    null: false
     t.integer  "client_id",                                 default: 0,     null: false
     t.integer  "primer_board_id",                           default: 0,     null: false
     t.string   "hole",                                      default: "",    null: false
@@ -106,12 +105,12 @@ ActiveRecord::Schema.define(version: 20140909082735) do
   end
 
   create_table "procedures", force: true do |t|
-    t.string   "name",       limit: 100, default: "",       null: false
-    t.string   "remark",     limit: 100, default: "",       null: false
-    t.string   "flow_type",  limit: 100, default: "sample", null: false
-    t.boolean  "board",                  default: false,    null: false
-    t.boolean  "attachment",             default: false,    null: false
-    t.integer  "creator_id",                                null: false
+    t.string   "name",       limit: 100,                 null: false
+    t.string   "remark",     limit: 100,                 null: false
+    t.string   "flow_type",  limit: 100,                 null: false
+    t.boolean  "board",                  default: false, null: false
+    t.boolean  "attachment",             default: false, null: false
+    t.integer  "creator_id",                             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -125,11 +124,10 @@ ActiveRecord::Schema.define(version: 20140909082735) do
   end
 
   create_table "sample_heads", force: true do |t|
-    t.string  "name",                          null: false
-    t.string  "remark",        default: "",    null: false
-    t.boolean "auto_precheck", default: false, null: false
-    t.boolean "available",     default: true,  null: false
-    t.integer "creator_id",    default: 0,     null: false
+    t.string  "name",          limit: 100,                 null: false
+    t.string  "remark",        limit: 100, default: "",    null: false
+    t.boolean "auto_precheck",             default: false, null: false
+    t.boolean "available",                 default: true,  null: false
   end
 
   create_table "users", id: false, force: true do |t|
@@ -160,5 +158,21 @@ ActiveRecord::Schema.define(version: 20140909082735) do
     t.string   "authentication_token"
     t.boolean  "active",                             default: true, null: false
   end
+
+  create_table "vectors", force: true do |t|
+    t.string   "name",        null: false
+    t.string   "producer",    null: false
+    t.string   "length",      null: false
+    t.string   "resistance",  null: false
+    t.string   "comy_number", null: false
+    t.integer  "creator_id",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "vectors", ["length"], name: "length", using: :btree
+  add_index "vectors", ["name"], name: "name", using: :btree
+  add_index "vectors", ["producer"], name: "producer", using: :btree
+  add_index "vectors", ["resistance"], name: "resistance", using: :btree
 
 end

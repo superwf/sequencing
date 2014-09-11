@@ -15,7 +15,5 @@ angular.module('sequencingApp').controller 'ModalCtrl', ['$scope', 'Modal', '$ro
 
   $scope.click = (id, name)->
     Modal.modal.dismiss 'cancel'
-    Modal.id = id
-    Modal.name = name
-    $rootScope.$broadcast 'modal:clicked'
+    $rootScope.$broadcast 'modal:clicked', {name: name, id: id}
 ]

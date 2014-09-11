@@ -30,8 +30,8 @@ angular.module('sequencingApp').controller 'CompanyCtrl', ['$scope', 'Company', 
     }
 
   $scope.parent = ''
-  $rootScope.$on 'modal:clicked', ->
-    $scope.record.parent = Modal.name
-    $scope.record.parent_id = Modal.id
+  $rootScope.$on 'modal:clicked', (v, data)->
+    $scope.record.parent = data.name
+    $scope.record.parent_id = data.id
   null
 ]

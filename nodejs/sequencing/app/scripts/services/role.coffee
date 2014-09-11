@@ -1,8 +1,8 @@
 'use strict'
 
-angular.module('sequencingApp').factory 'Role', ['map', '$resource', (map, $resource)->
-  $resource map.api + '/roles/:id', id: '@id', {
-    update: {method: 'PUT', url: map.api + '/roles/:id'}
+angular.module('sequencingApp').factory 'Role', ['SequencingConst', '$resource', (SequencingConst, $resource)->
+  $resource SequencingConst.api + '/roles/:id', id: '@id', {
+    update: {method: 'PUT', url: SequencingConst.api + '/roles/:id'}
     query: {isArray: false, method: 'GET'}
   }
 ]

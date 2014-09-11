@@ -7,6 +7,7 @@ import (
   "os"
   "net/http"
   "strconv"
+  "time"
 )
 
 var Db gorm.DB
@@ -48,6 +49,8 @@ type ValidateSave interface{
 
 type Creator struct{
   CreatorId int `json:"creator_id"`
+  CreatedAt time.Time `json:"created_at"`
+  UpdatedAt time.Time `json:"updated_at"`
 }
 func (c *Creator) SetCreator(id int) {
   c.CreatorId = id

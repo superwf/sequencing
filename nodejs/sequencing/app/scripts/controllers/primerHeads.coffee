@@ -1,7 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'PrimerHeadsCtrl', ['$scope', 'PrimerHead', '$modal', 'Modal', 'map', ($scope, PrimerHead, $modal, Modal, map) ->
-  $scope.yn = map.yesno
+angular.module('sequencingApp').controller 'PrimerHeadsCtrl', ['$scope', 'PrimerHead', '$modal', 'Modal', ($scope, PrimerHead, $modal, Modal) ->
   $scope.searcher = {}
   $scope.search = ->
     PrimerHead.query $scope.searcher, (data) ->

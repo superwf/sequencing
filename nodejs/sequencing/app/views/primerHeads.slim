@@ -14,9 +14,9 @@ table.table.table-bordered.table-striped
       td
         | {{r.remark}}
       td
-        | {{yn[r.with_date] | translate}}
+        | {{yesno[r.with_date] | translate}}
       td
-        | {{yn[r.available] | translate}}
+        | {{yesno[r.available] | translate}}
       td
         a.btn.btn-success ng-click='edit(r)'
           | {{'edit' | translate}}

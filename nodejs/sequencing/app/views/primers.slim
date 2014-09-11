@@ -1,0 +1,67 @@
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th
+        | {{'name' | translate}}
+        a.btn.btn-success ng-href='/primers/new' ng-bind="'create' | translate"
+      th
+        |{{'origin' | translate}}{{'thickness' | translate}}
+      th ng-bind="'annealing' | translate"
+      th ng-bind="'seq' | translate"
+      th ng-bind="'client' | translate"
+      th ng-bind="'primer_board' | translate"
+      th ng-bind="'hole' | translate"
+      th ng-bind="'status' | translate"
+      th
+        | {{'store' | translate}}{{'type' | translate}}
+      th
+        | {{'receive' | translate}}{{'date' | translate}}
+      th
+        | {{'expire' | translate}}{{'date' | translate}}
+      th
+        | {{'operate' | translate}}{{'date' | translate}}
+      th
+        | {{'need' | translate}}{{'return' | translate}}
+      th
+        | {{'available' | translate}}
+      th
+        | {{'remark' | translate}}
+      th
+  tbody
+    tr ng-repeat="r in records"
+      td
+        a.btn.btn-success ng-click='edit(r)'
+          | {{r.name}}
+      td
+        | {{r.origin_thickness}}
+      td
+        | {{r.annealing}}
+      td
+        | {{r.seq}}
+      td
+        | {{r.client}}
+      td
+        | {{r.primer_board}}
+      td
+        | {{r.hole}}
+      td
+        | {{r.status | translate}}
+      td
+        | {{r.store_type | translate}}
+      td
+        | {{r.receive_date | date: 'yyyy-MM-dd'}}
+      td
+        | {{r.expire_date | date: 'yyyy-MM-dd'}}
+      td
+        | {{r.operate_date | date: 'yyyy-MM-dd'}}
+      td
+        | {{yesno[r.need_return] | translate}}
+      td
+        | {{yesno[r.available] | translate}}
+      td
+        | {{r.remark}}
+      td
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
+          | {{'delete' | translate}}
+.navbar.navbar-fixed-bottom.text-center
+  ng-include src="'/views/pager.html'"

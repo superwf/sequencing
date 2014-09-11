@@ -1,0 +1,24 @@
+'use strict'
+angular.module('sequencingApp').factory 'SequencingConst', ->
+  api: '/api/v1'
+  yesno: {true: 'yes', false: 'no'}
+  primerStoreType: ['90days', '1year', 'infinate']
+  primerStatus: ['not_receive', 'ok', 'lack', 'runout']
+  primerNewStatus: ['ok', 'not_receive']
+  copyWithDate: (record, field)->
+    r= angular.copy(record)
+    if typeof(field) == 'string'
+      r[field] = new Date(record[field])
+    else
+      angular.forEach field, (k, v)->
+        r[v] = new Date(record[v])
+    r
+  date2string: (datefield)->
+    time = new Date(datefield)
+    m = (time.getMonth() + 1) + ''
+    if m.length == 1
+      m = '0' + m
+    d = time.getDate() + ''
+    if d.length == 1
+      d = '0' + d
+    time.getFullYear() + '-' + m + '-' + d

@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').controller 'SampleHeadCtrl', ['$scope', 'SampleHead', 'map', '$routeParams', ($scope, SampleHead, map, $routeParams) ->
+angular.module('sequencingApp').controller 'SampleHeadCtrl', ['$scope', 'SampleHead', '$routeParams', ($scope, SampleHead, $routeParams) ->
   new_record = {
     auto_precheck: false
     available: true
@@ -8,7 +8,6 @@ angular.module('sequencingApp').controller 'SampleHeadCtrl', ['$scope', 'SampleH
     $scope.record = new_record
   else
     $scope.record = SampleHead.get id: $routeParams.id
-  $scope.yesno = map.yesno
 
   $scope.save = ->
     if $scope.record.id

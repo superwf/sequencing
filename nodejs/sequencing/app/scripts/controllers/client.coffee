@@ -22,10 +22,10 @@ angular.module('sequencingApp').controller 'ClientCtrl', ['$scope', 'Client', '$
       templateUrl: '/views/companiesTable.html'
       controller: 'ModalCtrl'
     }
-  $rootScope.$on 'modal:clicked', ->
-    $scope.record.company = Modal.name
-    $scope.record.company_id = Modal.id
-    console.log Modal.id
+  $rootScope.$on 'modal:clicked', (v, data)->
+    $scope.record.company = data.name
+    $scope.record.company_id = data.id
+    null
 
   null
 ]

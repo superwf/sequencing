@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').controller 'PrimerHeadCtrl', ['$scope', '$routeParams', 'Modal', 'PrimerHead', 'map', ($scope, $routeParams, Modal, PrimerHead, map) ->
+angular.module('sequencingApp').controller 'PrimerHeadCtrl', ['$scope', '$routeParams', 'Modal', 'PrimerHead', ($scope, $routeParams, Modal, PrimerHead) ->
   if $routeParams.id == 'new'
     $scope.record = with_date: true, available: true
   else

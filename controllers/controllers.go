@@ -47,6 +47,10 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetPrimerHeads(req)
   case "primerBoards":
     return models.GetPrimerBoards(req)
+  case "vectors":
+    return models.GetVectors(req)
+  case "primers":
+    return models.GetPrimers(req)
   default:
     return nil, 0
   }
@@ -77,6 +81,10 @@ func initRecord(resources string, id int) models.ValidateSave {
     return &models.PrimerHead{Id: id}
   case "primerBoards":
     return &models.PrimerBoard{Id: id}
+  case "vectors":
+    return &models.Vector{Id: id}
+  case "primers":
+    return &models.Primer{Id: id}
   default:
     return nil
   }

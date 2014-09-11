@@ -15,12 +15,12 @@
         | {{'board' | translate}}
       .btn-group
         button.btn.btn-primary type='button' ng-model='record.board' btn-radio='k' ng-repeat='k in [false, true]'
-          | {{ny[k] | translate}}
+          | {{yesno[k] | translate}}
     .form-group
       .col-md-3
         | {{'attachment' | translate}}
       .btn-group
         button.btn.btn-primary type='button' ng-model='record.attachment' btn-radio='k' ng-repeat='k in [false, true]'
-          | {{ny[k] | translate}}
+          | {{yesno[k] | translate}}
     .form-group
       button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'
