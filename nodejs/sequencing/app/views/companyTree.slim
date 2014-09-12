@@ -3,7 +3,7 @@ li ng-repeat='record in record.children' ng-show='!record.deleted'
   .btn-group
     a.btn.btn-default ng-click='edit(record)'
       | {{record.name}} 
-      | [ {{record.code}} ] 
+      | [ {{record.full_code}} ] 
       | ( {{record.price}} )
     button.btn.btn-danger ng-confirm-click='delete(record)' message='{{"confirm_operation" | translate}}' ng-show='record.children_count==0'
       | {{'delete' | translate}}

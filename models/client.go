@@ -25,7 +25,6 @@ func (record *Client) BeforeSave() error {
   if record.CompanyId == 0 {
     return errors.New("company not_exist")
   }
-  Db.Save(record)
   return nil
 }
 

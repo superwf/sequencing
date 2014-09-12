@@ -2,9 +2,9 @@
   .col-md-8.col-md-offset-2
     form.form-horizontal.text-center name='form'
       .form-group.col-md-6
-        input.form-control ng-model='record.name' placeholder='{{"name" | translate}}' title='{{"name" | translate}}'
+        input.form-control ng-model='record.name' placeholder='{{"name" | translate}}' title='{{"name" | translate}}' required=''
       .form-group.col-md-6
-        input.form-control ng-model='record.receive_date' ng-required='true' placeholder='{{"receive" | translate}}{{"date" | translate}}' title='{{"receive" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+        input.form-control ng-model='record.receive_date' placeholder='{{"receive" | translate}}{{"date" | translate}}' title='{{"receive" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
       .form-group.col-md-6
         input.form-control ng-model='record.annealing' placeholder='{{"annealing" | translate}}{{"temperature" | translate}}' title='{{"annealing" | translate}}{{"temperature" | translate}}'
       .form-group.col-md-6

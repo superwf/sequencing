@@ -15,7 +15,7 @@ type Vector struct {
   Creator
 }
 
-func (record *Vector) BeforeSave()(int, interface{}) {
+func (record *Vector) BeforeSave() error {
   if len(record.Name) > 255 || len(record.Name) == 0 {
     return errors.New("name length error")
   }

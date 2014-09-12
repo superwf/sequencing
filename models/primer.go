@@ -42,11 +42,14 @@ func (record *Primer) BeforeSave() error {
     return errors.New("primer_board not_exist")
   }
   exist := Primer{}
-  Db.Where("primer_board_id = ? AND hole = ? AND id <> ?", record.PrimerBoardId, record.Hole, record.Id).First(&exist)
-  if exist.Id > 0 {
-    return errors.New("hole repeat")
+  if record.Id > 0 {
+    Db.Where("primer_board_id = ? AND hole = ? AND id <> ?", record.PrimerBoardId, record.Hole, record.Id).First(&exist)
+  } else {
+    Db.Where("primer_board_id = ? AND hole = ?", record.PrimerBoardId, record.Hole).First(&exist)
   }
-  Db.Save(record)
+  if exist.Id > 0 {
+    return errors.New("board hole repeat")
+  }
   return nil
 }
 

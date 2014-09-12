@@ -11,9 +11,9 @@ class CreatePrimers < ActiveRecord::Migration
       t.string :hole, null: false, default: ''
       t.string :status, null: false, default: ''
       t.string :store_type, null: false, default: ''
-      t.date :receive_date, null: false, default: ''
-      t.date :expire_date, null: false, default: ''
-      t.date :operate_date, null: false, default: ''
+      t.date :receive_date, null: false
+      t.date :expire_date, null: false
+      t.date :operate_date, null: false
       t.column :need_return, 'TINYINT(1) UNSIGNED', limit: 1, default: 0, null: false
       t.column :available, 'TINYINT(1) UNSIGNED', limit: 1, default: 1, null: false
       t.text :seq

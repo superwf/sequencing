@@ -9,6 +9,5 @@
         input.form-control ng-model='record.price' placeholder='{{"price" | translate}}' title='{{"price" | translate}}'
       .form-group
         input.form-control ng-model='record.parent' placeholder='{{"parent" | translate}}{{"company" | translate}}' title='{{"parent" | translate}}{{"company" | translate}}' ng-focus='showParent()'
-        input type='hidden' ng-model='record.parent_id'
       .form-group
         button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

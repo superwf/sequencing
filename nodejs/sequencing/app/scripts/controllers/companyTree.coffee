@@ -20,7 +20,7 @@ angular.module('sequencingApp').controller 'CompanyTreeCtrl', ['$scope', 'Compan
 
   $scope.edit = (record)->
     Modal.record = record
-    Modal.modal = $modal.open {
+    $modal.open {
       templateUrl: '/views/company.html'
       controller: 'CompanyCtrl'
     }

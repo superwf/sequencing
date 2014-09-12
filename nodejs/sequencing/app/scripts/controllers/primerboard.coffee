@@ -28,17 +28,17 @@ angular.module('sequencingApp').controller 'PrimerBoardCtrl', ['$scope', '$modal
 
   $scope.showModal = ()->
     Modal.resource = BoardHead
-    Modal.modal = $modal.open {
+    modal = $modal.open {
       templateUrl: '/views/boardHeadTable.html'
       controller: 'ModalTableCtrl'
       resolve:
         searcher: ->
           {available: 1, board_type: 'primer'}
     }
-  $rootScope.$on 'modal:clicked', (v, data)->
-    $scope.record.board_head = data.name
-    $scope.record.board_head_id = data.id
-    null
+    modal.result.then (data)->
+      $scope.record.board_head = data.name
+      $scope.record.board_head_id = data.id
+      null
 
   null
 ]

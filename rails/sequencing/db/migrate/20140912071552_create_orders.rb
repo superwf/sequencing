@@ -15,7 +15,7 @@ class CreateOrders < ActiveRecord::Migration
       t.column :creator_id, 'INT(11) UNSIGNED', null: false
       t.timestamps
     end
-    [:client_id, :parent_id, :create_date].each do |i|
+    [:client_id, :parent_id, :receive_date].each do |i|
       add_index :orders, i, name: i
     end
     add_index :orders, :sn, name: :sn, unique: true

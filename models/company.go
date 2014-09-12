@@ -12,11 +12,12 @@ type Company struct {
   ParentId int `json:"parent_id"`
   Price float64 `json:"price"`
   FullName string `json:"full_name"`
+  FullCode string `json:"full_code"`
   Client []Client
   Creator
 }
 
-func (record Company) BeforeSave() error {
+func (record *Company) BeforeSave() error {
   if len(record.Name) > 255 || len(record.Name) == 0 {
     return errors.New("name length error")
   }
@@ -24,7 +25,7 @@ func (record Company) BeforeSave() error {
     return errors.New("parent self_parent")
   }
   record.FullName = record.GetFullName()
-  Db.Save(&record)
+  record.FullCode = record.GetFullCode()
   return nil
 }
 
@@ -93,6 +94,22 @@ func (c Company)GetFullName()(string){
     }
   }
   return full_name
+}
+
+func (c Company)GetFullCode()(string){
+  parent_id := c.ParentId
+  full_code := c.Code
+  for {
+    if parent_id > 0 {
+      parent := Company{Id: parent_id}
+      Db.First(&parent)
+      full_code = parent.Code + full_code
+      parent_id = parent.ParentId
+    } else {
+      break
+    }
+  }
+  return full_code
 }
 
 func (company *Company)BeforeDelete()error{

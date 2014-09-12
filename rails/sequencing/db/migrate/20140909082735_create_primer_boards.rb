@@ -8,7 +8,7 @@ class CreatePrimerBoards < ActiveRecord::Migration
       t.column :creator_id, 'INT(11) UNSIGNED', null: false
       t.timestamps
     end
-    [:primer_head_id, :created_date].each do |a|
+    [:board_head_id, :create_date].each do |a|
       add_index :primer_boards, a, name: a
     end
     add_index :primer_boards, :sn, name: :sn, unique: true

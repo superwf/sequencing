@@ -6,6 +6,7 @@ class CreateCompanies < ActiveRecord::Migration
       t.column :parent_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.column :price, 'DECIMAL(10, 2) UNSIGNED', null: false, default: 0
       t.string :full_name, null: false
+      t.string :full_code, null: false
       t.column :creator_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.timestamps
     end

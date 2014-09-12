@@ -16,6 +16,7 @@ func GetCompanyTree(params martini.Params, req *http.Request, r render.Render) {
       "id": r.Id,
       "name": r.Name,
       "code": r.Code,
+      "full_code": r.FullCode,
       "price": r.Price,
       "parent_id": r.ParentId,
       "parent": r.Parent().Name,

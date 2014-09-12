@@ -18,17 +18,17 @@ angular.module('sequencingApp').controller 'ClientCtrl', ['$scope', 'Client', '$
 
   $scope.showCompany = ()->
     Modal.resource = Company
-    Modal.modal = $modal.open {
+    modal = $modal.open {
       templateUrl: '/views/companiesTable.html'
       controller: 'ModalTableCtrl'
       resolve:
         searcher: ->
           {}
     }
-  $rootScope.$on 'modal:clicked', (v, data)->
-    $scope.record.company = data.name
-    $scope.record.company_id = data.id
-    null
+    modal.result.then (data)->
+      $scope.record.company = data.name
+      $scope.record.company_id = data.id
+      null
 
   null
 ]

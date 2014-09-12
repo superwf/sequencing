@@ -13,6 +13,5 @@ angular.module('sequencingApp').controller 'ModalTableCtrl', ['$scope', 'Modal',
     $scope.search()
 
   $scope.click = (id, name)->
-    Modal.modal.dismiss 'cancel'
-    $rootScope.$broadcast 'modal:clicked', {name: name, id: id}
+    $scope.$close {id: id, name: name}
 ]

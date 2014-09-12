@@ -45,18 +45,22 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
 
   $scope.selectClient = ->
     Modal.resource = Client
-    Modal.modal = $modal.open {
+    modal = $modal.open {
       templateUrl: '/views/clients.html'
       controller: 'ModalTableCtrl'
       resolve:
         searcher: ->
           {}
     }
+    modal.result.then (data)->
+      $scope.record.client = data.name
+      $scope.record.client_id = data.id
+      null
 
   $scope.selectBoard = ->
     Modal.resource = PrimerBoard
     if $scope.primer_head && $scope.board_number && $scope.record.receive_date
-      Modal.modal = $modal.open {
+      modal = $modal.open {
         templateUrl: '/views/boardHole.html'
         controller: 'BoardHoleCtrl'
         resolve:
@@ -72,15 +76,12 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
             else
               $scope.primer_head.name + $scope.board_number
       }
-  $rootScope.$on 'modal:selectHole', (v, data)->
-    $scope.record.hole = data.hole
-    $scope.record.primer_board = data.sn
-    $scope.primer_board = data.board
-    $scope.board_hole = data.sn + ' : ' + data.hole
+      modal.result.then (data)->
+        $scope.record.hole = data.hole
+        $scope.record.primer_board = data.sn
+        $scope.primer_board = data.board
+        $scope.board_hole = data.sn + ' : ' + data.hole
+        null
 
-  $rootScope.$on 'modal:clicked', (v, data)->
-    if Modal.resource == Client
-      $scope.record.client = data.name
-      $scope.record.client_id = data.id
   null
 ]

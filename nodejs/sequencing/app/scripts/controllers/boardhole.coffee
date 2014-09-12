@@ -11,7 +11,5 @@ angular.module('sequencingApp').controller 'BoardHoleCtrl', ['BoardHead', 'Prime
   $scope.sn = sn
 
   $scope.selectHole = (sn, hole, board_id)->
-    $rootScope.$broadcast 'modal:selectHole', {sn: sn, hole: hole, board: $scope.board}
-    Modal.modal.dismiss 'cancel'
-    Modal.modal = null
+    $scope.$close {sn: sn, hole: hole, board: $scope.board}
 ]

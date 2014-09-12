@@ -15,26 +15,25 @@ angular.module('sequencingApp').controller 'CompanyCtrl', ['$scope', 'Company', 
 
   $scope.save = ->
     $scope.record.price = $scope.record.price * 1
-    if $scope.record.id
-      $scope.record.$update id: $scope.record.id
+    if $scope.record.id > 0
+      Company.update $scope.record
     else
       Company.create $scope.record, (data)->
-        $scope.record = data
-    if Modal.modal
-      Modal.modal.dismiss 'cancel'
+        $scope.record.id = data.id
+    $scope.$close 'ok'
+    Modal.record = null
   $scope.showParent = ()->
     Modal.resource = Company
-    Modal.modal = $modal.open {
+    modal = $modal.open {
       templateUrl: '/views/companiesTable.html'
       controller: 'ModalTableCtrl'
       resolve:
         searcher: ->
           {}
     }
+    modal.result.then (data)->
+      $scope.record.parent = data.name
+      $scope.record.parent_id = data.id
 
-  $scope.parent = ''
-  $rootScope.$on 'modal:clicked', (v, data)->
-    $scope.record.parent = data.name
-    $scope.record.parent_id = data.id
   null
 ]

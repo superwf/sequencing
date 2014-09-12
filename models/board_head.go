@@ -34,7 +34,6 @@ func (record *BoardHead) BeforeSave()(error) {
   if exist.Id > 0 {
     return errors.New("name already exist")
   }
-  Db.Save(record)
   return nil
 }
 
