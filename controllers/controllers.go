@@ -43,8 +43,8 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetCompanies(req)
   case "clients":
     return models.GetClients(req)
-  case "primerHeads":
-    return models.GetPrimerHeads(req)
+  case "boardHeads":
+    return models.GetBoardHeads(req)
   case "primerBoards":
     return models.GetPrimerBoards(req)
   case "vectors":
@@ -65,7 +65,8 @@ func GetRecords(params martini.Params, req *http.Request, r render.Render) {
   r.JSON(http.StatusOK, result)
 }
 
-func initRecord(resources string, id int) models.ValidateSave {
+// resources and id are the route params
+func initRecord(resources string, id int) models.RecordCreator {
   switch resources {
   case "sampleHeads":
     return &models.SampleHead{Id: id}
@@ -77,8 +78,8 @@ func initRecord(resources string, id int) models.ValidateSave {
     return &models.Company{Id: id}
   case "clients":
     return &models.Client{Id: id}
-  case "primerHeads":
-    return &models.PrimerHead{Id: id}
+  case "boardHeads":
+    return &models.BoardHead{Id: id}
   case "primerBoards":
     return &models.PrimerBoard{Id: id}
   case "vectors":
@@ -102,10 +103,15 @@ func GetRecord(params martini.Params, r render.Render) {
 // may be use reflect to make raw sql is a better way
 func UpdateRecord(params martini.Params, r render.Render, req *http.Request) {
   id, _ := strconv.Atoi(params["id"])
-  //var record models.ValidateSave
   record := initRecord(params["resources"], id)
   parseJson(record, req)
-  r.JSON(record.(models.ValidateSave).ValidateSave())
+  //r.JSON(record.(models.ValidateSave).ValidateSave())
+  saved := models.Db.Save(record)
+  if saved.Error != nil {
+    r.JSON(http.StatusNotAcceptable, map[string]string{"hint": saved.Error.Error()})
+  } else {
+    r.JSON(http.StatusAccepted, record)
+  }
 }
 
 func CreateRecord(params martini.Params, r render.Render, req *http.Request, session sessions.Session) {
@@ -113,7 +119,12 @@ func CreateRecord(params martini.Params, r render.Render, req *http.Request, ses
   record := initRecord(params["resources"], 0)
   parseJson(record, req)
   record.SetCreator(session.Get("id").(int))
-  r.JSON(record.ValidateSave())
+  saved := models.Db.Save(record)
+  if saved.Error != nil {
+    r.JSON(http.StatusNotAcceptable, map[string]string{"hint": saved.Error.Error()})
+  } else {
+    r.JSON(http.StatusAccepted, record)
+  }
 }
 
 func DeleteRecord(params martini.Params, r render.Render, req *http.Request) {
@@ -121,7 +132,7 @@ func DeleteRecord(params martini.Params, r render.Render, req *http.Request) {
   record := initRecord(params["resources"], id)
   deleted := models.Db.Delete(record)
   if deleted.Error != nil {
-    r.JSON(http.StatusNotAcceptable, deleted.Error.Error())
+    r.JSON(http.StatusNotAcceptable, map[string]string{"hint": deleted.Error.Error()})
   } else {
     r.JSON(http.StatusOK, record)
   }

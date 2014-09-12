@@ -2,6 +2,7 @@ package models
 
 import(
   "net/http"
+  "errors"
 )
 
 type Procedure struct {
@@ -11,28 +12,20 @@ type Procedure struct {
   FlowType string `json:"flow_type"`
   Board bool `json:"board"`
   Attachment bool `json:"attachment"`
-  //CreatorId int `json:"creator_id"`
   Creator
 }
 
-func (p Procedure) ValidateSave()(int, interface{}) {
-  if len(p.Name) > 200 || len(p.Name) == 0 {
-    return http.StatusNotAcceptable, map[string]string{
-      "field": "name",
-      "error": "length"}
+func (p *Procedure) BeforeSave() error {
+  if len(p.Name) > 255 || len(p.Name) == 0 {
+    return errors.New("name length error")
   }
-  //if len(p.Remark) > 100 || len(p.Remark) == 0 {
-  //  return http.StatusNotAcceptable, map[string]string{
-  //    "field": "remark",
-  //    "error": "length"}
-  //}
+  if len(p.Remark) > 255 {
+    return errors.New("remark length error")
+  }
   if p.FlowType != "sample" && p.FlowType != "reaction" {
-    return http.StatusNotAcceptable, map[string]string{
-      "field": "flow_type",
-      "error": "select"}
+    return errors.New("flow_type type error")
   }
-  Db.Save(&p)
-  return http.StatusAccepted, p
+  return nil
 }
 
 func GetProcedures(req *http.Request)([]Procedure, int){

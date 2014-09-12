@@ -12,10 +12,6 @@ type Role struct {
   Creator
 }
 
-func (r Role)ValidateSave()(int, interface{}){
-  return 0, nil
-}
-
 func GetRoles(req *http.Request)([]Role, int){
   page := getPage(req)
   db := Db.Model(Role{})

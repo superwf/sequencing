@@ -30,8 +30,8 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id%>
-  name: sample_head
-  url: '/sample_heads'
+  name: board_head
+  url: '/boardHeads'
   parent_id: <%= system_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
@@ -104,12 +104,6 @@ end
   id: <%= id %>
   name: primer
   url: '/primers'
-  parent_id: <%= primer_setting_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: primer_head
-  url: '/primerHeads'
   parent_id: <%= primer_setting_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -

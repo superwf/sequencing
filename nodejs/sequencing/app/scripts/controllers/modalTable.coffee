@@ -1,8 +1,7 @@
 'use strict'
-
-angular.module('sequencingApp').controller 'ModalCtrl', ['$scope', 'Modal', '$rootScope', ($scope, Modal, $rootScope) ->
+angular.module('sequencingApp').controller 'ModalTableCtrl', ['$scope', 'Modal', '$rootScope', 'searcher', ($scope, Modal, $rootScope, searcher) ->
   $scope.inModal = true
-  $scope.searcher = {}
+  $scope.searcher = searcher || {}
   $scope.search = ->
     Modal.resource.query $scope.searcher, (data) ->
       $scope.records = data.records

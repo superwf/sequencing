@@ -1,14 +1,15 @@
-.col-md-4.col-md-offset-4
-  form.form-horizontal.well.text-center name='form'
-    .form-group
-      input.form-control ng-model='record.name' ng-required='true' placeholder='{{"name" | translate}}' title='{{"name" | translate}}'
-    .form-group
-      input.form-control ng-model='record.producer' placeholder='{{"producer" | translate}}' title='{{"producer" | translate}}'
-    .form-group
-      input.form-control ng-model='record.length' placeholder='{{"length" | translate}}' title='{{"length" | translate}}'
-    .form-group
-      input.form-control ng-model='record.resistance' placeholder='{{"resistance" | translate}}' title='{{"length" | translate}}'
-    .form-group
-      input.form-control ng-model='record.copy_number' placeholder='{{"copy_number" | translate}}' title='{{"copy_number" | translate}}'
-    .form-group
-      button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'
+.row
+  .col-md-8.col-md-offset-2
+    form.form-horizontal.well.text-center name='form'
+      .form-group
+        input.form-control ng-model='record.name' ng-required='true' placeholder='{{"name" | translate}}' title='{{"name" | translate}}'
+      .form-group
+        input.form-control ng-model='record.producer' placeholder='{{"producer" | translate}}' title='{{"producer" | translate}}'
+      .form-group
+        input.form-control ng-model='record.length' placeholder='{{"length" | translate}}' title='{{"length" | translate}}'
+      .form-group
+        input.form-control ng-model='record.resistance' placeholder='{{"resistance" | translate}}' title='{{"length" | translate}}'
+      .form-group
+        input.form-control ng-model='record.copy_number' placeholder='{{"copy_number" | translate}}' title='{{"copy_number" | translate}}'
+      .form-group
+        button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

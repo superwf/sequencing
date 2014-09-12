@@ -9,15 +9,13 @@ angular.module('sequencingApp').directive 'notifyFlash', ['$rootScope', '$transl
       scope.level = 'danger'
       scope.msg = msg
       null
-    $rootScope.$on 'event:notacceptable', (e, msg)->
+    $rootScope.$on 'event:notacceptable', (e, data)->
       scope.level = 'danger'
       scope.msg = ''
-      $translate(msg.field).then (l)->
-        scope.msg += l
-      $translate(msg.error).then (l)->
-        scope.msg += l
-      $translate('error').then (l)->
-        scope.msg += l
+      msgs = data.hint.split ' '
+      for m in msgs
+        $translate(m).then (l)->
+          scope.msg += l
       null
     $rootScope.$on 'event:loading', ()->
       scope.level = 'info'
@@ -29,7 +27,6 @@ angular.module('sequencingApp').directive 'notifyFlash', ['$rootScope', '$transl
       null
     $rootScope.$on 'event:ok', (e, msg)->
       scope.level = 'success'
-      scope.msg = msg
       $translate(msg).then (l)->
         scope.msg = l
       null

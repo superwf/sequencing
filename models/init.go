@@ -42,8 +42,7 @@ func init() {
   //Db.DB().SetMaxOpenConns(100)
 }
 
-type ValidateSave interface{
-  ValidateSave()(int, interface{})
+type RecordCreator interface{
   SetCreator(int)
 }
 

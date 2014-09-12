@@ -105,3 +105,16 @@ ol.tree {
 .pointer {
   cursor: pointer;
 }
+.modal-content {
+  padding: 5px;
+  td.hole:hover {
+    cursor: pointer;
+    background-color: #EEE;
+  }
+}
+td.hole {
+  min-width: 2em;
+}
+input[required] {
+  background-color: #a883ee;
+}

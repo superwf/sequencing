@@ -1,9 +1,9 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'PrimerHeadsCtrl', ['$scope', 'PrimerHead', '$modal', 'Modal', ($scope, PrimerHead, $modal, Modal) ->
+angular.module('sequencingApp').controller 'BoardHeadsCtrl', ['$scope', 'BoardHead', '$modal', 'Modal', ($scope, BoardHead, $modal, Modal) ->
   $scope.searcher = {}
   $scope.search = ->
-    PrimerHead.query $scope.searcher, (data) ->
+    BoardHead.query $scope.searcher, (data) ->
       $scope.records = data.records
       $scope.totalItems = data.totalItems
       $scope.perPage = data.perPage
@@ -11,14 +11,14 @@ angular.module('sequencingApp').controller 'PrimerHeadsCtrl', ['$scope', 'Primer
   $scope.search()
  
   $scope.delete = (id, index)->
-    PrimerHead.delete {id: id}, ()->
+    BoardHead.delete {id: id}, ()->
       $scope.records.splice index, 1
 
   $scope.edit = (record)->
     Modal.record = record
     Modal.modal = $modal.open {
-      templateUrl: '/views/primerHead.html'
-      controller: 'PrimerHeadCtrl'
+      templateUrl: '/views/boardHead.html'
+      controller: 'BoardHeadCtrl'
     }
   null
 ]

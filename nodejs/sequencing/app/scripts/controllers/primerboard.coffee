@@ -1,8 +1,8 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'PrimerBoardCtrl', ['$scope', '$modal', 'Modal', 'PrimerBoard', 'PrimerHead', '$routeParams', '$rootScope','$http', 'SequencingConst', ($scope, $modal, Modal, PrimerBoard, PrimerHead, $routeParams, $rootScope, $http, SequencingConst) ->
+angular.module('sequencingApp').controller 'PrimerBoardCtrl', ['$scope', '$modal', 'Modal', 'PrimerBoard', 'BoardHead', '$routeParams', '$rootScope','$http', 'SequencingConst', ($scope, $modal, Modal, PrimerBoard, BoardHead, $routeParams, $rootScope, $http, SequencingConst) ->
   if $routeParams.id == 'new'
-    $scope.record = {}
+    $scope.record = {number: 1}
   else
     if Modal.record
       $scope.record = Modal.record
@@ -27,14 +27,17 @@ angular.module('sequencingApp').controller 'PrimerBoardCtrl', ['$scope', '$modal
         $scope.record.id = data.id
 
   $scope.showModal = ()->
-    Modal.resource = PrimerHead
+    Modal.resource = BoardHead
     Modal.modal = $modal.open {
-      templateUrl: '/views/primerHeadTable.html'
-      controller: 'ModalCtrl'
+      templateUrl: '/views/boardHeadTable.html'
+      controller: 'ModalTableCtrl'
+      resolve:
+        searcher: ->
+          {available: 1, board_type: 'primer'}
     }
   $rootScope.$on 'modal:clicked', (v, data)->
-    $scope.record.primer_head = data.name
-    $scope.record.primer_head_id = data.id
+    $scope.record.board_head = data.name
+    $scope.record.board_head_id = data.id
     null
 
   null

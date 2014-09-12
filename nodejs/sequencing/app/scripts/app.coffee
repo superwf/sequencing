@@ -46,12 +46,12 @@ angular.module('sequencingApp', [
     .when '/primerBoards/:id',
       templateUrl: 'views/primerBoard.html',
       controller: 'PrimerBoardCtrl'
-    .when '/primerHeads',
-      templateUrl: 'views/primerHeads.html',
-      controller: 'PrimerHeadsCtrl'
-    .when '/primerHeads/:id',
-      templateUrl: 'views/primerHead.html',
-      controller: 'PrimerHeadCtrl'
+    .when '/boardHeads',
+      templateUrl: 'views/boardHeads.html',
+      controller: 'BoardHeadsCtrl'
+    .when '/boardHeads/:id',
+      templateUrl: 'views/boardHead.html',
+      controller: 'BoardHeadCtrl'
     .when '/clients',
       templateUrl: 'views/clients.html',
       controller: 'ClientsCtrl'

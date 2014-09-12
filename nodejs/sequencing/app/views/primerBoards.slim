@@ -5,7 +5,7 @@ table.table.table-bordered.table-striped
       th
         | {{'sn' | translate}}
         a.btn.btn-success ng-href='/primerBoards/new' ng-bind="'create' | translate"
-      th ng-bind="'primer_head' | translate"
+      th ng-bind="'board_head' | translate"
       th
         | {{'create' | translate}}{{'date' | translate}}
       th
@@ -16,7 +16,7 @@ table.table.table-bordered.table-striped
         a.btn.btn-success ng-click='edit(r)'
           | {{r.sn}}
       td
-        | {{r.primer_head}}
+        | {{r.board_head}}
       td
         | {{r.create_date | date: 'yyyy-MM-dd'}}
       td

@@ -2,6 +2,7 @@
 angular.module('sequencingApp').factory 'SequencingConst', ->
   api: '/api/v1'
   yesno: {true: 'yes', false: 'no'}
+  boardType: ['primer', 'sample', 'reaction']
   primerStoreType: ['90days', '1year', 'infinate']
   primerStatus: ['not_receive', 'ok', 'lack', 'runout']
   primerNewStatus: ['ok', 'not_receive']
@@ -14,7 +15,10 @@ angular.module('sequencingApp').factory 'SequencingConst', ->
         r[v] = new Date(record[v])
     r
   date2string: (datefield)->
-    time = new Date(datefield)
+    if datefield
+      time = new Date(datefield)
+    else
+      time = new Date()
     m = (time.getMonth() + 1) + ''
     if m.length == 1
       m = '0' + m

@@ -2,6 +2,7 @@ package models
 
 import(
   "net/http"
+  "errors"
 )
 
 type SampleHead struct {
@@ -13,14 +14,11 @@ type SampleHead struct {
   Creator
 }
 
-func (record *SampleHead) ValidateSave()(int, interface{}) {
-  if len(record.Name) > 200 || len(record.Name) == 0 {
-    return http.StatusNotAcceptable, map[string]string{
-      "field": "name",
-      "error": "length"}
+func (record *SampleHead) BeforeSave() error {
+  if len(record.Name) > 255 || len(record.Name) == 0 {
+    return errors.New("name length error")
   }
-  Db.Save(record)
-  return http.StatusAccepted, record
+  return nil
 }
 
 func GetSampleHeads(req *http.Request)([]SampleHead, int){

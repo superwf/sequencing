@@ -2,6 +2,7 @@ package models
 
 import(
   "net/http"
+  "errors"
 )
 
 type Client struct{
@@ -14,24 +15,18 @@ type Client struct{
   Creator
 }
 
-func (record Client) ValidateSave()(int, interface{}) {
-  if len(record.Name) > 200 || len(record.Name) == 0 {
-    return http.StatusNotAcceptable, map[string]string{
-      "field": "name",
-      "error": "length"}
+func (record *Client) BeforeSave() error {
+  if len(record.Name) > 255 || len(record.Name) == 0 {
+    return errors.New("name length error")
   }
-  if len(record.Email) > 200 || len(record.Email) == 0 {
-    return http.StatusNotAcceptable, map[string]string{
-      "field": "email",
-      "error": "length"}
+  if len(record.Email) > 255 || len(record.Email) == 0 {
+    return errors.New("email length error")
   }
   if record.CompanyId == 0 {
-    return http.StatusNotAcceptable, map[string]string{
-      "field": "company",
-      "error": "needed"}
+    return errors.New("company not_exist")
   }
-  Db.Save(&record)
-  return http.StatusAccepted, record
+  Db.Save(record)
+  return nil
 }
 
 func GetClients(req *http.Request)([]map[string]interface{}, int){
@@ -76,4 +71,14 @@ func GetClients(req *http.Request)([]map[string]interface{}, int){
     result = append(result, d)
   }
   return result, count
+}
+
+// todo check order exist
+func (client *Client)BeforeDelete()(error){
+  var primer Primer
+  Db.Where("client_id = ?", client.Id).First(&primer)
+  if primer.Id > 0 {
+    return errors.New("primer exist")
+  }
+  return nil
 }

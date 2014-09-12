@@ -1,0 +1,34 @@
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th
+        | {{'name' | translate}}
+        a.btn.btn-success ng-href='/boardHeads/new' ng-bind="'create' | translate"
+      th ng-bind="'remark' | translate"
+      th
+        | {{'board' | translate}}{{'type' | translate}}
+      th ng-bind="'col' | translate"
+      th ng-bind="'row' | translate"
+      th ng-bind="'with_date' | translate"
+      th ng-bind="'available' | translate"
+  tbody
+    tr ng-repeat="r in records"
+      td
+        a.btn.btn-success ng-click='edit(r)'
+          | {{r.name}}
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
+          | {{'delete' | translate}}
+      td
+        | {{r.remark}}
+      td
+        | {{r.board_type | translate}}
+      td
+        | {{r.cols}}
+      td
+        | {{r.rows}}
+      td
+        | {{yesno[r.with_date] | translate}}
+      td
+        | {{yesno[r.available] | translate}}
+.navbar.navbar-fixed-bottom.text-center
+  ng-include src="'/views/pager.html'"

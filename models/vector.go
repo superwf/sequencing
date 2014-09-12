@@ -2,6 +2,7 @@ package models
 
 import(
   "net/http"
+  "errors"
 )
 
 type Vector struct {
@@ -14,14 +15,11 @@ type Vector struct {
   Creator
 }
 
-func (record *Vector) ValidateSave()(int, interface{}) {
-  if len(record.Name) > 200 || len(record.Name) == 0 {
-    return http.StatusNotAcceptable, map[string]string{
-      "field": "name",
-      "error": "length"}
+func (record *Vector) BeforeSave()(int, interface{}) {
+  if len(record.Name) > 255 || len(record.Name) == 0 {
+    return errors.New("name length error")
   }
-  Db.Save(record)
-  return http.StatusAccepted, record
+  return nil
 }
 
 func GetVectors(req *http.Request)([]Vector, int){

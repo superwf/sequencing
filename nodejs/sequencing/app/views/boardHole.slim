@@ -1,0 +1,12 @@
+h2
+  | {{sn}}
+table.table-bordered
+  tr
+    th
+      | {{board.sn}}
+    th ng-repeat='c in cols'
+      | {{c}}
+  tr ng-repeat='r in rows'
+    td.hole
+      | {{r}}
+    td.hole ng-repeat='c in cols' ng-click='selectHole(sn, r+c, board_id)'

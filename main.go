@@ -34,10 +34,9 @@ func main() {
     m.Get("/menus", controllers.GetMenus)
     m.Put("/roles/:id", controllers.UpdateRole)
     m.Get("/companyTree/:id", controllers.GetCompanyTree)
-    m.Delete("/companies/:id", controllers.DeleteCompany)
-    //m.Delete("/primerHeads/:id", controllers.DeletePrimerHead)
+    //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
 
-    // for simple rest
+    // for simple rest request
     m.Get("/:resources", controllers.GetRecords)
     m.Post("/:resources", controllers.CreateRecord)
     m.Get("/:resources/:id", controllers.GetRecord)

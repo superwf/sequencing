@@ -1,13 +1,14 @@
-.col-md-4.col-md-offset-4
-  form.form-horizontal.well.text-center name='form'
-    .form-group
-      input.form-control ng-model='record.name' required='' placeholder='{{"name" | translate}}' title='{{"name" | translate}}'
-    .form-group
-      input.form-control ng-model='record.code' required='' placeholder='{{"code" | translate}}' title='{{"code" | translate}}'
-    .form-group
-      input.form-control ng-model='record.price' placeholder='{{"price" | translate}}' title='{{"price" | translate}}'
-    .form-group
-      input.form-control ng-model='record.parent' placeholder='{{"parent" | translate}}{{"company" | translate}}' title='{{"parent" | translate}}{{"company" | translate}}' ng-focus='showParent()'
-      input type='hidden' ng-model='record.parent_id'
-    .form-group
-      button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'
+.row
+  .col-md-8.col-md-offset-2
+    form.form-horizontal.well.text-center name='form'
+      .form-group
+        input.form-control ng-model='record.name' required='' placeholder='{{"name" | translate}}' title='{{"name" | translate}}'
+      .form-group
+        input.form-control ng-model='record.code' required='' placeholder='{{"code" | translate}}' title='{{"code" | translate}}'
+      .form-group
+        input.form-control ng-model='record.price' placeholder='{{"price" | translate}}' title='{{"price" | translate}}'
+      .form-group
+        input.form-control ng-model='record.parent' placeholder='{{"parent" | translate}}{{"company" | translate}}' title='{{"parent" | translate}}{{"company" | translate}}' ng-focus='showParent()'
+        input type='hidden' ng-model='record.parent_id'
+      .form-group
+        button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'
