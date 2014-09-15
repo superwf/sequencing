@@ -1,0 +1,28 @@
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th
+        | {{'sn' | translate}}
+      th ng-bind="'producer' | translate"
+      th ng-bind="'length' | translate"
+      th ng-bind="'resistance' | translate"
+      th ng-bind="'copy_number' | translate"
+      th
+  tbody
+    tr ng-repeat="r in records"
+      td
+        a.btn.btn-success ng-click='edit(r)'
+          | {{r.sn}}
+      td
+        | {{r.producer}}
+      td
+        | {{r.length}}
+      td
+        | {{r.resistance}}
+      td
+        | {{r.copy_number}}
+      td
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
+          | {{'delete' | translate}}
+.navbar.navbar-fixed-bottom.text-center
+  ng-include src="'/views/pager.html'"

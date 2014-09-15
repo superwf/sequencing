@@ -20,7 +20,6 @@ table.table.table-bordered.table-striped
       td
         | {{r.create_date | date: 'yyyy-MM-dd'}}
       td
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
-          | {{'delete' | translate}}
+        | {{r.primers_count}}
 .navbar.navbar-fixed-bottom.text-center
   ng-include src="'/views/pager.html'"

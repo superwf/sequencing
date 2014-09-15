@@ -1,5 +1,5 @@
 .row
-  .col-md-8.col-md-offset-2
+  .col-md-8.col-md-offset-2.well
     form.form-horizontal.text-center name='form'
       .form-group.col-md-6
         input.form-control ng-model='record.name' placeholder='{{"name" | translate}}' title='{{"name" | translate}}' required=''
@@ -40,6 +40,11 @@
         .btn-group
           button.btn.btn-primary type='button' ng-model='record.need_return' btn-radio='n' ng-repeat='n in [false, true]'
             | {{yesno[n] | translate}}
+      .form-group.col-md-6
+        label for='continue'
+          | {{'continue' | translate}}{{'create' | translate}}
+        .col-md-1
+          input#continue ng-model='continue' type='checkbox'
       .form-group.col-md-12
         input.form-control ng-model='record.seq' placeholder='{{"seq" | translate}}' title='{{"seq" | translate}}'
       .form-group.col-md-12

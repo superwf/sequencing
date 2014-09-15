@@ -54,9 +54,9 @@ func Login(user *User)(int, map[string]interface{}){
         "email": user.Email,
         "id": user.Id}
     } else {
-      return http.StatusUnauthorized, map[string]interface{}{"ok": false, "error": "login_error1"}
+      return http.StatusUnauthorized, map[string]interface{}{"ok": false, "error": "login_error"}
     }
   } else {
-    return http.StatusUnauthorized, map[string]interface{}{"ok": false, "error": "login_error2"}
+    return http.StatusUnauthorized, map[string]interface{}{"ok": false, "error": "login_error"}
   }
 }

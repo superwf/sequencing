@@ -6,5 +6,6 @@ angular.module('sequencingApp').factory 'BoardHead', ['SequencingConst', '$resou
     'delete': {method: 'DELETE', url: SequencingConst.api + '/boardHeads/:id'}
     create: {method: 'POST'}
     query: {isArray: false, method: 'GET'}
+    all: {isArray: true, method: 'GET'}
   }
 ]

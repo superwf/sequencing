@@ -1,7 +1,6 @@
 form name="form"
   .modal-header
-    h4
-      center ng-bind='"login" | translate'
+    h4.text-center ng-bind='"login" | translate'
   .modal-body
     .alert.alert-info.text-center
       | {{'input_login' | translate}}
@@ -9,10 +8,10 @@ form name="form"
       | {{authError | translate}}
     .form-group
       label.control-label Email
-      input.form-control type="email" ng-model="user.email" required="" autofocus=""
+      input.form-control type="email" ng-model="user.email" autofocus=""
     .form-group
       label.control-label ng-bind='"password" | translate'
-      input.form-control type="password" ng-model="user.password" required=""
+      input.form-control type="password" ng-model="user.password"
   .modal-footer
     button.btn.btn-primary.login ng-disabled="!form.$valid" ng-click="login()" ng-bind='"login" | translate'
     button.btn.btn-werning.cancel ng-click="cancel()" ng-bind='"cancel" | translate'

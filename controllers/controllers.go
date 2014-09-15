@@ -22,7 +22,7 @@ func parseJson(record interface{}, req *http.Request) {
   decoder := json.NewDecoder(req.Body)
   err := decoder.Decode(record)
   if err != nil {
-    log.Fatal(err)
+    panic(err)
   }
   defer func(){
     if r := recover(); r != nil {
@@ -57,11 +57,17 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
 }
 
 func GetRecords(params martini.Params, req *http.Request, r render.Render) {
+  all := req.FormValue("all")
   records, count := initRecords(params["resources"], req)
-  result := map[string]interface{}{
-    "records": records,
-    "totalItems": count,
-    "perPage": models.PerPage}
+  var result interface{}
+  if len(all) > 0 {
+    result = records
+  } else {
+    result = map[string]interface{}{
+      "records": records,
+      "totalItems": count,
+      "perPage": models.PerPage}
+  }
   r.JSON(http.StatusOK, result)
 }
 

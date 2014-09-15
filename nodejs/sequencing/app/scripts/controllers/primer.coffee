@@ -3,10 +3,10 @@
 angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$routeParams', 'Modal', '$modal', 'SequencingConst', 'Client', '$rootScope', 'PrimerBoard', 'BoardHead', '$location', ($scope, Primer, $routeParams, Modal, $modal, SequencingConst, Client, $rootScope, PrimerBoard, BoardHead, $location) ->
   $scope.storeType = SequencingConst.primerStoreType
   $scope.board_number = 1
-  BoardHead.query {board_type: 'primer', available: 1}, (data)->
-    $scope.primer_heads = data.records
+  BoardHead.query {all: true, board_type: 'primer', available: 1}, (data)->
+    $scope.primer_heads = data
     if data.records.length == 0
-      $rootScope.$broadcast 'event:notacceptable', {error: 'noexist', field: 'primer_head'}
+      $rootScope.$broadcast 'event:notacceptable', {hint: 'primer_head not_exist'}
       #return $location.path '/primerHeads/new'
     else
       $scope.primer_head = data.records[0]
@@ -26,7 +26,11 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
       Primer.update record
     else
       Primer.create record, (data)->
-        $scope.record.id = data.id
+        if $scope.continue
+          $scope.record.name = ''
+          $scope.record.id = null
+        else
+          $scope.record.id = data.id
 
   $scope.save = ->
     if $scope.primer_board.id

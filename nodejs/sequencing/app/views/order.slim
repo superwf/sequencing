@@ -1,0 +1,43 @@
+.row
+  .col-md-12.well
+    form.form-horizontal.text-center name='form'
+      .form-group.col-md-2
+        input.form-control ng-model='record.receive_date' placeholder='{{"receive" | translate}}{{"date" | translate}}' title='{{"receive" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
+      .form-group.col-md-1
+        input.form-control ng-model='record.number' placeholder='{{"number" | translate}}' title='{{"number" | translate}}' type='number' required=''
+      .form-group.col-md-2
+        label
+          | {{'urgent' | translate}}
+        .btn-group
+          button.btn.btn-primary type='button' ng-model='record.urgent' btn-radio='n' ng-repeat='n in [false, true]'
+            | {{yesno[n] | translate}}
+      .form-group.col-md-2
+        label
+          | {{'try_test' | translate}}
+        .btn-group
+          button.btn.btn-primary type='button' ng-model='record.try_test' btn-radio='n' ng-repeat='n in [false, true]'
+            | {{yesno[n] | translate}}
+      .form-group.col-md-3
+        input.form-control ng-model='record.client' placeholder='{{"client" | translate}}' title='{{"client" | translate}}' ng-focus='selectClient()' required=''
+      .form-group.col-md-10
+        label
+          | {{'sample' | translate}}{{'type' | translate}}
+        .btn-group
+          button.btn.btn-primary type='button' ng-model='record.sample_head' btn-radio='h' ng-repeat='h in sample_heads' required=''
+            | {{h.name}}
+      .form-group.col-md-2
+        input.form-control ng-model='board_number' placeholder='{{"board" | translate}}{{"number" | translate}}' title='{{"board" | translate}}{{"number" | translate}}' type='number' required=''
+      .form-group.col-md-12 ng-show='record.sample_head.name'
+        table.table-bordered
+          tr
+            th
+            th ng-repeat='c in cols'
+              | {{c}}
+          tr ng-repeat='r in rows'
+            td.hole
+              | {{r}}
+            td.hole ng-repeat='c in cols'
+      .form-group.col-md-12
+        textarea.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
+      .form-group.col-md-12
+        button.btn.btn-success ng-click='save()' ng-bind='"save" | translate' ng-disabled='!form.$valid'

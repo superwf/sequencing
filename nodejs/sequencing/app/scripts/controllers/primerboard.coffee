@@ -14,14 +14,10 @@ angular.module('sequencingApp').controller 'PrimerBoardCtrl', ['$scope', '$modal
 
   $scope.save = ->
     if $scope.record.id > 0
-      #record = angular.copy($scope.record)
-      #record.create_date = new Date(record.create_date)
       record = SequencingConst.copyWithDate($scope.record, 'create_date')
       PrimerBoard.update record, (data)->
         $scope.record.sn = data.sn
     else
-      #record = angular.copy($scope.record)
-      #record.create_date = new Date(record.create_date)
       record = SequencingConst.copyWithDate($scope.record, 'create_date')
       PrimerBoard.create record, (data)->
         $scope.record.id = data.id
