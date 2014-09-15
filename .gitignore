@@ -1,5 +1,6 @@
 config.yaml
 *.swp
+*.swo
 
 rails/sequencing/.bundle
 rails/sequencing/log/*.log
