@@ -92,7 +92,7 @@ body {
 }
 
 [notify-flash] {
-  position: absolute;
+  position: fixed;
   z-index: 9999;
   top: 0;
   right: 0;
@@ -117,4 +117,24 @@ td.hole {
 }
 input[required] {
   background-color: #a883ee;
+}
+/* selectable */
+.ui-selectable {
+  .ui-selecting {
+    background-color: #A7DEEE;
+  }
+  .ui-selected {
+    background-color: #DEF8F0;
+  }
+}
+td.hole {
+  padding: 5px;
+}
+/* selectable */
+
+table.new-order {
+  span.vector:hover, span.primer:hover {
+    cursor: pointer;
+    color: green;
+  }
 }

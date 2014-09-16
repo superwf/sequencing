@@ -22,6 +22,15 @@ func (record *Vector) BeforeSave() error {
   return nil
 }
 
+func (record *Vector) BeforeDelete() error {
+  sample := Sample{}
+  Db.Where("vector_id = ?", record.Id).First(&sample)
+  if sample.Id > 0 {
+    return errors.New("sample exist")
+  }
+  return nil
+}
+
 func GetVectors(req *http.Request)([]Vector, int){
   page := getPage(req)
   db := Db.Model(Vector{})

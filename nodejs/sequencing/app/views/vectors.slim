@@ -3,16 +3,18 @@ table.table.table-bordered.table-striped
     tr
       th
         | {{'name' | translate}}
-        a.btn.btn-success ng-href='/vectors/new' ng-bind="'create' | translate"
+        a.btn.btn-success ng-href='/vectors/new' ng-bind="'create' | translate" ng-show='!inModal'
       th ng-bind="'producer' | translate"
       th ng-bind="'length' | translate"
       th ng-bind="'resistance' | translate"
       th ng-bind="'copy_number' | translate"
       th
   tbody
-    tr ng-repeat="r in records"
+    tr ng-repeat="r in records" ng-click='click(r.id, r.name)'
       td
-        a.btn.btn-success ng-click='edit(r)'
+        a.btn.btn-success ng-click='edit(r)' ng-show='!inModal'
+          | {{r.name}}
+        span ng-show='inModal'
           | {{r.name}}
       td
         | {{r.producer}}
@@ -23,7 +25,7 @@ table.table.table-bordered.table-striped
       td
         | {{r.copy_number}}
       td
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}' ng-show='!inModal'
           | {{'delete' | translate}}
-.navbar.navbar-fixed-bottom.text-center
+.navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"
   ng-include src="'/views/pager.html'"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140912071552) do
+ActiveRecord::Schema.define(version: 20140916054327) do
 
   create_table "board_heads", force: true do |t|
     t.string   "name",                       null: false
@@ -29,15 +29,15 @@ ActiveRecord::Schema.define(version: 20140912071552) do
   add_index "board_heads", ["name", "board_type"], name: "board_type_name", unique: true, using: :btree
 
   create_table "clients", force: true do |t|
-    t.string   "name",       default: "", null: false
-    t.integer  "company_id", default: 0,  null: false
-    t.string   "email",      default: "", null: false
-    t.string   "address",    default: "", null: false
-    t.string   "tel",        default: "", null: false
-    t.text     "remark",                  null: false
-    t.integer  "creator_id",              null: false
+    t.string   "name",       null: false
+    t.integer  "company_id", null: false
+    t.string   "email",      null: false
+    t.text     "remark"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "creator_id", null: false
+    t.string   "address",    null: false
+    t.string   "tel",        null: false
   end
 
   add_index "clients", ["company_id"], name: "company_id", using: :btree
@@ -45,12 +45,12 @@ ActiveRecord::Schema.define(version: 20140912071552) do
   add_index "clients", ["name"], name: "name", using: :btree
 
   create_table "companies", force: true do |t|
-    t.string   "name",                                              null: false
-    t.string   "code",                                              null: false
-    t.integer  "parent_id",                           default: 0,   null: false
-    t.decimal  "price",      precision: 10, scale: 2, default: 0.0, null: false
-    t.string   "full_name",                                         null: false
-    t.integer  "creator_id",                          default: 0,   null: false
+    t.string   "name",                     null: false
+    t.string   "code",                     null: false
+    t.integer  "parent_id",  default: 0,   null: false
+    t.string   "price",      default: "0", null: false
+    t.string   "full_name",                null: false
+    t.integer  "creator_id", default: 0,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20140912071552) do
   add_index "companies", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "menus", force: true do |t|
-    t.string  "name",      default: "", null: false
+    t.string  "name"
     t.string  "url",       default: "", null: false
     t.integer "parent_id", default: 0,  null: false
     t.text    "remark"
@@ -69,8 +69,8 @@ ActiveRecord::Schema.define(version: 20140912071552) do
   add_index "menus", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "menus_roles", id: false, force: true do |t|
-    t.integer "menu_id", null: false
-    t.integer "role_id", null: false
+    t.integer "menu_id"
+    t.integer "role_id"
   end
 
   add_index "menus_roles", ["role_id", "menu_id"], name: "role_menu", unique: true, using: :btree
@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(version: 20140912071552) do
 
   add_index "orders", ["client_id"], name: "client_id", using: :btree
   add_index "orders", ["parent_id"], name: "parent_id", using: :btree
-  add_index "orders", ["receive_date"], name: "receive_date", using: :btree
+  add_index "orders", ["receive_date"], name: "create_date", using: :btree
   add_index "orders", ["sn"], name: "sn", unique: true, using: :btree
 
   create_table "primer_boards", force: true do |t|
@@ -107,15 +107,15 @@ ActiveRecord::Schema.define(version: 20140912071552) do
     t.datetime "updated_at"
   end
 
-  add_index "primer_boards", ["board_head_id"], name: "board_head_id", using: :btree
-  add_index "primer_boards", ["create_date"], name: "create_date", using: :btree
+  add_index "primer_boards", ["board_head_id"], name: "primer_head_id", using: :btree
+  add_index "primer_boards", ["create_date"], name: "created_date", using: :btree
   add_index "primer_boards", ["sn"], name: "sn", unique: true, using: :btree
 
   create_table "primers", force: true do |t|
     t.string   "name",                                                      null: false
-    t.decimal  "origin_thickness", precision: 10, scale: 2, default: 5.0,   null: false
+    t.decimal  "origin_thickness", precision: 10, scale: 2,                 null: false
     t.string   "annealing",                                 default: "",    null: false
-    t.text     "seq"
+    t.string   "seq",                                       default: "",    null: false
     t.integer  "client_id",                                 default: 0,     null: false
     t.integer  "primer_board_id",                           default: 0,     null: false
     t.string   "hole",                                      default: "",    null: false
@@ -126,19 +126,21 @@ ActiveRecord::Schema.define(version: 20140912071552) do
     t.date     "operate_date",                                              null: false
     t.boolean  "need_return",                               default: false, null: false
     t.boolean  "available",                                 default: true,  null: false
-    t.text     "remark"
-    t.integer  "creator_id",                                default: 0,     null: false
+    t.string   "remark",                                                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "creator_id",                                default: 0,     null: false
   end
 
   create_table "procedures", force: true do |t|
-    t.string  "name",                   default: "",       null: false
-    t.string  "remark",                 default: "",       null: false
-    t.string  "flow_type",  limit: 100, default: "sample", null: false
-    t.boolean "board",                  default: false,    null: false
-    t.boolean "attachment",             default: false,    null: false
-    t.integer "creator_id",             default: 0,        null: false
+    t.string   "name",       limit: 100,                 null: false
+    t.string   "remark",     limit: 100,                 null: false
+    t.string   "flow_type",  limit: 100,                 null: false
+    t.boolean  "board",                  default: false, null: false
+    t.boolean  "attachment",             default: false, null: false
+    t.integer  "creator_id",                             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "roles", id: false, force: true do |t|
@@ -150,12 +152,33 @@ ActiveRecord::Schema.define(version: 20140912071552) do
   end
 
   create_table "sample_heads", force: true do |t|
-    t.string  "name",                          null: false
-    t.string  "remark",        default: "",    null: false
-    t.boolean "auto_precheck", default: false, null: false
-    t.boolean "available",     default: true,  null: false
-    t.integer "creator_id",    default: 0,     null: false
+    t.string  "name",          limit: 100,                 null: false
+    t.string  "remark",        limit: 100, default: "",    null: false
+    t.boolean "auto_precheck",             default: false, null: false
+    t.boolean "available",                 default: true,  null: false
   end
+
+  create_table "samples", force: true do |t|
+    t.string   "name",                            null: false
+    t.integer  "order_id",                        null: false
+    t.integer  "vector_id",       default: 0
+    t.string   "length",          default: "0",   null: false
+    t.string   "resistance",      default: "",    null: false
+    t.string   "return_type",     default: "",    null: false
+    t.integer  "sample_board_id", default: 0
+    t.string   "hole",            default: "",    null: false
+    t.boolean  "is_splice",       default: false, null: false
+    t.string   "splice_status",   default: "",    null: false
+    t.boolean  "is_through",      default: false, null: false
+    t.integer  "creator_id",      default: 0,     null: false
+    t.text     "remark"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "samples", ["order_id"], name: "order_id", using: :btree
+  add_index "samples", ["sample_board_id", "hole"], name: "board_hole", unique: true, using: :btree
+  add_index "samples", ["vector_id"], name: "vector_id", using: :btree
 
   create_table "users", id: false, force: true do |t|
     t.integer  "id",                                 default: 0,    null: false
@@ -197,6 +220,9 @@ ActiveRecord::Schema.define(version: 20140912071552) do
     t.datetime "updated_at"
   end
 
+  add_index "vectors", ["length"], name: "length", using: :btree
   add_index "vectors", ["name"], name: "name", using: :btree
+  add_index "vectors", ["producer"], name: "producer", using: :btree
+  add_index "vectors", ["resistance"], name: "resistance", using: :btree
 
 end

@@ -4,6 +4,7 @@ import(
   "time"
   "strconv"
   "errors"
+  "net/http"
 )
 
 type Order struct {
@@ -19,6 +20,7 @@ type Order struct {
   TransportCondition string `json:"transport_condition"`
   Status string `json:"status"`
   Remark string `json:"remark"`
+  Samples []Sample
   Creator
 }
 
@@ -40,4 +42,18 @@ func (record *Order)BeforeSave() error {
   record.Sn = record.ReceiveDate.Format("20060102") + "-" + strconv.Itoa(max_day_number + 1)
   Db.Save(record)
   return nil
+}
+
+func GetOrders(req *http.Request)([]Order, int){
+  page := getPage(req)
+  db := Db.Model(Order{})
+  name := req.FormValue("sn")
+  if name != "" {
+    db = db.Where("sn LIKE ?", (name + "%"))
+  }
+  var count int
+  db.Count(&count)
+  records := []Order{}
+  db.Limit(PerPage).Offset(page * PerPage).Find(&records)
+  return records, count
 }

@@ -51,6 +51,10 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetVectors(req)
   case "primers":
     return models.GetPrimers(req)
+  case "orders":
+    return models.GetOrders(req)
+  case "samples":
+    return models.GetSamples(req)
   default:
     return nil, 0
   }
@@ -92,6 +96,10 @@ func initRecord(resources string, id int) models.RecordCreator {
     return &models.Vector{Id: id}
   case "primers":
     return &models.Primer{Id: id}
+  case "orders":
+    return &models.Order{Id: id}
+  case "samples":
+    return &models.Sample{Id: id}
   default:
     return nil
   }

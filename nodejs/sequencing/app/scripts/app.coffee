@@ -11,6 +11,7 @@ angular.module('sequencingApp', [
   'ui.drop'
   'ui.date'
   'pascalprecht.translate'
+  'ngSelectable'
 ]).config ['$routeProvider', '$locationProvider', '$httpProvider', '$translateProvider', ($routeProvider, $locationProvider, $httpProvider, $translateProvider) ->
   $translateProvider.preferredLanguage 'cn'
   $translateProvider.useStaticFilesLoader {

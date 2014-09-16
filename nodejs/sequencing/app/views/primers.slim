@@ -3,7 +3,7 @@ table.table.table-bordered.table-striped
     tr
       th
         | {{'name' | translate}}
-        a.btn.btn-success ng-href='/primers/new' ng-bind="'create' | translate"
+        a.btn.btn-success ng-href='/primers/new' ng-bind="'create' | translate" ng-show='!inModal'
       th
         |{{'origin' | translate}}{{'thickness' | translate}}
       th ng-bind="'annealing' | translate"
@@ -26,11 +26,13 @@ table.table.table-bordered.table-striped
         | {{'available' | translate}}
       th
         | {{'remark' | translate}}
-      th
+      th ng-show='!inModal'
   tbody
-    tr ng-repeat="r in records"
+    tr ng-repeat="r in records" ng-click='click(r.id, r.name)'
       td
-        a.btn.btn-success ng-click='edit(r)'
+        a.btn.btn-success ng-click='edit(r)' ng-show='!inModal'
+          | {{r.name}}
+        span ng-show='inModal'
           | {{r.name}}
       td
         | {{r.origin_thickness}}
@@ -60,8 +62,8 @@ table.table.table-bordered.table-striped
         | {{yesno[r.available] | translate}}
       td
         | {{r.remark}}
-      td
+      td ng-show='!inModal'
         a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
           | {{'delete' | translate}}
-.navbar.navbar-fixed-bottom.text-center
+.navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"
   ng-include src="'/views/pager.html'"
