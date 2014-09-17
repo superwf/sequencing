@@ -1,11 +1,20 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'OrdersCtrl', ['$scope', 'Order', 'Modal', '$modal', ($scope, Order, Modal, $modal) ->
-  Order.query (data) ->
-    $scope.records = data.records
-    $scope.totalItems = data.totalItems
-    $scope.perPage = data.perPage
-    return
+angular.module('sequencingApp').controller 'OrdersCtrl', ['$scope', 'Order', 'Modal', '$modal', 'SequencingConst', 'BoardHead', ($scope, Order, Modal, $modal, SequencingConst, BoardHead) ->
+  $scope.searcher = {}
+  $scope.s = {}
+  BoardHead.all {all: true, board_type: 'sample', available: 1}, (data)->
+    $scope.board_heads = data
+  $scope.$watch 's.board_head', ->
+    if $scope.s.board_head
+      $scope.searcher.board_head_id = $scope.s.board_head.id
+  $scope.search = ->
+    Order.query $scope.searcher, (data) ->
+      $scope.records = data.records
+      $scope.totalItems = data.totalItems
+      $scope.perPage = data.perPage
+      return
+  $scope.search()
  
   $scope.delete = (id, index)->
     Order.delete {id: id}
@@ -15,6 +24,7 @@ angular.module('sequencingApp').controller 'OrdersCtrl', ['$scope', 'Order', 'Mo
     Modal.record = record
     Modal.modal = $modal.open {
       templateUrl: '/views/order.html'
-      controller: 'VectorCtrl'
+      controller: 'OrderCtrl'
     }
+  $scope.orderStatus = SequencingConst.orderStatus
 ]

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SampleHeadTest < ActiveSupport::TestCase
+class BoardTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -1,3 +1,11 @@
+/the css below is for fix the input and btn is in front of the datepicker
+css:
+  .input-group .form-control{
+    z-index: 1;
+  }
+  .btn-group > .btn.active, .btn-group > .btn {
+    z-index: 1;
+  }
 .row
   .col-md-12.well
     form.form-horizontal.text-center name='form'
@@ -20,15 +28,17 @@
       .form-group.col-md-3
         input.form-control ng-model='record.client' placeholder='{{"client" | translate}}' title='{{"client" | translate}}' ng-focus='selectClient()' required=''
       .col-md-12
-      .form-group.col-md-3
-        label
+      .form-group.col-md-2
+        label style='float: left;'
           | {{'sample' | translate}}{{'type' | translate}}
         .btn-group
-          button.btn.btn-primary type='button' ng-model='record.sample_head' btn-radio='h' ng-repeat='h in sample_heads' required=''
+          button.btn.btn-primary type='button' ng-model='record.board_head' btn-radio='h' ng-repeat='h in board_heads' required=''
             | {{h.name}}
-      .form-group.col-md-2
+      .form-group.col-md-1
         input.form-control ng-model='board_number' placeholder='{{"board" | translate}}{{"number" | translate}}' title='{{"board" | translate}}{{"number" | translate}}' type='number' required=''
-      .form-group.col-md-12 ng-show='record.sample_head.name'
+      .form-group.col-md-2
+        input.form-control ng-model='board_create_date' placeholder='{{"board" | translate}}{{"date" | translate}}' title='{{"board" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+      .form-group.col-md-12 ng-show='record.board_head.name'
         .col-md-4
           .input-group
             input.form-control style='width: 9em;' placeholder='{{"sample" | translate}}{{"prefix" | translate}}' title='{{"sample" | translate}}{{"prefix" | translate}}' ng-model='sample_prefix'
@@ -42,7 +52,7 @@
                 i.glyphicon.glyphicon-plus
         .col-md-2
           .input-group
-            input.form-control ng-model='primer' placeholder='{{"primer" | translate}}' title='{{"primer" | translate}}' ng-focus='selectPrimer()'
+            input.form-control ng-model='primer' placeholder='{{"primer" | translate}}' title='{{"primer" | translate}}' ng-focus='selectPrimer()' ng-disabled='!record.client_id'
             span.input-group-btn
               button.btn.btn-default type='button' ng-click='addPrimer()'
                 i.glyphicon.glyphicon-plus
@@ -51,7 +61,9 @@
             span.input-group-btn
               button.btn.btn-default type='button' ng-click='clearSample()'
                 i.glyphicon.glyphicon-remove
-        .col-md-12
+        .col-md-12.text-center
+          h3
+            | {{board.sn}}
           table.new-order.table-bordered selectable='' selectable-options='{filter: "td.hole", cancel: "span.vector,span.primer"}'
             tr
               th

@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routeParams', 'Modal', 'BoardHead', 'SequencingConst', ($scope, $routeParams, Modal, BoardHead, SequencingConst) ->
+angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routeParams', 'Modal', '$modal', 'BoardHead', 'SequencingConst', 'Procedure', ($scope, $routeParams, Modal, $modal, BoardHead, SequencingConst, Procedure) ->
   $scope.boardType = SequencingConst.boardType
   if $routeParams.id == 'new'
     $scope.record = with_date: true, available: true
@@ -18,5 +18,20 @@ angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routePa
     if Modal.modal
       Modal.modal.dismiss 'cancel'
 
+  $scope.showProcedure = ()->
+    Modal.resource = Procedure
+    modal = $modal.open {
+      templateUrl: '/views/procedures.html'
+      controller: 'ModalTableCtrl'
+      resolve:
+        searcher: ->
+          {}
+    }
+    modal.result.then (data)->
+      $scope.procedure = data
+      null
+
+  $scope.addProcedure = ->
+    $scope.procedure
   null
 ]

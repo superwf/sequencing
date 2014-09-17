@@ -1,10 +1,10 @@
-ng-include src="'/views/primerBoardSearch.html'"
+ng-include src="'/views/boardSearch.html'"
 table.table.table-bordered.table-striped
   thead
     tr
       th
         | {{'sn' | translate}}
-        a.btn.btn-success ng-href='/primerBoards/new' ng-bind="'create' | translate"
+        a.btn.btn-success ng-href='/boards/new' ng-bind="'create' | translate"
       th ng-bind="'board_head' | translate"
       th
         | {{'create' | translate}}{{'date' | translate}}
@@ -20,6 +20,6 @@ table.table.table-bordered.table-striped
       td
         | {{r.create_date | date: 'yyyy-MM-dd'}}
       td
-        | {{r.primers_count}}
+        | {{r.count}}
 .navbar.navbar-fixed-bottom.text-center
   ng-include src="'/views/pager.html'"

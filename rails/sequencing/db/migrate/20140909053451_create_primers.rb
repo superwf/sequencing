@@ -9,9 +9,9 @@ class CreatePrimers < ActiveRecord::Migration
       t.column :client_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.column :primer_board_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.string :hole, null: false, default: ''
-      t.string :status, null: false, default: ''
+      t.string :status, null: false, default: 'ok'
       t.string :store_type, null: false, default: ''
-      t.date :receive_date, null: false
+      t.date :create_date, null: false
       t.date :expire_date, null: false
       t.date :operate_date, null: false
       t.column :need_return, 'TINYINT(1) UNSIGNED', limit: 1, default: 0, null: false
@@ -21,5 +21,6 @@ class CreatePrimers < ActiveRecord::Migration
       t.column :creator_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.timestamps
     end
+    add_index :primers, [:board_id, :hole], name: :board_hole, unique: true
   end
 end

@@ -1,27 +1,32 @@
+ng-include src="'/views/orderSearch.html'"
 table.table.table-bordered.table-striped
   thead
     tr
       th
         | {{'sn' | translate}}
-      th ng-bind="'producer' | translate"
-      th ng-bind="'length' | translate"
-      th ng-bind="'resistance' | translate"
-      th ng-bind="'copy_number' | translate"
+      th ng-bind="'client' | translate"
+      th ng-bind="'status' | translate"
+      th ng-bind="'urgent' | translate"
+      th ng-bind="'is_test' | translate"
+      th ng-bind="'remark' | translate"
       th
   tbody
     tr ng-repeat="r in records"
       td
+        | {{r.sn}}
+      td
+        | {{r.client}}
+      td
+        | {{orderStatus[r.status] | translate}}
+      td
+        | {{yesno[r.urgent] | translate}}
+      td
+        | {{yesno[r.is_test] | translate}}
+      td
+        | {{r.remark}}
+      td
         a.btn.btn-success ng-click='edit(r)'
-          | {{r.sn}}
-      td
-        | {{r.producer}}
-      td
-        | {{r.length}}
-      td
-        | {{r.resistance}}
-      td
-        | {{r.copy_number}}
-      td
+          | {{'edit' | translate}}
         a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
           | {{'delete' | translate}}
 .navbar.navbar-fixed-bottom.text-center

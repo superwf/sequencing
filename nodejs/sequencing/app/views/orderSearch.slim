@@ -1,0 +1,16 @@
+form.form-search.well name='searchForm'
+  .row
+    .col-md-2
+      input.form-control ng-model='searcher.sn' placeholder="{{'order' | translate}}{{'sn' | translate}}" title="{{'order' | translate}}{{'sn' | translate}}"
+    .col-md-2
+      input.form-control ng-model='searcher.date_from' placeholder="{{'receive' | translate}}{{'date' | translate}}{{'from' | translate}}" ui-date='dateOption' ui-date-format='yy-mm-dd'
+    .col-md-2
+      input.form-control ng-model='searcher.date_to' placeholder="{{'to' | translate}}" ui-date='dateOption' ui-date-format='yy-mm-dd' title="{{'to' | translate}}"
+    .form-group.col-md-2
+      label style='float: left;'
+        | {{'sample' | translate}}{{'type' | translate}}
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='s.board_head' btn-radio='h' ng-repeat='h in board_heads' required=''
+          | {{h.name}}
+    .col-md-1
+      button.btn.btn-success ng-click='search()' ng-bind='"search" | translate'

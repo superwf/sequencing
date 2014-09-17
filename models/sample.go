@@ -13,11 +13,12 @@ type Sample struct {
   Length string `json:"length"`
   Resistance string `json:"resistance"`
   ReturnType string `json:"return_type"`
-  SampleBoardId int `json:"sample_board_id"`
+  BoardId int `json:"sample_board_id"`
   Hole string `json:"hole"`
   IsSplice bool `json:"is_splice"`
   IsThrough bool `json:"is_through"`
   Remark string `json:"remark"`
+  Reactions []Reaction
   Creator
 }
 
@@ -36,14 +37,14 @@ func GetSamples(req *http.Request)([]Sample, int){
 }
 
 func (record *Sample) BeforeSave() error {
-  order := Order{Id: record.OrderId}
-  Db.First(&order)
   nameLength := len(record.Name)
   if nameLength > 255 || nameLength == 0{
     return errors.New("name length error")
   }
-  if len(order.Sn) > 0 {
-    return errors.New("order not_exist")
-  }
+  //order := Order{Id: record.OrderId}
+  //Db.First(&order)
+  //if len(order.Sn) > 0 {
+  //  return errors.New("order not_exist")
+  //}
   return nil
 }

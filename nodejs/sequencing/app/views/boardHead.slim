@@ -1,5 +1,5 @@
 .row
-  form.col-md-8.col-md-offset-2.form-horizontal.well.text-center name='form'
+  form.col-md-10.col-md-offset-1.form-horizontal.well.text-center name='form'
     .form-group
       input.form-control ng-model='record.name' required='' placeholder='{{"name" | translate}}' title='{{"name" | translate}}'
     .form-group
@@ -26,5 +26,11 @@
       .btn-group
         button.btn.btn-primary type='button' ng-model='record.available' btn-radio='k' ng-repeat='k in [true, false]'
           | {{yesno[k] | translate}}
+    .form-group ng-show='record.id > 0'
+      .input-group
+        input.form-control ng-model='procedure.name' required='' placeholder='{{"procedure" | translate}}' title='{{"procedure" | translate}}' ng-focus='showProcedure()'
+        span.input-group-btn
+          button.btn.btn-default type='button' ng-click='addProcedure()'
+            i.glyphicon.glyphicon-plus
     .form-group
       button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

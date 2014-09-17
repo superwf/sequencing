@@ -33,8 +33,6 @@ func parseJson(record interface{}, req *http.Request) {
 
 func initRecords(resources string, req *http.Request)(interface{}, int) {
   switch resources {
-  case "sampleHeads":
-    return models.GetSampleHeads(req)
   case "procedures":
     return models.GetProcedures(req)
   case "roles":
@@ -55,6 +53,10 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetOrders(req)
   case "samples":
     return models.GetSamples(req)
+  case "reactions":
+    return models.GetReactions(req)
+  case "boards":
+    return models.GetBoards(req)
   default:
     return nil, 0
   }
@@ -78,8 +80,6 @@ func GetRecords(params martini.Params, req *http.Request, r render.Render) {
 // resources and id are the route params
 func initRecord(resources string, id int) models.RecordCreator {
   switch resources {
-  case "sampleHeads":
-    return &models.SampleHead{Id: id}
   case "procedures":
     return &models.Procedure{Id: id}
   case "roles":
@@ -100,6 +100,8 @@ func initRecord(resources string, id int) models.RecordCreator {
     return &models.Order{Id: id}
   case "samples":
     return &models.Sample{Id: id}
+  case "reactions":
+    return &models.Reaction{Id: id}
   default:
     return nil
   }

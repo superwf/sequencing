@@ -51,7 +51,7 @@ func GetClients(req *http.Request)([]map[string]interface{}, int){
   db.Count(&count)
   //records := []Client{}
   //db.Limit(PerPage).Offset(page * PerPage).Find(&records)
-  rows, _ := db.Limit(PerPage).Offset(page * PerPage).Rows()
+  rows, _ := db.Limit(PerPage).Offset(page * PerPage).Order("clients.id DESC").Rows()
   defer rows.Close()
   var result []map[string]interface{}
   for rows.Next() {

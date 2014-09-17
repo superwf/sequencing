@@ -9,7 +9,7 @@ table.table.table-bordered.table-striped
       th
         a.btn.btn-success ng-href='/procedures/new' ng-bind="'create' | translate"
   tbody
-    tr ng-repeat="r in records"
+    tr ng-repeat="r in records" ng-click='click(r.id, r.name)'
       td
         | {{r.name}}
       td
@@ -25,5 +25,5 @@ table.table.table-bordered.table-striped
           | {{'edit' | translate}}
         a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
           | {{'delete' | translate}}
-.navbar.navbar-fixed-bottom.text-center
+.navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"
   ng-include src="'/views/pager.html'"

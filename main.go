@@ -35,6 +35,7 @@ func main() {
     m.Put("/roles/:id", controllers.UpdateRole)
     m.Get("/companyTree/:id", controllers.GetCompanyTree)
     m.Post("/orders", controllers.CreateOrder)
+    m.Post("/boards", controllers.CreateBoard)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
 
     // for simple rest request

@@ -13,16 +13,17 @@ type Primer struct {
   Annealing string `json:"annealing"`
   Seq string `json:"seq"`
   ClientId int `json:"client_id"`
-  PrimerBoardId int `json:"primer_board_id"`
+  BoardId int `json:"board_id"`
   Hole string `json:"hole"`
   Status string `json:"status"`
   StoreType string `json:"store_type"`
-  ReceiveDate time.Time `json:"receive_date"`
+  CreateDate time.Time `json:"create_date"`
   ExpireDate time.Time `json:"expire_date"`
   OperateDate time.Time `json:"operate_date"`
   NeedReturn bool `json:"need_return"`
   Available bool `json:"available"`
   Remark string `json:"remark"`
+  Reactions []Reaction
   Creator
 }
 
@@ -36,16 +37,17 @@ func (record *Primer) BeforeSave() error {
   if client.Name == "" {
     return errors.New("client not_exist")
   }
-  primer_board := PrimerBoard{Id: record.PrimerBoardId}
-  Db.First(&primer_board)
-  if primer_board.Sn == "" {
-    return errors.New("primer_board not_exist")
+  board := Board{Id: record.BoardId}
+  Db.First(&board)
+  if board.Sn == "" {
+    return errors.New("board not_exist")
   }
   exist := Primer{}
   if record.Id > 0 {
-    Db.Where("primer_board_id = ? AND hole = ? AND id <> ?", record.PrimerBoardId, record.Hole, record.Id).First(&exist)
+    Db.Where("board_id = ? AND hole = ? AND id <> ?", record.BoardId, record.Hole, record.Id).First(&exist)
   } else {
-    Db.Where("primer_board_id = ? AND hole = ?", record.PrimerBoardId, record.Hole).First(&exist)
+    Db.Where("board_id = ? AND hole = ?", record.BoardId, record.Hole).First(&exist)
+    // todo generate expire date depend on store_type
   }
   if exist.Id > 0 {
     return errors.New("board hole repeat")
@@ -55,21 +57,41 @@ func (record *Primer) BeforeSave() error {
 
 func GetPrimers(req *http.Request)([]map[string]interface{}, int){
   page := getPage(req)
-  db := Db.Table("primers").Select("primers.id, primers.name, primers.origin_thickness, primers.annealing, primers.seq, primers.client_id, primers.primer_board_id, primers.hole, primers.status, primers.store_type, primers.receive_date, primers.expire_date, primers.operate_date, primers.need_return, primers.available, primers.remark, primer_boards.sn, clients.name").Joins("LEFT JOIN primer_boards ON primers.primer_board_id = primer_boards.id LEFT JOIN clients ON primers.client_id = clients.id")
+  db := Db.Table("primers").Select("primers.id, primers.name, primers.origin_thickness, primers.annealing, primers.seq, primers.client_id, primers.board_id, primers.hole, primers.status, primers.store_type, primers.create_date, primers.expire_date, primers.operate_date, primers.need_return, primers.available, primers.remark, boards.sn, clients.name").Joins("LEFT JOIN boards ON primers.board_id = boards.id LEFT JOIN clients ON primers.client_id = clients.id")
   name := req.FormValue("name")
   if name != "" {
     db = db.Where("primers.name LIKE ?", (name + "%"))
+  }
+  board_id := req.FormValue("board_id")
+  if board_id != "" {
+    db = db.Where("primers.board_id = ?", board_id)
+  }
+  client_id := req.FormValue("client_id")
+  if client_id != "" {
+    db = db.Where("primers.client_id = ?", client_id)
+  }
+  date_from := req.FormValue("date_from")
+  if date_from != "" {
+    db = db.Where("primers.create_date >= ?", date_from)
+  }
+  date_to := req.FormValue("date_to")
+  if date_to != "" {
+    db = db.Where("primers.create_date <= ?", date_to)
+  }
+  status := req.FormValue("status")
+  if status != "" {
+    db = db.Where("primers.status = ?", status)
   }
   var count int
   db.Count(&count)
   rows, _ := db.Limit(PerPage).Offset(page * PerPage).Rows()
   var result []map[string]interface{}
   for rows.Next() {
-    var id, client_id, primer_board_id int
-    var name, origin_thickness, annealing, seq, hole, status, store_type, remark, primer_board, client string
-    var receive_date, operate_date, expire_date time.Time
+    var id, client_id, board_id int
+    var name, origin_thickness, annealing, seq, hole, status, store_type, remark, board, client string
+    var create_date, operate_date, expire_date time.Time
     var need_return, available bool
-    rows.Scan(&id, &name, &origin_thickness, &annealing, &seq, &client_id, &primer_board_id, &hole, &status, &store_type, &receive_date, &expire_date, &operate_date, &need_return, &available, &remark, &primer_board, &client)
+    rows.Scan(&id, &name, &origin_thickness, &annealing, &seq, &client_id, &board_id, &hole, &status, &store_type, &create_date, &expire_date, &operate_date, &need_return, &available, &remark, &board, &client)
     d := map[string]interface{}{
       "id": id,
       "name": name,
@@ -77,17 +99,17 @@ func GetPrimers(req *http.Request)([]map[string]interface{}, int){
       "annealing": annealing,
       "seq": seq,
       "client_id": client_id,
-      "primer_board_id": primer_board_id,
+      "board_id": board_id,
       "hole": hole,
       "status": status,
       "store_type": store_type,
-      "receive_date": receive_date,
+      "create_date": create_date,
       "expire_date": expire_date,
       "operate_date": operate_date,
       "need_return": need_return,
       "available": available,
       "remark": remark,
-      "primer_board": primer_board,
+      "board": board,
       "client": client}
     result = append(result, d)
   }

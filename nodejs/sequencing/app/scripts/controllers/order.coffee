@@ -1,23 +1,31 @@
 'use strict'
-angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'SequencingConst', '$routeParams', 'Modal', '$modal', 'BoardHead', 'Client', 'Vector', 'Primer', '$rootScope', ($scope, Order, SequencingConst, $routeParams, Modal, $modal, BoardHead, Client, Vector, Primer, $rootScope) ->
+angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'SequencingConst', '$routeParams', 'Modal', '$modal', 'BoardHead', 'Client', 'Vector', 'Primer', '$rootScope', 'Board', ($scope, Order, SequencingConst, $routeParams, Modal, $modal, BoardHead, Client, Vector, Primer, $rootScope, Board) ->
   $scope.transportCondition = SequencingConst.transportCondition
   BoardHead.all {all: true, board_type: 'sample', available: 1}, (data)->
-    $scope.sample_heads = data
+    $scope.board_heads = data
+    $scope.board_number = 1
     if data.length == 0
-      $rootScope.$broadcast 'event:notacceptable', {hint: 'sample_head not_exist'}
+      $rootScope.$broadcast 'event:notacceptable', {hint: 'sample type not_exist'}
   if $routeParams.id == 'new'
-    $scope.record = {}
+    $scope.sample_number = 1
+    $scope.record = {create_date: SequencingConst.date2string(), number: 1}
+    $scope.board_create_date = SequencingConst.date2string()
   else
     if Modal.record
       $scope.record = Modal.record
     else
       $scope.record = Order.get id: $routeParams.id
 
-  # select sample_head
-  $scope.$watch 'record.sample_head', ->
-    if $scope.record.sample_head
-      $scope.cols = $scope.record.sample_head.cols.split(',')
-      $scope.rows = $scope.record.sample_head.rows.split(',')
+  # select board_head
+  $scope.$watch 'record.board_head', ->
+    if $scope.record.board_head
+      $scope.record.board_head_id = $scope.record.board_head.id
+      $scope.cols = $scope.record.board_head.cols.split(',')
+      $scope.rows = $scope.record.board_head.rows.split(',')
+      board = {board_head_id: $scope.record.board_head_id, create_date: $scope.board_create_date, number: $scope.board_number}
+      board = SequencingConst.copyWithDate(board, 'create_date')
+      Board.create board, (data)->
+        $scope.board = data
 
   # input sample name
   $scope.samples = {}
@@ -82,6 +90,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
     modal.result.then (data)->
       $scope.vector = data.name
       $scope.vector_id = data.id
+      $scope.addVector()
       null
   $scope.addVector = ->
     if !$scope.vector_id
@@ -108,11 +117,12 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       size: 'lg'
       resolve:
         searcher: ->
-          {available: true}
+          {available: true, client_id: $scope.record.client_id}
     }
     modal.result.then (data)->
       $scope.primer = data.name
       $scope.primer_id = data.id
+      $scope.addPrimer()
       null
   $scope.addPrimer = ->
     if !$scope.primer_id
@@ -149,20 +159,26 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
 
   $scope.save = ->
     if $scope.record.id
-      Order.update $scope.record
+      record = SequencingConst.copyWithDate($scope.record, 'create_date')
+      Order.update record
     else
       samples = []
-      angular.forEach $scope.samples, (k, v)->
-        sample = {}
-        sample = v
-        sample.hole = k
-        if sample.name.length > 0 && sample.reactions.length > 0
-          samples.push sample
+      angular.forEach $scope.samples, (v, c)->
+        angular.forEach v, (v1, r)->
+          if v1.name.length > 0 && v1.reactions && v1.reactions.length > 0
+            sample = v1
+            sample.hole = r + c
+            sample.board_id = $scope.board.id
+            samples.push v1
       if samples.length == 0
         $rootScope.$broadcast 'event:notacceptable', hint: 'sample not_exist'
       else
-        $scope.record.samples = samples
-        Order.create $scope.record, (data)->
-          $scope.record = data
+        record = SequencingConst.copyWithDate($scope.record, 'create_date')
+        record.samples = samples
+        Order.create record, (data)->
+          if data.id > 0
+            $scope.record.id = data.id
+        , (err)->
+          #$rootScope.$broadcast 'event:notacceptable', err.data
   null
 ]
