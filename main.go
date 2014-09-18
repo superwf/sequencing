@@ -27,15 +27,16 @@ func main() {
   m.Use(requireLogin)
 
   m.Group("/api/v1", func(r martini.Router) {
-    m.Get("/users", controllers.GetUsers)
+    //m.Get("/users", controllers.GetUsers)
     m.Get("/me", controllers.Me)
     m.Post("/login", controllers.Login)
     m.Delete("/logout", controllers.Logout)
-    m.Get("/menus", controllers.GetMenus)
+    //m.Get("/menus", controllers.GetMenus)
     m.Put("/roles/:id", controllers.UpdateRole)
     m.Get("/companyTree/:id", controllers.GetCompanyTree)
     m.Post("/orders", controllers.CreateOrder)
     m.Post("/boards", controllers.CreateBoard)
+    m.Post("/flows", controllers.CreateFlow)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
 
     // for simple rest request

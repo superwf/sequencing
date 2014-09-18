@@ -16,6 +16,7 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
   else
     $scope.status = SequencingConst.primerStatus
     if Modal.record
+      $scope.board_hole = Modal.record.board + ' : ' + Modal.record.hole
       $scope.record = Modal.record
       $scope.record.create_date = SequencingConst.date2string(Modal.record.create_date)
     else
@@ -34,8 +35,8 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
           $scope.record.id = data.id
 
   $scope.save = ->
-    if $scope.primer_board.id
-      $scope.record.board_id = $scope.primer_board.id
+    if $scope.board && $scope.board.id
+      $scope.record.board_id = $scope.board.id
       save_primer()
     else
       record =
@@ -44,7 +45,7 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
         board_head_id: $scope.primer_head.id
       record = SequencingConst.copyWithDate(record, 'create_date')
       Board.create record, (data)->
-        $scope.primer_board = data
+        $scope.board = data
         $scope.record.board_id = data.id
         save_primer()
 
@@ -71,8 +72,6 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
         resolve:
           head: ->
             $scope.primer_head
-          type: ->
-            'primer'
           number: ->
             $scope.board_number
           sn: ->
@@ -83,8 +82,8 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
       }
       modal.result.then (data)->
         $scope.record.hole = data.hole
-        $scope.record.primer_board = data.sn
-        $scope.primer_board = data.board
+        $scope.record.board = data.sn
+        $scope.board = data.board
         $scope.board_hole = data.sn + ' : ' + data.hole
         null
 

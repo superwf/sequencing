@@ -13,7 +13,7 @@ type Sample struct {
   Length string `json:"length"`
   Resistance string `json:"resistance"`
   ReturnType string `json:"return_type"`
-  BoardId int `json:"sample_board_id"`
+  BoardId int `json:"board_id"`
   Hole string `json:"hole"`
   IsSplice bool `json:"is_splice"`
   IsThrough bool `json:"is_through"`

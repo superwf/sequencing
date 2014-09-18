@@ -28,9 +28,20 @@
           | {{yesno[k] | translate}}
     .form-group ng-show='record.id > 0'
       .input-group
-        input.form-control ng-model='procedure.name' required='' placeholder='{{"procedure" | translate}}' title='{{"procedure" | translate}}' ng-focus='showProcedure()'
+        input.form-control ng-model='procedure.name' placeholder='{{"procedure" | translate}}' title='{{"procedure" | translate}}' ng-focus='showProcedure()'
         span.input-group-btn
           button.btn.btn-default type='button' ng-click='addProcedure()'
             i.glyphicon.glyphicon-plus
+      table.table.table-bordered.table-striped
+        thead
+          tr
+            th.text-center ng-bind="'procedure' | translate"
+            th.text-center ng-bind="'remark' | translate"
+        tbody
+          tr ng-repeat="r in procedures"
+            td
+              | {{r.name}}
+            td
+              | {{r.remark}}
     .form-group
       button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

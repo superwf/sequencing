@@ -1,7 +1,8 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', ($scope, Board, Modal, $modal) ->
-  $scope.searcher = {}
+angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$routeParams', ($scope, Board, Modal, $modal, $routeParams) ->
+  $scope.board_type = $routeParams.board_type
+  $scope.searcher = {board_type: $scope.board_type}
   $scope.search = ->
     Board.query $scope.searcher, (data) ->
       angular.forEach data.records, (d)->

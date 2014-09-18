@@ -25,6 +25,7 @@ angular.module('sequencingApp').controller 'OrdersCtrl', ['$scope', 'Order', 'Mo
     Modal.modal = $modal.open {
       templateUrl: '/views/order.html'
       controller: 'OrderCtrl'
+      size: 'lg'
     }
   $scope.orderStatus = SequencingConst.orderStatus
 ]

@@ -6,7 +6,7 @@ table.table.table-bordered.table-striped
       th ng-bind="'flow_type' | translate"
       th ng-bind="'board' | translate"
       th ng-bind="'attachment' | translate"
-      th
+      th ng-show='!inModal'
         a.btn.btn-success ng-href='/procedures/new' ng-bind="'create' | translate"
   tbody
     tr ng-repeat="r in records" ng-click='click(r.id, r.name)'
@@ -20,7 +20,7 @@ table.table.table-bordered.table-striped
         | {{yesno[r.board] | translate}}
       td
         | {{yesno[r.attachment] | translate}}
-      td
+      td ng-show='!inModal'
         a.btn.btn-success ng-href='/procedures/{{r.id}}'
           | {{'edit' | translate}}
         a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'

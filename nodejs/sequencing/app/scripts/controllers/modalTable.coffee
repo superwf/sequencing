@@ -3,11 +3,15 @@ angular.module('sequencingApp').controller 'ModalTableCtrl', ['$scope', 'Modal',
   $scope.inModal = true
   $scope.searcher = searcher || {}
   $scope.search = ->
-    Modal.resource.query $scope.searcher, (data) ->
-      $scope.records = data.records
-      $scope.totalItems = data.totalItems
-      $scope.perPage = data.perPage
-      return
+    if $scope.searcher.all
+      Modal.resource.all $scope.searcher, (data) ->
+        $scope.records = data
+    else
+      Modal.resource.query $scope.searcher, (data) ->
+        $scope.records = data.records
+        $scope.totalItems = data.totalItems
+        $scope.perPage = data.perPage
+        return
   $scope.search()
   $scope.setPage = ()->
     $scope.search()

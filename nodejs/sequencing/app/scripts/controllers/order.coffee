@@ -1,19 +1,26 @@
 'use strict'
 angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'SequencingConst', '$routeParams', 'Modal', '$modal', 'BoardHead', 'Client', 'Vector', 'Primer', '$rootScope', 'Board', ($scope, Order, SequencingConst, $routeParams, Modal, $modal, BoardHead, Client, Vector, Primer, $rootScope, Board) ->
   $scope.transportCondition = SequencingConst.transportCondition
-  BoardHead.all {all: true, board_type: 'sample', available: 1}, (data)->
-    $scope.board_heads = data
-    $scope.board_number = 1
-    if data.length == 0
-      $rootScope.$broadcast 'event:notacceptable', {hint: 'sample type not_exist'}
+
+  getBoardHead = ->
+    BoardHead.all {all: true, board_type: 'sample', available: 1}, (data)->
+      $scope.board_heads = data
+      $scope.board_number = 1
+      if data.length == 0
+        $rootScope.$broadcast 'event:notacceptable', {hint: 'sample type not_exist'}
   if $routeParams.id == 'new'
     $scope.sample_number = 1
     $scope.record = {create_date: SequencingConst.date2string(), number: 1}
     $scope.board_create_date = SequencingConst.date2string()
+    $scope.inModal = false
+    getBoardHead()
   else
     if Modal.record
+      $scope.inModal = true
       $scope.record = Modal.record
+      $scope.record.create_date = SequencingConst.date2string(Modal.record.create_date)
     else
+      getBoardHead()
       $scope.record = Order.get id: $routeParams.id
 
   # select board_head
@@ -29,19 +36,20 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
 
   # input sample name
   $scope.samples = {}
-  $scope.$watch 'sample_prefix + sample_number + sample_suffix', ->
-    if typeof($scope.sample_number) == 'number'
-      number = $scope.sample_number
+  $scope.sample = {}
+  $scope.$watch 'sample.sample_prefix + sample.sample_number + sample.sample_suffix', ->
+    if typeof($scope.sample.sample_number) == 'number'
+      number = $scope.sample.sample_number
       angular.forEach $scope.cols, (c)->
         angular.forEach $scope.rows, (r)->
-          if angular.element('td[hole=' + r + c + ']').hasClass('ui-selected')
+          if angular.element('td[hole=' + c + r + ']').hasClass('ui-selected')
             name = ''
-            if $scope.sample_prefix
-              name = name + $scope.sample_prefix
+            if $scope.sample.sample_prefix
+              name = name + $scope.sample.sample_prefix
             name += number
             number += 1
-            if $scope.sample_suffix
-              name = name + $scope.sample_suffix
+            if $scope.sample.sample_suffix
+              name = name + $scope.sample.sample_suffix
             if !$scope.samples[c]
               $scope.samples[c] = {}
             if !$scope.samples[c][r]
@@ -49,14 +57,14 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
             $scope.samples[c][r].name = name
     else
       name = ''
-      if $scope.sample_prefix
-        name = name + $scope.sample_prefix
-      if $scope.sample_suffix
-        name = name + $scope.sample_suffix
+      if $scope.sample.sample_prefix
+        name = name + $scope.sample.sample_prefix
+      if $scope.sample.sample_suffix
+        name = name + $scope.sample.sample_suffix
       if name
         angular.forEach $scope.cols, (c)->
           angular.forEach $scope.rows, (r)->
-            if angular.element('td[hole=' + r + c + ']').hasClass('ui-selected')
+            if angular.element('td[hole=' + c + r + ']').hasClass('ui-selected')
               if !$scope.samples[c]
                 $scope.samples[c] = {}
               if !$scope.samples[c][r]
@@ -97,7 +105,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       return
     angular.forEach $scope.cols, (c)->
       angular.forEach $scope.rows, (r)->
-        if angular.element('td[hole=' + r + c + ']').hasClass('ui-selected')
+        if angular.element('td[hole=' + c + r + ']').hasClass('ui-selected')
           if !$scope.samples[c]
             $scope.samples[c] = {}
           if !$scope.samples[c][r]
@@ -129,7 +137,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       return
     angular.forEach $scope.cols, (c)->
       angular.forEach $scope.rows, (r)->
-        if angular.element('td[hole=' + r + c + ']').hasClass('ui-selected')
+        if angular.element('td[hole=' + c + r + ']').hasClass('ui-selected')
           if !$scope.samples[c]
             $scope.samples[c] = {}
           if !$scope.samples[c][r]
@@ -152,7 +160,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
   $scope.clearSample = ->
     angular.forEach $scope.cols, (c)->
       angular.forEach $scope.rows, (r)->
-        if angular.element('td[hole=' + r + c + ']').hasClass('ui-selected')
+        if angular.element('td[hole=' + c + r + ']').hasClass('ui-selected')
           if !$scope.samples[c]
             $scope.samples[c] = {}
           $scope.samples[c][r] = {}

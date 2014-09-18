@@ -9,8 +9,8 @@ table.table.table-bordered.table-striped
       th ng-bind="'annealing' | translate"
       th ng-bind="'seq' | translate"
       th ng-bind="'client' | translate"
-      th ng-bind="'primer_board' | translate"
-      th ng-bind="'hole' | translate"
+      th 
+        | {{'board' | translate}}{{'hole' | translate}}
       th ng-bind="'status' | translate"
       th
         | {{'store' | translate}}{{'type' | translate}}
@@ -43,9 +43,7 @@ table.table.table-bordered.table-striped
       td
         | {{r.client}}
       td
-        | {{r.primer_board}}
-      td
-        | {{r.hole}}
+        | {{r.board}} : {{r.hole}}
       td
         | {{r.status | translate}}
       td

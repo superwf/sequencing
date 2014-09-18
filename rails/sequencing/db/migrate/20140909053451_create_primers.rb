@@ -7,7 +7,7 @@ class CreatePrimers < ActiveRecord::Migration
         t.string a, null: false, default: ''
       end
       t.column :client_id, 'INT(11) UNSIGNED', null: false, default: 0
-      t.column :primer_board_id, 'INT(11) UNSIGNED', null: false, default: 0
+      t.column :board_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.string :hole, null: false, default: ''
       t.string :status, null: false, default: 'ok'
       t.string :store_type, null: false, default: ''

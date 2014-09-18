@@ -5,5 +5,6 @@ angular.module('sequencingApp').factory 'Procedure', ['SequencingConst', '$resou
     'delete': {method: 'DELETE', url: SequencingConst.api + '/procedures/:id'}
     create: {method: 'POST'}
     query: {isArray: false, method: 'GET'}
+    all: {isArray: true, method: 'GET'}
   }
 ]

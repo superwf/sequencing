@@ -7,6 +7,7 @@ angular.module('sequencingApp').factory 'SequencingConst', ->
   primerStatus: ['not_receive', 'ok', 'lack', 'runout']
   primerNewStatus: ['ok', 'not_receive']
   orderStatus: ['new', 'run', 'checkout', 'complete']
+  boardStatus: ['new', 'run', 'complete']
   transportCondition: ['4-10degree', 'dry_ice', 'room_temperature']
   copyWithDate: (record, field)->
     r= angular.copy(record)

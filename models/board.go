@@ -23,6 +23,21 @@ func (record *Board)BeforeSave() error {
     return errors.New("board_head not_exist")
   }
   // generate sn
+  if board_head.WithDate {
+    record.Sn = record.CreateDate.Format("20060102") + "-" + board_head.Name + strconv.Itoa(record.Number)
+  } else {
+    record.Sn = board_head.Name + strconv.Itoa(record.Number)
+  }
+  // valid repeat sn
+  var exist_count int
+  if record.Id > 0 {
+    Db.Table("boards").Where("sn = ? AND id != ?", record.Sn, record.Id).Count(&exist_count)
+  } else {
+    Db.Table("boards").Where("sn = ?", record.Sn).Count(&exist_count)
+  }
+  if exist_count > 0 {
+    return errors.New("sn repeat")
+  }
   record.Sn = record.CreateDate.Format("20060102") + "-" + board_head.Name + strconv.Itoa(record.Number)
   return nil
 }
@@ -33,6 +48,10 @@ func GetBoards(req *http.Request)([]Board, int){
   sn := req.FormValue("sn")
   if sn != "" {
     db = db.Where("sn LIKE ?", sn)
+  }
+  board_type := req.FormValue("board_type")
+  if board_type != "" {
+    db = db.Joins("INNER JOIN board_heads ON boards.board_head_id = board_heads.id").Where("board_heads.board_type = ?", board_type)
   }
   var count int
   db.Count(&count)

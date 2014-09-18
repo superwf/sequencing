@@ -1,6 +1,7 @@
 package models
 
 import(
+  "log"
   "time"
   "strconv"
   "errors"
@@ -94,4 +95,16 @@ func GetOrders(req *http.Request)([]map[string]interface{}, int){
     result = append(result, d)
   }
   return result, count
+}
+
+func (record *Order)BeforeDelete()error{
+  Db.First(record)
+  log.Println(record.Status)
+  if record.Status != "new" {
+    return errors.New("status error")
+  }
+  return nil
+}
+func (record *Order)AfterDelete() {
+  Db.Exec("DELETE samples, reactions FROM samples, reactions WHERE samples.order_id = ? AND samples.id = reactions.sample_id", record.Id)
 }

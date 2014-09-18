@@ -38,7 +38,6 @@ func (record *BoardHead) BeforeSave()(error) {
 }
 
 func GetBoardHeads(req *http.Request)([]BoardHead, int){
-  all := req.FormValue("all")
   page := getPage(req)
   db := Db.Model(BoardHead{})
   name := req.FormValue("name")
@@ -56,6 +55,7 @@ func GetBoardHeads(req *http.Request)([]BoardHead, int){
   var count int
   db.Count(&count)
   records := []BoardHead{}
+  all := req.FormValue("all")
   if len(all) > 0 {
     db.Find(&records)
   } else {

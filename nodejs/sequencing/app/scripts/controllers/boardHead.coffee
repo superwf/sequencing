@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routeParams', 'Modal', '$modal', 'BoardHead', 'SequencingConst', 'Procedure', ($scope, $routeParams, Modal, $modal, BoardHead, SequencingConst, Procedure) ->
+angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routeParams', 'Modal', '$modal', 'BoardHead', 'SequencingConst', 'Procedure', 'Flow', ($scope, $routeParams, Modal, $modal, BoardHead, SequencingConst, Procedure, Flow) ->
   $scope.boardType = SequencingConst.boardType
   if $routeParams.id == 'new'
     $scope.record = with_date: true, available: true
@@ -8,6 +8,8 @@ angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routePa
       $scope.record = Modal.record
     else
       $scope.record = BoardHead.get id: $routeParams.id
+    Procedure.all {all: true, board_head_id: $scope.record.id}, (data)->
+      $scope.procedures = data
 
   $scope.save = ->
     if $scope.record.id
@@ -25,13 +27,15 @@ angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routePa
       controller: 'ModalTableCtrl'
       resolve:
         searcher: ->
-          {}
+          {all: true, flow_type: $scope.record.board_type}
     }
     modal.result.then (data)->
       $scope.procedure = data
       null
 
   $scope.addProcedure = ->
-    $scope.procedure
+    if $scope.procedure
+      Flow.create {procedure_id: $scope.procedure.id, board_head_id: $scope.record.id}, (data)->
+        $scope.procedures.push $scope.procedure
   null
 ]

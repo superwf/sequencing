@@ -35,9 +35,22 @@ func GetProcedures(req *http.Request)([]Procedure, int){
   if name != "" {
     db = db.Where("name LIKE ?", (name + "%"))
   }
+  flow_type := req.FormValue("flow_type")
+  if flow_type != "" {
+    db = db.Where("flow_type = ?", flow_type)
+  }
+  board_head_id := req.FormValue("board_head_id")
+  if board_head_id != "" {
+    db = db.Joins("INNER JOIN flows ON flows.procedure_id = procedures.id").Where("flows.board_head_id = ?", board_head_id)
+  }
   var count int
   db.Count(&count)
   records := []Procedure{}
-  db.Limit(PerPage).Offset(page * PerPage).Find(&records)
+  all := req.FormValue("all")
+  if all != "" {
+    db.Find(&records)
+  } else {
+    db.Limit(PerPage).Offset(page * PerPage).Find(&records)
+  }
   return records, count
 }
