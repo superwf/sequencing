@@ -1,13 +1,12 @@
-h2
-  | {{sn}}
+h2.text-center
+  | {{record.sn}}
 table.table-bordered
   tr
     th
-      | {{board.sn}}
     th ng-repeat='c in cols'
       | {{c}}
   tr ng-repeat='r in rows'
     td.hole
       | {{r}}
     td.hole ng-repeat='c in cols' ng-click='selectHole(sn, c+r, board_id)'
-      | {{}}
+      | {{boardRecords[c+r]}}

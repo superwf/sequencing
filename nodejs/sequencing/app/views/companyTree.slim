@@ -5,7 +5,7 @@ li ng-repeat='record in record.children' ng-show='!record.deleted'
       | {{record.name}} 
       | [ {{record.full_code}} ] 
       | ( {{record.price}} )
-    button.btn.btn-danger ng-confirm-click='delete(record)' message='{{"confirm_operation" | translate}}' ng-show='record.children_count==0'
+    button.btn.btn-danger ng-confirm-click='delete(record)' message='{{"confirm" | translate}}' ng-show='record.children_count==0'
       | {{'delete' | translate}}
   ol.tree
     ng-include src="'/views/companyTree.html'"

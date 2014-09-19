@@ -1,14 +1,6 @@
-/the css below is for fix the input and btn is in front of the datepicker
-css:
-  .input-group .form-control{
-    z-index: 1;
-  }
-  .btn-group > .btn.active, .btn-group > .btn {
-    z-index: 1;
-  }
 .row
   .well ng-class="{true: 'col-md-10 col-md-offset-1', false: 'col-md-12'}[inModal]"
-    form.form-horizontal.text-center name='form'
+    form#orderForm.form-horizontal.text-center name='form'
       .form-group.col-md-3
         input.form-control ng-model='record.create_date' placeholder='{{"receive" | translate}}{{"date" | translate}}' title='{{"receive" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
       .form-group.col-md-1

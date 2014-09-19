@@ -4,21 +4,30 @@ table.table.table-bordered.table-striped
     tr
       th
         | {{'sn' | translate}}
-        a.btn.btn-success ng-href='/boards/new' ng-bind="'create' | translate"
       th ng-bind="'board_head' | translate"
+      th ng-bind="'type' | translate"
       th
         | {{'create' | translate}}{{'date' | translate}}
+      th ng-bind="'status' | translate"
       th
-        | {{'primer' | translate}}{{'count' | translate}}
+        | {{'record' | translate}}{{'count' | translate}}
   tbody
     tr ng-repeat='r in records' ng-click='click(r.id, r.sn)'
       td
-        a.btn.btn-success ng-click='edit(r)'
+        a.btn.btn-success ng-click='show(r)'
           | {{r.sn}}
+        a.btn.btn-success ng-confirm-click='confirm(r)' message='{{"confirm" | translate}}{{"typeset" | translate}}' ng-show='r.status == "new" && r.count > 0'
+          | {{'confirm' | translate}}
+        a.btn.btn-success ng-click='run(r)' message='{{"run" | translate}}' ng-show='r.status == "run"'
+          | {{'run' | translate}}
       td
         | {{r.board_head}}
       td
+        | {{r.board_type | translate}}
+      td
         | {{r.create_date | date: 'yyyy-MM-dd'}}
+      td
+        | {{r.status | translate}}
       td
         | {{r.count}}
 .navbar.navbar-fixed-bottom.text-center

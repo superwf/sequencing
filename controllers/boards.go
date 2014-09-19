@@ -9,8 +9,8 @@ import (
 )
 
 // get the record by sn or create it
-func CreateBoard(params martini.Params, req *http.Request, r render.Render) {
-  record := models.Board{}
+func CreateBoard(req *http.Request, r render.Render) {
+  record := models.Board{Status: "new"}
   parseJson(&record, req)
 
   board_head := models.BoardHead{}
@@ -23,5 +23,24 @@ func CreateBoard(params martini.Params, req *http.Request, r render.Render) {
   } else {
     models.Db.Save(&record)
     r.JSON(http.StatusOK, record)
+  }
+}
+
+func BoardRecords(params martini.Params, r render.Render){
+  sn := params["sn"]
+  board := models.Board{}
+  models.Db.Where("sn = ?", sn).First(&board)
+  r.JSON(http.StatusOK, board.Records())
+}
+
+func ConfirmBoard(params martini.Params, r render.Render) {
+  id, _ := strconv.Atoi(params["id"])
+  board := models.Board{Id: id}
+  models.Db.First(&board)
+  err := board.Confirm()
+  if err != nil {
+    r.JSON(http.StatusNotAcceptable, map[string]string{"hint": err.Error()})
+  } else {
+    r.JSON(http.StatusOK, Ok_true)
   }
 }

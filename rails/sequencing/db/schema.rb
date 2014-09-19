@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917061747) do
+ActiveRecord::Schema.define(version: 20140919074313) do
 
   create_table "board_heads", force: true do |t|
     t.string   "name",                       null: false
@@ -71,13 +71,20 @@ ActiveRecord::Schema.define(version: 20140917061747) do
   add_index "companies", ["name"], name: "name", using: :btree
   add_index "companies", ["parent_id"], name: "parent_id", using: :btree
 
+  create_table "electros", force: true do |t|
+    t.integer  "board_id",   default: 0,  null: false
+    t.string   "remark",     default: ""
+    t.integer  "creator_id", default: 0,  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "flows", force: true do |t|
     t.integer "board_head_id", null: false
     t.integer "procedure_id",  null: false
-    t.integer "sequence",      null: false
   end
 
-  add_index "flows", ["board_head_id"], name: "board_head_id", using: :btree
+  add_index "flows", ["board_head_id", "procedure_id"], name: "board_head_id_2", unique: true, using: :btree
   add_index "flows", ["procedure_id"], name: "procedure_id", using: :btree
 
   create_table "menus", force: true do |t|
@@ -116,20 +123,6 @@ ActiveRecord::Schema.define(version: 20140917061747) do
   add_index "orders", ["create_date"], name: "create_date", using: :btree
   add_index "orders", ["sn"], name: "sn", unique: true, using: :btree
 
-  create_table "primer_boards", force: true do |t|
-    t.integer  "board_head_id", null: false
-    t.date     "create_date",   null: false
-    t.integer  "number",        null: false
-    t.string   "sn",            null: false
-    t.integer  "creator_id",    null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "primer_boards", ["board_head_id"], name: "primer_head_id", using: :btree
-  add_index "primer_boards", ["create_date"], name: "created_date", using: :btree
-  add_index "primer_boards", ["sn"], name: "sn", unique: true, using: :btree
-
   create_table "primers", force: true do |t|
     t.string   "name",                                                      null: false
     t.decimal  "origin_thickness", precision: 10, scale: 2,                 null: false
@@ -151,15 +144,17 @@ ActiveRecord::Schema.define(version: 20140917061747) do
     t.integer  "creator_id",                                default: 0,     null: false
   end
 
+  add_index "primers", ["board_id", "hole"], name: "board_id", unique: true, using: :btree
+
   create_table "procedures", force: true do |t|
     t.string   "name",       limit: 100,                 null: false
     t.string   "remark",     limit: 100,                 null: false
     t.string   "flow_type",  limit: 100,                 null: false
     t.boolean  "board",                  default: false, null: false
-    t.boolean  "attachment",             default: false, null: false
     t.integer  "creator_id",                             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "table_name",             default: "",    null: false
   end
 
   create_table "reactions", force: true do |t|

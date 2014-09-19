@@ -37,6 +37,8 @@ func main() {
     m.Post("/orders", controllers.CreateOrder)
     m.Post("/boards", controllers.CreateBoard)
     m.Post("/flows", controllers.CreateFlow)
+    m.Get("/board_records/:sn", controllers.BoardRecords)
+    m.Put("/boards/:id/confirm", controllers.ConfirmBoard)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
 
     // for simple rest request

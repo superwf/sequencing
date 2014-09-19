@@ -2,6 +2,7 @@ class CreateBoards < ActiveRecord::Migration
   def change
     create_table :boards do |t|
       t.column :board_head_id, 'INT(11) UNSIGNED', null: false
+      t.column :procedure_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.column :number, 'INT(11) UNSIGNED', default: 1
       t.date :create_date, null: false
       t.string :status, null: false, default: 'new'

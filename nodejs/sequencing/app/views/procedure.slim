@@ -3,6 +3,8 @@
     .form-group
       input.form-control ng-model='record.name' required='' placeholder='{{"name" | translate}}' title='{{"name" | translate}}'
     .form-group
+      input.form-control ng-model='record.table_name' required='' placeholder='{{"table" | translate}}' title='{{"table" | translate}}'
+    .form-group
       input.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
     .form-group
       .col-md-3
@@ -15,12 +17,6 @@
         | {{'board' | translate}}
       .btn-group
         button.btn.btn-primary type='button' ng-model='record.board' btn-radio='k' ng-repeat='k in [false, true]'
-          | {{yesno[k] | translate}}
-    .form-group
-      .col-md-3
-        | {{'attachment' | translate}}
-      .btn-group
-        button.btn.btn-primary type='button' ng-model='record.attachment' btn-radio='k' ng-repeat='k in [false, true]'
           | {{yesno[k] | translate}}
     .form-group
       button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

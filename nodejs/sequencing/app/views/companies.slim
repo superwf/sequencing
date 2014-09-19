@@ -21,7 +21,7 @@ table.table.table-bordered.table-striped
       td ng-show='!inModal'
         a.btn.btn-success ng-href="/companies/{{r.id}}"
           | {{'edit' | translate}}
-        a.btn.btn-danger ng-confirm-click="delete(r.id, $index)" message='{{"confirm_operation" | translate}}'
+        a.btn.btn-danger ng-confirm-click="delete(r.id, $index)" message='{{"confirm" | translate}}'
           | {{'delete' | translate}}
 .navbar.text-center ng-class='{false: "navbar-fixed-bottom"}[inModal]'
   ng-include src="'/views/pager.html'"

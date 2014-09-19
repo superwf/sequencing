@@ -3,7 +3,6 @@ angular.module('sequencingApp').controller 'ProcedureCtrl', ['$scope', 'Procedur
   new_record = {
     flow_type: 'sample'
     board: false
-    attachment: false
   }
   if $routeParams.id == 'new'
     $scope.record = new_record

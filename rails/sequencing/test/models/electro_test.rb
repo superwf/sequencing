@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PrimerBoardTest < ActiveSupport::TestCase
+class ElectroTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

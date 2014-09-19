@@ -95,7 +95,7 @@ body {
   position: fixed;
   z-index: 9999;
   top: 0;
-  right: 0;
+  left: 0;
   width: auto;
 }
 ol.tree {
@@ -127,8 +127,10 @@ input[required] {
     background-color: #DEF8F0;
   }
 }
-td.hole {
-  padding: 5px;
+table.board.table-bordered {
+  td {
+    padding: 5px;
+  }
 }
 /* selectable */
 
@@ -137,4 +139,19 @@ table.new-order {
     cursor: pointer;
     color: green;
   }
+}
+
+/*the css below is for fix the input and btn is in front of the datepicker  in the /views/order.slim */
+form#orderForm {
+  .input-group .form-control{
+    z-index: 1;
+  }
+  .btn-group > .btn.active, .btn-group > .btn {
+    z-index: 1;
+  }
+}
+
+/* for status is ok*/
+.ok {
+  background-color: #a7f667;
 }

@@ -21,6 +21,9 @@ class CreatePrimers < ActiveRecord::Migration
       t.column :creator_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.timestamps
     end
+    [:client_id, :name].each do |a|
+      add_index :primers, a, name: a
+    end
     add_index :primers, [:board_id, :hole], name: :board_hole, unique: true
   end
 end

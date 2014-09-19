@@ -25,7 +25,7 @@ table.table.table-bordered.table-striped
       td
         | {{r.copy_number}}
       td
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}' ng-show='!inModal'
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}' ng-show='!inModal'
           | {{'delete' | translate}}
 .navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"
   ng-include src="'/views/pager.html'"

@@ -61,7 +61,7 @@ table.table.table-bordered.table-striped
       td
         | {{r.remark}}
       td ng-show='!inModal'
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}'
           | {{'delete' | translate}}
 .navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"
   ng-include src="'/views/pager.html'"

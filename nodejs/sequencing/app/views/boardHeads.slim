@@ -16,7 +16,7 @@ table.table.table-bordered.table-striped
       td
         a.btn.btn-success ng-click='edit(r)'
           | {{r.name}}
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm_operation" | translate}}'
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}'
           | {{'delete' | translate}}
       td
         | {{r.remark}}

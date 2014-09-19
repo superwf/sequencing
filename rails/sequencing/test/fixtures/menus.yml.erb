@@ -75,12 +75,6 @@ end
   name: client
   url: '/clients'
   parent_id: <%= client_company_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: blacklist
-  url: '/clients/blacklist'
-  parent_id: <%= client_company_id %>
 <% primer_setting_id = ::FactoryGirl.generate :menu %>
 -
   id: <%= primer_setting_id %>
@@ -120,12 +114,6 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: sample_board_template
-  url: '/sample_board_templates'
-  parent_id: <%= order_setting_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
   name: order
   url: '/orders'
   parent_id: <%= order_setting_id %>
@@ -144,8 +132,8 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: sample_typeset
-  url: '/samples/typesetting'
+  name: sample_board
+  url: '/boards?board_type=sample&status=unfinish'
   parent_id: <%= sample_flow_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -

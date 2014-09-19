@@ -2,15 +2,17 @@
 angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'SequencingConst', '$routeParams', 'Modal', '$modal', 'BoardHead', 'Client', 'Vector', 'Primer', '$rootScope', 'Board', ($scope, Order, SequencingConst, $routeParams, Modal, $modal, BoardHead, Client, Vector, Primer, $rootScope, Board) ->
   $scope.transportCondition = SequencingConst.transportCondition
 
+  $scope.sample_board = {}
   getBoardHead = ->
     BoardHead.all {all: true, board_type: 'sample', available: 1}, (data)->
       $scope.board_heads = data
-      $scope.board_number = 1
+      $scope.sample_board.number = 1
       if data.length == 0
         $rootScope.$broadcast 'event:notacceptable', {hint: 'sample type not_exist'}
   if $routeParams.id == 'new'
     $scope.sample_number = 1
-    $scope.record = {create_date: SequencingConst.date2string(), number: 1}
+    $scope.record = {create_date: SequencingConst.date2string(), number: 1, urgent: false, is_test: false}
+    $scope.sample_board.create_date = $scope.record.create_date
     $scope.board_create_date = SequencingConst.date2string()
     $scope.inModal = false
     getBoardHead()
@@ -24,15 +26,24 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       $scope.record = Order.get id: $routeParams.id
 
   # select board_head
-  $scope.$watch 'record.board_head', ->
-    if $scope.record.board_head
-      $scope.record.board_head_id = $scope.record.board_head.id
-      $scope.cols = $scope.record.board_head.cols.split(',')
-      $scope.rows = $scope.record.board_head.rows.split(',')
-      board = {board_head_id: $scope.record.board_head_id, create_date: $scope.board_create_date, number: $scope.board_number}
+  $scope.$watch 'sample_board.board_head.name + sample_board.number + sample_board.create_date', ->
+    if $scope.sample_board.board_head
+      $scope.samples = []
+      angular.element(".ui-selected").removeClass("ui-selected")
+      $scope.record.board_head_id = $scope.sample_board.board_head.id
+      $scope.cols = $scope.sample_board.board_head.cols.split(',')
+      $scope.rows = $scope.sample_board.board_head.rows.split(',')
+      board = {board_head_id: $scope.record.board_head_id, create_date: $scope.sample_board.create_date, number: $scope.sample_board.number}
       board = SequencingConst.copyWithDate(board, 'create_date')
       Board.create board, (data)->
         $scope.board = data
+        getBoardRecords($scope.board.sn)
+  getBoardRecords = (sn)->
+    Board.records sn: sn, (data)->
+      if data
+        $scope.boardRecords = {}
+        angular.forEach data, (d)->
+          $scope.boardRecords[d.hole] = d.name
 
   # input sample name
   $scope.samples = {}
@@ -42,7 +53,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       number = $scope.sample.sample_number
       angular.forEach $scope.cols, (c)->
         angular.forEach $scope.rows, (r)->
-          if angular.element('td[hole=' + c + r + ']').hasClass('ui-selected')
+          if angular.element('td.hole[hole=' + c + r + ']').hasClass('ui-selected')
             name = ''
             if $scope.sample.sample_prefix
               name = name + $scope.sample.sample_prefix
@@ -64,7 +75,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       if name
         angular.forEach $scope.cols, (c)->
           angular.forEach $scope.rows, (r)->
-            if angular.element('td[hole=' + c + r + ']').hasClass('ui-selected')
+            if angular.element('td.hole[hole=' + c + r + ']').hasClass('ui-selected')
               if !$scope.samples[c]
                 $scope.samples[c] = {}
               if !$scope.samples[c][r]
@@ -175,7 +186,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
         angular.forEach v, (v1, r)->
           if v1.name.length > 0 && v1.reactions && v1.reactions.length > 0
             sample = v1
-            sample.hole = r + c
+            sample.hole = c + r
             sample.board_id = $scope.board.id
             samples.push v1
       if samples.length == 0
@@ -186,7 +197,10 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
         Order.create record, (data)->
           if data.id > 0
             $scope.record.id = data.id
-        , (err)->
-          #$rootScope.$broadcast 'event:notacceptable', err.data
+            $scope.samples = []
+            getBoardRecords($scope.board.sn)
+            angular.element(".ui-selected").removeClass("ui-selected")
+        #, (err)->
+        #  $rootScope.$broadcast 'event:notacceptable', err.data
   null
 ]

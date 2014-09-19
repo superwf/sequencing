@@ -3,13 +3,13 @@
   label style='float: left;'
     | {{'sample' | translate}}{{'type' | translate}}
   .btn-group
-    button.btn.btn-primary type='button' ng-model='record.board_head' btn-radio='h' ng-repeat='h in board_heads' required=''
+    button.btn.btn-primary type='button' ng-model='sample_board.board_head' btn-radio='h' ng-repeat='h in board_heads' required=''
       | {{h.name}}
 .form-group.col-md-1
-  input.form-control ng-model='board_number' placeholder='{{"board" | translate}}{{"number" | translate}}' title='{{"board" | translate}}{{"number" | translate}}' type='number' required=''
+  input.form-control ng-model='sample_board.number' placeholder='{{"board" | translate}}{{"number" | translate}}' title='{{"board" | translate}}{{"number" | translate}}' type='number' required=''
 .form-group.col-md-2
-  input.form-control ng-model='board_create_date' placeholder='{{"board" | translate}}{{"date" | translate}}' title='{{"board" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
-.form-group.col-md-12 ng-show='record.board_head.name'
+  input.form-control ng-model='sample_board.create_date' placeholder='{{"board" | translate}}{{"date" | translate}}' title='{{"board" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+.form-group.col-md-12 ng-show='sample_board.board_head.name'
   .col-md-4
     .input-group
       input.form-control style='width: 9em;' placeholder='{{"sample" | translate}}{{"prefix" | translate}}' title='{{"sample" | translate}}{{"prefix" | translate}}' ng-model='sample.sample_prefix'
@@ -19,23 +19,23 @@
     .input-group
       input.form-control ng-model='vector' placeholder='{{"vector" | translate}}' title='{{"vector" | translate}}' ng-focus='selectVector()'
       span.input-group-btn
-        button.btn.btn-default type='button' ng-click='addVector()'
+        button.btn.btn-default type='button' ng-click='addVector()' title='{{"add" | translate}}{{"vector" | translate}}'
           i.glyphicon.glyphicon-plus
   .col-md-2
     .input-group
       input.form-control ng-model='primer' placeholder='{{"primer" | translate}}' title='{{"primer" | translate}}' ng-focus='selectPrimer()' ng-disabled='!record.client_id'
       span.input-group-btn
-        button.btn.btn-default type='button' ng-click='addPrimer()'
+        button.btn.btn-default type='button' ng-click='addPrimer()' title='{{"add" | translate}}{{"primer" | translate}}'
           i.glyphicon.glyphicon-plus
   .col-md-1
     .input-group
       span.input-group-btn
-        button.btn.btn-default type='button' ng-click='clearSample()'
+        button.btn.btn-default type='button' ng-click='clearSample()' title='{{"remove" | translate}}{{"hole" | translate}}'
           i.glyphicon.glyphicon-remove
   .col-md-12.text-center
     h3
       | {{board.sn}}
-    table.new-order.table-bordered selectable='' selectable-options='{filter: "td.hole", cancel: "span.vector,span.primer"}'
+    table.board.new-order.table-bordered selectable='' selectable-options='{filter: "td.hole", cancel: "span.vector,span.primer"}'
       tr
         th
         th ng-repeat='c in cols'
@@ -43,7 +43,8 @@
       tr ng-repeat='r in rows'
         td
           | {{r}}
-        td.hole ng-repeat='c in cols' hole='{{c+r}}'
+        td ng-repeat='c in cols' hole='{{c+r}}' ng-class="{true: 'hole'}[!boardRecords[c+r]]"
+          | {{boardRecords[c+r]}}
           span ng-show='samples[c][r].name'
             | {{'sample' | translate}} : {{samples[c][r].name}}
             br

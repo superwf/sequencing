@@ -74,7 +74,7 @@ angular.module('sequencingApp', [
     .when '/procedures/:id',
       templateUrl: 'views/procedure.html',
       controller: 'ProcedureCtrl'
-    .when '/:board_type/boards',
+    .when '/boards',
       templateUrl: 'views/boards.html',
       controller: 'BoardsCtrl'
     .when '/boards/:id',

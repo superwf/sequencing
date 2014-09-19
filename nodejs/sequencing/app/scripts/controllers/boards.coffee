@@ -1,8 +1,7 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$routeParams', ($scope, Board, Modal, $modal, $routeParams) ->
-  $scope.board_type = $routeParams.board_type
-  $scope.searcher = {board_type: $scope.board_type}
+angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', ($scope, Board, Modal, $modal, $location) ->
+  $scope.searcher = $location.search()
   $scope.search = ->
     Board.query $scope.searcher, (data) ->
       angular.forEach data.records, (d)->
@@ -17,11 +16,19 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
     Board.delete {id: id}, ()->
       $scope.records.splice index, 1
 
-  $scope.edit = (record)->
+  $scope.show = (record)->
     Modal.record = record
     Modal.modal = $modal.open {
-      templateUrl: '/views/primerBoard.html'
+      templateUrl: '/views/boardHole.html'
       controller: 'BoardCtrl'
     }
+
+  $scope.confirm = (board)->
+    Board.confirm id: board.id, ->
+      board.status = 'run'
+
+  $scope.run = (board)->
+    board = Board.get id: board.id
+    'run'
   null
 ]
