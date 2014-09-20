@@ -2,6 +2,6 @@
 
 angular.module('sequencingApp').factory 'Modal', [ ()->
   {
-    modal: []
+    modal: null
   }
 ]

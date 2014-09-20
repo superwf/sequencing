@@ -29,11 +29,12 @@ ActiveRecord::Schema.define(version: 20140919074313) do
   add_index "board_heads", ["name", "board_type"], name: "board_type_name", unique: true, using: :btree
 
   create_table "boards", force: true do |t|
-    t.integer "board_head_id",                         null: false
+    t.integer "board_head_id",                            null: false
+    t.integer "procedure_id",             default: 0,     null: false
     t.integer "number",                   default: 1
-    t.date    "create_date",                           null: false
-    t.string  "status",                   default: "", null: false
-    t.string  "sn",            limit: 50,              null: false
+    t.date    "create_date",                              null: false
+    t.string  "status",                   default: "new", null: false
+    t.string  "sn",            limit: 50,                 null: false
   end
 
   add_index "boards", ["board_head_id"], name: "board_head_id", using: :btree
@@ -41,15 +42,15 @@ ActiveRecord::Schema.define(version: 20140919074313) do
   add_index "boards", ["sn"], name: "sn", unique: true, using: :btree
 
   create_table "clients", force: true do |t|
-    t.string   "name",       null: false
-    t.integer  "company_id", null: false
-    t.string   "email",      null: false
-    t.text     "remark"
+    t.string   "name",       default: "", null: false
+    t.integer  "company_id", default: 0,  null: false
+    t.string   "email",      default: "", null: false
+    t.string   "address",    default: "", null: false
+    t.string   "tel",        default: "", null: false
+    t.text     "remark",                  null: false
+    t.integer  "creator_id",              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "creator_id", null: false
-    t.string   "address",    null: false
-    t.string   "tel",        null: false
   end
 
   add_index "clients", ["company_id"], name: "company_id", using: :btree
@@ -57,12 +58,13 @@ ActiveRecord::Schema.define(version: 20140919074313) do
   add_index "clients", ["name"], name: "name", using: :btree
 
   create_table "companies", force: true do |t|
-    t.string   "name",                     null: false
-    t.string   "code",                     null: false
-    t.integer  "parent_id",  default: 0,   null: false
-    t.string   "price",      default: "0", null: false
-    t.string   "full_name",                null: false
-    t.integer  "creator_id", default: 0,   null: false
+    t.string   "name",                                              null: false
+    t.string   "code",                                              null: false
+    t.integer  "parent_id",                           default: 0,   null: false
+    t.decimal  "price",      precision: 10, scale: 2, default: 0.0, null: false
+    t.string   "full_name",                                         null: false
+    t.string   "full_code",                                         null: false
+    t.integer  "creator_id",                          default: 0,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -72,23 +74,25 @@ ActiveRecord::Schema.define(version: 20140919074313) do
   add_index "companies", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "electros", force: true do |t|
-    t.integer  "board_id",   default: 0,  null: false
-    t.string   "remark",     default: ""
-    t.integer  "creator_id", default: 0,  null: false
+    t.integer  "board_id",   default: 0,    null: false
+    t.string   "remark",     default: "ok"
+    t.integer  "creator_id", default: 0,    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "electros", ["board_id"], name: "board_id", using: :btree
 
   create_table "flows", force: true do |t|
     t.integer "board_head_id", null: false
     t.integer "procedure_id",  null: false
   end
 
-  add_index "flows", ["board_head_id", "procedure_id"], name: "board_head_id_2", unique: true, using: :btree
+  add_index "flows", ["board_head_id", "procedure_id"], name: "board_procedure", unique: true, using: :btree
   add_index "flows", ["procedure_id"], name: "procedure_id", using: :btree
 
   create_table "menus", force: true do |t|
-    t.string  "name"
+    t.string  "name",      default: "", null: false
     t.string  "url",       default: "", null: false
     t.integer "parent_id", default: 0,  null: false
     t.text    "remark"
@@ -97,8 +101,8 @@ ActiveRecord::Schema.define(version: 20140919074313) do
   add_index "menus", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "menus_roles", id: false, force: true do |t|
-    t.integer "menu_id"
-    t.integer "role_id"
+    t.integer "menu_id", null: false
+    t.integer "role_id", null: false
   end
 
   add_index "menus_roles", ["role_id", "menu_id"], name: "role_menu", unique: true, using: :btree
@@ -112,7 +116,7 @@ ActiveRecord::Schema.define(version: 20140919074313) do
     t.boolean  "urgent",              default: false, null: false
     t.boolean  "is_test",             default: false, null: false
     t.string   "transport_condition", default: "",    null: false
-    t.string   "status",              default: "",    null: false
+    t.string   "status",              default: "new", null: false
     t.text     "remark"
     t.integer  "creator_id",                          null: false
     t.datetime "created_at"
@@ -125,37 +129,39 @@ ActiveRecord::Schema.define(version: 20140919074313) do
 
   create_table "primers", force: true do |t|
     t.string   "name",                                                      null: false
-    t.decimal  "origin_thickness", precision: 10, scale: 2,                 null: false
+    t.decimal  "origin_thickness", precision: 10, scale: 2, default: 5.0,   null: false
     t.string   "annealing",                                 default: "",    null: false
-    t.string   "seq",                                       default: "",    null: false
+    t.text     "seq"
     t.integer  "client_id",                                 default: 0,     null: false
     t.integer  "board_id",                                  default: 0,     null: false
     t.string   "hole",                                      default: "",    null: false
-    t.string   "status",                                    default: "",    null: false
+    t.string   "status",                                    default: "ok",  null: false
     t.string   "store_type",                                default: "",    null: false
     t.date     "create_date",                                               null: false
     t.date     "expire_date",                                               null: false
     t.date     "operate_date",                                              null: false
     t.boolean  "need_return",                               default: false, null: false
     t.boolean  "available",                                 default: true,  null: false
-    t.string   "remark",                                                    null: false
+    t.text     "remark"
+    t.integer  "creator_id",                                default: 0,     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "creator_id",                                default: 0,     null: false
   end
 
-  add_index "primers", ["board_id", "hole"], name: "board_id", unique: true, using: :btree
+  add_index "primers", ["board_id", "hole"], name: "board_hole", unique: true, using: :btree
+  add_index "primers", ["client_id"], name: "client_id", using: :btree
+  add_index "primers", ["name"], name: "name", using: :btree
 
   create_table "procedures", force: true do |t|
-    t.string   "name",       limit: 100,                 null: false
-    t.string   "remark",     limit: 100,                 null: false
-    t.string   "flow_type",  limit: 100,                 null: false
-    t.boolean  "board",                  default: false, null: false
-    t.integer  "creator_id",                             null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "table_name",             default: "",    null: false
+    t.string  "name",                   default: "",       null: false
+    t.string  "table_name",             default: "",       null: false
+    t.string  "remark",                 default: "",       null: false
+    t.string  "flow_type",  limit: 100, default: "sample", null: false
+    t.boolean "board",                  default: false,    null: false
+    t.integer "creator_id",             default: 0,        null: false
   end
+
+  add_index "procedures", ["name"], name: "name", unique: true, using: :btree
 
   create_table "reactions", force: true do |t|
     t.integer  "sample_id",               null: false
@@ -178,13 +184,6 @@ ActiveRecord::Schema.define(version: 20140919074313) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.text     "remark"
-  end
-
-  create_table "sample_heads", force: true do |t|
-    t.string  "name",          limit: 100,                 null: false
-    t.string  "remark",        limit: 100, default: "",    null: false
-    t.boolean "auto_precheck",             default: false, null: false
-    t.boolean "available",                 default: true,  null: false
   end
 
   create_table "samples", force: true do |t|
@@ -249,9 +248,6 @@ ActiveRecord::Schema.define(version: 20140919074313) do
     t.datetime "updated_at"
   end
 
-  add_index "vectors", ["length"], name: "length", using: :btree
   add_index "vectors", ["name"], name: "name", using: :btree
-  add_index "vectors", ["producer"], name: "producer", using: :btree
-  add_index "vectors", ["resistance"], name: "resistance", using: :btree
 
 end

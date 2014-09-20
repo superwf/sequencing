@@ -43,8 +43,6 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetClients(req)
   case "boardHeads":
     return models.GetBoardHeads(req)
-  case "primerBoards":
-    return models.GetPrimerBoards(req)
   case "vectors":
     return models.GetVectors(req)
   case "primers":
@@ -90,8 +88,6 @@ func initRecord(resources string, id int) models.RecordCreator {
     return &models.Client{Id: id}
   case "boardHeads":
     return &models.BoardHead{Id: id}
-  case "primerBoards":
-    return &models.PrimerBoard{Id: id}
   case "vectors":
     return &models.Vector{Id: id}
   case "primers":

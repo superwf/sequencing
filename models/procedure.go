@@ -44,15 +44,15 @@ func GetProcedures(req *http.Request)([]Procedure, int){
   }
   board_head_id := req.FormValue("board_head_id")
   if board_head_id != "" {
-    db = db.Joins("INNER JOIN flows ON flows.procedure_id = procedures.id").Where("flows.board_head_id = ?", board_head_id)
+    db = db.Joins("INNER JOIN flows ON flows.procedure_id = procedures.id").Where("flows.board_head_id = ?", board_head_id).Order("flows.id")
   }
   var count int
-  db.Count(&count)
   records := []Procedure{}
   all := req.FormValue("all")
   if all != "" {
     db.Find(&records)
   } else {
+    db.Count(&count)
     db.Limit(PerPage).Offset(page * PerPage).Find(&records)
   }
   return records, count

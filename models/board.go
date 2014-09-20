@@ -45,7 +45,7 @@ func (record *Board)BeforeSave() error {
 
 func GetBoards(req *http.Request)([]map[string]interface{}, int){
   page := getPage(req)
-  db := Db.Table("boards").Order("boards.id DESC").Select("boards.id, boards.sn, boards.create_date, boards.board_head_id, boards.status, board_heads.name, board_heads.board_type").Where("board_heads.available = 1").Joins("INNER JOIN board_heads ON boards.board_head_id = board_heads.id")
+  db := Db.Table("boards").Order("boards.id DESC").Select("boards.id, boards.sn, boards.create_date, boards.board_head_id, boards.procedure_id, boards.status, board_heads.name, board_heads.board_type").Where("board_heads.available = 1").Joins("INNER JOIN board_heads ON boards.board_head_id = board_heads.id")
   sn := req.FormValue("sn")
   if sn != "" {
     db = db.Where("boards.sn LIKE ?", sn)
@@ -75,15 +75,16 @@ func GetBoards(req *http.Request)([]map[string]interface{}, int){
   rows, _ := db.Limit(PerPage).Offset(page * PerPage).Rows()
   var result []map[string]interface{}
   for rows.Next() {
-    var id, board_head_id int
+    var id, board_head_id, procedure_id int
     var sn, status, board_head, board_type string
     var create_date time.Time
-    rows.Scan(&id, &sn, &create_date, &board_head_id, &status, &board_head, &board_type)
+    rows.Scan(&id, &sn, &create_date, &board_head_id, &procedure_id, &status, &board_head, &board_type)
     board := Board{Id: id, BoardHeadId: board_head_id}
     d := map[string]interface{}{
       "id": id,
       "sn": sn,
       "board_head_id": board_head_id,
+      "procedure_id": procedure_id,
       "create_date": create_date,
       "status": status,
       "board_head": board_head,
@@ -131,14 +132,20 @@ func (board Board)RecordsCount()(int) {
 
 // when confirm, change status from new to run
 // and get the first procedure to the board
-func (board *Board)Confirm() error{
+func (board *Board)Confirm()(Procedure, error){
+  procedure := Procedure{}
   if board.Status == "new" {
     flow := Flow{}
-    Db.WHere("board_head_id = ?", board.BoardHeadId).Order("flows.id").First(&flow)
+    Db.Where("board_head_id = ?", board.BoardHeadId).Order("flows.id").First(&flow)
+    if flow.Id == 0 {
+      return procedure, errors.New("flow not_exist")
+    }
+    procedure.Id = flow.ProcedureId
+    Db.First(&procedure)
     Db.Model(board).UpdateColumns(Board{Status: "run", ProcedureId: flow.ProcedureId})
-    return nil
+    return procedure, nil
   } else {
-    return errors.New("status error")
+    return procedure, errors.New("status error")
   }
 }
 
@@ -150,6 +157,6 @@ func (board Board)Procedures()([]Procedure) {
 
 func (board Board)NextProcedure()(Procedure) {
   procedure := Procedure{}
-  Db.Table("procedures").Joins("INNER JOIN flows ON procedures.id = flows.procedure_id").Where("flows.board_head_id = ? AND flows.board_head_id > ?", board.ProcedureId, board.BoardHeadId).Order("flows.id").First(&procedures)
+  Db.Table("procedures").Joins("INNER JOIN flows ON procedures.id = flows.procedure_id").Where("flows.board_head_id = ? AND flows.board_head_id > ?", board.ProcedureId, board.BoardHeadId).Order("flows.id").First(&procedure)
   return procedure
 }

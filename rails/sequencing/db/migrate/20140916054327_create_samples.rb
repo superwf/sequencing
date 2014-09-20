@@ -19,6 +19,6 @@ class CreateSamples < ActiveRecord::Migration
     [:order_id, :vector_id].each do |i|
       add_index :samples, i, name: i
     end
-    add_index :samples, [:sample_board_id, :hole], name: :board_hole
+    add_index :samples, [:board_id, :hole], name: :board_hole
   end
 end

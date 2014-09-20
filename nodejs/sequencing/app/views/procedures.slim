@@ -4,7 +4,8 @@ table.table.table-bordered.table-striped
       th ng-bind="'name' | translate"
       th ng-bind="'table' | translate"
       th ng-bind="'remark' | translate"
-      th ng-bind="'flow_type' | translate"
+      th
+        | {{'flow' | translate}}{{'type' | translate}}
       th ng-bind="'board' | translate"
       th ng-show='!inModal'
         a.btn.btn-success ng-href='/procedures/new' ng-bind="'create' | translate"

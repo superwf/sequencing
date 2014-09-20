@@ -40,5 +40,7 @@
           tr ng-repeat="r in procedures"
             td
               | {{r.name}}
+              a.btn.btn-danger ng-confirm-click='deleteProcedure(r.id, $index)' message='{{"confirm" | translate}}'
+                | {{'delete' | translate}}
     .form-group
       button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

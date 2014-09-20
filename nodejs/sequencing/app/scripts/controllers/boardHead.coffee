@@ -18,7 +18,7 @@ angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routePa
       BoardHead.create $scope.record, (data)->
         $scope.record = data
     if Modal.modal
-      Modal.modal.dismiss 'cancel'
+      Modal.modal.close 'ok'
 
   $scope.showProcedure = ()->
     Modal.resource = Procedure
@@ -37,5 +37,9 @@ angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routePa
     if $scope.procedure
       Flow.create {procedure_id: $scope.procedure.id, board_head_id: $scope.record.id}, (data)->
         $scope.procedures.push $scope.procedure
+
+  $scope.deleteProcedure = (id, index)->
+    Flow.delete {id: id}, ()->
+      $scope.procedures.splice index, 1
   null
 ]

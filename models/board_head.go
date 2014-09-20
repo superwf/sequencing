@@ -53,13 +53,13 @@ func GetBoardHeads(req *http.Request)([]BoardHead, int){
     db = db.Where("available = ?", available)
   }
   var count int
-  db.Count(&count)
   records := []BoardHead{}
   all := req.FormValue("all")
-  if len(all) > 0 {
+  if all != "" {
     db.Find(&records)
   } else {
     db.Limit(PerPage).Offset(page * PerPage).Find(&records)
+    db.Count(&count)
   }
   return records, count
 }

@@ -12,6 +12,6 @@ class CreateReactions < ActiveRecord::Migration
     [:sample_id, :primer_id].each do |i|
       add_index :reactions, i, name: i
     end
-    add_index :reactions, [:reaction_board_id, :hole], name: :board_hole
+    add_index :reactions, [:board_id, :hole], name: :board_hole
   end
 end

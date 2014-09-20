@@ -19,7 +19,7 @@ table.table.table-bordered.table-striped
         a.btn.btn-success ng-confirm-click='confirm(r)' message='{{"confirm" | translate}}{{"typeset" | translate}}' ng-show='r.status == "new" && r.count > 0'
           | {{'confirm' | translate}}
         a.btn.btn-success ng-click='run(r)' message='{{"run" | translate}}' ng-show='r.status == "run"'
-          | {{'run' | translate}}
+          | {{r.procedure.name}}
       td
         | {{r.board_head}}
       td
