@@ -51,3 +51,10 @@ func GetBoard(params martini.Params, r render.Render) {
   models.Db.First(&record)
   r.JSON(http.StatusOK, record)
 }
+
+func BoardNextProcedure(params martini.Params, r render.Render) {
+  id, _ := strconv.Atoi(params["id"])
+  board := models.Board{Id: id}
+  procedure := board.NextProcedure()
+  r.JSON(http.StatusOK, procedure)
+}

@@ -1,0 +1,15 @@
+.row
+  .col-md-10.col-md-offset-1.well
+    form.form-horizontal.text-center name='form'
+      .form-group.col-md-6
+        input.form-control ng-model='record.code' placeholder='{{"code" | translate}}' title='{{"code" | translate}}' required=''
+      .form-group.col-md-6
+        label
+          | {{'available' | translate}}
+        .btn-group
+          button.btn.btn-primary type='button' ng-model='record.available' btn-radio='n' ng-repeat='n in [true, false]' required=''
+            | {{yesno[n] | translate}}
+      .form-group.col-md-12
+        textarea.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
+      .form-group.col-md-12
+        button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

@@ -37,10 +37,12 @@ func main() {
     m.Post("/orders", controllers.CreateOrder)
     m.Post("/boards", controllers.CreateBoard)
     m.Post("/flows", controllers.CreateFlow)
+    m.Delete("/flows/:id", controllers.DeleteFlow)
     m.Get("/board_records/:sn", controllers.BoardRecords)
     m.Put("/boards/:id/confirm", controllers.ConfirmBoard)
+    m.Put("/boards/:id/nextProcedure", controllers.BoardNextProcedure)
     m.Get("/boards/:id", controllers.GetBoard)
-    m.Delete("/flows/:id", controllers.DeleteFlow)
+    m.Post("/plasmids", controllers.CreatePlasmid)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
 
     // for simple rest request

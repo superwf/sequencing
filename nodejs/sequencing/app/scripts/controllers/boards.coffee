@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', 'Procedure', ($scope, Board, Modal, $modal, $location, Procedure) ->
+angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', 'Procedure', 'SequencingConst', ($scope, Board, Modal, $modal, $location, Procedure, SequencingConst) ->
   $scope.searcher = $location.search()
   $scope.search = ->
     Board.query $scope.searcher, (data) ->
@@ -33,7 +33,15 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
       board.procedure = procedure
 
   $scope.run = (board)->
-    board = Board.get id: board.id
-    'run'
+    Modal.board = board
+    table_name = board.procedure.table_name
+    modal = $modal.open {
+      templateUrl: '/views/' + table_name + '.html'
+      controller: SequencingConst.camelcase(table_name) + 'Ctrl'
+    }
+    modal.result.then ->
+      board.procedure = Board.nextProcedure id: board.id
+      Modal.board = null
+      null
   null
 ]

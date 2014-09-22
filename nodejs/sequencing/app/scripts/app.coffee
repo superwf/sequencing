@@ -80,6 +80,9 @@ angular.module('sequencingApp', [
     .when '/boards/:id',
       templateUrl: 'views/board.html',
       controller: 'BoardCtrl'
+    .when '/plasmidCodes',
+      templateUrl: 'views/plasmidCodes.html',
+      controller: 'PlasmidCodesCtrl'
     .otherwise
       redirectTo: '/'
   $httpProvider.interceptors.push 'notifyHttpInterceptor'

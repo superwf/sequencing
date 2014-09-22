@@ -155,8 +155,43 @@ func (board Board)Procedures()([]Procedure) {
   return procedures
 }
 
-func (board Board)NextProcedure()(Procedure) {
-  procedure := Procedure{}
-  Db.Table("procedures").Joins("INNER JOIN flows ON procedures.id = flows.procedure_id").Where("flows.board_head_id = ? AND flows.board_head_id > ?", board.ProcedureId, board.BoardHeadId).Order("flows.id").First(&procedure)
-  return procedure
+// check current procedure data exist
+// if exist return next procedure and update procedure_id to the next
+// else return the current procedure
+func (board *Board)NextProcedure()(Procedure){
+  if board.BoardHeadId == 0 {
+    Db.First(board)
+  }
+  currentProcedure := Procedure{Id: board.ProcedureId}
+  Db.First(&currentProcedure)
+  var existCount int
+  if currentProcedure.Board {
+    Db.Table(currentProcedure.TableName).Where("board_id = ?", board.Id).Count(&existCount)
+    if existCount == 0 {
+      return currentProcedure
+    }
+  } else {
+    // plasmids or prechecks or qualities
+    procedureTable := currentProcedure.TableName
+    // samples or reactions
+    recordTable := currentProcedure.FlowType + "s"
+    Db.Table(procedureTable).Joins("INNER JOIN samples ON " + procedureTable + "." + currentProcedure.FlowType + "_id = " + recordTable + ".id").Where(".board_id = ?", board.Id).Count(&existCount)
+    var recordCount int
+    Db.Table(recordTable).Where("board_id = ?", board.Id).Count(&recordCount)
+    if existCount < recordCount {
+      return currentProcedure
+    }
+  }
+  flow := Flow{}
+  Db.Where("board_head_id = ? AND procedure_id = ?", board.BoardHeadId, board.ProcedureId).First(&flow)
+  nextFlow := Flow{}
+  Db.Where("board_head_id = ? AND flow_id > ?", board.BoardHeadId, flow.Id).First(&nextFlow)
+  nextProcedure := Procedure{}
+  Db.Table("procedures").Joins("INNER JOIN flows ON flows.procedure_id = procedures.id").Where("flows.board_head_id = ? AND flows.id > ?", board.BoardHeadId, nextFlow.Id).First(&nextProcedure)
+  if nextProcedure.Id > 0 {
+    Db.Model(board).UpdateColumn("procedure_id", nextProcedure.Id)
+  } else {
+    Db.Model(board).UpdateColumns(Board{ProcedureId: 0, Status: "finish"})
+  }
+  return nextProcedure
 }

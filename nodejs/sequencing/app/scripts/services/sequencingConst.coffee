@@ -29,3 +29,7 @@ angular.module('sequencingApp').factory 'SequencingConst', ->
     if d.length == 1
       d = '0' + d
     time.getFullYear() + '-' + m + '-' + d
+  camelcase: (string)->
+    string = string.charAt(0).toUpperCase() + string.slice(1)
+    string.replace /_(.)/g, (match, group1)->
+      group1.toUpperCase()

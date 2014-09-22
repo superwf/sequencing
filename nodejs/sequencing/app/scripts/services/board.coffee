@@ -8,5 +8,6 @@ angular.module('sequencingApp').factory 'Board', ['SequencingConst', '$resource'
     query: {isArray: false, method: 'GET'}
     records: {isArray: true, method: 'GET', url: SequencingConst.api + '/board_records/:sn'}
     confirm: {method: 'PUT', url: SequencingConst.api + '/boards/:id/confirm'}
+    nextProcedure: {method: 'PUT', url: SequencingConst.api + '/boards/:id/nextProcedure'}
   }
 ]

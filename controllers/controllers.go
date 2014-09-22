@@ -55,6 +55,10 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetReactions(req)
   case "boards":
     return models.GetBoards(req)
+  case "plasmidCodes":
+    return models.GetPlasmidCodes(req)
+  case "plasmids":
+    return models.GetPlasmids(req)
   default:
     return nil, 0
   }
@@ -98,6 +102,12 @@ func initRecord(resources string, id int) models.RecordCreator {
     return &models.Sample{Id: id}
   case "reactions":
     return &models.Reaction{Id: id}
+  case "electros":
+    return &models.Electro{Id: id}
+  case "shakeBacs":
+    return &models.ShakeBac{Id: id}
+  case "plasmidCodes":
+    return &models.PlasmidCode{Id: id}
   default:
     return nil
   }

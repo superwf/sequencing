@@ -22,6 +22,7 @@ angular.module('sequencingApp').controller 'CompanyCtrl', ['$scope', 'Company', 
         $scope.record.id = data.id
     $scope.$close 'ok'
     Modal.record = null
+    null
   $scope.showParent = ()->
     Modal.resource = Company
     modal = $modal.open {
@@ -34,6 +35,7 @@ angular.module('sequencingApp').controller 'CompanyCtrl', ['$scope', 'Company', 
     modal.result.then (data)->
       $scope.record.parent = data.name
       $scope.record.parent_id = data.id
+      null
 
   null
 ]

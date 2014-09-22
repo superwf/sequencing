@@ -6,7 +6,7 @@
   board: true
 -
   name: 摇菌
-  table_name: shakes
+  table_name: shake_bacs
   flow_type: sample
   board: true
 -
