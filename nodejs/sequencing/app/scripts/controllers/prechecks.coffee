@@ -1,9 +1,8 @@
 'use strict'
-
-angular.module('sequencingApp').controller 'PlasmidsCtrl', ['$scope', 'Modal', 'SequencingConst', 'Plasmid', 'PlasmidCode', 'BoardHead', ($scope, Modal, SequencingConst, Plasmid, PlasmidCode, BoardHead) ->
+angular.module('sequencingApp').controller 'PrechecksCtrl', ['$scope', 'Modal', 'SequencingConst', 'Precheck', 'PrecheckCode', 'BoardHead', ($scope, Modal, SequencingConst, Precheck, PrecheckCode, BoardHead) ->
   $scope.board = Modal.board
   $scope.codes = {}
-  PlasmidCode.all all: true, (codes)->
+  PrecheckCode.all all: true, (codes)->
     angular.forEach codes, (code)->
       $scope.codes[code.id] = code
 
@@ -21,7 +20,7 @@ angular.module('sequencingApp').controller 'PlasmidsCtrl', ['$scope', 'Modal', '
   BoardHead.get id: Modal.board.board_head_id, (head)->
     $scope.cols = head.cols.split(',')
     $scope.rows = head.rows.split(',')
-  Plasmid.all all: true, board_id: $scope.board.id, (records)->
+  Precheck.all all: true, board_id: $scope.board.id, (records)->
     if records
       $scope.records = {}
       angular.forEach records, (record)->
@@ -33,6 +32,6 @@ angular.module('sequencingApp').controller 'PlasmidsCtrl', ['$scope', 'Modal', '
       records.push
         sample_id: record.sample_id
         code_id: record.code_id
-    Plasmid.create records, ->
+    Precheck.create records, ->
       $scope.$close 'ok'
 ]

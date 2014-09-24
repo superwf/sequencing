@@ -15,7 +15,7 @@
         label
           | {{'board' | translate}}{{'type' | translate}}
         .btn-group
-          button.btn.btn-primary type='button' ng-model='primer_head' btn-radio='h' ng-repeat='h in primer_heads' required=''
+          button.btn.btn-primary type='button' ng-model='obj.primer_head' btn-radio='h' ng-repeat='h in primer_heads' required=''
             | {{h.name}}
       .col-md-12
       .form-group.col-md-6
@@ -41,10 +41,11 @@
           button.btn.btn-primary type='button' ng-model='record.need_return' btn-radio='n' ng-repeat='n in [false, true]'
             | {{yesno[n] | translate}}
       .form-group.col-md-6
-        label for='continue'
+        label
           | {{'continue' | translate}}{{'create' | translate}}
-        .col-md-1
-          input#continue ng-model='continue' type='checkbox'
+        .btn-group
+          button.btn.btn-primary type='button' ng-model='obj.continue' btn-radio='n' ng-repeat='n in [false, true]'
+            | {{yesno[n] | translate}}
       .form-group.col-md-12
         input.form-control ng-model='record.seq' placeholder='{{"seq" | translate}}' title='{{"seq" | translate}}'
       .form-group.col-md-12

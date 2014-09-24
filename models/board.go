@@ -5,6 +5,7 @@ import(
   "strconv"
   "errors"
   "net/http"
+  "strings"
 )
 
 type Board struct {
@@ -130,8 +131,9 @@ func (board Board)RecordsCount()(int) {
   return count
 }
 
-// when confirm, change status from new to run
+// when confirm, change board status from new to run
 // and get the first procedure to the board
+// update order status from new to run
 func (board *Board)Confirm()(Procedure, error){
   procedure := Procedure{}
   if board.Status == "new" {
@@ -143,6 +145,17 @@ func (board *Board)Confirm()(Procedure, error){
     procedure.Id = flow.ProcedureId
     Db.First(&procedure)
     Db.Model(board).UpdateColumns(Board{Status: "run", ProcedureId: flow.ProcedureId})
+    // operate order
+    var orderIds []string
+    rows, _ := Db.Table("samples").Select("DISTINCT order_id").Joins("INNER JOIN orders ON samples.order_id = orders.id").Where("orders.status = 'new' AND board_id = ?", board.Id).Rows()
+    for rows.Next() {
+      var orderId int
+      rows.Scan(&orderId)
+      orderIds = append(orderIds, strconv.Itoa(orderId))
+    }
+    if len(orderIds) > 0 {
+      Db.Exec("UPDATE orders SET status = 'run' WHERE id IN(" + strings.Join(orderIds, ",") + ")")
+    }
     return procedure, nil
   } else {
     return procedure, errors.New("status error")
@@ -158,7 +171,7 @@ func (board Board)Procedures()([]Procedure) {
 // check current procedure data exist
 // if exist return next procedure and update procedure_id to the next
 // else return the current procedure
-func (board *Board)NextProcedure()(Procedure){
+func (board *Board)NextProcedure()(nextProcedure Procedure){
   if board.BoardHeadId == 0 {
     Db.First(board)
   }
@@ -175,23 +188,22 @@ func (board *Board)NextProcedure()(Procedure){
     procedureTable := currentProcedure.TableName
     // samples or reactions
     recordTable := currentProcedure.FlowType + "s"
-    Db.Table(procedureTable).Joins("INNER JOIN samples ON " + procedureTable + "." + currentProcedure.FlowType + "_id = " + recordTable + ".id").Where(".board_id = ?", board.Id).Count(&existCount)
+    Db.Table(procedureTable).Joins("INNER JOIN samples ON " + procedureTable + "." + currentProcedure.FlowType + "_id = " + recordTable + ".id").Where(recordTable + ".board_id = ?", board.Id).Count(&existCount)
     var recordCount int
     Db.Table(recordTable).Where("board_id = ?", board.Id).Count(&recordCount)
     if existCount < recordCount {
       return currentProcedure
     }
   }
-  flow := Flow{}
-  Db.Where("board_head_id = ? AND procedure_id = ?", board.BoardHeadId, board.ProcedureId).First(&flow)
   nextFlow := Flow{}
-  Db.Where("board_head_id = ? AND flow_id > ?", board.BoardHeadId, flow.Id).First(&nextFlow)
-  nextProcedure := Procedure{}
-  Db.Table("procedures").Joins("INNER JOIN flows ON flows.procedure_id = procedures.id").Where("flows.board_head_id = ? AND flows.id > ?", board.BoardHeadId, nextFlow.Id).First(&nextProcedure)
-  if nextProcedure.Id > 0 {
-    Db.Model(board).UpdateColumn("procedure_id", nextProcedure.Id)
+  Db.Where("board_head_id = ? AND flows.id > (SELECT id FROM flows WHERE board_head_id = ? AND procedure_id = ?)", board.BoardHeadId, board.BoardHeadId, board.ProcedureId).First(&nextFlow)
+  if nextFlow.ProcedureId > 0 {
+    nextProcedure.Id = nextFlow.ProcedureId
+    Db.Model(board).UpdateColumn("procedure_id", nextFlow.ProcedureId)
+    Db.First(&nextProcedure)
   } else {
-    Db.Model(board).UpdateColumns(Board{ProcedureId: 0, Status: "finish"})
+    Db.Exec("UPDATE boards SET procedure_id = 0, status = 'finish' WHERE id = ?", board.Id)
+    //Db.Model(board).UpdateColumns(Board{ProcedureId: 0, Status: "finish"})
   }
   return nextProcedure
 }

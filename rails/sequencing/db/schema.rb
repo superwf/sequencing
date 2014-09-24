@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140922030219) do
+ActiveRecord::Schema.define(version: 20140924082941) do
 
   create_table "board_heads", force: true do |t|
     t.string   "name",                       null: false
@@ -71,6 +71,18 @@ ActiveRecord::Schema.define(version: 20140922030219) do
   add_index "companies", ["code"], name: "code", using: :btree
   add_index "companies", ["name"], name: "name", using: :btree
   add_index "companies", ["parent_id"], name: "parent_id", using: :btree
+
+  create_table "dilute_primers", force: true do |t|
+    t.integer  "reaction_id", default: 0,  null: false
+    t.string   "status",                   null: false
+    t.string   "remark",      default: "", null: false
+    t.integer  "creator_id",  default: 0,  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dilute_primers", ["created_at"], name: "created_at", using: :btree
+  add_index "dilute_primers", ["reaction_id"], name: "reaction_id", using: :btree
 
   create_table "electros", force: true do |t|
     t.integer  "board_id",   default: 0, null: false
@@ -137,15 +149,28 @@ ActiveRecord::Schema.define(version: 20140922030219) do
 
   add_index "plasmid_codes", ["code"], name: "code", unique: true, using: :btree
 
-  create_table "plasmids", force: true do |t|
-    t.integer  "sample_id",       null: false
-    t.integer  "plasmid_code_id", null: false
-    t.integer  "creator_id",      null: false
+  create_table "plasmids", primary_key: "sample_id", force: true do |t|
+    t.integer  "code_id",    null: false
+    t.integer  "creator_id", null: false
+    t.datetime "created_at"
+  end
+
+  create_table "precheck_codes", force: true do |t|
+    t.string   "code",                      null: false
+    t.boolean  "ok",         default: true, null: false
+    t.boolean  "available",  default: true, null: false
+    t.string   "remark",     default: "",   null: false
+    t.integer  "creator_id",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "plasmids", ["sample_id"], name: "sample_id", unique: true, using: :btree
+  create_table "prechecks", primary_key: "sample_id", force: true do |t|
+    t.integer  "code_id",    null: false
+    t.integer  "creator_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "primers", force: true do |t|
     t.string   "name",                                                      null: false

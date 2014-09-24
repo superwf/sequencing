@@ -48,7 +48,7 @@ type RecordCreator interface{
 
 type Creator struct{
   CreatorId int `json:"creator_id"`
-  CreatedAt time.Time `json:"created_at"`
+  //CreatedAt time.Time `json:"created_at"`
   UpdatedAt time.Time `json:"updated_at"`
 }
 func (c *Creator) SetCreator(id int) {

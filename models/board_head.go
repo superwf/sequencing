@@ -39,7 +39,7 @@ func (record *BoardHead) BeforeSave()(error) {
 
 func GetBoardHeads(req *http.Request)([]BoardHead, int){
   page := getPage(req)
-  db := Db.Model(BoardHead{})
+  db := Db.Model(BoardHead{}).Order("id DESC")
   name := req.FormValue("name")
   if name != "" {
     db = db.Where("name LIKE ?", (name + "%"))

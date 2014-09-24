@@ -50,9 +50,6 @@ angular.module('sequencingApp', [
     .when '/boardHeads',
       templateUrl: 'views/boardHeads.html',
       controller: 'BoardHeadsCtrl'
-    .when '/boardHeads/:id',
-      templateUrl: 'views/boardHead.html',
-      controller: 'BoardHeadCtrl'
     .when '/clients',
       templateUrl: 'views/clients.html',
       controller: 'ClientsCtrl'
@@ -83,6 +80,9 @@ angular.module('sequencingApp', [
     .when '/plasmidCodes',
       templateUrl: 'views/plasmidCodes.html',
       controller: 'PlasmidCodesCtrl'
+    .when '/precheckCodes',
+      templateUrl: 'views/plasmidCodes.html',
+      controller: 'PrecheckCodesCtrl'
     .otherwise
       redirectTo: '/'
   $httpProvider.interceptors.push 'notifyHttpInterceptor'

@@ -20,5 +20,6 @@ angular.module('sequencingApp').controller 'PrimersCtrl', ['$scope', 'Primer', '
     Modal.modal = $modal.open {
       templateUrl: '/views/primer.html'
       controller: 'PrimerCtrl'
+      size: 'lg'
     }
 ]

@@ -43,6 +43,7 @@ func main() {
     m.Put("/boards/:id/nextProcedure", controllers.BoardNextProcedure)
     m.Get("/boards/:id", controllers.GetBoard)
     m.Post("/plasmids", controllers.CreatePlasmid)
+    m.Post("/prechecks", controllers.CreatePrecheck)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
 
     // for simple rest request

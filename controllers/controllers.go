@@ -57,8 +57,12 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetBoards(req)
   case "plasmidCodes":
     return models.GetPlasmidCodes(req)
+  case "precheckCodes":
+    return models.GetPrecheckCodes(req)
   case "plasmids":
     return models.GetPlasmids(req)
+  case "prechecks":
+    return models.GetPrechecks(req)
   default:
     return nil, 0
   }
@@ -67,16 +71,15 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
 func GetRecords(params martini.Params, req *http.Request, r render.Render) {
   all := req.FormValue("all")
   records, count := initRecords(params["resources"], req)
-  var result interface{}
   if len(all) > 0 {
-    result = records
+    r.JSON(http.StatusOK, records)
   } else {
-    result = map[string]interface{}{
+    result := map[string]interface{}{
       "records": records,
       "totalItems": count,
       "perPage": models.PerPage}
+    r.JSON(http.StatusOK, result)
   }
-  r.JSON(http.StatusOK, result)
 }
 
 // resources and id are the route params
@@ -108,6 +111,8 @@ func initRecord(resources string, id int) models.RecordCreator {
     return &models.ShakeBac{Id: id}
   case "plasmidCodes":
     return &models.PlasmidCode{Id: id}
+  case "precheckCodes":
+    return &models.PrecheckCode{Id: id}
   default:
     return nil
   }

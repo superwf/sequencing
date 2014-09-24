@@ -3,19 +3,19 @@
     | {{code.code}}
 h2.text-center
   | {{board.sn}}
-table.table-bordered selectable='' selectable-options='{filter: "td.hole"}'
+table.table-bordered selectable='' selectable-options='{filter: "td.hole", cancel: "span.code"}'
   tr
     th
     th ng-repeat='c in cols'
       | {{c}}
   tr ng-repeat='r in rows'
-    td.hole
+    td
       | {{r}}
     td ng-repeat='c in cols' hole='{{c+r}}' ng-class='{true: "hole"}[records[c+r].sample.length > 0]'
       span ng-show='records[c+r].sample'
         | {{'sample' | translate}} : {{records[c+r].sample}}
         br
-      span ng-show='records[c+r].code_id'
+      span.code ng-show='records[c+r].code_id' ng-click='clearCode(records[c+r])'
         | {{'plasmid' | translate}} : {{codes[records[c+r].code_id].code}}
         br
 .row.text-center

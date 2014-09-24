@@ -9,6 +9,7 @@ type Reaction struct {
   Id int `json:"id"`
   SampleId int `json:"sample_id"`
   PrimerId int `json:"primer_id"`
+  DilutePrimerId int `json:"dilute_primer_id"`
   BoardId int `json:"reaction_board_id"`
   Hole string `json:"hole"`
   Remark string `json:"remark"`

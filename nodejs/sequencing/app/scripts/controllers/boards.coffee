@@ -40,8 +40,10 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
       controller: SequencingConst.camelcase(table_name) + 'Ctrl'
     }
     modal.result.then ->
-      board.procedure = Board.nextProcedure id: board.id
-      Modal.board = null
-      null
+      Board.nextProcedure id: board.id, (procedure)->
+        board.procedure = procedure
+        board.procedure_id = procedure.id
+        Modal.board = null
+        null
   null
 ]

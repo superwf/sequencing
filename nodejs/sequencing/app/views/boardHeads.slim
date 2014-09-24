@@ -3,7 +3,7 @@ table.table.table-bordered.table-striped
     tr
       th
         | {{'name' | translate}}
-        a.btn.btn-success ng-href='/boardHeads/new' ng-bind="'create' | translate"
+        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate"
       th ng-bind="'remark' | translate"
       th
         | {{'board' | translate}}{{'type' | translate}}

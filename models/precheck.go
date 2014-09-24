@@ -5,29 +5,28 @@ import(
   "errors"
 )
 
-type Plasmid struct {
+type Precheck struct {
   Id int `json:"id"`
   SampleId int `json:"sample_id"`
   CodeId int `json:"code_id"`
   Creator
 }
 
-func (record *Plasmid)BeforeSave()(error){
+func (record *Precheck)BeforeSave()(error){
   if record.SampleId == 0 {
     return errors.New("sample not_exist")
   }
   return nil
 }
 
-func GetPlasmids(req *http.Request)([]map[string]interface{}, int){
+func GetPrechecks(req *http.Request)(result []map[string]interface{}, count int){
   //all := req.FormValue("all")
-  db := Db.Table("samples").Select("samples.id, samples.name, samples.hole, plasmids.code_id").Joins("LEFT JOIN plasmids ON samples.id = plasmids.sample_id")
+  db := Db.Table("samples").Select("samples.id, samples.name, samples.hole, prechecks.code_id").Joins("LEFT JOIN prechecks ON samples.id = prechecks.sample_id")
   board_id := req.FormValue("board_id")
   if board_id != "" {
     db = db.Where("samples.board_id = ?", board_id)
   }
   rows, _ := db.Rows()
-  var result []map[string]interface{}
   for rows.Next() {
     var sample_id, code_id int
     var sample, hole string
@@ -40,5 +39,5 @@ func GetPlasmids(req *http.Request)([]map[string]interface{}, int){
     }
     result = append(result, d)
   }
-  return result, 0
+  return result, count
 }

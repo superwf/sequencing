@@ -14,6 +14,15 @@ angular.module('sequencingApp').controller 'BoardHeadsCtrl', ['$scope', 'BoardHe
     BoardHead.delete {id: id}, ()->
       $scope.records.splice index, 1
 
+  $scope.create = ->
+    Modal.record = {with_date: true, available: true}
+    $modal.open {
+      templateUrl: '/views/boardHead.html'
+      controller: 'BoardHeadCtrl'
+    }
+    .result.then (record)->
+      $scope.records.unshift record
+
   $scope.edit = (record)->
     Modal.record = record
     Modal.modal = $modal.open {

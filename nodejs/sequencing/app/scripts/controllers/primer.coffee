@@ -3,13 +3,14 @@
 angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$routeParams', 'Modal', '$modal', 'SequencingConst', 'Client', '$rootScope', 'Board', 'BoardHead', '$location', ($scope, Primer, $routeParams, Modal, $modal, SequencingConst, Client, $rootScope, Board, BoardHead, $location) ->
   $scope.storeType = SequencingConst.primerStoreType
   $scope.board_number = 1
+  $scope.obj = {continue: false}
   BoardHead.all {all: true, board_type: 'primer', available: 1}, (data)->
     $scope.primer_heads = data
     if data.length == 0
       $rootScope.$broadcast 'event:notacceptable', {hint: 'primer_head not_exist'}
       #return $location.path '/primerHeads/new'
     else
-      $scope.primer_head = data[0]
+      $scope.obj.primer_head = data[0]
   if $routeParams.id == 'new'
     $scope.status = SequencingConst.primerNewStatus
     $scope.record = {status: 'ok', store_type: '90days', need_return: false, origin_thickness: '5', create_date: SequencingConst.date2string()}
@@ -28,7 +29,7 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
       Primer.update record
     else
       Primer.create record, (data)->
-        if $scope.continue
+        if $scope.obj.continue
           $scope.record.name = ''
           $scope.record.id = null
         else
@@ -42,7 +43,7 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
       record =
         create_date: $scope.record.create_date
         number: $scope.board_number
-        board_head_id: $scope.primer_head.id
+        board_head_id: $scope.obj.primer_head.id
       record = SequencingConst.copyWithDate(record, 'create_date')
       Board.create record, (data)->
         $scope.board = data
@@ -65,20 +66,20 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
 
   $scope.selectBoard = ->
     Modal.resource = Board
-    if $scope.primer_head && $scope.board_number && $scope.record.create_date
+    if $scope.obj.primer_head && $scope.board_number && $scope.record.create_date
       modal = $modal.open {
         templateUrl: '/views/boardHole.html'
         controller: 'BoardHoleCtrl'
         resolve:
           head: ->
-            $scope.primer_head
+            $scope.obj.primer_head
           number: ->
             $scope.board_number
           sn: ->
-            if $scope.primer_head.with_date
-              $scope.record.create_date.replace(/-/g, '') + '-' + $scope.primer_head.name + $scope.board_number
+            if $scope.obj.primer_head.with_date
+              $scope.record.create_date.replace(/-/g, '') + '-' + $scope.obj.primer_head.name + $scope.board_number
             else
-              $scope.primer_head.name + $scope.board_number
+              $scope.obj.primer_head.name + $scope.board_number
       }
       modal.result.then (data)->
         $scope.record.hole = data.hole
