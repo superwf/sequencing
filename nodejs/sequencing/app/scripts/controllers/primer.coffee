@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$routeParams', 'Modal', '$modal', 'SequencingConst', 'Client', '$rootScope', 'Board', 'BoardHead', '$location', ($scope, Primer, $routeParams, Modal, $modal, SequencingConst, Client, $rootScope, Board, BoardHead, $location) ->
+angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', 'Modal', '$modal', 'SequencingConst', 'Client', '$rootScope', 'Board', 'BoardHead', ($scope, Primer, Modal, $modal, SequencingConst, Client, $rootScope, Board, BoardHead) ->
   $scope.storeType = SequencingConst.primerStoreType
   $scope.board_number = 1
   $scope.obj = {continue: false}
@@ -8,32 +8,22 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', '$
     $scope.primer_heads = data
     if data.length == 0
       $rootScope.$broadcast 'event:notacceptable', {hint: 'primer_head not_exist'}
-      #return $location.path '/primerHeads/new'
     else
       $scope.obj.primer_head = data[0]
-  if $routeParams.id == 'new'
-    $scope.status = SequencingConst.primerNewStatus
-    $scope.record = {status: 'ok', store_type: '90days', need_return: false, origin_thickness: '5', create_date: SequencingConst.date2string()}
-  else
-    $scope.status = SequencingConst.primerStatus
-    if Modal.record
-      $scope.board_hole = Modal.record.board + ' : ' + Modal.record.hole
-      $scope.record = Modal.record
-      $scope.record.create_date = SequencingConst.date2string(Modal.record.create_date)
-    else
-      $scope.record = Primer.get id: $routeParams.id
+  $scope.status = SequencingConst.primerStatus
+  if Modal.record.board
+    $scope.board_hole = Modal.record.board + ' : ' + Modal.record.hole
+  $scope.record = Modal.record
+  $scope.record.create_date = SequencingConst.date2string(Modal.record.create_date)
 
   save_primer = ->
     record = SequencingConst.copyWithDate($scope.record, 'create_date')
-    if $scope.record.id > 0
-      Primer.update record
+    if $scope.record.id
+      Primer.update record, ->
+        $scope.$close 'ok'
     else
       Primer.create record, (data)->
-        if $scope.obj.continue
-          $scope.record.name = ''
-          $scope.record.id = null
-        else
-          $scope.record.id = data.id
+        $scope.$close data
 
   $scope.save = ->
     if $scope.board && $scope.board.id

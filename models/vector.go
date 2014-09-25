@@ -33,7 +33,7 @@ func (record *Vector) BeforeDelete() error {
 
 func GetVectors(req *http.Request)([]Vector, int){
   page := getPage(req)
-  db := Db.Model(Vector{})
+  db := Db.Model(Vector{}).Order("id DESC")
   name := req.FormValue("name")
   if name != "" {
     db = db.Where("name LIKE ?", (name + "%"))

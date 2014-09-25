@@ -8,7 +8,7 @@ table.table.table-bordered.table-striped
       th ng-bind="'tel' | translate"
       th ng-bind="'address' | translate"
       th ng-show='!inModal'
-        a.btn.btn-success ng-href='/clients/new' ng-bind="'create' | translate"
+        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate"
   tbody
     tr ng-repeat="r in records" ng-click='click(r.id, r.name)'
       td

@@ -1,1 +1,22 @@
-ng-include src="'/views/boardHoleCode.html'"
+.btn-group
+  button.btn.btn-success type='button' ng-repeat='code in codes' ng-click='selectCode(code)' ng-class='{true: "btn-success", false: "btn-danger"}[code.ok]'
+    | {{code.code}}
+h2.text-center
+  | {{board.sn}}
+table.table-bordered selectable='' selectable-options='{filter: "td.hole", cancel: "span.code"}'
+  tr
+    th
+    th ng-repeat='c in cols'
+      | {{c}}
+  tr ng-repeat='r in rows'
+    td
+      | {{r}}
+    td ng-repeat='c in cols' hole='{{c+r}}' ng-class='{true: "hole"}[records[c+r].sample.length > 0]'
+      span ng-show='records[c+r].sample'
+        | {{'sample' | translate}} : {{records[c+r].sample}}
+        br
+      span.code ng-show='records[c+r].code_id' ng-click='clearCode(records[c+r])'
+        | {{'plasmid' | translate}} : {{codes[records[c+r].code_id].code}}
+        br
+.row.text-center
+  button.btn.btn-success ng-click='save()' ng-bind='"save" | translate'

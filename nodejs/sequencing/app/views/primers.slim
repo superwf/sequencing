@@ -3,7 +3,7 @@ table.table.table-bordered.table-striped
     tr
       th
         | {{'name' | translate}}
-        a.btn.btn-success ng-href='/primers/new' ng-bind="'create' | translate" ng-show='!inModal'
+        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate" ng-show='!inModal'
       th
         |{{'origin' | translate}}{{'thickness' | translate}}
       th ng-bind="'annealing' | translate"

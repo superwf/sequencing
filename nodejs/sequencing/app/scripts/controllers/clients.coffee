@@ -16,9 +16,18 @@ angular.module('sequencingApp').controller 'ClientsCtrl', ['$scope', 'Client', '
 
   $scope.edit = (record)->
     Modal.record = record
-    Modal.modal = $modal.open {
+    $modal.open {
       templateUrl: '/views/client.html'
       controller: 'ClientCtrl'
     }
+
+  $scope.create = ->
+    Modal.record = {}
+    $modal.open {
+      templateUrl: '/views/client.html'
+      controller: 'ClientCtrl'
+    }
+    .result.then (record)->
+      $scope.records.unshift record
   null
 ]

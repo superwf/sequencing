@@ -1,20 +1,14 @@
 'use strict'
-angular.module('sequencingApp').controller 'ProcedureCtrl', ['$scope', 'Procedure', '$routeParams', ($scope, Procedure, $routeParams) ->
-  new_record = {
-    flow_type: 'sample'
-    board: false
-  }
-  if $routeParams.id == 'new'
-    $scope.record = new_record
-  else
-    $scope.record = Procedure.get id: $routeParams.id
+angular.module('sequencingApp').controller 'ProcedureCtrl', ['$scope', 'Procedure', 'Modal', ($scope, Procedure, Modal) ->
+  $scope.record = Modal.record
   $scope.types = ['sample', 'reaction']
 
   $scope.save = ->
     if $scope.record.id
       $scope.record.$update id: $scope.record.id
+      $scope.$close 'ok'
     else
       Procedure.create $scope.record, (data)->
-        $scope.record = data
+        $scope.$close data
   null
 ]

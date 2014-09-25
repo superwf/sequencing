@@ -7,7 +7,8 @@ angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routePa
 
   $scope.save = ->
     if $scope.record.id
-      BoardHead.update $scope.record
+      BoardHead.update $scope.record, ->
+        $scope.$close 'ok'
     else
       BoardHead.create $scope.record, (data)->
         $scope.$close data

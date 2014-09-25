@@ -32,7 +32,7 @@ func CreatePrecheck(req *http.Request, r render.Render, session sessions.Session
     now := time.Now().Format("2006-01-02 03:04:05")
     for _, v := range records {
       if v["code_id"] > 0 {
-        sql = append(sql, "(" + strconv.Itoa(v["sample_id"]) + "," + strconv.Itoa(v["code_id"]) + "," + creatorId + ",'" + now + "', '" + now + ")")
+        sql = append(sql, "(" + strconv.Itoa(v["sample_id"]) + "," + strconv.Itoa(v["code_id"]) + "," + creatorId + ",'" + now + "', '" + now + "')")
       } else {
         deleteIds = append(deleteIds, strconv.Itoa(v["sample_id"]))
       }

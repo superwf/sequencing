@@ -44,6 +44,9 @@ func main() {
     m.Get("/boards/:id", controllers.GetBoard)
     m.Post("/plasmids", controllers.CreatePlasmid)
     m.Post("/prechecks", controllers.CreatePrecheck)
+    m.Get("/dilutePrimers", controllers.DilutePrimers)
+    m.Post("/dilutePrimers", controllers.CreateDilutePrimer)
+    m.Get("/typeset/reactions", controllers.TypesetReactions)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
 
     // for simple rest request

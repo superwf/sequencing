@@ -84,12 +84,6 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: new_primer
-  url: '/primers/new'
-  parent_id: <%= primer_setting_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
   name: primer
   url: '/primers'
   parent_id: <%= primer_setting_id %>
@@ -193,7 +187,7 @@ end
 -
   id: <%= id %>
   name: dilute_primer
-  url: '/primer_dilutions/new'
+  url: '/dilutePrimers'
   parent_id: <%= reaction_flow_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
@@ -216,8 +210,8 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: reaction_typeset
-  url: '/reactions/typesetting'
+  name: typeset
+  url: '/typeset/reactions'
   parent_id: <%= reaction_flow_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -

@@ -207,3 +207,19 @@ func (board *Board)NextProcedure()(nextProcedure Procedure){
   }
   return nextProcedure
 }
+
+func TypesetingReactionSampleBoards()([]map[string]interface{}){
+  rows, _ := Db.Table("boards").Select("boards.id, boards.sn").Joins("INNER JOIN samples ON samples.board_id = boards.id INNER JOIN prechecks ON prechecks.sample_id = samples.id INNER JOIN precheck_codes ON prechecks.code_id = precheck_codes.id INNER JOIN reactions ON samples.id = reactions.sample_id").Where("reactions.board_id = 0 AND precheck_codes.ok = 1 AND dilute_primers.status <> 'runout'").Rows()
+  var result []map[string]interface{}
+  for rows.Next() {
+    var id int
+    var sn string
+    rows.Scan(&id, &sn)
+    var samples []Sample
+    //Db.Table("samples").Joins("INNER JOIN prechecks ON samples.id = prechecks.sample_id INNER JOIN precheck_codes ON prechecks.code_id = precheck_coeds.id INNER JOIN reactions ON samples.id = reactions.sample_id INNER JOIN ").Where("precheck_codes.ok = 1 AND samples.board_id = ?", id)
+  }
+  return result
+}
+
+func TypesetingReactionSampleBoards()(boards []Board){
+}

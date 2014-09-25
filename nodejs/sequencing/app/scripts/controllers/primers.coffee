@@ -15,6 +15,16 @@ angular.module('sequencingApp').controller 'PrimersCtrl', ['$scope', 'Primer', '
     Primer.delete {id: id}
     $scope.records.splice index, 1
 
+  $scope.create = ->
+    Modal.record = {status: 'ok', store_type: '90days', need_return: false, origin_thickness: '5', create_date: SequencingConst.date2string()}
+    $modal.open {
+      templateUrl: '/views/primer.html'
+      controller: 'PrimerCtrl'
+      size: 'lg'
+    }
+    .result.then (record)->
+      $scope.records.unshift record
+
   $scope.edit = (record)->
     Modal.record = record
     Modal.modal = $modal.open {

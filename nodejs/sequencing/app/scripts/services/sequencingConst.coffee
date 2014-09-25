@@ -6,6 +6,7 @@ angular.module('sequencingApp').factory 'SequencingConst', ->
   primerStoreType: ['90days', '1year', 'infinate']
   primerStatus: ['not_receive', 'ok', 'lack', 'runout']
   primerNewStatus: ['ok', 'not_receive']
+  diluteThickness: '5pmol/ul'
   dilutePrimerStatus: ['ok', 'lack', 'runout']
   orderStatus: ['new', 'run', 'checkout', 'finish']
   boardStatus: ['new', 'run', 'finish']

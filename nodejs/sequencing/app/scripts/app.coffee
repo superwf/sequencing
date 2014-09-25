@@ -38,24 +38,15 @@ angular.module('sequencingApp', [
     .when '/primers',
       templateUrl: 'views/primers.html',
       controller: 'PrimersCtrl'
-    .when '/primers/:id',
-      templateUrl: 'views/primer.html',
-      controller: 'PrimerCtrl'
     .when '/vectors',
       templateUrl: 'views/vectors.html',
       controller: 'VectorsCtrl'
-    .when '/vectors/:id',
-      templateUrl: 'views/vector.html',
-      controller: 'VectorCtrl'
     .when '/boardHeads',
       templateUrl: 'views/boardHeads.html',
       controller: 'BoardHeadsCtrl'
     .when '/clients',
       templateUrl: 'views/clients.html',
       controller: 'ClientsCtrl'
-    .when '/clients/:id',
-      templateUrl: 'views/client.html',
-      controller: 'ClientCtrl'
     .when '/companyRoot',
       templateUrl: 'views/companyRoot.html',
       controller: 'CompanyTreeCtrl'
@@ -83,6 +74,12 @@ angular.module('sequencingApp', [
     .when '/precheckCodes',
       templateUrl: 'views/plasmidCodes.html',
       controller: 'PrecheckCodesCtrl'
+    .when '/dilutePrimers',
+      templateUrl: 'views/dilutePrimers.html',
+      controller: 'DilutePrimersCtrl'
+    .when '/typeset/reactions',
+      templateUrl: 'views/typesetReactions.html',
+      controller: 'TypesetReactionsCtrl'
     .otherwise
       redirectTo: '/'
   $httpProvider.interceptors.push 'notifyHttpInterceptor'

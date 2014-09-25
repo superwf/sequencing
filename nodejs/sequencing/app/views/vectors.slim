@@ -3,7 +3,7 @@ table.table.table-bordered.table-striped
     tr
       th
         | {{'name' | translate}}
-        a.btn.btn-success ng-href='/vectors/new' ng-bind="'create' | translate" ng-show='!inModal'
+        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate" ng-show='!inModal'
       th ng-bind="'producer' | translate"
       th ng-bind="'length' | translate"
       th ng-bind="'resistance' | translate"
