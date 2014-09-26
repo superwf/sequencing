@@ -2,11 +2,11 @@
 angular.module('sequencingApp').controller 'BoardHoleCtrl', ['BoardHead', 'Board', '$scope', 'Modal', '$rootScope', 'head', 'number','sn', (BoardHead, Board, $scope, Modal, $rootScope, head, number, sn) ->
   $scope.cols = head.cols.split(',')
   $scope.rows = head.rows.split(',')
-  Board.records sn: sn, (data)->
+  Board.records idsn: sn, (data)->
     if data
       $scope.boardRecords = {}
       angular.forEach data, (d)->
-        $scope.boardRecords[d.hole] = d.name
+        $scope.boardRecords[d.hole] = d
   $scope.sn = sn
 
   $scope.selectHole = (sn, hole, board_id)->

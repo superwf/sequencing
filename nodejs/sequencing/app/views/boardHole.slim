@@ -9,4 +9,4 @@ table.table-bordered
     td.hole
       | {{r}}
     td.hole ng-repeat='c in cols' ng-click='selectHole(sn, c+r, board_id)'
-      | {{boardRecords[c+r]}}
+      | {{boardRecords[c+r].name}}

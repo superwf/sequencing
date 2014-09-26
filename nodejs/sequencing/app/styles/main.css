@@ -4693,5 +4693,11 @@ form#orderForm .btn-group > .btn.active, form#orderForm .btn-group > .btn {
 .ok {
   background-color: #a7f667; }
 
+/* for btn-group button*/
 button.btn.active {
   color: black; }
+
+table .reaction {
+  border-radius: 3px;
+  background-color: #e3e3e3;
+  margin: 3px; }

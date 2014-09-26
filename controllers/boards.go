@@ -6,6 +6,7 @@ import (
   "sequencing/models"
   "net/http"
   "strconv"
+  "regexp"
 )
 
 // get the record by sn or create it
@@ -27,9 +28,16 @@ func CreateBoard(req *http.Request, r render.Render) {
 }
 
 func BoardRecords(params martini.Params, r render.Render){
-  sn := params["sn"]
+  idsn := params["idsn"]
   board := models.Board{}
-  models.Db.Where("sn = ?", sn).First(&board)
+  isId, _ := regexp.MatchString(`^\d+$`, idsn)
+  col := ""
+  if isId {
+    col = "id"
+  } else {
+    col = "sn"
+  }
+  models.Db.Where(col + " = ?", idsn).First(&board)
   r.JSON(http.StatusOK, board.Records())
 }
 
@@ -57,4 +65,10 @@ func BoardNextProcedure(params martini.Params, r render.Render) {
   board := models.Board{Id: id}
   procedure := board.NextProcedure()
   r.JSON(http.StatusOK, procedure)
+}
+
+func SampleBoardPrimers(params martini.Params, r render.Render){
+  id, _ := strconv.Atoi(params["id"])
+  board := models.Board{Id: id}
+  r.JSON(http.StatusOK, board.SampleBoardPrimers())
 }

@@ -33,13 +33,10 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       $scope.record.board_head_id = $scope.sample_board.board_head.id
       $scope.cols = $scope.sample_board.board_head.cols.split(',')
       $scope.rows = $scope.sample_board.board_head.rows.split(',')
-      board = {board_head_id: $scope.record.board_head_id, create_date: $scope.sample_board.create_date, number: $scope.sample_board.number}
-      board = SequencingConst.copyWithDate(board, 'create_date')
-      Board.create board, (data)->
-        $scope.board = data
-        getBoardRecords($scope.board.sn)
+      $scope.sample_board.sn = SequencingConst.boardSn($scope.sample_board)
+      getBoardRecords($scope.sample_board.sn)
   getBoardRecords = (sn)->
-    Board.records sn: sn, (data)->
+    Board.records idsn: sn, (data)->
       if data
         $scope.boardRecords = {}
         angular.forEach data, (d)->
@@ -181,26 +178,34 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       record = SequencingConst.copyWithDate($scope.record, 'create_date')
       Order.update record
     else
-      samples = []
-      angular.forEach $scope.samples, (v, c)->
-        angular.forEach v, (v1, r)->
-          if v1.name.length > 0 && v1.reactions && v1.reactions.length > 0
-            sample = v1
-            sample.hole = c + r
-            sample.board_id = $scope.board.id
-            samples.push v1
-      if samples.length == 0
-        $rootScope.$broadcast 'event:notacceptable', hint: 'sample not_exist'
-      else
-        record = SequencingConst.copyWithDate($scope.record, 'create_date')
-        record.samples = samples
-        Order.create record, (data)->
-          if data.id > 0
-            $scope.record.id = data.id
-            $scope.samples = []
-            getBoardRecords($scope.board.sn)
-            angular.element(".ui-selected").removeClass("ui-selected")
-        #, (err)->
-        #  $rootScope.$broadcast 'event:notacceptable', err.data
+      board = {
+        board_head_id: $scope.sample_board.board_head.id
+        number: $scope.sample_board.number
+        create_date: $scope.sample_board.create_date
+      }
+      board = SequencingConst.copyWithDate(board, 'create_date')
+      Board.create board, (data)->
+        $scope.board = data
+        samples = []
+        angular.forEach $scope.samples, (v, c)->
+          angular.forEach v, (v1, r)->
+            if v1.name.length > 0 && v1.reactions && v1.reactions.length > 0
+              sample = v1
+              sample.hole = c + r
+              sample.board_id = $scope.board.id
+              samples.push v1
+        if samples.length == 0
+          $rootScope.$broadcast 'event:notacceptable', hint: 'sample not_exist'
+        else
+          record = SequencingConst.copyWithDate($scope.record, 'create_date')
+          record.samples = samples
+          Order.create record, (data)->
+            if data.id > 0
+              $scope.record.id = data.id
+              $scope.samples = []
+              getBoardRecords($scope.board.sn)
+              angular.element(".ui-selected").removeClass("ui-selected")
+          #, (err)->
+          #  $rootScope.$broadcast 'event:notacceptable', err.data
   null
 ]

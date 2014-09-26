@@ -34,8 +34,8 @@ angular.module('sequencingApp').controller 'DilutePrimersCtrl', ['$scope', 'Reac
         }
         records.push r
     if records.length
-      DilutePrimer.create records
-      #  getRecords()
+      DilutePrimer.create records, ->
+        getRecords()
     null
 
 ]

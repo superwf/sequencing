@@ -38,7 +38,7 @@ func main() {
     m.Post("/boards", controllers.CreateBoard)
     m.Post("/flows", controllers.CreateFlow)
     m.Delete("/flows/:id", controllers.DeleteFlow)
-    m.Get("/board_records/:sn", controllers.BoardRecords)
+    m.Get("/boardRecords/:idsn", controllers.BoardRecords)
     m.Put("/boards/:id/confirm", controllers.ConfirmBoard)
     m.Put("/boards/:id/nextProcedure", controllers.BoardNextProcedure)
     m.Get("/boards/:id", controllers.GetBoard)
@@ -46,7 +46,10 @@ func main() {
     m.Post("/prechecks", controllers.CreatePrecheck)
     m.Get("/dilutePrimers", controllers.DilutePrimers)
     m.Post("/dilutePrimers", controllers.CreateDilutePrimer)
-    m.Get("/typeset/reactions", controllers.TypesetReactions)
+    //m.Get("/typeset/reactions", controllers.TypesetReactions)
+    m.Get("/typeset/reactionSampleBoards", controllers.TypesetReactionSampleBoards)
+    m.Get("/sampleBoardPrimers/:id", controllers.SampleBoardPrimers)
+    m.Put("/reactions", controllers.UpdateReactions)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
 
     // for simple rest request

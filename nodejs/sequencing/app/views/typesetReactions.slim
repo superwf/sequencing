@@ -1,7 +1,38 @@
-.tabbable.tabs-below
-  .tab-content
-    .tab-pane ng-repeat='b in sample_boards'
-    ul.nav.nav-tabs
-      li ng-repeat='b in sample_boards'
-        a
-          | {{sb.sn}}
+tabset#sample_boards
+  tab heading='{{b.sn}}' ng-repeat='b in sampleBoards' select='selectSampleBoard(b)'
+    table.table-bordered selectable='' selectable-options='{filter: ".reaction"}' index='{{$index}}'
+      tr
+        th
+        th ng-repeat='c in b.cols'
+          | {{c}}
+      tr ng-repeat='r in b.rows'
+        td.hole
+          | {{r}}
+        td.hole ng-repeat='c in b.cols'
+          .reaction ng-repeat='(reaction_id, p) in b.records[c+r]' hole='{{c+r}}' index='{{$index}}' reaction_id='{{p.reaction_id}}' ng-show='!p.reaction_hole'
+            | {{p.primer}}
+
+h2.text-center ng-show='reaction_board.sn'
+  | {{reaction_board.sn}}
+table#reaction_board.table-bordered.ui-selectable
+  tr
+    th
+    th ng-repeat='c in reaction_board.cols'
+      | {{c}}
+  tr ng-repeat='r in reaction_board.rows'
+    td.hole
+      | {{r}}
+    td.hole ng-repeat='c in reaction_board.cols' ng-click='selectReactionHole(c+r)' hole='{{c+r}}' col='{{c}}' row='{{r}}'
+      .reaction ng-click='returnReaction(c+r, reaction_board.records[c+r])'
+        | {{reaction_board.records[c+r].primer}}
+
+.navbar.text-center
+  .col-md-12.text-center
+    label
+      | {{'reaction' | translate}}{{'type' | translate}}
+    .btn-group
+      button.btn.btn-primary type='button' ng-model='reaction_board.board_head' btn-radio='h' ng-repeat='h in board_heads' required=''
+        | {{h.name}}
+    input.form-control ng-model='reaction_board.number' placeholder='{{"board" | translate}}{{"number" | translate}}' title='{{"board" | translate}}{{"number" | translate}}' type='number' required='' style="width: 60px; display: inline;"
+    button.btn.btn-primary ng-click='transfer()' ng-bind='"transfer" | translate'
+    button.btn.btn-success ng-confirm-click='typeset()' ng-bind='"typeset" | translate' message='{{"confirm" | translate}}'

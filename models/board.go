@@ -100,7 +100,7 @@ func GetBoards(req *http.Request)([]map[string]interface{}, int){
 // get the records, depend the type
 func (board Board)Records()(interface{}) {
   if board.Id < 1 {
-    return []Primer{}
+    return []bool{}
   }
   board_head := BoardHead{}
   Db.Where("id = ?", board.BoardHeadId).First(&board_head)
@@ -114,10 +114,46 @@ func (board Board)Records()(interface{}) {
     Db.Where("board_id = ?", board.Id).Find(&records)
     return records
   } else {
-    records := []Reaction{}
-    Db.Where("board_id = ?", board.Id).Find(&records)
-    return records
+    rows, _ := Db.Table("reactions").Select("reactions.id, reactions.hole, samples.name, primers.name").Joins("INNER JOIN samples ON samples.id = reactions.sample_id INNER JOIN primers ON primers.id = reactions.primer_id").Where("reactions.board_id = ?", board.Id).Rows()
+    var result []map[string]interface{}
+    for rows.Next() {
+      var id int
+      var hole, sample, primer string
+      rows.Scan(&id, &hole, &sample, &primer)
+      d := map[string]interface{}{
+        "id": id,
+        "sample": sample,
+        "primer": primer,
+        "hole": hole,
+      }
+      result = append(result, d)
+    }
+    return result
   }
+}
+
+// used when reaction typeset
+// assume it is a sample_board
+func (board Board)SampleBoardPrimers()(interface{}){
+  if board.Id < 1 {
+    return []bool{}
+  }
+  rows, _ := Db.Table("reactions").Select("reactions.id, reactions.sample_id, reactions.primer_id, primers.name, samples.hole").Joins("INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN primers ON primers.id = reactions.primer_id").Where("samples.board_id = ?", board.Id).Rows()
+  var records []map[string]interface{}
+  for rows.Next() {
+    var reactionId, sampleId, primerId int
+    var primer, hole string
+    rows.Scan(&reactionId, &sampleId, &primerId, &primer, &hole)
+    d := map[string]interface{}{
+      "reaction_id": reactionId,
+      "sample_id": sampleId,
+      "primer_id": primerId,
+      "primer": primer,
+      "hole": hole,
+    }
+    records = append(records, d)
+  }
+  return records
 }
 
 func (board Board)RecordsCount()(int) {
@@ -209,17 +245,24 @@ func (board *Board)NextProcedure()(nextProcedure Procedure){
 }
 
 func TypesetingReactionSampleBoards()([]map[string]interface{}){
-  rows, _ := Db.Table("boards").Select("boards.id, boards.sn").Joins("INNER JOIN samples ON samples.board_id = boards.id INNER JOIN prechecks ON prechecks.sample_id = samples.id INNER JOIN precheck_codes ON prechecks.code_id = precheck_codes.id INNER JOIN reactions ON samples.id = reactions.sample_id").Where("reactions.board_id = 0 AND precheck_codes.ok = 1 AND dilute_primers.status <> 'runout'").Rows()
+  rows, _ := Db.Table("boards").Select("DISTINCT boards.id, boards.sn, boards.board_head_id").Joins("INNER JOIN samples ON samples.board_id = boards.id INNER JOIN prechecks ON prechecks.sample_id = samples.id INNER JOIN precheck_codes ON prechecks.code_id = precheck_codes.id INNER JOIN reactions ON samples.id = reactions.sample_id INNER JOIN dilute_primers ON reactions.dilute_primer_id = dilute_primers.id").Where("reactions.board_id = 0 AND precheck_codes.ok = 1 AND dilute_primers.status <> 'runout'").Rows()
   var result []map[string]interface{}
   for rows.Next() {
-    var id int
+    var id, boardHeadId int
     var sn string
-    rows.Scan(&id, &sn)
-    var samples []Sample
-    //Db.Table("samples").Joins("INNER JOIN prechecks ON samples.id = prechecks.sample_id INNER JOIN precheck_codes ON prechecks.code_id = precheck_coeds.id INNER JOIN reactions ON samples.id = reactions.sample_id INNER JOIN ").Where("precheck_codes.ok = 1 AND samples.board_id = ?", id)
+    rows.Scan(&id, &sn, &boardHeadId)
+    d := map[string]interface{}{
+      "id": id,
+      "sn": sn,
+      "board_head_id": boardHeadId,
+    }
+    result = append(result, d)
+    //var samples []Sample
+    //Db.Table("samples").Joins("INNER JOIN prechecks ON samples.id = prechecks.sample_id INNER JOIN precheck_codes ON prechecks.code_id = precheck_coeds.id INNER JOIN reactions ON samples.id = reactions.sample_id INNER JOIN ").Where("precheck_codes.ok = 1 AND samples.board_id = ?", id).Find(&samples)
   }
   return result
 }
 
-func TypesetingReactionSampleBoards()(boards []Board){
+func TypesetingReactionBoards()(boards []Board){
+  return boards
 }

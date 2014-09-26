@@ -16,7 +16,7 @@ type DilutePrimer struct {
 
 func DilutingPrimer(req *http.Request)([]map[string]interface{}) {
   var reactionIds []string
-  rows, _ := Db.Table("reactions").Select("reactions.id").Joins("INNER JOIN samples ON samples.id = reactions.sample_id INNER JOIN boards ON boards.id = samples.board_id").Where("reactions.dilute_primer_id = 0 AND boards.status = 'run'").Rows()
+  rows, _ := Db.Table("reactions").Select("reactions.id").Joins("INNER JOIN samples ON samples.id = reactions.sample_id INNER JOIN boards ON boards.id = samples.board_id").Where("reactions.dilute_primer_id = 0 AND boards.status <> 'new'").Rows()
   for rows.Next() {
     var id int
     rows.Scan(&id)
@@ -73,17 +73,18 @@ func CreateDilutePrimer(req *http.Request) {
   }
   for _, r := range(records) {
     Db.Save(&r)
-    Db.Begin()
     if r.Id > 0 {
-      Db.Exec("UPDATE reactions, samples, boards SET reactions.dilute_primer_id = " + strconv.Itoa(r.Id) + " WHERE boards.status = 'run' AND reactions.primer_id = " + strconv.Itoa(r.PrimerId) + " AND reactions.dilute_primer_id = 0 AND samples.id = reactions.sample_id AND boards.id = samples.board_id")
+      Db.Begin()
+      Db.Exec("UPDATE reactions, samples, boards SET reactions.dilute_primer_id = " + strconv.Itoa(r.Id) + " WHERE boards.status <> 'new' AND reactions.primer_id = " + strconv.Itoa(r.PrimerId) + " AND reactions.dilute_primer_id = 0 AND samples.id = reactions.sample_id AND boards.id = samples.board_id")
       var count int
       Db.Table("reactions").Where("dilute_primer_id = ?", r.Id).Count(&count)
-      if count == 0 {
-        Db.Rollback()
-      }
-    } else {
-      Db.Rollback()
+      //if count == 0 {
+      //  Db.Rollback()
+      //}
     }
-    Db.Commit()
+    //else {
+    //  Db.Rollback()
+    //}
+    //Db.Commit()
   }
 }

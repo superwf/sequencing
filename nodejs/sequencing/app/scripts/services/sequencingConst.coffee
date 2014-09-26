@@ -35,3 +35,10 @@ angular.module('sequencingApp').factory 'SequencingConst', ->
     string = string.charAt(0).toUpperCase() + string.slice(1)
     string.replace /_(.)/g, (match, group1)->
       group1.toUpperCase()
+  boardSn: (board)->
+    if board.board_head
+      if board.board_head.with_date
+        datestring = board.create_date.replace(/-/g, '')
+        datestring + '-' + board.board_head.name + board.number
+      else
+        board.board_head.name + board.number

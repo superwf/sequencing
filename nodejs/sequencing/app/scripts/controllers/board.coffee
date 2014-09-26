@@ -10,7 +10,7 @@ angular.module('sequencingApp').controller 'BoardCtrl', ['$scope', 'Board', 'Seq
     $scope.cols = board_head.cols.split ','
     $scope.rows = board_head.rows.split ','
 
-  Board.records sn: $scope.record.sn, (data)->
+  Board.records idsn: $scope.record.sn, (data)->
     if data
       $scope.boardRecords = {}
       angular.forEach data, (d)->
