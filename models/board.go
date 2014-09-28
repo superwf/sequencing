@@ -182,15 +182,19 @@ func (board *Board)Confirm()(Procedure, error){
     Db.First(&procedure)
     Db.Model(board).UpdateColumns(Board{Status: "run", ProcedureId: flow.ProcedureId})
     // operate order
-    var orderIds []string
-    rows, _ := Db.Table("samples").Select("DISTINCT order_id").Joins("INNER JOIN orders ON samples.order_id = orders.id").Where("orders.status = 'new' AND board_id = ?", board.Id).Rows()
-    for rows.Next() {
-      var orderId int
-      rows.Scan(&orderId)
-      orderIds = append(orderIds, strconv.Itoa(orderId))
-    }
-    if len(orderIds) > 0 {
-      Db.Exec("UPDATE orders SET status = 'run' WHERE id IN(" + strings.Join(orderIds, ",") + ")")
+    var boardHead BoardHead
+    Db.First(&boardHead)
+    if boardHead.BoardType == "sample" {
+      var orderIds []string
+      rows, _ := Db.Table("samples").Select("DISTINCT order_id").Joins("INNER JOIN orders ON samples.order_id = orders.id").Where("orders.status = 'new' AND board_id = ?", board.Id).Rows()
+      for rows.Next() {
+        var orderId int
+        rows.Scan(&orderId)
+        orderIds = append(orderIds, strconv.Itoa(orderId))
+      }
+      if len(orderIds) > 0 {
+        Db.Exec("UPDATE orders SET status = 'run' WHERE id IN(" + strings.Join(orderIds, ",") + ")")
+      }
     }
     return procedure, nil
   } else {
@@ -215,13 +219,13 @@ func (board *Board)NextProcedure()(nextProcedure Procedure){
   Db.First(&currentProcedure)
   var existCount int
   if currentProcedure.Board {
-    Db.Table(currentProcedure.TableName).Where("board_id = ?", board.Id).Count(&existCount)
+    Db.Table("board_records").Where("board_id = ? AND procedure_id = ?", board.Id, currentProcedure.Id).Count(&existCount)
     if existCount == 0 {
       return currentProcedure
     }
   } else {
     // plasmids or prechecks or qualities
-    procedureTable := currentProcedure.TableName
+    procedureTable := currentProcedure.RecordName
     // samples or reactions
     recordTable := currentProcedure.FlowType + "s"
     Db.Table(procedureTable).Joins("INNER JOIN samples ON " + procedureTable + "." + currentProcedure.FlowType + "_id = " + recordTable + ".id").Where(recordTable + ".board_id = ?", board.Id).Count(&existCount)
@@ -257,8 +261,6 @@ func TypesetingReactionSampleBoards()([]map[string]interface{}){
       "board_head_id": boardHeadId,
     }
     result = append(result, d)
-    //var samples []Sample
-    //Db.Table("samples").Joins("INNER JOIN prechecks ON samples.id = prechecks.sample_id INNER JOIN precheck_codes ON prechecks.code_id = precheck_coeds.id INNER JOIN reactions ON samples.id = reactions.sample_id INNER JOIN ").Where("precheck_codes.ok = 1 AND samples.board_id = ?", id).Find(&samples)
   }
   return result
 }

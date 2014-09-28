@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ShakeBacTest < ActiveSupport::TestCase
+class BoardRecordTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

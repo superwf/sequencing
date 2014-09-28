@@ -216,14 +216,8 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: reaction_board_confirm
-  url: '/reaction_boards/scope/new_created'
-  parent_id: <%= reaction_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: reaction_flow
-  url: '/reaction_boards/scope/running'
+  name: reaction_board
+  url: '/boards?board_type=reaction&status=unfinish'
   parent_id: <%= reaction_flow_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -

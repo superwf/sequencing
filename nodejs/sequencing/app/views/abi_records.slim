@@ -1,0 +1,17 @@
+.row
+  h3.text-center
+    | {{board.sn}}{{board.procedure.name}}
+  .col-md-10.col-md-offset-1.well
+    form.form-horizontal.text-center name='form'
+      .form-group.col-md-12
+        input.form-control ng-model='record.data.quadrant_sequence' placeholder='{{"quadrant" | translate}}{{"sequence" | translate}}' title='{{"quadrant" | translate}}{{"sequence" | translate}}' required=''
+      .form-group.col-md-12
+        .col-md-3
+          | {{'instrument' | translate}}{{'number' | translate}}
+        .btn-group
+          button.btn.btn-primary type='button' ng-model='record.data.instrument' btn-radio='i' ng-repeat='i in instruments' required=''
+            | {{i}}
+      .form-group.col-md-12
+        input#run_time.form-control placeholder='{{"start" | translate}}{{"time" | translate}}' title='{{"start" | translate}}{{"time" | translate}}' ng-model='record.data.run_time'  datetimepicker='' required=''
+      .form-group.col-md-12
+        button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

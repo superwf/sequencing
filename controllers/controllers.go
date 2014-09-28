@@ -105,10 +105,8 @@ func initRecord(resources string, id int) models.RecordCreator {
     return &models.Sample{Id: id}
   case "reactions":
     return &models.Reaction{Id: id}
-  case "electros":
-    return &models.Electro{Id: id}
-  case "shakeBacs":
-    return &models.ShakeBac{Id: id}
+  case "boardRecords":
+    return &models.BoardRecord{Id: id}
   case "plasmidCodes":
     return &models.PlasmidCode{Id: id}
   case "precheckCodes":

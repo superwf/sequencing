@@ -1,17 +1,17 @@
 'use strict'
 
-describe 'Controller: ElectrosCtrl', ->
+describe 'Controller: BoardRecordsCtrl', ->
 
   # load the controller's module
   beforeEach module 'sequencingApp'
 
-  ElectrosCtrl = {}
+  BoardRecordsCtrl = {}
   scope = {}
 
   # Initialize the controller and a mock scope
   beforeEach inject ($controller, $rootScope) ->
     scope = $rootScope.$new()
-    ElectrosCtrl = $controller 'ElectrosCtrl', {
+    BoardRecordsCtrl = $controller 'BoardRecordsCtrl', {
       $scope: scope
     }
 

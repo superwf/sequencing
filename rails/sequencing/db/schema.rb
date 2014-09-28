@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140924082941) do
+ActiveRecord::Schema.define(version: 20140928011255) do
 
   create_table "board_heads", force: true do |t|
     t.string   "name",                       null: false
@@ -27,6 +27,17 @@ ActiveRecord::Schema.define(version: 20140924082941) do
   end
 
   add_index "board_heads", ["name", "board_type"], name: "board_type_name", unique: true, using: :btree
+
+  create_table "board_records", force: true do |t|
+    t.integer  "board_id",     null: false
+    t.integer  "procedure_id", null: false
+    t.integer  "creator_id",   null: false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "board_records", ["board_id"], name: "board_id", using: :btree
 
   create_table "boards", force: true do |t|
     t.integer "board_head_id",                         null: false
@@ -73,16 +84,16 @@ ActiveRecord::Schema.define(version: 20140924082941) do
   add_index "companies", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "dilute_primers", force: true do |t|
-    t.integer  "reaction_id", default: 0,  null: false
-    t.string   "status",                   null: false
-    t.string   "remark",      default: "", null: false
-    t.integer  "creator_id",  default: 0,  null: false
+    t.integer  "primer_id",  default: 0,  null: false
+    t.string   "status",                  null: false
+    t.string   "remark",     default: "", null: false
+    t.integer  "creator_id", default: 0,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "dilute_primers", ["created_at"], name: "created_at", using: :btree
-  add_index "dilute_primers", ["reaction_id"], name: "reaction_id", using: :btree
+  add_index "dilute_primers", ["primer_id"], name: "reaction_id", using: :btree
 
   create_table "electros", force: true do |t|
     t.integer  "board_id",   default: 0, null: false
@@ -153,6 +164,7 @@ ActiveRecord::Schema.define(version: 20140924082941) do
     t.integer  "code_id",    null: false
     t.integer  "creator_id", null: false
     t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "precheck_codes", force: true do |t|
@@ -206,14 +218,15 @@ ActiveRecord::Schema.define(version: 20140924082941) do
   end
 
   create_table "reactions", force: true do |t|
-    t.integer  "sample_id",               null: false
-    t.integer  "primer_id",               null: false
+    t.integer  "sample_id",                     null: false
+    t.integer  "primer_id",                     null: false
     t.integer  "board_id"
-    t.string   "hole",       default: ""
-    t.integer  "creator_id",              null: false
+    t.string   "hole",             default: ""
+    t.integer  "creator_id",                    null: false
     t.text     "remark"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "dilute_primer_id", default: 0,  null: false
   end
 
   add_index "reactions", ["board_id", "hole"], name: "board_hole", using: :btree

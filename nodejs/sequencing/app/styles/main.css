@@ -4701,3 +4701,13 @@ table .reaction {
   border-radius: 3px;
   background-color: #e3e3e3;
   margin: 3px; }
+
+/* for navbar-bottom */
+.navbar {
+  min-height: 0; }
+  .navbar ul {
+    margin: 0; }
+
+/* for upload progress in boards table */
+td .progress {
+  margin: 0; }

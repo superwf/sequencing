@@ -8,7 +8,7 @@ import(
 type Procedure struct {
   Id int `json:"id"`
   Name string `json:"name"`
-  TableName string `json:"table_name"`
+  RecordName string `json:"record_name"`
   Remark string `json:"remark"`
   FlowType string `json:"flow_type"`
   Board bool `json:"board"`
@@ -19,7 +19,7 @@ func (p *Procedure) BeforeSave() error {
   if len(p.Name) > 255 || len(p.Name) == 0 {
     return errors.New("name length error")
   }
-  if len(p.TableName) > 255 || len(p.TableName) == 0 {
+  if len(p.RecordName) > 255 || len(p.RecordName) == 0 {
     return errors.New("table length error")
   }
   if len(p.Remark) > 255 {

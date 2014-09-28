@@ -11,6 +11,7 @@ angular.module('sequencingApp').factory 'SequencingConst', ->
   orderStatus: ['new', 'run', 'checkout', 'finish']
   boardStatus: ['new', 'run', 'finish']
   transportCondition: ['4-10degree', 'dry_ice', 'room_temperature']
+  abiInstruments: [1,2,3,4]
   copyWithDate: (record, field)->
     r= angular.copy(record)
     if typeof(field) == 'string'
@@ -42,3 +43,9 @@ angular.module('sequencingApp').factory 'SequencingConst', ->
         datestring + '-' + board.board_head.name + board.number
       else
         board.board_head.name + board.number
+  fileExist: (url, success)->
+    http = new XMLHttpRequest()
+    http.open('HEAD', url, false)
+    http.send()
+    if http.status != 404
+      success()

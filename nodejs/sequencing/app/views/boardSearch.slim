@@ -3,10 +3,10 @@ form.form-search.well name='searchForm'
     .col-md-2
       input.form-control ng-model='searcher.sn' placeholder="{{'sn' | translate}}"
     .col-md-2
-      input.form-control ng-model='searcher.primer_head' placeholder="{{'primer_head' | translate}}"
+      input.form-control ng-model='searcher.board_head' placeholder="{{'board_head' | translate}}"
     .col-md-2
-      input.form-control ng-model='searcher.date_from' placeholder="{{'date' | translate}}{{'from' | translate}}" ui-date='dateOption' ui-date-format='yy-mm-dd'
+      input.form-control ng-model='searcher.date_from' placeholder="{{'create' | translate}}{{'date' | translate}}{{'from' | translate}}" ui-date='dateOption' ui-date-format='yy-mm-dd'
     .col-md-2
-      input.form-control ng-model='searcher.date_to' placeholder="{{'date' | translate}}{{'to' | translate}}" ui-date='dateOption' ui-date-format='yy-mm-dd'
+      input.form-control ng-model='searcher.date_to' placeholder="{{'to' | translate}}" ui-date='dateOption' ui-date-format='yy-mm-dd'
     .col-md-1
       button.btn.btn-success ng-click='search()' ng-bind='"search" | translate'

@@ -166,3 +166,16 @@ table .reaction {
   background-color: #e3e3e3;
   margin: 3px;
 }
+
+/* for navbar-bottom */
+.navbar {
+  min-height: 0;
+  ul {
+    margin: 0;
+  }
+}
+
+/* for upload progress in boards table */
+td .progress {
+  margin: 0;
+}

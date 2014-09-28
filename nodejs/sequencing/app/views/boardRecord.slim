@@ -1,0 +1,9 @@
+.row
+  h3.text-center
+    | {{board.sn}}{{board.procedure.name}}
+  .col-md-10.col-md-offset-1.well
+    form.form-horizontal.text-center name='form'
+      .form-group.col-md-12
+        textarea.form-control ng-model='record.data.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
+      .form-group.col-md-12
+        button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

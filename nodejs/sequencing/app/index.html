@@ -14,6 +14,7 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css">
     <!-- endbuild -->
   </head>
   <body>
@@ -75,6 +76,8 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js"></script>
+    <script src="bower_components/jqueryui-timepicker-addon/dist/i18n/jquery-ui-timepicker-zh-CN.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/home.js"></script>
@@ -121,10 +124,6 @@
     <script src="scripts/controllers/boards.js"></script>
     <script src="scripts/controllers/board.js"></script>
     <script src="scripts/services/flow.js"></script>
-    <script src="scripts/controllers/electros.js"></script>
-    <script src="scripts/services/electro.js"></script>
-    <script src="scripts/services/shake_bac.js"></script>
-    <script src="scripts/controllers/shake_bacs.js"></script>
     <script src="scripts/services/plasmid_code.js"></script>
     <script src="scripts/controllers/plasmid_codes.js"></script>
     <script src="scripts/controllers/plasmid_code.js"></script>
@@ -140,6 +139,9 @@
     <script src="scripts/services/reaction.js"></script>
     <script src="scripts/services/dilute_primer.js"></script>
     <script src="scripts/controllers/typeset_reactions.js"></script>
+    <script src="scripts/services/board_record.js"></script>
+    <script src="scripts/controllers/board_records.js"></script>
+    <script src="scripts/directives/datetimepicker.js"></script>
     <!-- endbuild -->
     <script src="http://localhost:35728/livereload.js?snipver=1" type="text/javascript"></script>
 </body>
