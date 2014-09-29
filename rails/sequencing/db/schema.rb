@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928011255) do
+ActiveRecord::Schema.define(version: 20140929005912) do
 
   create_table "board_heads", force: true do |t|
     t.string   "name",                       null: false
@@ -94,16 +94,6 @@ ActiveRecord::Schema.define(version: 20140928011255) do
 
   add_index "dilute_primers", ["created_at"], name: "created_at", using: :btree
   add_index "dilute_primers", ["primer_id"], name: "reaction_id", using: :btree
-
-  create_table "electros", force: true do |t|
-    t.integer  "board_id",   default: 0, null: false
-    t.string   "remark"
-    t.integer  "creator_id", default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "electros", ["board_id"], name: "board_id", unique: true, using: :btree
 
   create_table "flows", force: true do |t|
     t.integer "board_head_id", null: false
@@ -208,11 +198,18 @@ ActiveRecord::Schema.define(version: 20140928011255) do
   add_index "primers", ["board_id", "hole"], name: "board_id", unique: true, using: :btree
 
   create_table "procedures", force: true do |t|
-    t.string   "name",       limit: 100,                 null: false
-    t.string   "table_name", limit: 100,                 null: false
-    t.string   "flow_type",  limit: 100,                 null: false
-    t.boolean  "board",                  default: false, null: false
-    t.integer  "creator_id",                             null: false
+    t.string   "name",        limit: 100,                 null: false
+    t.string   "record_name", limit: 100,                 null: false
+    t.string   "flow_type",   limit: 100,                 null: false
+    t.boolean  "board",                   default: false, null: false
+    t.integer  "creator_id",                              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reaction_files", force: true do |t|
+    t.integer  "reaction_id",              null: false
+    t.string   "files",       default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -269,16 +266,6 @@ ActiveRecord::Schema.define(version: 20140928011255) do
   add_index "samples", ["board_id", "hole"], name: "board_hole", using: :btree
   add_index "samples", ["order_id"], name: "order_id", using: :btree
   add_index "samples", ["vector_id"], name: "vector_id", using: :btree
-
-  create_table "shake_bacs", force: true do |t|
-    t.integer  "board_id",   default: 0,    null: false
-    t.string   "remark",     default: "ok"
-    t.integer  "creator_id", default: 0,    null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "shake_bacs", ["board_id"], name: "board_id", unique: true, using: :btree
 
   create_table "users", id: false, force: true do |t|
     t.integer  "id",                                 default: 0,    null: false

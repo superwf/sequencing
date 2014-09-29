@@ -17,6 +17,8 @@ default: &default
     name: sequencing-session
 development:
   <<: *default
+  reaction_file:
+    path: '/home/wangfan/golang/src/sequencing/reaction_files'
 test:
   <<: *default
   port: ":8082"

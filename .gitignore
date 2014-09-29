@@ -2,6 +2,8 @@ config.yaml
 *.swp
 *.swo
 
+reaction_files
+
 rails/sequencing/.bundle
 rails/sequencing/log/*.log
 rails/sequencing/tmp

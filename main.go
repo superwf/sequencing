@@ -7,6 +7,7 @@ import (
   "sequencing/config"
   "github.com/martini-contrib/render"
   "sequencing/controllers"
+  "strings"
 )
 
 var m *martini.ClassicMartini
@@ -50,6 +51,8 @@ func main() {
     m.Get("/typeset/reactionSampleBoards", controllers.TypesetReactionSampleBoards)
     m.Get("/sampleBoardPrimers/:id", controllers.SampleBoardPrimers)
     m.Put("/reactions", controllers.UpdateReactions)
+    m.Post("/reactionFiles/:board/:file", controllers.CreateReactionFile)
+    m.Get("/reactionFileBoards", controllers.ReactionFileBoards)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
 
     // for simple rest request
@@ -66,7 +69,8 @@ func main() {
 }
 
 func requireLogin(c martini.Context, session sessions.Session, r render.Render, req *http.Request) {
-  if session.Get("me") == nil && req.URL.String() != "/api/v1/login" {
+  path := req.URL.String()
+  if session.Get("me") == nil && path != "/api/v1/login" && !strings.HasPrefix(path, "/api/v1/reactionFiles") {
     r.JSON(http.StatusUnauthorized, map[string]string{"error": "need login"})
   } else {
     c.Next()

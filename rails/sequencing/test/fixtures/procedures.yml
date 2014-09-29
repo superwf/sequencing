@@ -34,6 +34,6 @@
   flow_type: reaction
   board: true
 -
-  table_name: abi_files
+  table_name: reaction_files
   name: 上传测序文件
   flow_type: 'reaction'
