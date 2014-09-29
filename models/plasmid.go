@@ -6,8 +6,7 @@ import(
 )
 
 type Plasmid struct {
-  Id int `json:"id"`
-  SampleId int `json:"sample_id"`
+  SampleId int `json:"sample_id" gorm:"primary_key:yes"`
   CodeId int `json:"code_id"`
   Creator
 }

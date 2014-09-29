@@ -269,7 +269,7 @@ func TypesetingReactionBoards()(boards []Board){
   return boards
 }
 
-func ReactionFileBoards()([]map[string][]string){
+func ReactionFiles()([]map[string][]string){
   var procedure Procedure
   Db.Where("record_name = 'reaction_files'").First(&procedure)
   if procedure.Id == 0 {
@@ -279,13 +279,12 @@ func ReactionFileBoards()([]map[string][]string){
   Db.Table("boards").Where("status = 'run' AND procedure_id = ?", procedure.Id).Find(&boards)
   var result []map[string][]string
   for _, board := range(boards) {
-    var reactions []Reaction
-    Db.Table("reaction").Joins("LEFT JOIN reaction_files ON reactions.id = reaction_files.reaction_id").Where("reactions.board_id = ? AND reaction_files.reaction_id IS NULL ", board.Id).Find(&reactions)
+    rows, _ := Db.Table("reactions").Select("reactions.hole").Joins("LEFT JOIN reaction_files ON reactions.id = reaction_files.reaction_id").Where("reactions.board_id = ? AND reaction_files.reaction_id IS NULL ", board.Id).Rows()
     var holes []string
-    if len(reactions) > 0 {
-      for _, reaction := range(reactions){
-        holes = append(holes, reaction.Hole)
-      }
+    for rows.Next() {
+      var hole string
+      rows.Scan(&hole)
+      holes = append(holes, hole)
     }
     d := map[string][]string{
       board.Sn: holes}

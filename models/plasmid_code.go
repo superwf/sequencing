@@ -16,7 +16,7 @@ type PlasmidCode struct {
 func (code *PlasmidCode)BeforeDelete()(error){
   plasmid := Plasmid{}
   Db.Where("plasmid_code_id = ?", code.Id).First(&plasmid)
-  if plasmid.Id > 0 {
+  if plasmid.SampleId > 0 {
     return errors.New("plasmid already exist")
   }
   return nil

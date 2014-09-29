@@ -17,7 +17,7 @@ type PrecheckCode struct {
 func (code *PrecheckCode)BeforeDelete()(error){
   precheck := Precheck{}
   Db.Where("precheck = ?", code.Id).First(&precheck)
-  if precheck.Id > 0 {
+  if precheck.SampleId > 0 {
     return errors.New("precheck already exist")
   }
   return nil

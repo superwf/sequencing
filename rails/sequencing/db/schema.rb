@@ -207,9 +207,7 @@ ActiveRecord::Schema.define(version: 20140929005912) do
     t.datetime "updated_at"
   end
 
-  create_table "reaction_files", force: true do |t|
-    t.integer  "reaction_id",              null: false
-    t.string   "files",       default: "", null: false
+  create_table "reaction_files", primary_key: "reaction_id", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end

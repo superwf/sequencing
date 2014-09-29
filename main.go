@@ -52,7 +52,7 @@ func main() {
     m.Get("/sampleBoardPrimers/:id", controllers.SampleBoardPrimers)
     m.Put("/reactions", controllers.UpdateReactions)
     m.Post("/reactionFiles/:board/:file", controllers.CreateReactionFile)
-    m.Get("/reactionFileBoards", controllers.ReactionFileBoards)
+    m.Get("/reactionFiles", controllers.ReactionFiles)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
 
     // for simple rest request
