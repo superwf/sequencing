@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140929005912) do
+ActiveRecord::Schema.define(version: 20140930012132) do
 
   create_table "board_heads", force: true do |t|
     t.string   "name",                       null: false
@@ -102,6 +102,27 @@ ActiveRecord::Schema.define(version: 20140929005912) do
 
   add_index "flows", ["board_head_id", "procedure_id"], name: "board_head_id_2", unique: true, using: :btree
   add_index "flows", ["procedure_id"], name: "procedure_id", using: :btree
+
+  create_table "interprete_codes", force: true do |t|
+    t.string   "code",                       null: false
+    t.string   "result",                     null: false
+    t.string   "remark",                     null: false
+    t.boolean  "available",  default: true,  null: false
+    t.boolean  "chargeable", default: false, null: false
+    t.integer  "creator_id",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "interpretes", primary_key: "reaction_id", force: true do |t|
+    t.integer  "code_id",    default: 0,     null: false
+    t.integer  "creator_id",                 null: false
+    t.boolean  "submit",     default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "interpretes", ["code_id"], name: "code_id", using: :btree
 
   create_table "menus", force: true do |t|
     t.string  "name"
@@ -210,18 +231,16 @@ ActiveRecord::Schema.define(version: 20140929005912) do
   create_table "reaction_files", primary_key: "reaction_id", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "interpreter_id", default: 0, null: false
   end
 
   create_table "reactions", force: true do |t|
-    t.integer  "sample_id",                     null: false
-    t.integer  "primer_id",                     null: false
-    t.integer  "board_id"
-    t.string   "hole",             default: ""
-    t.integer  "creator_id",                    null: false
-    t.text     "remark"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "dilute_primer_id", default: 0,  null: false
+    t.integer "sample_id",                     null: false
+    t.integer "primer_id",                     null: false
+    t.integer "board_id"
+    t.string  "hole",             default: ""
+    t.text    "remark"
+    t.integer "dilute_primer_id", default: 0,  null: false
   end
 
   add_index "reactions", ["board_id", "hole"], name: "board_hole", using: :btree
@@ -244,21 +263,18 @@ ActiveRecord::Schema.define(version: 20140929005912) do
   end
 
   create_table "samples", force: true do |t|
-    t.string   "name",                          null: false
-    t.integer  "order_id",                      null: false
-    t.integer  "vector_id",     default: 0
-    t.string   "length",        default: "0",   null: false
-    t.string   "resistance",    default: "",    null: false
-    t.string   "return_type",   default: "",    null: false
-    t.integer  "board_id",      default: 0
-    t.string   "hole",          default: "",    null: false
-    t.boolean  "is_splice",     default: false, null: false
-    t.string   "splice_status", default: "",    null: false
-    t.boolean  "is_through",    default: false, null: false
-    t.integer  "creator_id",    default: 0,     null: false
-    t.text     "remark"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string  "name",                          null: false
+    t.integer "order_id",                      null: false
+    t.integer "vector_id",     default: 0
+    t.string  "length",        default: "0",   null: false
+    t.string  "resistance",    default: "",    null: false
+    t.string  "return_type",   default: "",    null: false
+    t.integer "board_id",      default: 0
+    t.string  "hole",          default: "",    null: false
+    t.boolean "is_splice",     default: false, null: false
+    t.string  "splice_status", default: "",    null: false
+    t.boolean "is_through",    default: false, null: false
+    t.text    "remark"
   end
 
   add_index "samples", ["board_id", "hole"], name: "board_hole", using: :btree

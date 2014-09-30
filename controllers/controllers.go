@@ -63,6 +63,8 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetPlasmids(req)
   case "prechecks":
     return models.GetPrechecks(req)
+  //case "reactinoFiles":
+  //  return models.GetReactionFiles(req)
   default:
     return nil, 0
   }
@@ -101,10 +103,10 @@ func initRecord(resources string, id int) models.RecordCreator {
     return &models.Primer{Id: id}
   case "orders":
     return &models.Order{Id: id}
-  case "samples":
-    return &models.Sample{Id: id}
-  case "reactions":
-    return &models.Reaction{Id: id}
+  //case "samples":
+  //  return &models.Sample{Id: id}
+  //case "reactions":
+  //  return &models.Reaction{Id: id}
   case "boardRecords":
     return &models.BoardRecord{Id: id}
   case "plasmidCodes":

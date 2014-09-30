@@ -80,6 +80,9 @@ angular.module('sequencingApp', [
     .when '/typeset/reactions',
       templateUrl: 'views/typesetReactions.html',
       controller: 'TypesetReactionsCtrl'
+    .when '/downloadingReactionFiles',
+      templateUrl: 'views/reactionFiles.html',
+      controller: 'ReactionFilesCtrl'
     .otherwise
       redirectTo: '/'
   $httpProvider.interceptors.push 'notifyHttpInterceptor'

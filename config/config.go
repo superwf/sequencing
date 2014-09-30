@@ -4,8 +4,13 @@ import (
   yaml "gopkg.in/yaml.v1"
   "io/ioutil"
   "os"
+  "fmt"
+  "strings"
 )
 var Config map[interface{}]interface{}
+
+var ReactionFilePath string
+var ReactionFileSuffix []string
 
 func init() {
   env := os.Getenv("GOENV")
@@ -33,4 +38,13 @@ func init() {
 
   Config = config_env[env].(map[interface{}]interface{})
   Config["env"] = env
+
+  reactionFile := Config["reaction_file"].(map[interface{}]interface{})
+  ReactionFilePath, _ = reactionFile["path"].(string)
+  s, _ := reactionFile["suffix"].([]interface{})
+  for _, str := range s {
+    ReactionFileSuffix = append(ReactionFileSuffix, str.(string))
+  }
+  fmt.Println("The upload reaction file path is " + ReactionFilePath)
+  fmt.Println("The reaction file suffix are " + strings.Join(ReactionFileSuffix, " , "))
 }

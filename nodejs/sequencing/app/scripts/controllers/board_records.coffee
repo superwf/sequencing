@@ -11,7 +11,7 @@ angular.module('sequencingApp').controller 'BoardRecordsCtrl', ['$scope', 'Modal
   $scope.save = ->
     record = {
       board_id: $scope.board.id
-      procedure_id: $scope.board.procedure_id
+      procedure_id: $scope.board.procedure.id
       data: JSON.stringify($scope.record.data)
     }
     BoardRecord.create record, (data)->

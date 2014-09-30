@@ -1,0 +1,30 @@
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th
+        | {{'name' | translate}}
+        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate" ng-show='!inModal'
+      th ng-bind="'code' | translate"
+      th ng-bind="'result' | translate"
+      th ng-bind="'remark' | translate"
+      th ng-bind="'charge' | translate"
+      th ng-bind="'available' | translate"
+      th
+  tbody
+    tr ng-repeat="r in records"
+      td
+        a.btn.btn-success ng-click='edit(r)'
+          | {{r.code}}
+      td
+        | {{r.result | translate}}
+      td
+        | {{r.remark}}
+      td
+        | {{yesno[r.charge] | translate}}
+      td
+        | {{yesno[r.available] | translate}}
+      td
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}' ng-show='!inModal'
+          | {{'delete' | translate}}
+.navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"
+  ng-include src="'/views/pager.html'"

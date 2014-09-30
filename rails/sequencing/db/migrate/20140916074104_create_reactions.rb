@@ -6,9 +6,9 @@ class CreateReactions < ActiveRecord::Migration
       t.column :dilute_primer_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.column :board_id, 'INT(11) UNSIGNED'
       t.string :hole, default: ''
-      t.column :creator_id, 'INT(11) UNSIGNED', null: false
       t.text :remark
-      t.timestamps
+      #t.column :creator_id, 'INT(11) UNSIGNED', null: false
+      #t.timestamps
     end
     [:sample_id, :primer_id].each do |i|
       add_index :reactions, i, name: i

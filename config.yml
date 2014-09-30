@@ -19,7 +19,7 @@ development:
   <<: *default
   reaction_file:
     path: '/home/wangfan/golang/src/sequencing/reaction_files'
-  suffix: ['.ab1', '.seq']
+    suffix: ['.ab1', '.seq']
 test:
   <<: *default
   port: ":8082"

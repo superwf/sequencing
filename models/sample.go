@@ -19,7 +19,6 @@ type Sample struct {
   IsThrough bool `json:"is_through"`
   Remark string `json:"remark"`
   Reactions []Reaction
-  Creator
 }
 
 func GetSamples(req *http.Request)([]Sample, int){

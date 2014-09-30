@@ -1,0 +1,31 @@
+table.table.table-bordered
+  thead
+    tr
+      th ng-bind="'sn' | translate"
+      th ng-bind="'client' | translate"
+      th ng-bind="'order' | translate"
+      th ng-bind="'sample' | translate"
+      th ng-bind="'sample_board' | translate"
+      th ng-bind="'primer' | translate"
+      th ng-bind="'reaction_board' | translate"
+      th ng-bind="'upload' | translate"
+  tbody selectable='' selectable-options='{filter: "tr"}'
+    tr ng-repeat='r in records' i='{{$index}}'
+      td
+        | {{r.id}}
+      td
+        | {{r.client}}
+      td
+        | {{r.order}}
+      td
+        | {{r.sample}}
+      td
+        | {{r.sample_board}} : {{r.sample_hole}}
+      td
+        | {{r.primer}}
+      td
+        | {{r.reaction_board}} : {{r.reaction_hole}}
+      td
+        | {{r.upload_time | date: 'yyyy-MM-dd HH:mm:ss'}}
+.navbar.text-center.navbar-fixed-bottom
+  button.btn.btn-success ng-click='download()' ng-bind='"save" | translate'

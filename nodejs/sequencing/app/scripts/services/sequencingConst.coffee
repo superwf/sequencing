@@ -12,6 +12,7 @@ angular.module('sequencingApp').factory 'SequencingConst', ->
   boardStatus: ['new', 'run', 'finish']
   transportCondition: ['4-10degree', 'dry_ice', 'room_temperature']
   abiInstruments: [1,2,3,4]
+  interpreteResults: ['pass', 'concession', 'rework', 'reshake']
   copyWithDate: (record, field)->
     r= angular.copy(record)
     if typeof(field) == 'string'

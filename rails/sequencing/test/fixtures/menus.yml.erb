@@ -18,12 +18,6 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: modification_log
-  url: '/modification_logs'
-  parent_id: <%= system_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
   name: procedure
   url: '/procedures'
   parent_id: <%= system_id %>
@@ -48,14 +42,8 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id%>
-  name: quality_code
-  url: '/quality_codes'
-  parent_id: <%= system_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: canceled_record
-  url: '/canceled_records'
+  name: interprete_code
+  url: '/interpreteCodes'
   parent_id: <%= system_id %>
 <% client_company_id = ::FactoryGirl.generate :menu %>
 -
@@ -111,12 +99,6 @@ end
   name: order
   url: '/orders'
   parent_id: <%= order_setting_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: new_redo_order
-  url: '/orders/new_redo'
-  parent_id: <%= order_setting_id %>
 <% sample_flow_id = ::FactoryGirl.generate :menu %>
 -
   id: <%= sample_flow_id %>
@@ -128,54 +110,6 @@ end
   id: <%= id %>
   name: sample_board
   url: '/boards?board_type=sample&status=unfinish'
-  parent_id: <%= sample_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: redo_sample_typeset
-  url: '/samples/typesetting?redo=true'
-  parent_id: <%= sample_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: new_created_sample_board
-  url: '/sample_boards/scope/new_created'
-  parent_id: <%= sample_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: sample_flow
-  url: '/sample_boards/scope/running'
-  parent_id: <%= sample_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: completed_sample_boards
-  url: '/sample_boards/scope/completed'
-  parent_id: <%= sample_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: sample_board
-  url: '/sample/boards'
-  parent_id: <%= sample_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: sample
-  url: '/samples'
-  parent_id: <%= sample_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: view_bacteria
-  url: '/samples/view_bacteria'
-  parent_id: <%= sample_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id%>
-  name: plasmid
-  url: '/plasmids'
   parent_id: <%= sample_flow_id %>
 <% reaction_flow_id = ::FactoryGirl.generate :menu %>
 -
@@ -192,20 +126,8 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: dilute_redo_primer
-  url: '/primer_dilutions/new?redo=true'
-  parent_id: <%= reaction_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: cancel_primer_dilution
-  url: '/primer_dilutions/today'
-  parent_id: <%= reaction_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: primer_dilution
-  url: '/primer_dilutions'
+  name: dilute_records
+  url: '/dilutePrimers'
   parent_id: <%= reaction_flow_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
@@ -216,63 +138,45 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: reaction_board
-  url: '/boards?board_type=reaction&status=unfinish'
-  parent_id: <%= reaction_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
   name: reaction
   url: '/reactions'
   parent_id: <%= reaction_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
+<% interprete_id = ::FactoryGirl.generate :menu %>
 -
-  id: <%= id %>
-  name: reaction_board
-  url: '/reaction_boards'
-  parent_id: <%= reaction_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: abi_machine
-  url: '/abi_machines'
-  parent_id: <%= reaction_flow_id %>
-<% quality_id = ::FactoryGirl.generate :menu %>
--
-  id: <%= quality_id %>
-  name: quality
+  id: <%= interprete_id %>
+  name: interprete
   url: ''
   parent_id: 0
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: download_ab1_file
-  url: '/reactions/downloading'
-  parent_id: <%= quality_id %>
+  name: download
+  url: '/downloadingReactionFiles'
+  parent_id: <%= interprete_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
   name: download_redo_ab1_file
   url: '/reactions/downloading/redo'
-  parent_id: <%= quality_id %>
+  parent_id: <%= interprete_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
   name: inspecting
   url: '/reactions/inspecting'
-  parent_id: <%= quality_id %>
+  parent_id: <%= interprete_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
   name: redo_inspecting
   url: '/reactions/inspecting?redo=true'
-  parent_id: <%= quality_id %>
+  parent_id: <%= interprete_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
   name: new_order_mail
   url: '/order_mails/new'
-  parent_id: <%= quality_id %>
+  parent_id: <%= interprete_id %>
 <% checkout_id = ::FactoryGirl.generate :menu %>
 -
   id: <%= checkout_id %>

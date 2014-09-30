@@ -53,7 +53,10 @@ func main() {
     m.Put("/reactions", controllers.UpdateReactions)
     m.Post("/reactionFiles/:board/:file", controllers.CreateReactionFile)
     m.Get("/reactionFiles", controllers.ReactionFiles)
+    m.Get("/downloadingReactionFiles", controllers.DownloadingReactionFiles)
+    m.Get("/downloadReactionFiles", controllers.DownloadReactionFiles)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
+    m.Get("/testing", controllers.Testing)
 
     // for simple rest request
     m.Get("/:resources", controllers.GetRecords)
@@ -62,7 +65,6 @@ func main() {
     m.Put("/:resources/:id", controllers.UpdateRecord)
     m.Delete("/:resources/:id", controllers.DeleteRecord)
 
-    //m.Get("/testing", controllers.Testing)
   })
 
   http.ListenAndServe(Config["port"].(string), m)

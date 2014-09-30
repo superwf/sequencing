@@ -11,6 +11,7 @@ type Precheck struct {
   Creator
 }
 
+// this should be checked by mysql forign key constraint
 func (record *Precheck)BeforeSave()(error){
   if record.SampleId == 0 {
     return errors.New("sample not_exist")

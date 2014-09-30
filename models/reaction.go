@@ -13,7 +13,6 @@ type Reaction struct {
   BoardId int `json:"board_id"`
   Hole string `json:"hole"`
   Remark string `json:"remark"`
-  Creator
 }
 
 func GetReactions(req *http.Request)([]Reaction, int){
