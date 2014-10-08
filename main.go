@@ -15,6 +15,7 @@ var m *martini.ClassicMartini
 func main() {
   Config := config.Config
 
+  // load session cache config
   redis_config := Config["redis"].(map[interface{}]interface{})
   session_config := Config["session"].(map[interface{}]interface{})
 
