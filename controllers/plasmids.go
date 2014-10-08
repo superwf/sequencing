@@ -4,6 +4,7 @@ import (
   "github.com/martini-contrib/render"
   "github.com/martini-contrib/sessions"
   "sequencing/models"
+  "sequencing/config"
   "strings"
   "net/http"
   "encoding/json"
@@ -29,7 +30,7 @@ func CreatePlasmid(req *http.Request, r render.Render, session sessions.Session)
     creatorId := strconv.Itoa(session.Get("id").(int))
     var sql []string
     var deleteIds []string
-    now := time.Now().Format("2006-01-02 03:04:05")
+    now := time.Now().In(config.UTC).Format(time.RFC3339)
     for _, v := range records {
       if v["code_id"] > 0 {
         sql = append(sql, "(" + strconv.Itoa(v["sample_id"]) + "," + strconv.Itoa(v["code_id"]) + "," + creatorId + ",'" + now + "', '" + now + "')")

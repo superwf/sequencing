@@ -48,8 +48,7 @@ func CreateReactionFile(params martini.Params, req *http.Request, r render.Rende
         var id int
         models.Db.Table("reactions").Select("reactions.id").Joins("INNER JOIN boards ON reactions.board_id = boards.id").Where("reactions.hole = ? AND boards.sn = ?", hole, board).Limit(1).Row().Scan(&id)
         if id > 0 {
-          //now := time.Now().Format("2006-01-02 03:04:05")
-          now := time.Now().Format(time.RFC3339)
+          now := time.Now().In(config.UTC).Format(time.RFC3339)
           models.Db.Exec("INSERT INTO reaction_files(reaction_id, updated_at, created_at) VALUES(" + strconv.Itoa(id) + ", '" + now + "', '" + now + "') ON DUPLICATE KEY UPDATE updated_at = VALUES(updated_at)")
         }
       }
