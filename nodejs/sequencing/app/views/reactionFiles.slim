@@ -1,4 +1,4 @@
-table.table.table-bordered
+table.table.table-bordered ng-show='downloadingRecords.length > 0'
   thead
     tr
       th ng-bind="'sn' | translate"
@@ -10,7 +10,7 @@ table.table.table-bordered
       th ng-bind="'reaction_board' | translate"
       th ng-bind="'upload' | translate"
   tbody selectable='' selectable-options='{filter: "tr"}'
-    tr ng-repeat='r in records' i='{{$index}}' ng-hide='r.download'
+    tr ng-repeat='r in downloadingRecords' i='{{$index}}'
       td
         | {{r.id}}
       td
@@ -27,5 +27,60 @@ table.table.table-bordered
         | {{r.reaction_board}} : {{r.reaction_hole}}
       td
         | {{r.upload_time | date: 'yyyy-MM-dd HH:mm:ss'}}
+
+div.well ng-show='interpretingRecords.length > 0'
+  .btn-group
+    button.btn type='button' ng-repeat='code in codes' ng-click='selectCode(code)' ng-class='interpreteCodeColor[code.result]'
+      | {{code.code}}
+    button.btn.btn-default type='button' ng-click='clearCode()'
+      | {{'clear' | translate}}
+  input.form-control ng-model='proposal.text' placeholder='{{"interprete" | translate}}{{"proposal" | translate}}'
+table.table.table-bordered ng-show='interpretingRecords.length > 0'
+  thead
+    tr
+      th ng-bind="'sn' | translate"
+      th ng-bind="'interprete_code' | translate"
+      th ng-bind="'proposal' | translate"
+      th ng-bind="'order' | translate"
+      th ng-bind="'client' | translate"
+      th ng-bind="'sample' | translate"
+      th ng-bind="'sample_board' | translate"
+      th ng-bind="'primer' | translate"
+      th ng-bind="'reaction_board' | translate"
+      th ng-bind="'quadrant' | translate"
+      th
+        | {{'sequencing' | translate}}{{'instrument' | translate}}
+      th
+        | {{'upload' | translate}}{{'time' | translate}}
+  tbody selectable='' selectable-options='{filter: "tr"}'
+    tr ng-repeat='r in interpretingRecords' i='{{$index}}'
+      td
+        | {{r.id}}
+      td ng-class='interpreteCodeColor[r.code.result]'
+        | {{r.code.code}}
+        span ng-show='r.code.remark'
+          | {{r.code.remark}}
+      td
+        | {{r.proposal}}
+      td
+        | {{r.order}}
+      td
+        | {{r.client}}
+      td
+        | {{r.sample}}
+      td
+        | {{r.sample_board}} : {{r.sample_hole}}
+      td
+        | {{r.primer}}
+      td
+        | {{r.reaction_board}} : {{r.reaction_hole}}
+      td
+        | {{r.quadrant}}
+      td
+        | {{r.instrument.instrument}}
+      td
+        | {{r.upload_time | date: 'yyyy-MM-dd HH:mm:ss'}}
 .navbar.text-center.navbar-fixed-bottom
-  button.btn.btn-success ng-click='download()' ng-bind='"save" | translate'
+  button.btn.btn-success ng-click='download()' ng-bind='"download" | translate' ng-show='downloadingRecords.length > 0'
+  button.btn.btn-success ng-click='interprete()' ng-bind='"interprete" | translate' ng-show='interpretingRecords.length > 0'
+  button.btn.btn-success ng-click='save()' ng-bind='"save" | translate' ng-show='interpretingRecords.length > 0'

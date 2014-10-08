@@ -5,5 +5,6 @@ class CreatePlasmids < ActiveRecord::Migration
       t.column :creator_id, 'INT(11) UNSIGNED', null: false
       t.timestamps
     end
+    execute'ALTER TABLE board_records CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL'
   end
 end

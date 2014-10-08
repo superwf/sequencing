@@ -63,6 +63,8 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetPlasmids(req)
   case "prechecks":
     return models.GetPrechecks(req)
+  case "interpreteCodes":
+    return models.GetInterpreteCodes(req)
   //case "reactinoFiles":
   //  return models.GetReactionFiles(req)
   default:
@@ -113,6 +115,8 @@ func initRecord(resources string, id int) models.RecordCreator {
     return &models.PlasmidCode{Id: id}
   case "precheckCodes":
     return &models.PrecheckCode{Id: id}
+  case "interpreteCodes":
+    return &models.InterpreteCode{Id: id}
   default:
     return nil
   }

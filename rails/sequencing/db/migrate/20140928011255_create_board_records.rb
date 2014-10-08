@@ -7,6 +7,6 @@ class CreateBoardRecords < ActiveRecord::Migration
       t.text :data
       t.timestamps
     end
-    add_index :board_records, :board_id, name: :board_id
+    add_index :board_records, [:board_id, :procedure_id], name: :board_procedure
   end
 end

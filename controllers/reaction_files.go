@@ -14,6 +14,7 @@ import (
   "strings"
   "archive/zip"
   "bytes"
+  "encoding/json"
 )
 
 // for the upload_sequence_file program to post reaciton file
@@ -100,12 +101,56 @@ func DownloadReactionFiles(req *http.Request, r render.Render, resp http.Respons
       }
     }
     w.Close()
-    //userId := strconv.Itoa(session.Get("id").(int))
-    //models.Db.Exec("UPDATE reaction_files SET interpreter_id = ? WHERE reaction_id IN (?)", userId, ids)
+    userId := strconv.Itoa(session.Get("id").(int))
+    models.Db.Exec("UPDATE reaction_files SET interpreter_id = ? WHERE reaction_id IN (?)", userId, ids)
 
     resp.Header().Set("Content-Disposition", "filename=download.zip")
     r.Data(http.StatusOK, buf.Bytes())
   } else {
     r.JSON(http.StatusNotAcceptable, ids)
+  }
+}
+
+
+func InterpretingReactionFiles(r render.Render, session sessions.Session){
+  // get the abi_record procedure id
+  procedure := models.Procedure{}
+  models.Db.Where("record_name = 'abi_records'").First(&procedure)
+  if procedure.Id > 0 {
+    userId := strconv.Itoa(session.Get("id").(int))
+    rows, _ := models.Db.Select("reaction_files.reaction_id, reaction_files.uploaded_at, samples.name, sample_boards.sn, samples.hole, orders.sn, primers.name, reaction_boards.sn, reactions.hole, board_records.data, clients.name, reaction_files.proposal").Table("reaction_files").Joins("LEFT JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN orders ON samples.order_id = orders.id INNER JOIN boards AS sample_boards ON sample_boards.id = samples.board_id INNER JOIN boards AS reaction_boards ON reaction_boards.id = reactions.board_id INNER JOIN clients ON orders.client_id = clients.id INNER JOIN primers ON reactions.primer_id = primers.id INNER JOIN board_records ON reactions.board_id = board_records.board_id").Where("reaction_files.submit = 0 AND reaction_files.interpreter_id = ? AND board_records.procedure_id = ?", userId, procedure.Id).Rows()
+    result := []map[string]interface{}{}
+    for rows.Next() {
+      var id int
+      var uploadTime time.Time
+      var sample, sampleBoard, sampleHole, reactionBoard, reactionHole, order, client, primer, instrument, proposal string
+      rows.Scan(&id, &uploadTime, &sample, &sampleBoard, &sampleHole, &order, &primer, &reactionBoard, &reactionHole, &instrument, &client, &proposal)
+      d := map[string]interface{}{
+        "id": id,
+        "client": client,
+        "order": order,
+        "sample": sample,
+        "sample_board": sampleBoard,
+        "sample_hole": sampleHole,
+        "primer": primer,
+        "reaction_board": reactionBoard,
+        "reaction_hole": reactionHole,
+        "upload_time": uploadTime,
+        "instrument": instrument,
+      }
+      result = append(result, d)
+    }
+    r.JSON(http.StatusOK, result)
+  } else {
+    r.JSON(http.StatusNotAcceptable, Ok_false)
+  }
+}
+
+func Interprete(req *http.Request, r render.Render, session sessions.Session){
+  var records []map[string]interface{}
+  decoder := json.NewDecoder(req.Body)
+  err := decoder.Decode(&records)
+  if len(records) > 0 {
+    interpreterId := strconv.Itoa(session.Get("id").(int))
   }
 }

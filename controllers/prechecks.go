@@ -17,14 +17,12 @@ func CreatePrecheck(req *http.Request, r render.Render, session sessions.Session
   var records []map[string]int
   decoder := json.NewDecoder(req.Body)
   err := decoder.Decode(&records)
-  if err != nil {
-    panic(err)
-  }
-  defer func(){
-    if r := recover(); r != nil {
-      log.Fatal(r)
-    }
-  }()
+  if err != nil { panic(err) }
+  //defer func(){
+  //  if r := recover(); r != nil {
+  //    log.Fatal(r)
+  //  }
+  //}()
   if len(records) > 0 {
     creatorId := strconv.Itoa(session.Get("id").(int))
     var sql []string

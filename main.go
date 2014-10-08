@@ -56,6 +56,8 @@ func main() {
     m.Get("/reactionFiles", controllers.ReactionFiles)
     m.Get("/downloadingReactionFiles", controllers.DownloadingReactionFiles)
     m.Get("/downloadReactionFiles", controllers.DownloadReactionFiles)
+    m.Get("/interpretingReactionFiles", controllers.InterpretingReactionFiles)
+    m.Put("/interprete", controllers.Interprete)
     //m.Delete("/primerHeads/:id", controllers.DeleteBoardHead)
     m.Get("/testing", controllers.Testing)
 

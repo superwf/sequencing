@@ -6,5 +6,7 @@ angular.module('sequencingApp').factory 'ReactionFile', ['SequencingConst', '$re
     create: {method: 'POST'}
     query: {isArray: false, method: 'GET'}
     download: {isArray: true, method: 'GET', url: SequencingConst.api + '/downloadingReactionFiles'}
+    interpreting: {isArray: true, method: 'GET', url: SequencingConst.api + '/interpretingReactionFiles'}
+    interprete: {method: 'PUT', url: SequencingConst.api + '/interprete'}
   }
 ]

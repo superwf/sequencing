@@ -13,6 +13,7 @@ angular.module('sequencingApp').factory 'SequencingConst', ->
   transportCondition: ['4-10degree', 'dry_ice', 'room_temperature']
   abiInstruments: [1,2,3,4]
   interpreteResults: ['pass', 'concession', 'rework', 'reshake']
+  interpreteCodeColor: {pass: "btn-success", rework: "btn-danger", concession: "btn-info", reshake: "btn-warning"}
   copyWithDate: (record, field)->
     r= angular.copy(record)
     if typeof(field) == 'string'
@@ -50,3 +51,19 @@ angular.module('sequencingApp').factory 'SequencingConst', ->
     http.send()
     if http.status != 404
       success()
+  quadrant: (hole)->
+    result = hole.match /(\d+)(\w)/
+    colIndex = result[1] * 1 - 1
+    row = result[2]
+    rows = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    rowIndex = rows.indexOf(row)
+    colRemainder = colIndex % 2
+    rowRemainder = rowIndex % 2
+    if colRemainder == 0 && rowRemainder == 0
+      1
+    else if colRemainder == 0 && rowRemainder == 1
+      2
+    else if colRemainder == 1 && rowRemainder == 0
+      3
+    else if colRemainder == 1 && rowRemainder == 1
+      4

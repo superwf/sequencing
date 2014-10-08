@@ -74,6 +74,9 @@ angular.module('sequencingApp', [
     .when '/precheckCodes',
       templateUrl: 'views/plasmidCodes.html',
       controller: 'PrecheckCodesCtrl'
+    .when '/interpreteCodes',
+      templateUrl: 'views/interpreteCodes.html',
+      controller: 'InterpreteCodesCtrl'
     .when '/dilutePrimers',
       templateUrl: 'views/dilutePrimers.html',
       controller: 'DilutePrimersCtrl'
