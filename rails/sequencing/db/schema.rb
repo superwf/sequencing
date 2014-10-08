@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140930012132) do
+ActiveRecord::Schema.define(version: 20140930012128) do
 
   create_table "board_heads", force: true do |t|
     t.string   "name",                       null: false
@@ -108,7 +108,7 @@ ActiveRecord::Schema.define(version: 20140930012132) do
     t.string   "result",                     null: false
     t.string   "remark",                     null: false
     t.boolean  "available",  default: true,  null: false
-    t.boolean  "chargeable", default: false, null: false
+    t.boolean  "charge",     default: false, null: false
     t.integer  "creator_id",                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -229,10 +229,15 @@ ActiveRecord::Schema.define(version: 20140930012132) do
   end
 
   create_table "reaction_files", primary_key: "reaction_id", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "interpreter_id", default: 0, null: false
+    t.datetime "uploaded_at"
+    t.integer  "code_id",        default: 0,     null: false
+    t.boolean  "submit",         default: false, null: false
+    t.integer  "interpreter_id", default: 0,     null: false
+    t.datetime "interpreted_at"
   end
+
+  add_index "reaction_files", ["code_id"], name: "code_id", using: :btree
+  add_index "reaction_files", ["interpreter_id"], name: "interpreter_id", using: :btree
 
   create_table "reactions", force: true do |t|
     t.integer "sample_id",                     null: false

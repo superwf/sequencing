@@ -6,16 +6,13 @@ import (
   "os"
   "fmt"
   "strings"
-  "time"
 )
 var Config map[interface{}]interface{}
 
 var ReactionFilePath string
 var ReactionFileSuffix []string
-var UTC time.Location
 
 func init() {
-  UTC, _ = time.LoadLocation("UTC")
   env := os.Getenv("GOENV")
   if env != "development" && env != "production" && env != "test" {
     env = "development"

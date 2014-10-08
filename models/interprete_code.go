@@ -16,10 +16,10 @@ type InterpreteCode struct {
 }
 
 func (code *InterpreteCode)BeforeDelete()(error){
-  interprete := Interprete{}
-  Db.Where("interpretes.code_id = ?", code.Id).First(&interprete)
-  if interprete.ReactionId > 0 {
-    return errors.New("interprete already exist")
+  reactionFile := ReactionFile{}
+  Db.Where("reactino_files.code_id = ?", code.Id).First(&reactionFile)
+  if reactionFile.ReactionId > 0 {
+    return errors.New("reaction_file already exist")
   }
   return nil
 }

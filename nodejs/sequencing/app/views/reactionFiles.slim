@@ -10,7 +10,7 @@ table.table.table-bordered
       th ng-bind="'reaction_board' | translate"
       th ng-bind="'upload' | translate"
   tbody selectable='' selectable-options='{filter: "tr"}'
-    tr ng-repeat='r in records' i='{{$index}}'
+    tr ng-repeat='r in records' i='{{$index}}' ng-hide='r.download'
       td
         | {{r.id}}
       td
