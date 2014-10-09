@@ -105,6 +105,39 @@ func (record *Order)BeforeDelete()error{
   }
   return nil
 }
+
 func (record *Order)AfterDelete() {
   Db.Exec("DELETE samples, reactions FROM samples, reactions WHERE samples.order_id = ? AND samples.id = reactions.sample_id", record.Id)
+}
+
+func (order *Order)InterpretedReactionFiles()([]map[string]interface{}){
+  result := []map[string]interface{}{}
+  rows, _ := Db.Select("reactions.id, samples.name, primers.name, precheck_codes.code, precheck_codes.remark, prechecker.name, interprete_codes.code, interprete_codes.result, interprete_codes.remark, interpreter.name").Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN primers ON reactions.primer_id = primers.id INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN prechecks ON samples.id = prechecks.sample_id INNER JOIN precheck_codes ON prechecks.code_id = precheck_codes.id INNER JOIN users AS prechecker ON prechecker.id = prechecks.creator_id INNER JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id INNER JOIN users AS interpreter ON reaction_files.interpreter_id = interpreter.id").Where("samples.order_id = ? AND reaction_files.status = 'interpreted'", order.Id).Rows()
+  for rows.Next(){
+    var id int
+    var sample, primer, precheckCode, precheckRemark, prechecker, interpreteCode, interpreteResult, interpreteRemark, interpreter string
+    rows.Scan(&id, &sample, &primer, &precheckCode, &precheckRemark, &prechecker, &interpreteCode, &interpreteResult, &interpreteRemark, &interpreter)
+    d := map[string]interface{}{
+      "id": id,
+      "sample": sample,
+      "primer": primer,
+      "precheck_code": precheckCode,
+      "precheck_Remark": precheckRemark,
+      "prechecker": prechecker,
+      "interpreteCode": interpreteCode,
+      "interpreteResult": interpreteResult,
+      "interpreteRemark": interpreteRemark,
+      "interpreter": interpreter,
+    }
+    result = append(result, d)
+  }
+  return result
+}
+
+func (order *Order)SubmitInterpretedReactionFiles(){
+  Db.Exec("UPDATE reaction_files, reactions, samples SET reaction_files.status = 'sent' WHERE samples.order_id = ? AND samples.id = reactions.sample_id AND reactions.id = reaction_files.reaction_id AND reaction_files.status = 'interpreted'", order.Id)
+}
+
+func (order *Order)Reinterprete(){
+  Db.Exec("UPDATE reaction_files, reactions, samples SET reaction_files.status = 'interpreting' WHERE samples.order_id = ? AND samples.id = reactions.sample_id AND reactions.id = reaction_files.reaction_id AND reaction_files.status = 'interpreted'", order.Id)
 }

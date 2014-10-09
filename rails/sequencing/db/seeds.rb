@@ -33,3 +33,22 @@ seeds.each do |f|
     end
   end
 end
+
+# convert all datetime field default to 0000-00-00 00:00:00 to avoid go timt.Time can not null error
+tables = db.tables
+tables.delete 'schema_migrations'
+tables.each do |t|
+  #begin
+  next if %w[menus_roles users roles].include? t
+    model_class = eval(t.classify)
+    puts model_class
+    model_class.columns.each do |c|
+      if c.type == :datetime
+        db.execute "UPDATE #{t} SET #{c.name} = '0000-00-00 00:00:00' WHERE #{c.name} IS NULL"
+        db.execute "ALTER TABLE #{t} CHANGE #{c.name} #{c.name} DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'"
+        puts "ALTER TABLE #{t} CHANGE #{c.name} #{c.name} DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'"
+      end
+    end
+  #rescue
+  #end
+end

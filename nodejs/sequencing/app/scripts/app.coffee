@@ -86,6 +86,9 @@ angular.module('sequencingApp', [
     .when '/downloadingReactionFiles',
       templateUrl: 'views/reactionFiles.html',
       controller: 'ReactionFilesCtrl'
+    .when '/sendingOrderMails',
+      templateUrl: 'views/orderMails.html',
+      controller: 'OrderMailsCtrl'
     .otherwise
       redirectTo: '/'
   $httpProvider.interceptors.push 'notifyHttpInterceptor'

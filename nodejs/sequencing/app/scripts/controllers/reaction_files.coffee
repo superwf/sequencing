@@ -7,18 +7,20 @@ angular.module('sequencingApp').controller 'ReactionFilesCtrl', ['$scope', 'Reac
       InterpreteCode.all (data)->
         $scope.codes = data
 
-  ReactionFile.interpreting (data)->
-    if data.length > 0
-      $scope.interpretingRecords = data
-      for _, i in $scope.interpretingRecords
-        $scope.interpretingRecords[i].instrument = JSON.parse($scope.interpretingRecords[i].instrument)
-        $scope.interpretingRecords[i].quadrant = SequencingConst.quadrant($scope.interpretingRecords[i].reaction_hole)
-      showCode()
-    else
-      ReactionFile.download (data) ->
-        $scope.downloadingRecords = data
-        null
-    null
+  showInterpreting = ->
+    ReactionFile.interpreting (data)->
+      if data.length > 0
+        $scope.interpretingRecords = data
+        for _, i in $scope.interpretingRecords
+          $scope.interpretingRecords[i].instrument = JSON.parse($scope.interpretingRecords[i].instrument)
+          $scope.interpretingRecords[i].quadrant = SequencingConst.quadrant($scope.interpretingRecords[i].reaction_hole)
+        showCode()
+      else
+        ReactionFile.download (data) ->
+          $scope.downloadingRecords = data
+          null
+      null
+  showInterpreting()
 
   $scope.download = ->
     selected = angular.element('.ui-selected')
@@ -52,16 +54,22 @@ angular.module('sequencingApp').controller 'ReactionFilesCtrl', ['$scope', 'Reac
         $scope.interpretingRecords[i]['proposal'] = n
     null
 
-  $scope.save = ->
+  $scope.save = (status)->
     records = []
     angular.forEach $scope.interpretingRecords, (v, i)->
       if v.code
-        records.push {
-          id: v.id
-          proposal: v.proposal
-          code_id: v.code.id
-        }
+        code_id = v.code.id
+      else
+        code_id = 0
+      records.push {
+        id: v.id
+        proposal: v.proposal || ''
+        code_id: code_id
+        status: status
+      }
     if records.length
       ReactionFile.interprete records
+    if status == 'interpreted'
+      showInterpreting()
 
 ]

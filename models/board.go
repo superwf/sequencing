@@ -269,7 +269,7 @@ func TypesetingReactionBoards()(boards []Board){
   return boards
 }
 
-func ReactionFiles()([]map[string][]string){
+func UploadingReactionBoards()([]map[string][]string){
   var procedure Procedure
   Db.Where("record_name = 'reaction_files'").First(&procedure)
   if procedure.Id == 0 {

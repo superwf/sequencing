@@ -156,26 +156,8 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: download_redo_ab1_file
-  url: '/reactions/downloading/redo'
-  parent_id: <%= interprete_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: inspecting
-  url: '/reactions/inspecting'
-  parent_id: <%= interprete_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: redo_inspecting
-  url: '/reactions/inspecting?redo=true'
-  parent_id: <%= interprete_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: new_order_mail
-  url: '/order_mails/new'
+  name: email
+  url: '/sendingOrderMails'
   parent_id: <%= interprete_id %>
 <% checkout_id = ::FactoryGirl.generate :menu %>
 -

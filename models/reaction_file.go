@@ -8,11 +8,12 @@ import(
   //"strings"
 )
 
+// status: interpreting interpreted sent
 type ReactionFile struct {
   ReactionId int `json:"reaction_id" gorm:"primary_key:yes"`
   UploadedAt time.Time `json:"uploaded_at"`
   CodeId int `json:"code_id"`
-  Submit bool `json:"submit"`
+  Status string `json:"Status"`
   InterpreterId int `json:"interpreter_id"`
   InterpretedAt time.Time `json:"interpreted_at"`
 }

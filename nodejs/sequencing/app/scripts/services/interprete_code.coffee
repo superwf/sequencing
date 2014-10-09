@@ -6,6 +6,6 @@ angular.module('sequencingApp').factory 'InterpreteCode', ['SequencingConst', '$
     'delete': {method: 'DELETE', url: SequencingConst.api + '/interpreteCodes/:id'}
     create: {method: 'POST'}
     query: {isArray: false, method: 'GET'}
-    all: {isArray: true, method: 'GET', url: SequencingConst.api + '/interpreteCodes?all=true'}
+    all: {isArray: true, method: 'GET', url: SequencingConst.api + '/interpreteCodes?all=true&available=1'}
   }
 ]

@@ -5,7 +5,7 @@ angular.module('sequencingApp').controller 'VectorsCtrl', ['$scope', 'Vector', '
     $scope.records = data.records
     $scope.totalItems = data.totalItems
     $scope.perPage = data.perPage
-    return
+    null
  
   $scope.delete = (id, index)->
     Vector.delete {id: id}

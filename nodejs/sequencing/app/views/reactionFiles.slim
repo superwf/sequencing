@@ -82,5 +82,5 @@ table.table.table-bordered ng-show='interpretingRecords.length > 0'
         | {{r.upload_time | date: 'yyyy-MM-dd HH:mm:ss'}}
 .navbar.text-center.navbar-fixed-bottom
   button.btn.btn-success ng-click='download()' ng-bind='"download" | translate' ng-show='downloadingRecords.length > 0'
-  button.btn.btn-success ng-click='interprete()' ng-bind='"interprete" | translate' ng-show='interpretingRecords.length > 0'
-  button.btn.btn-success ng-click='save()' ng-bind='"save" | translate' ng-show='interpretingRecords.length > 0'
+  button.btn.btn-success ng-click='save("interpreted")' ng-bind='"interprete" | translate' ng-show='interpretingRecords.length > 0'
+  button.btn.btn-success ng-click='save("interpreting")' ng-bind='"save" | translate' ng-show='interpretingRecords.length > 0'

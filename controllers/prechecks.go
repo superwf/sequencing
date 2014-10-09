@@ -8,8 +8,7 @@ import (
   "net/http"
   "encoding/json"
   "strconv"
-  "log"
-  "time"
+  //"log"
   //"github.com/go-martini/martini"
 )
 
@@ -27,7 +26,7 @@ func CreatePrecheck(req *http.Request, r render.Render, session sessions.Session
     creatorId := strconv.Itoa(session.Get("id").(int))
     var sql []string
     var deleteIds []string
-    now := time.Now().UTC().Format(time.RFC3339)
+    now := models.Now()
     for _, v := range records {
       if v["code_id"] > 0 {
         sql = append(sql, "(" + strconv.Itoa(v["sample_id"]) + "," + strconv.Itoa(v["code_id"]) + "," + creatorId + ",'" + now + "', '" + now + "')")

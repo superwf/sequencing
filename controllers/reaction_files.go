@@ -15,6 +15,7 @@ import (
   "archive/zip"
   "bytes"
   "encoding/json"
+  //"log"
 )
 
 // for the upload_sequence_file program to post reaciton file
@@ -50,7 +51,7 @@ func CreateReactionFile(params martini.Params, req *http.Request, r render.Rende
         var id int
         models.Db.Table("reactions").Select("reactions.id").Joins("INNER JOIN boards ON reactions.board_id = boards.id").Where("reactions.hole = ? AND boards.sn = ?", hole, board).Limit(1).Row().Scan(&id)
         if id > 0 {
-          now := time.Now().UTC().Format(time.RFC3339)
+          now := models.Now()
           models.Db.Exec("INSERT INTO reaction_files(reaction_id, uploaded_at) VALUES(" + strconv.Itoa(id) + ", '" + now + "') ON DUPLICATE KEY UPDATE uploaded_at = VALUES(uploaded_at)")
         }
       }
@@ -61,8 +62,8 @@ func CreateReactionFile(params martini.Params, req *http.Request, r render.Rende
 
 // for the upload_sequence_file program to get the upload information
 // skip auth in main.go
-func ReactionFiles(r render.Render){
-  boards := models.ReactionFiles()
+func UploadingReactionBoards(r render.Render){
+  boards := models.UploadingReactionBoards()
   r.JSON(http.StatusOK, boards)
 }
 
@@ -118,7 +119,7 @@ func InterpretingReactionFiles(r render.Render, session sessions.Session){
   models.Db.Where("record_name = 'abi_records'").First(&procedure)
   if procedure.Id > 0 {
     userId := strconv.Itoa(session.Get("id").(int))
-    rows, _ := models.Db.Select("reaction_files.reaction_id, reaction_files.uploaded_at, samples.name, sample_boards.sn, samples.hole, orders.sn, primers.name, reaction_boards.sn, reactions.hole, board_records.data, clients.name, reaction_files.proposal").Table("reaction_files").Joins("LEFT JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN orders ON samples.order_id = orders.id INNER JOIN boards AS sample_boards ON sample_boards.id = samples.board_id INNER JOIN boards AS reaction_boards ON reaction_boards.id = reactions.board_id INNER JOIN clients ON orders.client_id = clients.id INNER JOIN primers ON reactions.primer_id = primers.id INNER JOIN board_records ON reactions.board_id = board_records.board_id").Where("reaction_files.submit = 0 AND reaction_files.interpreter_id = ? AND board_records.procedure_id = ?", userId, procedure.Id).Rows()
+    rows, _ := models.Db.Select("reaction_files.reaction_id, reaction_files.uploaded_at, samples.name, sample_boards.sn, samples.hole, orders.sn, primers.name, reaction_boards.sn, reactions.hole, board_records.data, clients.name, reaction_files.proposal").Table("reaction_files").Joins("LEFT JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN orders ON samples.order_id = orders.id INNER JOIN boards AS sample_boards ON sample_boards.id = samples.board_id INNER JOIN boards AS reaction_boards ON reaction_boards.id = reactions.board_id INNER JOIN clients ON orders.client_id = clients.id INNER JOIN primers ON reactions.primer_id = primers.id INNER JOIN board_records ON reactions.board_id = board_records.board_id").Where("reaction_files.status = 'interpreting' AND reaction_files.interpreter_id = ? AND board_records.procedure_id = ?", userId, procedure.Id).Rows()
     result := []map[string]interface{}{}
     for rows.Next() {
       var id int
@@ -150,7 +151,23 @@ func Interprete(req *http.Request, r render.Render, session sessions.Session){
   var records []map[string]interface{}
   decoder := json.NewDecoder(req.Body)
   err := decoder.Decode(&records)
+  if err != nil { panic(err) }
   if len(records) > 0 {
-    interpreterId := strconv.Itoa(session.Get("id").(int))
+    now := models.Now()
+    for _, d := range(records) {
+      //if codeId, ok := d["code_id"]; ok {
+      //  update = append(update, "SET code_id = ?")
+      //}
+      models.Db.Exec("UPDATE reaction_files SET code_id = ?, interpreted_at = ?, proposal = ?, status = ? WHERE reaction_id = ?", d["code_id"], now, d["proposal"], d["status"], d["id"])
+    }
+    r.JSON(http.StatusOK, Ok_true)
+  } else {
+    r.JSON(http.StatusNotAcceptable, Ok_false)
   }
+}
+
+func InterpretedReactionFiles(params martini.Params, r render.Render){
+  orderId, _ := strconv.Atoi(params["id"])
+  order := models.Order{Id: orderId}
+  r.JSON(http.StatusOK, order.InterpretedReactionFiles())
 }

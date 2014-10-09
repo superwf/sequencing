@@ -6,5 +6,7 @@ angular.module('sequencingApp').factory 'Order', ['SequencingConst', '$resource'
     'delete': {method: 'DELETE', url: SequencingConst.api + '/orders/:id'}
     create: {method: 'POST'}
     query: {isArray: false, method: 'GET'}
+    interpretedReactionFiles: {isArray: true, url: SequencingConst.api + '/interpretedReactionFiles/:id'}
+    reinterprete: {method: 'PUT', url: SequencingConst.api + '/reinterprete'}
   }
 ]

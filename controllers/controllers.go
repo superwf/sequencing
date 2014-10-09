@@ -65,6 +65,10 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetPrechecks(req)
   case "interpreteCodes":
     return models.GetInterpreteCodes(req)
+  case "orderMails":
+    return models.GetOrderMails(req)
+  case "bills":
+    return models.GetBills(req)
   //case "reactinoFiles":
   //  return models.GetReactionFiles(req)
   default:
@@ -81,7 +85,8 @@ func GetRecords(params martini.Params, req *http.Request, r render.Render) {
     result := map[string]interface{}{
       "records": records,
       "totalItems": count,
-      "perPage": models.PerPage}
+      "perPage": models.PerPage,
+    }
     r.JSON(http.StatusOK, result)
   }
 }
@@ -117,6 +122,8 @@ func initRecord(resources string, id int) models.RecordCreator {
     return &models.PrecheckCode{Id: id}
   case "interpreteCodes":
     return &models.InterpreteCode{Id: id}
+  case "bills":
+    return &models.Bill{Id: id}
   default:
     return nil
   }
