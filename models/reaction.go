@@ -7,6 +7,7 @@ import(
 
 type Reaction struct {
   Id int `json:"id"`
+  OrderId int `json:"order_id"`
   SampleId int `json:"sample_id"`
   PrimerId int `json:"primer_id"`
   DilutePrimerId int `json:"dilute_primer_id"`
@@ -29,12 +30,10 @@ func GetReactions(req *http.Request)([]Reaction, int){
   return records, count
 }
 
-//func (record *Reaction) BeforeSave() error {
-//  sample := Sample{Id: record.SampleId}
-//  Db.First(&sample)
-//  nameLength := len(sample.Name)
-//  if nameLength == 0{
-//    return errors.New("sample not_exist")
-//  }
-//  return nil
-//}
+// make the order same with sample, as a quick key
+func (record *Reaction) BeforeSave() error {
+  if record.Sample.OrderId > 0 {
+    record.OrderId = record.Sample.OrderId
+  }
+  return nil
+}

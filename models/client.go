@@ -72,12 +72,12 @@ func GetClients(req *http.Request)([]map[string]interface{}, int){
   return result, count
 }
 
-// todo check order exist
-func (client *Client)BeforeDelete()(error){
-  var primer Primer
-  Db.Where("client_id = ?", client.Id).First(&primer)
-  if primer.Id > 0 {
-    return errors.New("primer exist")
-  }
-  return nil
-}
+// done by mysql forign key constraint in rails db:seed
+//func (client *Client)BeforeDelete()(error){
+//  var primer Primer
+//  Db.Where("client_id = ?", client.Id).First(&primer)
+//  if primer.Id > 0 {
+//    return errors.New("primer exist")
+//  }
+//  return nil
+//}

@@ -11,5 +11,6 @@ class CreateReactionFiles < ActiveRecord::Migration
     add_index :reaction_files, :code_id, name: :code_id
     add_index :reaction_files, :interpreter_id, name: :interpreter_id
     add_index :reaction_files, :status, name: :status
+    execute'ALTER TABLE reaction_files CHANGE reaction_id reaction_id INT(11) UNSIGNED NOT NULL'
   end
 end

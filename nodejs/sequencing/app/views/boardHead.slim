@@ -26,7 +26,7 @@
       .btn-group
         button.btn.btn-primary type='button' ng-model='record.available' btn-radio='k' ng-repeat='k in [true, false]'
           | {{yesno[k] | translate}}
-    .form-group ng-show='record.id > 0'
+    .form-group ng-show='record.id > 0 && record.board_type != "primer"'
       .input-group
         input.form-control ng-model='procedure.name' placeholder='{{"procedure" | translate}}' title='{{"procedure" | translate}}' ng-focus='showProcedure()'
         span.input-group-btn

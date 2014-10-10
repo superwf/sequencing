@@ -10,6 +10,6 @@ class CreateBillOrders < ActiveRecord::Migration
       t.string :remark
     end
     add_index :bill_orders, :bill_id, name: :bill_id
-    add_index :bill_orders, :order_id, name: :order_id
+    add_index :bill_orders, :order_id, name: :order_id, unique: true
   end
 end

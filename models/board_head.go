@@ -64,12 +64,13 @@ func GetBoardHeads(req *http.Request)([]BoardHead, int){
   return records, count
 }
 
-func (head *BoardHead)BeforeDelete()(error){
-  Db.First(head)
-  var count int
-  Db.Table(head.BoardType + "_boards").Select("id").Where("board_head_id = ?", head.Id).Limit(1).Count(&count)
-  if count > 0 {
-    return errors.New("board already exist")
-  }
-  return nil
-}
+// done by mysql forign key constraint in rails db:seed
+//func (head *BoardHead)BeforeDelete()(error){
+//  Db.First(head)
+//  var count int
+//  Db.Table(head.BoardType + "_boards").Select("id").Where("board_head_id = ?", head.Id).Limit(1).Count(&count)
+//  if count > 0 {
+//    return errors.New("board already exist")
+//  }
+//  return nil
+//}

@@ -236,7 +236,7 @@ func (board *Board)NextProcedure()(nextProcedure Procedure){
     }
   }
   nextFlow := Flow{}
-  Db.Where("board_head_id = ? AND flows.id > (SELECT id FROM flows WHERE board_head_id = ? AND procedure_id = ?)", board.BoardHeadId, board.BoardHeadId, board.ProcedureId).First(&nextFlow)
+  Db.Where("board_head_id = ? AND flows.id > (SELECT id FROM flows WHERE board_head_id = ? AND procedure_id = ?)", board.BoardHeadId, board.BoardHeadId, board.ProcedureId).Order("flows.id").First(&nextFlow)
   if nextFlow.ProcedureId > 0 {
     nextProcedure.Id = nextFlow.ProcedureId
     Db.Model(board).UpdateColumn("procedure_id", nextFlow.ProcedureId)

@@ -83,12 +83,15 @@ angular.module('sequencingApp', [
     .when '/typeset/reactions',
       templateUrl: 'views/typesetReactions.html',
       controller: 'TypesetReactionsCtrl'
-    .when '/downloadingReactionFiles',
+    .when '/reactionFiles',
       templateUrl: 'views/reactionFiles.html',
       controller: 'ReactionFilesCtrl'
     .when '/sendingOrderMails',
       templateUrl: 'views/orderMails.html',
       controller: 'OrderMailsCtrl'
+    .when '/bills',
+      templateUrl: 'views/bills.html',
+      controller: 'BillsCtrl'
     .otherwise
       redirectTo: '/'
   $httpProvider.interceptors.push 'notifyHttpInterceptor'

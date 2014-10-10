@@ -4,7 +4,7 @@ angular.module('sequencingApp').controller 'ClientsCtrl', ['$scope', 'Client', '
   $scope.searcher = {}
   $scope.search = ->
     Client.query $scope.searcher, (data) ->
-      $scope.records = data.records
+      $scope.records = data.records || []
       $scope.totalItems = data.totalItems
       $scope.perPage = data.perPage
       return

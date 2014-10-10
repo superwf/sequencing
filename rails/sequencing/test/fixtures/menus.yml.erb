@@ -37,7 +37,7 @@ end
 -
   id: <%= id%>
   name: precheck_code
-  url: '/precheck_codes'
+  url: '/precheckCodes'
   parent_id: <%= system_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
@@ -126,12 +126,6 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: dilute_records
-  url: '/dilutePrimers'
-  parent_id: <%= reaction_flow_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
   name: typeset
   url: '/typeset/reactions'
   parent_id: <%= reaction_flow_id %>
@@ -139,7 +133,7 @@ end
 -
   id: <%= id %>
   name: reaction
-  url: '/reactions'
+  url: '/boards?board_type=reaction&status=unfinish'
   parent_id: <%= reaction_flow_id %>
 <% interprete_id = ::FactoryGirl.generate :menu %>
 -
@@ -150,8 +144,8 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: download
-  url: '/downloadingReactionFiles'
+  name: interprete
+  url: '/reactionFiles'
   parent_id: <%= interprete_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
@@ -159,36 +153,18 @@ end
   name: email
   url: '/sendingOrderMails'
   parent_id: <%= interprete_id %>
-<% checkout_id = ::FactoryGirl.generate :menu %>
+<% bill_id = ::FactoryGirl.generate :menu %>
 -
-  id: <%= checkout_id %>
-  name: checkout
+  id: <%= bill_id %>
+  name: bill
   url: ''
   parent_id: 0
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: new_checkout
-  url: '/checkouts/new'
-  parent_id: <%= checkout_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: running_checkout
-  url: '/checkouts/scope/running'
-  parent_id: <%= checkout_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: checkouts
-  url: '/checkouts'
-  parent_id: <%= checkout_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: prepayment
-  url: '/prepayments'
-  parent_id: <%= checkout_id %>
+  name: bill
+  url: '/bills'
+  parent_id: <%= bill_id %>
 <% mail_id = ::FactoryGirl.generate :menu %>
 -
   id: <%= mail_id %>

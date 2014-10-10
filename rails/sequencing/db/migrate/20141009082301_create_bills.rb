@@ -10,6 +10,6 @@ class CreateBills < ActiveRecord::Migration
       t.column :creator_id, 'INT(11) UNSIGNED', null: false
       t.timestamps
     end
-    add_index :bills, :sn, name: :sn
+    add_index :bills, :sn, name: :sn, unique: true
   end
 end

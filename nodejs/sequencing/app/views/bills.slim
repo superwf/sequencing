@@ -1,0 +1,63 @@
+.text-center
+  .btn-group
+    button.btn.btn-info type='button' ng-click='newBill()'
+      | {{'view' | translate}}{{'checkout' | translate}}{{'order' | translate}}
+    button.btn.btn-success ng-click='checkout()' ng-show='showOrders'
+      | {{'create' | translate}}{{'bill' | translate}}
+    input.form-control style='float: left; width: 10em;' ng-show='showOrders' ng-model='today' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
+    button.btn.btn-primary type='button' ng-click='getBills()'
+      | {{'view' | translate}}{{'bill' | translate}}
+table.table.table-bordered.table-striped ng-show='showBills'
+  thead
+    tr
+      th
+        | {{'bill' | translate}}{{'sn' | translate}}
+      th
+        | {{'create' | translate}}{{'date' | translate}}
+      th ng-bind="'company' | translate"
+      th ng-bind="'money' | translate"
+      th
+        | {{'other' | translate}}{{'money' | translate}}
+  tbody
+    tr ng-repeat="b in bills"
+      td
+        a.btn.btn-success ng-click='edit(b)'
+          | {{b.sn}}
+        a.btn.btn-danger ng-confirm-click='delete(b.id, $index)' message='{{"confirm" | translate}}'
+          | {{'delete' | translate}}
+      td
+        | {{b.create_date | date: 'yyyy-MM-dd'}}
+      td
+        | {{b.company}}
+      td
+        | {{b.money}}
+      td
+        | {{b.other_money}}
+      td
+
+table.table.table-bordered ng-show='showOrders'
+  thead
+    tr
+      th
+        | {{'sn' | translate}}
+      th ng-bind="'client' | translate"
+      th ng-bind="'status' | translate"
+      th ng-bind="'urgent' | translate"
+      th ng-bind="'is_test' | translate"
+      th ng-bind="'remark' | translate"
+  tbody selectable='' selectable-options='{filter: "tr"}'
+    tr ng-repeat="o in orders" i='{{$index}}'
+      td
+        | {{o.sn}}
+      td
+        | {{o.client}}
+      td
+        | {{orderStatus[o.status] | translate}}
+      td
+        | {{yesno[o.urgent] | translate}}
+      td
+        | {{yesno[o.is_test] | translate}}
+      td
+        | {{o.remark}}
+.navbar.navbar-fixed-bottom.text-center
+  ng-include src="'/views/pager.html'"

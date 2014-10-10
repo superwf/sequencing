@@ -11,6 +11,7 @@ var Config map[interface{}]interface{}
 
 var ReactionFilePath string
 var ReactionFileSuffix []string
+var Consts map[string]interface{}
 
 func init() {
   env := os.Getenv("GOENV")
@@ -38,6 +39,12 @@ func init() {
 
   Config = config_env[env].(map[interface{}]interface{})
   Config["env"] = env
+
+  consts := Config["consts"].(map[interface{}]interface{})
+  Consts = map[string]interface{}{}
+  for k, v := range(consts) {
+    Consts[k.(string)] = v
+  }
 
   reactionFile := Config["reaction_file"].(map[interface{}]interface{})
   ReactionFilePath, _ = reactionFile["path"].(string)

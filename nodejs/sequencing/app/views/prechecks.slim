@@ -16,7 +16,7 @@ table.table-bordered selectable='' selectable-options='{filter: "td.hole", cance
         | {{'sample' | translate}} : {{records[c+r].sample}}
         br
       span.code ng-show='records[c+r].code_id' ng-click='clearCode(records[c+r])'
-        | {{'plasmid' | translate}} : {{codes[records[c+r].code_id].code}}
+        | {{'precheck' | translate}} : {{codes[records[c+r].code_id].code}}
         br
 .row.text-center
   button.btn.btn-success ng-click='save()' ng-bind='"save" | translate'

@@ -3,6 +3,7 @@
 */
 package controllers
 import(
+  "github.com/jinzhu/gorm"
   "net/http"
   "encoding/json"
   "log"
@@ -145,11 +146,7 @@ func UpdateRecord(params martini.Params, r render.Render, req *http.Request) {
   parseJson(record, req)
   //r.JSON(record.(models.ValidateSave).ValidateSave())
   saved := models.Db.Save(record)
-  if saved.Error != nil {
-    r.JSON(http.StatusNotAcceptable, map[string]string{"hint": saved.Error.Error()})
-  } else {
-    r.JSON(http.StatusAccepted, record)
-  }
+  renderDbResult(r, saved, record)
 }
 
 func CreateRecord(params martini.Params, r render.Render, req *http.Request, session sessions.Session) {
@@ -158,19 +155,19 @@ func CreateRecord(params martini.Params, r render.Render, req *http.Request, ses
   parseJson(record, req)
   record.SetCreator(session.Get("id").(int))
   saved := models.Db.Save(record)
-  if saved.Error != nil {
-    r.JSON(http.StatusNotAcceptable, map[string]string{"hint": saved.Error.Error()})
-  } else {
-    r.JSON(http.StatusAccepted, record)
-  }
+  renderDbResult(r, saved, record)
 }
 
 func DeleteRecord(params martini.Params, r render.Render, req *http.Request) {
   id, _ := strconv.Atoi(params["id"])
   record := initRecord(params["resources"], id)
   deleted := models.Db.Delete(record)
-  if deleted.Error != nil {
-    r.JSON(http.StatusNotAcceptable, map[string]string{"hint": deleted.Error.Error()})
+  renderDbResult(r, deleted, record)
+}
+
+func renderDbResult(r render.Render, result *gorm.DB, record interface{}) {
+  if result.Error != nil {
+    r.JSON(http.StatusNotAcceptable, map[string]interface{}{"hint": result.Error.Error()})
   } else {
     r.JSON(http.StatusOK, record)
   }

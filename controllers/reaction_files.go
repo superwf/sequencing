@@ -52,7 +52,7 @@ func CreateReactionFile(params martini.Params, req *http.Request, r render.Rende
         models.Db.Table("reactions").Select("reactions.id").Joins("INNER JOIN boards ON reactions.board_id = boards.id").Where("reactions.hole = ? AND boards.sn = ?", hole, board).Limit(1).Row().Scan(&id)
         if id > 0 {
           now := models.Now()
-          models.Db.Exec("INSERT INTO reaction_files(reaction_id, uploaded_at) VALUES(" + strconv.Itoa(id) + ", '" + now + "') ON DUPLICATE KEY UPDATE uploaded_at = VALUES(uploaded_at)")
+          models.Db.Exec("INSERT INTO reaction_files(status, reaction_id, uploaded_at) VALUES('interpreting', " + strconv.Itoa(id) + ", '" + now + "') ON DUPLICATE KEY UPDATE uploaded_at = VALUES(uploaded_at)")
         }
       }
     }
@@ -155,9 +155,6 @@ func Interprete(req *http.Request, r render.Render, session sessions.Session){
   if len(records) > 0 {
     now := models.Now()
     for _, d := range(records) {
-      //if codeId, ok := d["code_id"]; ok {
-      //  update = append(update, "SET code_id = ?")
-      //}
       models.Db.Exec("UPDATE reaction_files SET code_id = ?, interpreted_at = ?, proposal = ?, status = ? WHERE reaction_id = ?", d["code_id"], now, d["proposal"], d["status"], d["id"])
     }
     r.JSON(http.StatusOK, Ok_true)

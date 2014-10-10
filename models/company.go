@@ -116,11 +116,11 @@ func (company *Company)BeforeDelete()error{
   if company.GetChildrenCount() > 0 {
     return errors.New("children company exist")
   }
-  var client Client
-  Db.Model(Client{}).Where("company_id = ?", company.Id).First(&client)
-  if client.Id > 0 {
-    return errors.New("client already exist")
-  }
+  //var client Client
+  //Db.Model(Client{}).Where("company_id = ?", company.Id).First(&client)
+  //if client.Id > 0 {
+  //  return errors.New("client already exist")
+  //}
   Db.Delete(&company)
   return nil
 }

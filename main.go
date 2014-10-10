@@ -28,11 +28,6 @@ func main() {
   m.Use(render.Renderer())
   m.Use(requireLogin)
   m.Group("/api/v1", func(r martini.Router) {
-    //m.Get("/users", controllers.GetUsers)
-    m.Get("/me", controllers.Me)
-    m.Post("/login", controllers.Login)
-    m.Delete("/logout", controllers.Logout)
-    //m.Get("/menus", controllers.GetMenus)
     m.Put("/roles/:id", controllers.UpdateRole)
     m.Get("/companyTree/:id", controllers.GetCompanyTree)
     m.Post("/orders", controllers.CreateOrder)
@@ -51,8 +46,6 @@ func main() {
     m.Get("/typeset/reactionSampleBoards", controllers.TypesetReactionSampleBoards)
     m.Get("/sampleBoardPrimers/:id", controllers.SampleBoardPrimers)
     m.Put("/reactions", controllers.UpdateReactions)
-    m.Get("/uploadingReactionBoards", controllers.UploadingReactionBoards)
-    m.Post("/reactionFiles/:board/:file", controllers.CreateReactionFile)
     m.Get("/downloadingReactionFiles", controllers.DownloadingReactionFiles)
     m.Get("/downloadReactionFiles", controllers.DownloadReactionFiles)
     m.Get("/interpretingReactionFiles", controllers.InterpretingReactionFiles)
@@ -63,6 +56,7 @@ func main() {
     m.Post("/orderMails", controllers.CreateOrderMail)
     m.Put("/submitInterpretedReactionFiles", controllers.SubmitInterpretedReactionFiles)
     m.Put("/reinterprete", controllers.Reinterprete)
+    m.Post("/bills", controllers.CreateBill)
     m.Get("/testing", controllers.Testing)
 
     // for simple rest request
@@ -73,13 +67,24 @@ func main() {
     m.Delete("/:resources/:id", controllers.DeleteRecord)
 
   })
+  m.Group("/api/auth", func(r martini.Router) {
+    m.Get("/me", controllers.Me)
+    m.Post("/login", controllers.Login)
+    m.Delete("/logout", controllers.Logout)
+  })
+  m.Group("api/reactionFiles", func(r martini.Router) {
+    m.Post("/:board/:file", controllers.CreateReactionFile)
+    m.Get("/uploading", controllers.UploadingReactionBoards)
+  })
+  m.Get("/api/consts", controllers.Consts)
 
   http.ListenAndServe(Config["port"].(string), m)
 }
 
+// skip /reactionFiles, /api/login
 func requireLogin(c martini.Context, session sessions.Session, r render.Render, req *http.Request) {
   path := req.URL.String()
-  if session.Get("me") == nil && path != "/api/v1/login" && !strings.HasPrefix(path, "/api/v1/reactionFiles") {
+  if session.Get("me") == nil && strings.HasPrefix(path, "/api/v1") {
     r.JSON(http.StatusUnauthorized, map[string]string{"hint": "need login"})
   } else {
     c.Next()

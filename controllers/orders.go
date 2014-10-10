@@ -10,13 +10,9 @@ import (
 
 func CreateOrder(params martini.Params, req *http.Request, r render.Render) {
   id, _ := strconv.Atoi(params["id"])
-  record := models.Order{Id: id}
-  parseJson(&record, req)
+  order := models.Order{Id: id}
+  parseJson(&order, req)
   //record.SetCreator(session.Get("id").(int))
-  saved := models.Db.Save(&record)
-  if saved.Error != nil {
-    r.JSON(http.StatusNotAcceptable, map[string]interface{}{"hint": saved.Error.Error()})
-  } else {
-    r.JSON(http.StatusOK, record)
-  }
+  saved := models.Db.Save(&order)
+  renderDbResult(r, saved, order)
 }
