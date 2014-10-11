@@ -57,7 +57,9 @@ func main() {
     m.Put("/submitInterpretedReactionFiles", controllers.SubmitInterpretedReactionFiles)
     m.Put("/reinterprete", controllers.Reinterprete)
     m.Post("/bills", controllers.CreateBill)
+    m.Get("/menus", controllers.GetMenus)
     m.Get("/testing", controllers.Testing)
+    m.Get("/billOrders/:bill_id", controllers.GetBillOrders)
 
     // for simple rest request
     m.Get("/:resources", controllers.GetRecords)
@@ -72,9 +74,9 @@ func main() {
     m.Post("/login", controllers.Login)
     m.Delete("/logout", controllers.Logout)
   })
-  m.Group("api/reactionFiles", func(r martini.Router) {
-    m.Post("/:board/:file", controllers.CreateReactionFile)
+  m.Group("/api/reactionFiles", func(r martini.Router) {
     m.Get("/uploading", controllers.UploadingReactionBoards)
+    m.Post("/:board/:file", controllers.CreateReactionFile)
   })
   m.Get("/api/consts", controllers.Consts)
 

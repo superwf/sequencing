@@ -143,7 +143,7 @@ func (order *Order)InterpretedReactionFiles()([]map[string]interface{}){
 // when sent, the order should can checkout
 func (order *Order)SubmitInterpretedReactionFiles(){
   Db.Exec("UPDATE reaction_files, reactions, samples SET reaction_files.status = 'sent' WHERE samples.order_id = ? AND samples.id = reactions.sample_id AND reactions.id = reaction_files.reaction_id AND reaction_files.status = 'interpreted'", order.Id)
-  Db.First(&order)
+  Db.First(order)
   order.CheckStatus()
 }
 
@@ -157,15 +157,17 @@ func (order *Order)CheckStatus() {
       var count int
       Db.Table("samples").Joins("INNER JOIN boards ON samples.board_id = boards.id").Where("boards.status <> 'new' AND samples.order_id = ?", order.Id).Limit(1).Count(&count)
       if count > 0 {
-        Db.Model(&order).Update("status", "run")
+        Db.Model(order).Update("status", "run")
       }
     case "run":
       var reactionCount int
       var interpretedCount int
       Db.Table("reactions").Where("reactions.order_id = ?", order.Id).Count(&reactionCount)
-      Db.Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id").Where("reaction_files.status = 'interpreted'").Count(&interpretedCount)
+      Db.Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id").Where("reaction_files.status <> 'interpreting'").Where("reactions.order_id = ?", order.Id).Count(&interpretedCount)
+      log.Println(reactionCount)
+      log.Println(interpretedCount)
       if reactionCount == interpretedCount {
-        Db.Model(&order).Update("status", "to_checkout")
+        Db.Model(order).Update("status", "to_checkout")
         return
       }
 
@@ -173,13 +175,13 @@ func (order *Order)CheckStatus() {
       var count int
       Db.Table("samples").Joins("INNER JOIN boards ON samples.board_id = boards.id").Where("boards.status <> 'new' AND samples.order_id = ?", order.Id).Limit(1).Count(&count)
       if count == 0 {
-        Db.Model(&order).Update("status", "new")
+        Db.Model(order).Update("status", "new")
       }
     case "to_checkout":
       var billOrder BillOrder
       Db.Where("order_id = ?", order.Id).First(&billOrder)
-      if billOrder.Id > 0 {
-        Db.Model(&order).Update("status", "checkout")
+      if billOrder.BillId > 0 {
+        Db.Model(order).Update("status", "checkout")
         return
       }
       var reactionCount int
@@ -187,24 +189,24 @@ func (order *Order)CheckStatus() {
       Db.Table("reactions").Where("reactions.order_id = ?", order.Id).Count(&reactionCount)
       Db.Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id").Where("reaction_files.status = 'interpreted'").Count(&interpretedCount)
       if reactionCount != interpretedCount {
-        Db.Model(&order).Update("status", "run")
+        Db.Model(order).Update("status", "run")
         return
       }
     case "checkout":
       var bill Bill
       Db.Table("bills").Joins("INNRE JOIN bill_orders ON bill_orders.bill_id = bills.id").Where("bill_orders.order_id = ? AND bills.status == 'finish'", order.Id).First(&bill)
       if bill.Status == "finish" {
-        Db.Model(&order).Update("status", "finish")
+        Db.Model(order).Update("status", "finish")
         return
       } else if bill.Status == "" {
-        Db.Model(&order).Update("status", "to_checkout")
+        Db.Model(order).Update("status", "to_checkout")
       }
 
     case "finish":
       var count int
       Db.Table("bill_orders").Joins("INNRE JOIN bills ON bill_orders.bill_id = bills.id").Where("bill_orders.order_id = ? AND bills.status == 'finish'", order.Id).Count(&count)
       if count == 0 {
-        Db.Model(&order).Update("status", "checkout")
+        Db.Model(order).Update("status", "checkout")
         return
       }
   }

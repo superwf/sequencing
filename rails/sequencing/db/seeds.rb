@@ -32,7 +32,7 @@ tables = db.tables
 %w[schema_migrations menus_roles users roles].each do |t|
   tables.delete t
 end
-special = %w[prechecks reaction_files plasmids]
+special = %w[prechecks reaction_files plasmids bill_orders]
 tables.each do |t|
   #begin
     model_class = eval(t.classify)
@@ -69,6 +69,10 @@ db.execute "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `s
 ) ON DELETE RESTRICT;"
 # cascade bill bill_orders
 db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `sequencing`.`bills` (
+  `id`
+) ON DELETE CASCADE;"
+# cascade bill bill_records
+db.execute "ALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `sequencing`.`bills` (
   `id`
 ) ON DELETE CASCADE;"
 # restrict client primers

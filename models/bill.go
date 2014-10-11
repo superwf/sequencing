@@ -66,3 +66,28 @@ func CreateBill(orderIds []int, createDate time.Time)(Bill){
   }
   return bill
 }
+
+func (bill *Bill)BillOrders()([]map[string]interface{}){
+  db := Db.Table("bill_orders").Where("bill_orders.bill_id = ?", bill.Id).Select("bill_orders.order_id, orders.sn, clients.name, bill_orders.price, bill_orders.other_money, bill_orders.charge_count, bill_orders.money, orders.remark, bill_orders.remark").Joins("INNER JOIN orders ON bill_orders.order_id = orders.id INNER JOIN clients ON orders.client_id = clients.id")
+  rows, _ := db.Rows()
+  result := []map[string]interface{}{}
+  for rows.Next() {
+    var order, client, orderRemark, remark string
+    var id, chargeCount int
+    var price, otherMoney, money float64
+    rows.Scan(&id, &order, &client, &price, &otherMoney, &chargeCount, &money, &orderRemark, &remark)
+    d := map[string]interface{}{
+      "id": id,
+      "order": order,
+      "client": client,
+      "price": price,
+      "other_money": otherMoney,
+      "charge_count": chargeCount,
+      "money": money,
+      "order_remark": orderRemark,
+      "remark": remark,
+    }
+    result = append(result, d)
+  }
+  return result
+}

@@ -29,11 +29,3 @@ func GetReactions(req *http.Request)([]Reaction, int){
   db.Limit(PerPage).Offset(page * PerPage).Find(&records)
   return records, count
 }
-
-// make the order same with sample, as a quick key
-func (record *Reaction) BeforeSave() error {
-  if record.Sample.OrderId > 0 {
-    record.OrderId = record.Sample.OrderId
-  }
-  return nil
-}

@@ -1,24 +1,22 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Order', 'SequencingConst', ($scope, Bill, Order, SequencingConst) ->
+angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Order', 'SequencingConst', 'Modal', '$modal', ($scope, Bill, Order, SequencingConst, Modal, $modal) ->
   $scope.getBills = ->
     $scope.showBills = true
     $scope.showOrders = false
-    if !$scope.bills
-      Bill.query (data)->
-        $scope.bills = data.records
-        $scope.totalItems = data.totalItems
-        $scope.perPage = data.perPage
-        null
+    Bill.query (data)->
+      $scope.bills = data.records
+      $scope.totalItems = data.totalItems
+      $scope.perPage = data.perPage
+      null
   $scope.newBill = ->
     $scope.showOrders = true
     $scope.showBills = false
-    if !$scope.orders
-      Order.query status: 'to_checkout', (data)->
-        $scope.orders = data.records
-        $scope.totalItems = data.totalItems
-        $scope.perPage = data.perPage
-        null
+    Order.query status: 'to_checkout', (data)->
+      $scope.orders = data.records
+      $scope.totalItems = data.totalItems
+      $scope.perPage = data.perPage
+      null
   $scope.orderStatus = SequencingConst.orderStatus
 
   $scope.checkout = ->
@@ -28,6 +26,19 @@ angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Orde
         ids.push o.id
     if ids.length
       Bill.create ids: ids, create_date: $scope.today
+      $scope.newBill()
 
   $scope.today = SequencingConst.date2string()
+
+  $scope.delete = (id, index)->
+    Bill.delete {id: id}
+    $scope.bills.splice index, 1
+
+  $scope.edit = (record)->
+    Modal.record = record
+    Modal.modal = $modal.open {
+      templateUrl: '/views/bill.html'
+      controller: 'BillCtrl'
+      size: 'lg'
+    }
 ]

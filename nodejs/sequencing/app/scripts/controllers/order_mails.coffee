@@ -14,7 +14,8 @@ angular.module('sequencingApp').controller 'OrderMailsCtrl', ['$scope', 'Sequenc
       null
 
   $scope.expand = (order)->
-    if !order.reactions
+    order.reactions ||= []
+    if !order.reactions.length
       Order.interpretedReactionFiles id: order.id, (data)->
         order.reactions = data
     else

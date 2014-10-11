@@ -24,6 +24,15 @@ func CreateBill(params martini.Params, req *http.Request, r render.Render, sessi
 
   bill.CreatorId = session.Get("id").(int)
   saved := models.Db.Save(&bill)
+  if saved.Error == nil {
+    for _, id := range(orderIds){
+      order := models.Order{Id: id}
+      models.Db.First(&order)
+      order.CheckStatus()
+    }
+  } else {
+    panic(saved.Error)
+  }
   renderDbResult(r, saved, bill)
 }
 

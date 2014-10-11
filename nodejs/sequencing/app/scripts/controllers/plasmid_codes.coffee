@@ -3,8 +3,8 @@
 angular.module('sequencingApp').controller 'PlasmidCodesCtrl', ['$scope', 'PlasmidCode', 'Modal', '$modal', ($scope, PlasmidCode, Modal, $modal) ->
   $scope.searcher = {}
   $scope.search = ->
-    PlasmidCode.query $scope.searcher (data) ->
-      $scope.records = data.records
+    PlasmidCode.query $scope.searcher, (data) ->
+      $scope.records = data.records || []
       $scope.totalItems = data.totalItems
       $scope.perPage = data.perPage
       return

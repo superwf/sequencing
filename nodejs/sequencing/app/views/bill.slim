@@ -1,0 +1,37 @@
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th ng-bind="'order' | translate"
+      th ng-bind="'client' | translate"
+      th ng-bind="'price' | translate"
+      th
+        | {{'charge' | translate}}{{'count' | translate}}
+      th
+        | {{'other' | translate}}{{'money' | translate}}
+      th
+        | {{'order' | translate}}{{'remark' | translate}}
+      th ng-bind="'remark' | translate"
+  tbody
+    tr ng-repeat="r in bill.bill_orders" ng-click='click(r.id, r.name)'
+      td
+        a.btn.btn-success ng-click='edit(r)' ng-show='!inModal'
+          | {{r.order}}
+      td
+        | {{r.client}}
+      td
+        input.form-control ng-model='record.price' placeholder='{{"price" | translate}}' title='{{"price" | translate}}'
+      td
+        input.form-control ng-model='record.charge_count' placeholder='{{"charge" | translate}}{{"count" | translate}}' title='{{"charge" | translate}}{{"count" | translate}}'
+      td
+        input.form-control ng-model='record.other_money' placeholder='{{"other" | translate}}{{"money" | translate}}' title='{{"other" | translate}}{{"money" | translate}}'
+      td
+        | {{r.money}}
+      td
+        | {{r.order_remark}}
+      td
+        input.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
+        a.btn.btn-success ng-click='save(r)'
+          | {{'save' | translate}}
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}' ng-show='!inModal'
+          | {{'delete' | translate}}
+.navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"

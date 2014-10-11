@@ -1,7 +1,7 @@
 'use strict'
 angular.module('sequencingApp').controller 'InterpreteCodesCtrl', ['$scope', 'InterpreteCode', 'Modal', '$modal', ($scope, InterpreteCode, Modal, $modal) ->
   InterpreteCode.query (data) ->
-    $scope.records = data.records
+    $scope.records = data.records || []
     $scope.totalItems = data.totalItems
     $scope.perPage = data.perPage
     return
@@ -22,7 +22,7 @@ angular.module('sequencingApp').controller 'InterpreteCodesCtrl', ['$scope', 'In
   $scope.edit = (record)->
     Modal.record = record
     Modal.modal = $modal.open {
-      templateUrl: '/views/InterpreteCode.html'
+      templateUrl: '/views/interpreteCode.html'
       controller: 'InterpreteCodeCtrl'
     }
 ]

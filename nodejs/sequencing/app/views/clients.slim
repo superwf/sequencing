@@ -2,17 +2,23 @@ ng-include src="'/views/clientSearch.html'"
 table.table.table-bordered.table-striped
   thead
     tr
-      th ng-bind="'name' | translate"
+      th
+        | {{'name' | translate}}
+        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate" ng-show='!inModal'
       th ng-bind="'company' | translate"
       th ng-bind="'email' | translate"
       th ng-bind="'tel' | translate"
       th ng-bind="'address' | translate"
       th ng-show='!inModal'
-        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate"
   tbody
     tr ng-repeat="r in records" ng-click='click(r.id, r.name)'
       td
-        | {{r.name}}
+        a.btn.btn-success ng-click='edit(r)' ng-show='!inModal'
+          | {{r.name}}
+        span ng-show='inModal'
+          | {{r.name}}
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}' ng-show='!inModal'
+          | {{'delete' | translate}}
       td
         | {{r.company}}
       td
@@ -22,9 +28,5 @@ table.table.table-bordered.table-striped
       td
         | {{r.address}}
       td ng-show='!inModal'
-        a.btn.btn-success ng-click='edit(r)'
-          | {{'edit' | translate}}
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}'
-          | {{'delete' | translate}}
 .navbar.text-center
   ng-include src="'/views/pager.html'"

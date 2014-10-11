@@ -2,7 +2,7 @@
 
 angular.module('sequencingApp').controller 'VectorsCtrl', ['$scope', 'Vector', 'Modal', '$modal', ($scope, Vector, Modal, $modal) ->
   Vector.query (data) ->
-    $scope.records = data.records
+    $scope.records = data.records || []
     $scope.totalItems = data.totalItems
     $scope.perPage = data.perPage
     null

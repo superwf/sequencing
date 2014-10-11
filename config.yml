@@ -28,6 +28,7 @@ default: &default
     abiInstruments: ['1','2','3','4']
     interpreteResults: ['pass', 'concession', 'rework', 'reshake']
     interpreteStatus: ['interpreting', 'interpreted', 'sent']
+    billFlow: ['sign', 'invoice', 'confirm', 'pay', 'bad_debt']
 development:
   <<: *default
   reaction_file:

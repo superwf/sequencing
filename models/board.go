@@ -250,7 +250,7 @@ func (board *Board)NextProcedure()(nextProcedure Procedure){
 
 func TypesetingReactionSampleBoards()([]map[string]interface{}){
   rows, _ := Db.Table("boards").Select("DISTINCT boards.id, boards.sn, boards.board_head_id").Joins("INNER JOIN samples ON samples.board_id = boards.id INNER JOIN prechecks ON prechecks.sample_id = samples.id INNER JOIN precheck_codes ON prechecks.code_id = precheck_codes.id INNER JOIN reactions ON samples.id = reactions.sample_id INNER JOIN dilute_primers ON reactions.dilute_primer_id = dilute_primers.id").Where("reactions.board_id = 0 AND precheck_codes.ok = 1 AND dilute_primers.status <> 'runout'").Rows()
-  var result []map[string]interface{}
+  result := []map[string]interface{}{}
   for rows.Next() {
     var id, boardHeadId int
     var sn string

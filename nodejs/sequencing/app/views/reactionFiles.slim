@@ -28,7 +28,7 @@ table.table.table-bordered ng-show='downloadingRecords.length > 0'
       td
         | {{r.upload_time | date: 'yyyy-MM-dd HH:mm:ss'}}
 
-div.well ng-show='interpretingRecords.length > 0'
+.well ng-show='interpretingRecords.length > 0'
   .btn-group
     button.btn type='button' ng-repeat='code in codes' ng-click='selectCode(code)' ng-class='interpreteCodeColor[code.result]'
       | {{code.code}}

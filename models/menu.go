@@ -49,3 +49,10 @@ func Navigation(u *User) []map[string]interface{} {
   }
   return result
 }
+
+//func GetMenus(req *http.Request)([]Menu, int){
+//  db := Db.Model(Menu{}).Order("id")
+//  records := []Menu{}
+//  db.Find(&records)
+//  return records, 0
+//}

@@ -12,6 +12,7 @@ import(
   "github.com/go-martini/martini"
   "github.com/martini-contrib/sessions"
   "strconv"
+  "reflect"
 )
 
 // for common json render
@@ -93,7 +94,7 @@ func GetRecords(params martini.Params, req *http.Request, r render.Render) {
 }
 
 // resources and id are the route params
-func initRecord(resources string, id int) models.RecordCreator {
+func initRecord(resources string, id int)(interface{}) {
   switch resources {
   case "procedures":
     return &models.Procedure{Id: id}
@@ -111,10 +112,6 @@ func initRecord(resources string, id int) models.RecordCreator {
     return &models.Primer{Id: id}
   case "orders":
     return &models.Order{Id: id}
-  //case "samples":
-  //  return &models.Sample{Id: id}
-  //case "reactions":
-  //  return &models.Reaction{Id: id}
   case "boardRecords":
     return &models.BoardRecord{Id: id}
   case "plasmidCodes":
@@ -153,7 +150,12 @@ func CreateRecord(params martini.Params, r render.Render, req *http.Request, ses
   //var record models.ValidateSave
   record := initRecord(params["resources"], 0)
   parseJson(record, req)
-  record.SetCreator(session.Get("id").(int))
+  creatorId := session.Get("id").(int)
+  e := reflect.ValueOf(record).Elem()
+  f := e.FieldByName("CreatorId")
+  if f.IsValid() && f.CanSet() {
+    f.Set(reflect.ValueOf(creatorId))
+  }
   saved := models.Db.Save(record)
   renderDbResult(r, saved, record)
 }
