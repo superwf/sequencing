@@ -7,6 +7,6 @@ class CreateBillRecords < ActiveRecord::Migration
       t.text :data, null: false
       t.timestamps
     end
-    add_index :bill_records, :bill_id, name: :bill_id
+    add_index :bill_records, [:bill_id, :flow], name: :bill_id, unique: true
   end
 end

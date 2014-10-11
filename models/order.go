@@ -110,12 +110,6 @@ func (order *Order)RelateReactions(){
   Db.Exec("UPDATE samples, reactions SET reactions.order_id = samples.order_id WHERE samples.order_id = ?", order.Id)
 }
 
-// clear all samples and reactions
-// done by mysql forign key constraint in rails db:seed
-//func (order *Order)AfterDelete() {
-//  Db.Exec("DELETE samples, reactions FROM samples, reactions WHERE samples.order_id = ? AND samples.id = reactions.sample_id", order.Id)
-//}
-
 func (order *Order)InterpretedReactionFiles()([]map[string]interface{}){
   result := []map[string]interface{}{}
   rows, _ := Db.Select("reactions.id, samples.name, primers.name, precheck_codes.code, precheck_codes.remark, prechecker.name, interprete_codes.code, interprete_codes.result, interprete_codes.remark, interpreter.name").Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN primers ON reactions.primer_id = primers.id INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN prechecks ON samples.id = prechecks.sample_id INNER JOIN precheck_codes ON prechecks.code_id = precheck_codes.id INNER JOIN users AS prechecker ON prechecker.id = prechecks.creator_id INNER JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id INNER JOIN users AS interpreter ON reaction_files.interpreter_id = interpreter.id").Where("samples.order_id = ? AND reaction_files.status = 'interpreted'", order.Id).Rows()
@@ -152,6 +146,9 @@ func (order *Order)Reinterprete(){
 }
 
 func (order *Order)CheckStatus() {
+  if order.Status == "" && order.Id > 0 {
+    Db.First(order)
+  }
   switch order.Status {
     case "new":
       var count int
@@ -187,8 +184,8 @@ func (order *Order)CheckStatus() {
       var reactionCount int
       var interpretedCount int
       Db.Table("reactions").Where("reactions.order_id = ?", order.Id).Count(&reactionCount)
-      Db.Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id").Where("reaction_files.status = 'interpreted'").Count(&interpretedCount)
-      if reactionCount != interpretedCount {
+      Db.Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id").Where("reaction_files.status <> 'interpreting'").Count(&interpretedCount)
+      if reactionCount > interpretedCount {
         Db.Model(order).Update("status", "run")
         return
       }

@@ -122,6 +122,8 @@ func initRecord(resources string, id int)(interface{}) {
     return &models.InterpreteCode{Id: id}
   case "bills":
     return &models.Bill{Id: id}
+  case "billRecords":
+    return &models.BillRecord{Id: id}
   default:
     return nil
   }
@@ -147,7 +149,6 @@ func UpdateRecord(params martini.Params, r render.Render, req *http.Request) {
 }
 
 func CreateRecord(params martini.Params, r render.Render, req *http.Request, session sessions.Session) {
-  //var record models.ValidateSave
   record := initRecord(params["resources"], 0)
   parseJson(record, req)
   creatorId := session.Get("id").(int)

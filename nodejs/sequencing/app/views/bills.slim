@@ -25,6 +25,8 @@ table.table.table-bordered.table-striped ng-show='showBills'
           | {{b.sn}}
         a.btn.btn-danger ng-confirm-click='delete(b.id, $index)' message='{{"confirm" | translate}}'
           | {{'delete' | translate}}
+        a.btn.btn-success ng-click='run(b)' ng-show='b.status != "pay" && b.status != "bad_debt"'
+          | {{b.status | translate}}
       td
         | {{b.create_date | date: 'yyyy-MM-dd'}}
       td

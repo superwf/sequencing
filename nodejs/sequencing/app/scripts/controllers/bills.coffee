@@ -25,8 +25,8 @@ angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Orde
       if angular.element('tr.ui-selected[i='+i+']').length
         ids.push o.id
     if ids.length
-      Bill.create ids: ids, create_date: $scope.today
-      $scope.newBill()
+      Bill.create ids: ids, create_date: $scope.today, ->
+        $scope.newBill()
 
   $scope.today = SequencingConst.date2string()
 
@@ -41,4 +41,16 @@ angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Orde
       controller: 'BillCtrl'
       size: 'lg'
     }
+
+  $scope.run = (bill)->
+    Modal.bill = bill
+    modal = $modal.open {
+      templateUrl: '/views/billRecord.html'
+      controller: 'BillRecordCtrl'
+    }
+    modal.result.then ->
+      #Bill.nextFlow id: bill.id, (procedure)->
+      #  bill.procedure = procedure
+      #  bill.procedure_id = procedure.id
+      null
 ]

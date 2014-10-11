@@ -71,6 +71,10 @@ db.execute "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `s
 db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `sequencing`.`bills` (
   `id`
 ) ON DELETE CASCADE;"
+# cascade order bill_orders
+db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `order_id` ) REFERENCES `sequencing`.`orders` (
+  `id`
+) ON DELETE CASCADE;"
 # cascade bill bill_records
 db.execute "ALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `sequencing`.`bills` (
   `id`

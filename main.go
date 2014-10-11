@@ -57,9 +57,14 @@ func main() {
     m.Put("/submitInterpretedReactionFiles", controllers.SubmitInterpretedReactionFiles)
     m.Put("/reinterprete", controllers.Reinterprete)
     m.Post("/bills", controllers.CreateBill)
+    m.Delete("/bills/:id", controllers.DeleteBill)
     m.Get("/menus", controllers.GetMenus)
     m.Get("/testing", controllers.Testing)
     m.Get("/billOrders/:bill_id", controllers.GetBillOrders)
+    m.Put("/billOrders", controllers.UpdateBillOrder)
+    m.Delete("/billOrders/:id", controllers.DeleteBillOrder)
+    //m.Post("/billRecords", controllers.CreateBillRecord)
+    //m.Put("/billRecords", controllers.UpdateBillRecord)
 
     // for simple rest request
     m.Get("/:resources", controllers.GetRecords)

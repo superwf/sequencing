@@ -6,6 +6,7 @@ angular.module('sequencingApp').factory 'Bill', ['SequencingConst', '$resource',
     create: {method: 'POST'}
     query: {isArray: false, method: 'GET'}
     bill_orders: {isArray: true, method: 'GET', url: SequencingConst.api + '/billOrders/:bill_id'}
-    update_bill_order: {method: 'PUT', url: SequencingConst.api + '/billOrders/:id'}
+    update_bill_order: {method: 'PUT', url: SequencingConst.api + '/billOrders'}
+    delete_bill_order: {method: 'DELETE', url: SequencingConst.api + '/billOrders/:id'}
   }
 ]

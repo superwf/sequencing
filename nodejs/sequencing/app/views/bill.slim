@@ -9,6 +9,8 @@ table.table.table-bordered.table-striped
       th
         | {{'other' | translate}}{{'money' | translate}}
       th
+        | {{'total' | translate}}{{'money' | translate}}
+      th
         | {{'order' | translate}}{{'remark' | translate}}
       th ng-bind="'remark' | translate"
   tbody
@@ -19,19 +21,19 @@ table.table.table-bordered.table-striped
       td
         | {{r.client}}
       td
-        input.form-control ng-model='record.price' placeholder='{{"price" | translate}}' title='{{"price" | translate}}'
+        input.form-control ng-model='r.price' placeholder='{{"price" | translate}}' title='{{"price" | translate}}' type='number'
       td
-        input.form-control ng-model='record.charge_count' placeholder='{{"charge" | translate}}{{"count" | translate}}' title='{{"charge" | translate}}{{"count" | translate}}'
+        input.form-control ng-model='r.charge_count' placeholder='{{"charge" | translate}}{{"count" | translate}}' title='{{"charge" | translate}}{{"count" | translate}}'
       td
-        input.form-control ng-model='record.other_money' placeholder='{{"other" | translate}}{{"money" | translate}}' title='{{"other" | translate}}{{"money" | translate}}'
+        input.form-control ng-model='r.other_money' placeholder='{{"other" | translate}}{{"money" | translate}}' title='{{"other" | translate}}{{"money" | translate}}' type='number'
       td
         | {{r.money}}
       td
         | {{r.order_remark}}
       td
-        input.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
+        input.form-control ng-model='r.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
         a.btn.btn-success ng-click='save(r)'
           | {{'save' | translate}}
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}' ng-show='!inModal'
+        a.btn.btn-danger ng-confirm-click='delete(r, $index)' message='{{"confirm" | translate}}' ng-show='!inModal'
           | {{'delete' | translate}}
 .navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"

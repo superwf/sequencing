@@ -1,0 +1,19 @@
+h2.text-center
+  | {{bill.status | translate}}
+.row
+  .col-md-8.col-md-offset-2
+    form.form-horizontal.well.text-center name='form'
+      div ng-show='bill.status == "sign"'
+        .form-group
+          input.form-control ng-model='record.data.sign' placeholder='{{"sign" | translate}}' title='{{"sign" | translate}}'
+        .form-group
+          input.form-control ng-model='record.data.sign_date' placeholder='{{"sign" | translate}}{{"date" | translate}}' title='{{"sign" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+      div ng-show='bill.status == "invoice"'
+        .form-group
+          input.form-control ng-model='record.data.invoice_sn' placeholder='{{"invoice" | translate}}{{"number" | translate}}' title='{{"invoice" | translate}}{{"number" | translate}}'
+        .form-group
+          input.form-control ng-model='record.data.invoice_head' placeholder='{{"invoice_head" | translate}}' title='{{"invoice_head" | translate}}' type='number'
+        .form-group
+          input.form-control ng-model='record.data.invoice_money' placeholder='{{"invoice" | translate}}{{"money" | translate}}' title='{{"invoice" | translate}}{{"money" | translate}}' type='number'
+      .form-group
+        button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'
