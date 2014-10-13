@@ -108,7 +108,7 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: sample_board
+  name: sample_flow
   url: '/boards?board_type=sample&status=unfinish'
   parent_id: <%= sample_flow_id %>
 <% reaction_flow_id = ::FactoryGirl.generate :menu %>
@@ -165,39 +165,3 @@ end
   name: bill
   url: '/bills'
   parent_id: <%= bill_id %>
-<% mail_id = ::FactoryGirl.generate :menu %>
--
-  id: <%= mail_id %>
-  name: email
-  url: ''
-  parent_id: 0
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: order_mail
-  url: '/order_mails'
-  parent_id: <%= mail_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: primer_mail
-  url: '/primer_mails'
-  parent_id: <%= mail_id %>
-<% statistic_id = ::FactoryGirl.generate :menu %>
--
-  id: <%= statistic_id %>
-  name: statistic
-  url: ''
-  parent_id: 0
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: statistic_sample_head
-  url: '/statistic/sample_head'
-  parent_id: <%= statistic_id %>
-<% id = ::FactoryGirl.generate :menu %>
--
-  id: <%= id %>
-  name: statistic_client
-  url: '/statistic/client'
-  parent_id: <%= statistic_id %>

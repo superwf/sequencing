@@ -1,19 +1,27 @@
 'use strict'
-angular.module('sequencingApp').controller 'BillRecordCtrl', ['$scope', 'BillRecord', 'SequencingConst', 'Modal', ($scope, BillRecord, SequencingConst, Modal) ->
+angular.module('sequencingApp').controller 'BillRecordCtrl', ['$scope', 'BillRecord', 'SequencingConst', 'Modal', 'Bill', ($scope, BillRecord, SequencingConst, Modal, Bill) ->
   $scope.bill = Modal.bill
-  billFlow = SequencingConst.billFlow
-  $scope.record = {
-    data: {}
-  }
+  $scope.billStatus = SequencingConst.billStatus
+  BillRecord.get id: $scope.bill.id, (data)->
+    if data.bill_id
+      $scope.record = data
+      $scope.record.data = JSON.parse(data.data)
+    else
+      $scope.record = {
+        data: {}
+      }
+    null
+
   $scope.save = ->
     BillRecord.create {
-      flow: $scope.bill.status
-      data: JSON.stringify($scope.record.data)
       bill_id: $scope.bill.id
+      data: JSON.stringify($scope.record.data)
     } , ->
-      i = billFlow.indexOf $scope.bill.status
-      nextFlow = billFlow[i+1]
-      if nextFlow
-        $scope.bill.status = nextFlow
+      $scope.$close 'ok'
+
+  $scope.payType = SequencingConst.payType
+
+  $scope.$watch 'bill.status', (s)->
+    Bill.update id: $scope.bill.id, $scope.bill
   null
 ]

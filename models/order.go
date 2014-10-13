@@ -6,6 +6,7 @@ import(
   "strconv"
   "errors"
   "net/http"
+  "sequencing/config"
 )
 
 // status is new run checkout finish
@@ -178,7 +179,7 @@ func (order *Order)CheckStatus() {
       var billOrder BillOrder
       Db.Where("order_id = ?", order.Id).First(&billOrder)
       if billOrder.BillId > 0 {
-        Db.Model(order).Update("status", "checkout")
+        Db.Model(order).Update("status", config.OrderStatus[3])
         return
       }
       var reactionCount int
@@ -186,7 +187,7 @@ func (order *Order)CheckStatus() {
       Db.Table("reactions").Where("reactions.order_id = ?", order.Id).Count(&reactionCount)
       Db.Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id").Where("reaction_files.status <> 'interpreting'").Count(&interpretedCount)
       if reactionCount > interpretedCount {
-        Db.Model(order).Update("status", "run")
+        Db.Model(order).Update("status", config.OrderStatus[1])
         return
       }
     case "checkout":
@@ -196,15 +197,19 @@ func (order *Order)CheckStatus() {
         Db.Model(order).Update("status", "finish")
         return
       } else if bill.Status == "" {
-        Db.Model(order).Update("status", "to_checkout")
+        Db.Model(order).Update("status", config.OrderStatus[2])
       }
 
     case "finish":
-      var count int
-      Db.Table("bill_orders").Joins("INNRE JOIN bills ON bill_orders.bill_id = bills.id").Where("bill_orders.order_id = ? AND bills.status == 'finish'", order.Id).Count(&count)
-      if count == 0 {
-        Db.Model(order).Update("status", "checkout")
-        return
+      var bill Bill
+      Db.Table("bills").Joins("INNRE JOIN bill_orders ON bill_orders.bill_id = bills.id").Where("bill_orders.order_id = ?", order.Id).First(&bill)
+      if bill.Id > 0 {
+        if bill.Status != config.BillStatus[3] && bill.Status !=config.BillStatus[4] {
+          Db.Model(order).Update("status", "checkout")
+          return
+        }
+      } else {
+        Db.Model(order).Update("status", config.OrderStatus[2])
       }
   }
 }

@@ -1,5 +1,6 @@
 'use strict'
-angular.module('sequencingApp').controller 'InterpreteCodesCtrl', ['$scope', 'InterpreteCode', 'Modal', '$modal', ($scope, InterpreteCode, Modal, $modal) ->
+angular.module('sequencingApp').controller 'InterpreteCodesCtrl', ['$scope', 'InterpreteCode', 'Modal', '$modal', 'SequencingConst', ($scope, InterpreteCode, Modal, $modal, SequencingConst) ->
+  $scope.interpreteCodeColor = SequencingConst.interpreteCodeColor
   InterpreteCode.query (data) ->
     $scope.records = data.records || []
     $scope.totalItems = data.totalItems

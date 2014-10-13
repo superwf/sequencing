@@ -5,7 +5,7 @@ angular.module('sequencingApp').factory 'SequencingConst', ['$http', ($http)->
     auth: '/api/auth'
     api: '/api/v1'
     yesno: {true: 'yes', false: 'no'}
-    interpreteCodeColor: {pass: "btn-success", rework: "btn-danger", concession: "btn-info", reshake: "btn-warning"}
+    interpreteCodeColor: {pass: "alert-success", rework: "alert-danger", concession: "alert-info", reshake: "alert-warning"}
     copyWithDate: (record, field)->
       r= angular.copy(record)
       if typeof(field) == 'string'

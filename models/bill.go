@@ -48,7 +48,7 @@ func GetBills(req *http.Request)([]map[string]interface{}, int){
 
 // generate sn and init status
 func GenerateBillSn(orderIds []int, createDate time.Time)(Bill){
-  bill := Bill{CreateDate: createDate, Status: config.BillFlow[0]}
+  bill := Bill{CreateDate: createDate, Status: config.BillStatus[0]}
   date := createDate.Format("2006-01-02")
   var number int
   Db.Select("MAX(number)").Table("bills").Where("create_date = ?", date).Row().Scan(&number)
@@ -90,4 +90,14 @@ func (bill *Bill)UpdateMoney(){
   b := Bill{Money: money + otherMoney}
   b.Money = bill.Money + b.OtherMoney
   Db.Model(&bill).UpdateColumns(b)
+}
+
+func (bill *Bill)AfterSave()(error){
+  if bill.Status == config.BillStatus[4] || bill.Status == config.BillStatus[3] {
+    go func(){
+      lastOrderStatus := config.OrderStatus[len(config.OrderStatus) - 1]
+      Db.Exec("UPDATE orders, bill_orders SET orders.status = ? WHERE bill_orders.bill_id = ?", lastOrderStatus, bill.Id)
+    }()
+  }
+  return nil
 }

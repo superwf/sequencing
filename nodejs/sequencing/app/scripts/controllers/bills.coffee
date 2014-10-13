@@ -9,7 +9,7 @@ angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Orde
       $scope.totalItems = data.totalItems
       $scope.perPage = data.perPage
       null
-  $scope.newBill = ->
+  newBill = ->
     $scope.showOrders = true
     $scope.showBills = false
     Order.query status: 'to_checkout', (data)->
@@ -20,13 +20,16 @@ angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Orde
   $scope.orderStatus = SequencingConst.orderStatus
 
   $scope.checkout = ->
-    ids = []
-    angular.forEach $scope.orders, (o, i)->
-      if angular.element('tr.ui-selected[i='+i+']').length
-        ids.push o.id
-    if ids.length
-      Bill.create ids: ids, create_date: $scope.today, ->
-        $scope.newBill()
+    if $scope.orders && $scope.orders.length
+      ids = []
+      angular.forEach $scope.orders, (o, i)->
+        if angular.element('tr.ui-selected[i='+i+']').length
+          ids.push o.id
+      if ids.length
+        Bill.create ids: ids, create_date: $scope.today, ->
+          newBill()
+    else
+      newBill()
 
   $scope.today = SequencingConst.date2string()
 
@@ -47,10 +50,7 @@ angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Orde
     modal = $modal.open {
       templateUrl: '/views/billRecord.html'
       controller: 'BillRecordCtrl'
+      size: 'lg'
     }
-    modal.result.then ->
-      #Bill.nextFlow id: bill.id, (procedure)->
-      #  bill.procedure = procedure
-      #  bill.procedure_id = procedure.id
-      null
+
 ]

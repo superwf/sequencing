@@ -26,7 +26,6 @@ table.table.table-bordered.table-striped
         | {{'available' | translate}}
       th
         | {{'remark' | translate}}
-      th ng-show='!inModal'
   tbody
     tr ng-repeat="r in records" ng-click='click(r.id, r.name)'
       td
@@ -34,6 +33,8 @@ table.table.table-bordered.table-striped
           | {{r.name}}
         span ng-show='inModal'
           | {{r.name}}
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}' ng-show='!inModal'
+          | {{'delete' | translate}}
       td
         | {{r.origin_thickness}}
       td
@@ -60,8 +61,5 @@ table.table.table-bordered.table-striped
         | {{yesno[r.available] | translate}}
       td
         | {{r.remark}}
-      td ng-show='!inModal'
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}'
-          | {{'delete' | translate}}
 .navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"
   ng-include src="'/views/pager.html'"

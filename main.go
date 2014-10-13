@@ -63,6 +63,9 @@ func main() {
     m.Get("/billOrders/:bill_id", controllers.GetBillOrders)
     m.Put("/billOrders", controllers.UpdateBillOrder)
     m.Delete("/billOrders/:id", controllers.DeleteBillOrder)
+    m.Get("/billRecords/:bill_id", controllers.GetBillRecord)
+    m.Post("/billRecords", controllers.CreateBillRecord)
+    m.Put("/billRecords", controllers.UpdateBillRecord)
     //m.Post("/billRecords", controllers.CreateBillRecord)
     //m.Put("/billRecords", controllers.UpdateBillRecord)
 

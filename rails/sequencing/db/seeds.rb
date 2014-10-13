@@ -32,7 +32,7 @@ tables = db.tables
 %w[schema_migrations menus_roles users roles].each do |t|
   tables.delete t
 end
-special = %w[prechecks reaction_files plasmids bill_orders]
+special = %w[prechecks reaction_files plasmids bill_orders bill_records pc_relations]
 tables.each do |t|
   #begin
     model_class = eval(t.classify)

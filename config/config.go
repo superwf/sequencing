@@ -12,7 +12,8 @@ var Config map[interface{}]interface{}
 var ReactionFilePath string
 var ReactionFileSuffix []string
 var Consts map[string]interface{}
-var BillFlow []string
+var BillStatus []string
+var OrderStatus []string
 
 func init() {
   env := os.Getenv("GOENV")
@@ -46,9 +47,13 @@ func init() {
   for k, v := range(consts) {
     Consts[k.(string)] = v
   }
-  bf := Consts["billFlow"].([]interface{})
-  for _, v := range bf {
-    BillFlow = append(BillFlow, v.(string))
+  billStatus := Consts["billStatus"].([]interface{})
+  for _, v := range billStatus {
+    BillStatus = append(BillStatus, v.(string))
+  }
+  orderStatus := Consts["orderStatus"].([]interface{})
+  for _, v := range orderStatus {
+    OrderStatus = append(OrderStatus, v.(string))
   }
 
   reactionFile := Config["reaction_file"].(map[interface{}]interface{})

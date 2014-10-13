@@ -1,19 +1,57 @@
-h2.text-center
-  | {{bill.status | translate}}
+h3.text-center
+  | {{'checkout' | translate}}{{'flow' | translate}}{{'data' | translate}}
 .row
   .col-md-8.col-md-offset-2
-    form.form-horizontal.well.text-center name='form'
-      div ng-show='bill.status == "sign"'
+    form.form-horizontal.text-center name='form'
+      .well
+        h4.text-center
+          | {{'sign_bill' | translate}}
         .form-group
-          input.form-control ng-model='record.data.sign' placeholder='{{"sign" | translate}}' title='{{"sign" | translate}}'
+          .col-md-5
+            input.form-control ng-model='record.data.bill_signer' placeholder='{{"bill" | translate}}{{"signer" | translate}}' title='{{"bill" | translate}}{{"signer" | translate}}'
+          .col-md-5
+            input.form-control ng-model='record.data.bill_sign_date' placeholder='{{"bill" | translate}}{{"sign" | translate}}{{"date" | translate}}' title='{{"bill" | translate}}{{"sign" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+      .well
+        h4.text-center
+          | {{'make_invoice' | translate}}
         .form-group
-          input.form-control ng-model='record.data.sign_date' placeholder='{{"sign" | translate}}{{"date" | translate}}' title='{{"sign" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
-      div ng-show='bill.status == "invoice"'
+          .col-md-5
+            input.form-control ng-model='record.data.invoice_sn' placeholder='{{"invoice" | translate}}{{"number" | translate}}' title='{{"invoice" | translate}}{{"number" | translate}}'
+          .col-md-5
+            input.form-control ng-model='record.data.invoice_money' placeholder='{{"invoice" | translate}}{{"money" | translate}}' title='{{"invoice" | translate}}{{"money" | translate}}'
+          .col-md-12
+            input.form-control ng-model='record.data.invoice_head' placeholder='{{"invoice_head" | translate}}' title='{{"invoice_head" | translate}}'
+      .well
+        h4.text-center
+          | {{'confirm_detail' | translate}}
         .form-group
-          input.form-control ng-model='record.data.invoice_sn' placeholder='{{"invoice" | translate}}{{"number" | translate}}' title='{{"invoice" | translate}}{{"number" | translate}}'
+          .col-md-5
+            input.form-control ng-model='record.data.confirm_detail_signer' placeholder='{{"confirm_detail" | translate}}{{"signer" | translate}}' title='{{"confirm_detail" | translate}}{{"signer" | translate}}'
+          .col-md-5
+            input.form-control ng-model='record.data.confirm_detail_sign_date' placeholder='{{"confirm_detail" | translate}}{{"sign" | translate}}{{"date" | translate}}' title='{{"confirm_detail" | translate}}{{"sign" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+      .well
+        h4.text-center
+          | {{'pay' | translate}}
         .form-group
-          input.form-control ng-model='record.data.invoice_head' placeholder='{{"invoice_head" | translate}}' title='{{"invoice_head" | translate}}' type='number'
+          .col-md-5
+            input.form-control ng-model='record.data.pay_date' placeholder='{{"pay" | translate}}{{"date" | translate}}' title='{{"pay" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+          .col-md-5
+            input.form-control ng-model='record.data.check_number' placeholder='{{"check_number" | translate}}' title='{{"check_number" | translate}}'
         .form-group
-          input.form-control ng-model='record.data.invoice_money' placeholder='{{"invoice" | translate}}{{"money" | translate}}' title='{{"invoice" | translate}}{{"money" | translate}}' type='number'
+          label
+            | {{'pay' | translate}}{{'type' | translate}}
+          .btn-group
+            button.btn.btn-primary type='button' ng-model='record.data.pay_type' btn-radio='t' ng-repeat='t in payType'
+              | {{t | translate}}
+      .well
+        h4.text-center
+          | {{'bad_debt' | translate}}
+        .form-group
+          input.form-control ng-model='record.data.bad_debt_remark' placeholder='{{"bad_debt" | translate}}{{"remark" | translate}}' title='{{"bad_debt" | translate}}{{"remark" | translate}}'
+      .well
+        .form-group
+          .btn-group
+            button.btn.btn-primary type='button' ng-model='bill.status' btn-radio='s' ng-repeat='s in billStatus'
+              | {{s | translate}}
       .form-group
         button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

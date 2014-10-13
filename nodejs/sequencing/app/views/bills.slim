@@ -1,8 +1,6 @@
 .text-center
   .btn-group
-    button.btn.btn-info type='button' ng-click='newBill()'
-      | {{'view' | translate}}{{'checkout' | translate}}{{'order' | translate}}
-    button.btn.btn-success ng-click='checkout()' ng-show='showOrders'
+    button.btn.btn-success ng-click='checkout()'
       | {{'create' | translate}}{{'bill' | translate}}
     input.form-control style='float: left; width: 10em;' ng-show='showOrders' ng-model='today' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
     button.btn.btn-primary type='button' ng-click='getBills()'
@@ -18,6 +16,7 @@ table.table.table-bordered.table-striped ng-show='showBills'
       th ng-bind="'money' | translate"
       th
         | {{'other' | translate}}{{'money' | translate}}
+      th ng-bind="'status' | translate"
   tbody
     tr ng-repeat="b in bills"
       td
@@ -25,8 +24,8 @@ table.table.table-bordered.table-striped ng-show='showBills'
           | {{b.sn}}
         a.btn.btn-danger ng-confirm-click='delete(b.id, $index)' message='{{"confirm" | translate}}'
           | {{'delete' | translate}}
-        a.btn.btn-success ng-click='run(b)' ng-show='b.status != "pay" && b.status != "bad_debt"'
-          | {{b.status | translate}}
+        a.btn.btn-success ng-click='run(b)'
+          | {{'flow' | translate}}
       td
         | {{b.create_date | date: 'yyyy-MM-dd'}}
       td
@@ -35,6 +34,8 @@ table.table.table-bordered.table-striped ng-show='showBills'
         | {{b.money}}
       td
         | {{b.other_money}}
+      td
+        | {{b.status | translate}}
 
 table.table.table-bordered ng-show='showOrders'
   thead

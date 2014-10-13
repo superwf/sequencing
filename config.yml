@@ -28,7 +28,9 @@ default: &default
     abiInstruments: ['1','2','3','4']
     interpreteResults: ['pass', 'concession', 'rework', 'reshake']
     interpreteStatus: ['interpreting', 'interpreted', 'sent']
-    billFlow: ['sign', 'invoice', 'confirm', 'pay', 'payed', 'bad_debt']
+    billStatus: ['sign_bill', 'invoice', 'confirm_detail', 'payed', 'bad_debt']
+    payType: ['check', 'cash', 'transfer_accounts']
+    emailType: ['primer', 'precheck', 'interprete']
 development:
   <<: *default
   reaction_file:

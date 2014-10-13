@@ -122,8 +122,6 @@ func initRecord(resources string, id int)(interface{}) {
     return &models.InterpreteCode{Id: id}
   case "bills":
     return &models.Bill{Id: id}
-  case "billRecords":
-    return &models.BillRecord{Id: id}
   default:
     return nil
   }
