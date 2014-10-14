@@ -9,8 +9,11 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
       $scope.records = data.records
       angular.forEach $scope.records, (record)->
         if record.procedure_id > 0
-          Procedure.get id: record.procedure_id, (procedure)->
-            record.procedure = procedure
+          if SequencingConst.procedures[record.procedure_id]
+            record.procedure = SequencingConst.procedures[record.procedure_id]
+          else
+            Procedure.get id: record.procedure_id, (procedure)->
+              record.procedure = procedure
       $scope.totalItems = data.totalItems
       $scope.perPage = data.perPage
       return

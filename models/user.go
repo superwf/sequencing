@@ -34,7 +34,12 @@ func GetUsers(req *http.Request)([]User, int){
   var count int
   db.Count(&count)
   users := []User{}
-  db.Limit(PerPage).Offset(page * PerPage).Find(&users)
+  all := req.FormValue("all")
+  if all != "" {
+    db.Find(&users)
+  } else {
+    db.Limit(PerPage).Offset(page * PerPage).Find(&users)
+  }
   return users, count
 }
 

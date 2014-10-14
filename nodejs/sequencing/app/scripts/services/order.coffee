@@ -8,5 +8,7 @@ angular.module('sequencingApp').factory 'Order', ['SequencingConst', '$resource'
     query: {isArray: false, method: 'GET'}
     interpretedReactionFiles: {isArray: true, url: SequencingConst.api + '/interpretedReactionFiles/:id'}
     reinterprete: {method: 'PUT', url: SequencingConst.api + '/reinterprete'}
+    submitInterpretedReactionFiles: {method: 'PUT', url: SequencingConst.api + '/submitInterpretedReactionFiles'}
+    sending: {isArray: true, url: SequencingConst.api + '/sendingOrderEmails'}
   }
 ]

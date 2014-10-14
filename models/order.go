@@ -27,6 +27,68 @@ type Order struct {
 }
 
 // generate sn
+func (order *Order)GenerateReworkSn(parentOrder *Order){
+  board_head := BoardHead{}
+  Db.Where("available = 1 AND id = ?", order.BoardHeadId).First(&board_head)
+  if board_head.Name != "" && parentOrder.Sn != "" {
+    order.Sn = parentOrder.Sn + "-" + board_head.Name + order.CreateDate.Format("0102")
+    Db.Where("sn = ?", order.Sn).First(&order)
+  } else {
+    order.Sn = ""
+  }
+  Db.Save(order)
+}
+
+// generate rework order by interprete_code
+func (order *Order)GenerateReworkOrder(){
+  rows, _ := Db.Table("reaction_files").Select("reactions.id, samples.id, interprete_codes.board_head_id").Joins("INNER JOIN interprete_codes ON reaction_files.code_id = interprete_coedes.id INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN sampls ON reactions.sample_id = samples.id").Where("reactions.order_id = ? AND interprete_codes.board_head_id > 0", order.Id).Rows()
+  for rows.Next() {
+    var reactionId, sampleId, boardHeadId int
+    rows.Scan(&reactionId, &sampleId, &boardHeadId)
+    newOrder := Order{BoardHeadId: boardHeadId, CreateDate: time.Now()}
+    newOrder.GenerateReworkSn(order)
+    sample := Sample{}
+    Db.Select("samples.*").Table("samples, pc_relations").Where("pc_relations.parent_id = ? AND pc_relations.table_name = 'samples' AND pc_relations.child_id = samples.id AND samples.order_id = ?", sampleId, newOrder.Id).First(&sample)
+    // if no child sample in the new order
+    if sample.Id == 0 {
+      sample := Sample{Id: sampleId}
+      Db.First(&sample)
+      sample.Id = 0
+      sample.OrderId = newOrder.Id
+      sample.BoardId = 0
+      sample.Hole = ""
+      Db.Save(&sample)
+      SavePcRelation(sampleId, sample.Id, "samples")
+
+      reaction := Reaction{Id: reactionId}
+      Db.First(&reaction)
+      reaction.Id = 0
+      reaction.OrderId = newOrder.Id
+      reaction.BoardId = 0
+      reaction.Hole = ""
+      reaction.DilutePrimerId = 0
+      reaction.SampleId = sample.Id
+      Db.Save(&reaction)
+      SavePcRelation(reactionId, reaction.Id, "reactions")
+    } else {
+      reaction := Reaction{}
+      Db.Select("reactions.*").Table("reactions, pc_relations").Where("pc_relations.parent_id = ? AND pc_relations.table_name = 'reactions' AND pc_relations.child_id = reactions.id AND reactions.order_id = ? AND ", reactionId, newOrder.Id).First(&reaction)
+      if reaction.Id == 0 {
+        reaction := Reaction{Id: reactionId}
+        Db.First(&reaction)
+        reaction.Id = 0
+        reaction.OrderId = newOrder.Id
+        reaction.SampleId = sample.Id
+        reaction.BoardId = 0
+        reaction.Hole = ""
+        reaction.DilutePrimerId = 0
+        Db.Save(&reaction)
+        SavePcRelation(reactionId, reaction.Id, "reactions")
+      }
+    }
+  }
+}
+
 func (record *Order)BeforeCreate() error {
   client := Client{Id: record.ClientId}
   Db.First(&client)
@@ -137,13 +199,14 @@ func (order *Order)InterpretedReactionFiles()([]map[string]interface{}){
 
 // when sent, the order should can checkout
 func (order *Order)SubmitInterpretedReactionFiles(){
-  Db.Exec("UPDATE reaction_files, reactions, samples SET reaction_files.status = 'sent' WHERE samples.order_id = ? AND samples.id = reactions.sample_id AND reactions.id = reaction_files.reaction_id AND reaction_files.status = 'interpreted'", order.Id)
+  Db.Exec("UPDATE reaction_files, reactions SET reaction_files.status = 'sent' WHERE reactions.order_id = ? AND reactions.id = reaction_files.reaction_id AND reaction_files.status = 'interpreted'", order.Id)
   Db.First(order)
   order.CheckStatus()
+  order.GenerateReworkOrder()
 }
 
-func (order *Order)Reinterprete(){
-  Db.Exec("UPDATE reaction_files, reactions, samples SET reaction_files.status = 'interpreting' WHERE samples.order_id = ? AND samples.id = reactions.sample_id AND reactions.id = reaction_files.reaction_id AND reaction_files.status = 'interpreted'", order.Id)
+func (order *Order)Reinterprete(interpreterId int){
+  Db.Exec("UPDATE reaction_files, reactions SET reaction_files.status = 'interpreting', reaction_files.interpreter_id = ? WHERE reactions.order_id = ? AND reactions.id = reaction_files.reaction_id AND reaction_files.status = 'interpreted'", interpreterId, order.Id)
 }
 
 func (order *Order)CheckStatus() {
@@ -202,7 +265,7 @@ func (order *Order)CheckStatus() {
 
     case "finish":
       var bill Bill
-      Db.Table("bills").Joins("INNRE JOIN bill_orders ON bill_orders.bill_id = bills.id").Where("bill_orders.order_id = ?", order.Id).First(&bill)
+      Db.Table("bills").Joins("INNER JOIN bill_orders ON bill_orders.bill_id = bills.id").Where("bill_orders.order_id = ?", order.Id).First(&bill)
       if bill.Id > 0 {
         if bill.Status != config.BillStatus[3] && bill.Status !=config.BillStatus[4] {
           Db.Model(order).Update("status", "checkout")

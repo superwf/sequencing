@@ -20,8 +20,6 @@ angular.module('sequencingApp').controller 'ReactionFilesCtrl', ['$scope', 'Reac
             $scope.interpretingRecords[i].instrument = JSON.parse($scope.interpretingRecords[i].instrument)
             $scope.interpretingRecords[i].quadrant = SequencingConst.quadrant($scope.interpretingRecords[i].reaction_hole)
             $scope.interpretingRecords[i].code = $scope.codes[v.code_id]
-            #console.log v.code_id
-            #console.log $scope.codes[v.code_id]
       else
         ReactionFile.download (data) ->
           if data.length

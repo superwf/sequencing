@@ -1,0 +1,40 @@
+/.text-center
+/  .btn-group
+/    button.btn.btn-primary type='button' ng-click='getOrders()'
+/      | {{'send' | translate}}{{'email' | translate}}
+/    button.btn.btn-info type='button' ng-click='getOrderMails()'
+/      | {{'view' | translate}}{{'email' | translate}}
+table.table.table-bordered ng-repeat='order in orders' ng-show='orders.length > 0'
+  tbody selectable='' selectable-options='{filter: "tr.order", cancel: "button"}'
+    tr.order i='{{$index}}'
+      td
+        | {{order.client}}
+      td
+        button.btn.btn-info ng-click='expand(order)'
+          | {{order.order}}
+    tr ng-show='order.reactions.length > 0'
+      td colspan='2'
+        table.table.table-bordered
+          thead
+            th
+              | {{'reaction' | translate}}{{'sn' | translate}}
+            th ng-bind="'sample' | translate"
+            th ng-bind="'primer' | translate"
+            th ng-bind="'precheck' | translate"
+            th ng-bind="'prechecker' | translate"
+            th ng-bind="'interprete' | translate"
+            th ng-bind="'interpreter' | translate"
+          tbody ng-repeat='r in order.reactions'
+            td ng-bind='r.id'
+            td ng-bind='r.sample'
+            td ng-bind='r.primer'
+            td
+              | {{r.precheck_code}}[{{r.precheck_remark}}]
+            td ng-bind='r.prechecker'
+            td ng-class='interpreteCodeColor[r.interpreteResult]'
+              | {{r.interpreteCode}}[{{r.interpreteResult | translate}}][{{r.interpreteRemark}}]
+            td ng-bind='r.interpreter'
+.navbar.text-center.navbar-fixed-bottom ng-show='orders.length'
+  button.btn.btn-success ng-click='send(true)' ng-bind='"send" | translate'
+  button.btn.btn-info ng-click='send(false)' ng-bind='"submit" | translate'
+  button.btn.btn-warning ng-click='reinterprete()' ng-bind='"reinterprete" | translate'

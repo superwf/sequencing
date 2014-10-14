@@ -26,11 +26,11 @@ default: &default
     boardStatus: ['new', 'run', 'finish']
     transportCondition: ['4-10degree', 'dry_ice', 'room_temperature']
     abiInstruments: ['1','2','3','4']
-    interpreteResults: ['pass', 'concession', 'rework', 'reshake']
+    interpreteResult: ['pass', 'concession', 'rework', 'reshake']
     interpreteStatus: ['interpreting', 'interpreted', 'sent']
     billStatus: ['sign_bill', 'invoice', 'confirm_detail', 'payed', 'bad_debt']
     payType: ['check', 'cash', 'transfer_accounts']
-    emailType: ['primer', 'precheck', 'interprete']
+    emailType: ['primer_expire', 'precheck', 'interprete']
 development:
   <<: *default
   reaction_file:

@@ -20,3 +20,17 @@ func CreateOrder(params martini.Params, req *http.Request, r render.Render, sess
   }
   renderDbResult(r, saved, order)
 }
+
+func Reinterprete(req *http.Request, r render.Render, session sessions.Session){
+  record := map[string]int{}
+  parseJson(&record, req)
+  id, ok := record["id"]
+  interpreterId := session.Get("id").(int)
+  if ok && id > 0 {
+    order := models.Order{Id: id}
+    order.Reinterprete(interpreterId)
+    r.JSON(http.StatusOK, Ok_true)
+  } else {
+    r.JSON(http.StatusNotAcceptable, Ok_false)
+  }
+}

@@ -6,6 +6,7 @@ class CreateInterpreteCodes < ActiveRecord::Migration
       t.string :remark, null: false
       t.column :available, 'TINYINT(1) UNSIGNED', null: false, default: true
       t.column :charge, 'TINYINT(1) UNSIGNED', null: false, default: false
+      t.column :board_head_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.column :creator_id, 'INT(11) UNSIGNED', null: false
       t.timestamps
     end

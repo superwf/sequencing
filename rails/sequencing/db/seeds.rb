@@ -29,10 +29,10 @@ end
 
 # convert all datetime field default to 0000-00-00 00:00:00 to avoid go timt.Time can not null error
 tables = db.tables
-%w[schema_migrations menus_roles users roles].each do |t|
+%w[schema_migrations menus_roles users roles pc_relations].each do |t|
   tables.delete t
 end
-special = %w[prechecks reaction_files plasmids bill_orders bill_records pc_relations]
+special = %w[prechecks reaction_files plasmids bill_orders bill_records]
 tables.each do |t|
   #begin
     model_class = eval(t.classify)

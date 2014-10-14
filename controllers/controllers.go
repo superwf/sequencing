@@ -67,8 +67,8 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetPrechecks(req)
   case "interpreteCodes":
     return models.GetInterpreteCodes(req)
-  case "orderMails":
-    return models.GetOrderMails(req)
+  case "emails":
+    return models.GetEmails(req)
   case "bills":
     return models.GetBills(req)
   //case "reactinoFiles":
@@ -122,6 +122,8 @@ func initRecord(resources string, id int)(interface{}) {
     return &models.InterpreteCode{Id: id}
   case "bills":
     return &models.Bill{Id: id}
+  case "emails":
+    return &models.Email{Id: id}
   default:
     return nil
   }

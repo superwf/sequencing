@@ -1,0 +1,41 @@
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th ng-bind="'client' | translate"
+      th ng-bind="'order' | translate"
+      th ng-bind="'type' | translate"
+      th
+        | {{'reaction' | translate}}{{'sn' | translate}}
+      th ng-bind="'sample' | translate"
+      th ng-bind="'vector' | translate"
+      th ng-bind="'sample_board' | translate"
+      th ng-bind="'primer' | translate"
+      th ng-bind="'precheck' | translate"
+      th ng-bind="'interprete' | translate"
+      th ng-bind="'interpreter' | translate"
+  tbody
+    tr ng-repeat="r in records"
+      td
+        | {{r.client}}
+      td
+        | {{r.order}}
+      td
+        | {{r.board_head.name}}
+      td
+        | {{r.id}}
+      td
+        | {{r.sample}}
+      td
+        | {{r.vector}}
+      td
+        | {{r.sample_board}}:{{r.sample_hole}}
+      td
+        | {{r.primer}}
+      td
+        | {{r.precheck_code.code}}
+      td
+        | {{r.interprete_code.code}}
+      td
+        | {{r.interpreter}}
+.navbar.text-center.navbar-fixed-bottom
+  ng-include src="'/views/pager.html'"

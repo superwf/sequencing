@@ -6,7 +6,7 @@ class CreatePcRelations < ActiveRecord::Migration
       t.string :table_name, null: false
       t.column :child_id, 'INT(11) UNSIGNED', null: false
     end
-    add_index :pc_relations, [:parent_id, :child_id, :table_name], name: :parent_id, unique: true
+    add_index :pc_relations, [:parent_id, :table_name, :child_id], name: :primary, unique: true
     add_index :pc_relations, [:child_id, :table_name], name: :child_id
   end
 end

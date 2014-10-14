@@ -14,6 +14,8 @@ var ReactionFileSuffix []string
 var Consts map[string]interface{}
 var BillStatus []string
 var OrderStatus []string
+var EmailType []string
+var InterpreteResult []string
 
 func init() {
   env := os.Getenv("GOENV")
@@ -54,6 +56,14 @@ func init() {
   orderStatus := Consts["orderStatus"].([]interface{})
   for _, v := range orderStatus {
     OrderStatus = append(OrderStatus, v.(string))
+  }
+  emailType := Consts["emailType"].([]interface{})
+  for _, v := range emailType {
+    EmailType = append(EmailType, v.(string))
+  }
+  interpreteResult := Consts["interpreteResult"].([]interface{})
+  for _, v := range interpreteResult {
+    InterpreteResult = append(InterpreteResult, v.(string))
   }
 
   reactionFile := Config["reaction_file"].(map[interface{}]interface{})

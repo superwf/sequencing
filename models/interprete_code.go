@@ -10,6 +10,7 @@ type InterpreteCode struct {
   Code string `json:"code"`
   Result string `json:"result"`
   Charge bool `json:"charge"`
+  BoardHeadId int `json:"board_head_id"`
   Available bool `json:"available"`
   Remark string `json:"remark"`
   Creator

@@ -15,7 +15,7 @@
         .btn-group
           button.btn.btn-primary type='button' ng-model='record.charge' btn-radio='n' ng-repeat='n in [true, false]' required=''
             | {{yesno[n] | translate}}
-      .form-group.col-md-6
+      .form-group.col-md-12
         label
           | {{'result' | translate}}
         .btn-group
@@ -23,5 +23,11 @@
             | {{r | translate}}
       .form-group.col-md-12
         textarea.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
+      .form-group.col-md-12
+        label
+          | {{'rework' | translate}}{{'board_head' | translate}}
+        .btn-group
+          button.btn.btn-primary type='button' ng-model='record.board_head' btn-radio='h' ng-repeat='h in board_heads'
+            | {{h.name}}
       .form-group.col-md-12
         button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

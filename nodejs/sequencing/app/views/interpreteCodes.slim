@@ -8,6 +8,8 @@ table.table.table-bordered
       th ng-bind="'remark' | translate"
       th ng-bind="'charge' | translate"
       th ng-bind="'available' | translate"
+      th
+        | {{'rework' | translate}}{{'board_head' | translate}}
   tbody
     tr ng-repeat="r in records"
       td
@@ -23,5 +25,7 @@ table.table.table-bordered
         | {{yesno[r.charge] | translate}}
       td
         | {{yesno[r.available] | translate}}
+      td
+        | {{r.board_head.name}}
 .navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"
   ng-include src="'/views/pager.html'"

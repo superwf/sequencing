@@ -64,5 +64,39 @@ angular.module('sequencingApp').factory 'SequencingConst', ['$http', ($http)->
     for i, v of data
       sequencing[i] = v
     null
+  sequencing.procedures = {}
+  $http.get(sequencing.api + '/procedures?all=true&available=true').success (data)->
+    for i, v of data
+      sequencing.procedures[v.id] = v
+    null
+
+  sequencing.users = {}
+  $http.get(sequencing.api + '/users?all=true').success (data)->
+    for i, v of data
+      sequencing.users[v.id] = v
+    null
+
+  sequencing.boardHeads = {}
+  $http.get(sequencing.api + '/boardHeads?all=true&available=true').success (data)->
+    for i, v of data
+      sequencing.boardHeads[v.id] = v
+    null
+
+  sequencing.plasmidCodes = {}
+  $http.get(sequencing.api + '/plasmidCodes?all=true&available=true').success (data)->
+    for i, v of data
+      sequencing.plasmidCodes[v.id] = v
+    null
+  sequencing.precheckCodes = {}
+  $http.get(sequencing.api + '/precheckCodes?all=true&available=true').success (data)->
+    for i, v of data
+      sequencing.precheckCodes[v.id] = v
+    null
+
+  sequencing.interpreteCodes = {}
+  $http.get(sequencing.api + '/interpreteCodes?all=true&available=true').success (data)->
+    for i, v of data
+      sequencing.interpreteCodes[v.id] = v
+    null
   sequencing
 ]

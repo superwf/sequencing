@@ -8,8 +8,8 @@ angular.module('sequencingApp').controller 'VectorsCtrl', ['$scope', 'Vector', '
     null
  
   $scope.delete = (id, index)->
-    Vector.delete {id: id}
-    $scope.records.splice index, 1
+    Vector.delete {id: id}, ->
+      $scope.records.splice index, 1
 
   $scope.create = ->
     Modal.record = {}

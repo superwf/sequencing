@@ -6,6 +6,7 @@ angular.module('sequencingApp').factory 'Reaction', ['SequencingConst', '$resour
     'delete': {method: 'DELETE', url: SequencingConst.api + '/reactions/:id'}
     create: {method: 'POST'}
     query: {isArray: false, method: 'GET'}
+    all: {isArray: true, method: 'GET'}
     dilute: {isArray: true, method: 'GET', url: SequencingConst.api + '/dilutePrimers'}
   }
 ]

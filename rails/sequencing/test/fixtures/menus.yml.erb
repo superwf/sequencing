@@ -96,6 +96,12 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
+  name: new_rework_order
+  url: '/orders/newRework'
+  parent_id: <%= order_setting_id %>
+<% id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= id %>
   name: order
   url: '/orders'
   parent_id: <%= order_setting_id %>
@@ -132,7 +138,7 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: reaction
+  name: reaction_flow
   url: '/boards?board_type=reaction&status=unfinish'
   parent_id: <%= reaction_flow_id %>
 <% interprete_id = ::FactoryGirl.generate :menu %>
@@ -150,8 +156,8 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
-  name: email
-  url: '/sendingOrderMails'
+  name: send_email
+  url: '/sendOrderEmails'
   parent_id: <%= interprete_id %>
 <% bill_id = ::FactoryGirl.generate :menu %>
 -
@@ -165,3 +171,15 @@ end
   name: bill
   url: '/bills'
   parent_id: <%= bill_id %>
+<% email_id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= email_id %>
+  name: email
+  url: ''
+  parent_id: 0
+<% id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= id %>
+  name: email
+  url: '/emails'
+  parent_id: <%= email_id %>

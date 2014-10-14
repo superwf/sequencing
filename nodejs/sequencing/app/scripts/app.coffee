@@ -32,9 +32,9 @@ angular.module('sequencingApp', [
     .when '/orders',
       templateUrl: 'views/orders.html',
       controller: 'OrdersCtrl'
-    .when '/orders/:id',
-      templateUrl: 'views/order.html',
-      controller: 'OrderCtrl'
+    .when '/orders/newRework',
+      templateUrl: 'views/reworkOrder.html',
+      controller: 'ReworkOrderCtrl'
     .when '/primers',
       templateUrl: 'views/primers.html',
       controller: 'PrimersCtrl'
@@ -86,9 +86,12 @@ angular.module('sequencingApp', [
     .when '/reactionFiles',
       templateUrl: 'views/reactionFiles.html',
       controller: 'ReactionFilesCtrl'
-    .when '/sendingOrderMails',
-      templateUrl: 'views/orderMails.html',
-      controller: 'OrderMailsCtrl'
+    .when '/sendOrderEmails',
+      templateUrl: 'views/orderEmails.html',
+      controller: 'OrderEmailsCtrl'
+    .when '/emails',
+      templateUrl: 'views/emails.html',
+      controller: 'EmailsCtrl'
     .when '/bills',
       templateUrl: 'views/bills.html',
       controller: 'BillsCtrl'

@@ -1,0 +1,35 @@
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th
+        | {{'order' | translate}}/{{'primer' | translate}}
+      th ng-bind="'client' | translate"
+      th ng-bind="'type' | translate"
+      th ng-bind="'send' | translate"
+      th ng-bind="'created_at' | translate"
+      th ng-bind="'sender' | translate"
+      th
+        | {{'send' | translate}}{{'time' | translate}}
+  tbody
+    tr ng-repeat="e in emails"
+      td
+        | {{e.name}}
+      td
+        | {{e.client}}
+      td
+        | {{e.email_type | translate}}
+      td
+        | {{yesno[e.sent] | translate}}
+      td
+        | {{e.created_at | date: 'yyyy-MM-dd HH:mm:ss'}}
+      td
+        | {{e.creator}}
+      td
+        span ng-show='e.sent'
+          | {{e.updated_at | date: 'yyyy-MM-dd HH:mm:ss'}}
+        a.btn.btn-danger ng-confirm-click='delete(e.id, $index)' message='{{"confirm" | translate}}' ng-show='!e.sent'
+          | {{'delete' | translate}}
+        a.btn.btn-danger ng-confirm-click='resend(e)' message='{{"confirm" | translate}}' ng-show='e.sent'
+          | {{'resend' | translate}}
+.navbar.text-center.navbar-fixed-bottom
+  ng-include src="'/views/pager.html'"
