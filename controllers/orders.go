@@ -34,3 +34,10 @@ func Reinterprete(req *http.Request, r render.Render, session sessions.Session){
     r.JSON(http.StatusNotAcceptable, Ok_false)
   }
 }
+
+// show order`s reactions in bill_orderrs
+func OrderReactions(params martini.Params, req *http.Request, r render.Render){
+  id, _ := strconv.Atoi(params["id"])
+  order := models.Order{Id: id}
+  r.JSON(http.StatusOK, order.Reactions())
+}

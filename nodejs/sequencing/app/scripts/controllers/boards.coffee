@@ -8,6 +8,7 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
         d.create_date = new Date(d.create_date)
       $scope.records = data.records
       angular.forEach $scope.records, (record)->
+        record.board_head = SequencingConst.boardHeads[record.board_head_id]
         if record.procedure_id > 0
           if SequencingConst.procedures[record.procedure_id]
             record.procedure = SequencingConst.procedures[record.procedure_id]
@@ -42,15 +43,19 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
       ctrl = 'BoardRecordsCtrl'
     else
       ctrl = SequencingConst.camelcase(record_name) + 'Ctrl'
-    modal = $modal.open {
-      templateUrl: '/views/' + record_name + '.html'
-      controller: ctrl
-    }
-    modal.result.then ->
-      Board.nextProcedure id: board.id, (procedure)->
-        board.procedure = procedure
-        board.procedure_id = procedure.id
-        Modal.board = null
-        null
+    if board.procedure.record_name != 'reaction_files'
+      modal = $modal.open {
+        templateUrl: '/views/' + record_name + '.html'
+        size: 'lg'
+        controller: ctrl
+      }
+      modal.result.then ->
+        Board.nextProcedure id: board.id, (procedure)->
+          if procedure.id
+            board.procedure = procedure
+            board.procedure_id = procedure.id
+          Modal.board = null
+          null
+    null
   null
 ]

@@ -1,6 +1,6 @@
 h2.text-center
   | {{record.sn}}
-table.table-bordered
+table.table.table-bordered
   tr
     th
     th ng-repeat='c in cols'
@@ -9,4 +9,9 @@ table.table-bordered
     td.hole
       | {{r}}
     td.hole ng-repeat='c in cols' ng-click='selectHole(sn, c+r, board_id)'
-      | {{boardRecords[c+r].name}}
+      div ng-if='boardRecords[c+r].name'
+        | {{board_head.board_type | translate}} : {{boardRecords[c+r].name}}
+      div ng-if='boardRecords[c+r].sample'
+        | {{'sample' | translate}} : {{boardRecords[c+r].sample}}
+      div ng-if='boardRecords[c+r].primer'
+        | {{'primer' | translate}} : {{boardRecords[c+r].primer}}

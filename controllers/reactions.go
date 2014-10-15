@@ -23,3 +23,7 @@ func UpdateReactions(req *http.Request, r render.Render){
   }
   r.JSON(http.StatusOK, Ok_true)
 }
+
+func ReworkingReactions(req *http.Request, r render.Render){
+  r.JSON(http.StatusOK, models.ReworkingReactions(req))
+}

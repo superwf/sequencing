@@ -60,6 +60,7 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', 'M
       modal = $modal.open {
         templateUrl: '/views/boardHole.html'
         controller: 'BoardHoleCtrl'
+        size: 'lg'
         resolve:
           head: ->
             $scope.obj.primer_head

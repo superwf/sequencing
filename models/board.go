@@ -46,14 +46,14 @@ func (record *Board)BeforeSave() error {
 
 func GetBoards(req *http.Request)([]map[string]interface{}, int){
   page := getPage(req)
-  db := Db.Table("boards").Order("boards.id DESC").Select("boards.id, boards.sn, boards.create_date, boards.board_head_id, boards.procedure_id, boards.status, board_heads.name, board_heads.board_type").Where("board_heads.available = 1").Joins("INNER JOIN board_heads ON boards.board_head_id = board_heads.id")
+  db := Db.Table("boards").Order("boards.id DESC").Select("boards.id, boards.sn, boards.create_date, boards.board_head_id, boards.procedure_id, boards.status").Where("board_heads.available = 1")
   sn := req.FormValue("sn")
   if sn != "" {
     db = db.Where("boards.sn LIKE ?", sn)
   }
   board_type := req.FormValue("board_type")
   if board_type != "" {
-    db = db.Where("board_heads.board_type = ?", board_type)
+    db = db.Joins("INNER JOIN board_heads ON boards.board_head_id = board_heads.id").Where("board_heads.board_type = ?", board_type)
   }
   date_from := req.FormValue("date_from")
   if date_from != "" {
@@ -77,9 +77,9 @@ func GetBoards(req *http.Request)([]map[string]interface{}, int){
   var result []map[string]interface{}
   for rows.Next() {
     var id, board_head_id, procedure_id int
-    var sn, status, board_head, board_type string
+    var sn, status string
     var create_date time.Time
-    rows.Scan(&id, &sn, &create_date, &board_head_id, &procedure_id, &status, &board_head, &board_type)
+    rows.Scan(&id, &sn, &create_date, &board_head_id, &procedure_id, &status)
     board := Board{Id: id, BoardHeadId: board_head_id}
     d := map[string]interface{}{
       "id": id,
@@ -88,8 +88,6 @@ func GetBoards(req *http.Request)([]map[string]interface{}, int){
       "procedure_id": procedure_id,
       "create_date": create_date,
       "status": status,
-      "board_head": board_head,
-      "board_type": board_type,
       "count": board.RecordsCount(),
     }
     result = append(result, d)
@@ -242,7 +240,7 @@ func (board *Board)NextProcedure()(nextProcedure Procedure){
     Db.Model(board).UpdateColumn("procedure_id", nextFlow.ProcedureId)
     Db.First(&nextProcedure)
   } else {
-    Db.Exec("UPDATE boards SET procedure_id = 0, status = 'finish' WHERE id = ?", board.Id)
+    Db.Exec("UPDATE boards SET status = 'finish' WHERE id = ?", board.Id)
     //Db.Model(board).UpdateColumns(Board{ProcedureId: 0, Status: "finish"})
   }
   return nextProcedure

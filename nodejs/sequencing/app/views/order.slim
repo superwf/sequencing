@@ -22,5 +22,5 @@
       ng-include src="inModal ? null : '/views/newOrderBoard.html'"
       .form-group.col-md-12
         textarea.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
-      .form-group.col-md-12
-        button.btn.btn-success ng-click='save()' ng-bind='"save" | translate' ng-disabled='!form.$valid'
+.navbar.text-center.navbar-fixed-bottom
+  button.btn.btn-success ng-click='save()' ng-bind='"save" | translate' ng-disabled='!form.$valid'

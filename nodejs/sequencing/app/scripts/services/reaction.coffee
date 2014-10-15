@@ -8,5 +8,6 @@ angular.module('sequencingApp').factory 'Reaction', ['SequencingConst', '$resour
     query: {isArray: false, method: 'GET'}
     all: {isArray: true, method: 'GET'}
     dilute: {isArray: true, method: 'GET', url: SequencingConst.api + '/dilutePrimers'}
+    reworking: {isArray: true, method: 'GET', url: SequencingConst.api + '/reworkingReactions'}
   }
 ]

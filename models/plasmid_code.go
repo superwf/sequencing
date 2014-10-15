@@ -29,6 +29,14 @@ func GetPlasmidCodes(req *http.Request)([]PlasmidCode, int){
   if code != "" {
     db = db.Where("code = ?", code)
   }
+  available := req.FormValue("available")
+  if available != "" {
+    if available != "false" {
+      db = db.Where("available = 1")
+    } else {
+      db = db.Where("available = 0")
+    }
+  }
   var count int
   records := []PlasmidCode{}
   all := req.FormValue("all")

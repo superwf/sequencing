@@ -10,5 +10,6 @@ angular.module('sequencingApp').factory 'Order', ['SequencingConst', '$resource'
     reinterprete: {method: 'PUT', url: SequencingConst.api + '/reinterprete'}
     submitInterpretedReactionFiles: {method: 'PUT', url: SequencingConst.api + '/submitInterpretedReactionFiles'}
     sending: {isArray: true, url: SequencingConst.api + '/sendingOrderEmails'}
+    reactions: {method: 'GET', isArray: true, url: SequencingConst.api + '/orderReactions/:id'}
   }
 ]

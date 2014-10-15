@@ -10,7 +10,7 @@ import (
 func GetCompanyTree(params martini.Params, req *http.Request, r render.Render) {
   id, _ := strconv.Atoi(params["id"])
   records := models.GetCompanyTree(id)
-  var result []map[string]interface{}
+  result := []map[string]interface{}{}
   for _, r := range(records) {
     d := map[string]interface{}{
       "id": r.Id,

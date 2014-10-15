@@ -28,6 +28,7 @@ func main() {
   m.Use(render.Renderer())
   m.Use(requireLogin)
   m.Group("/api/v1", func(r martini.Router) {
+    m.Get("/config", controllers.Config)
     m.Put("/roles/:id", controllers.UpdateRole)
     m.Get("/companyTree/:id", controllers.GetCompanyTree)
     m.Post("/orders", controllers.CreateOrder)
@@ -66,6 +67,8 @@ func main() {
     m.Get("/billRecords/:bill_id", controllers.GetBillRecord)
     m.Post("/billRecords", controllers.CreateBillRecord)
     m.Put("/billRecords", controllers.UpdateBillRecord)
+    m.Get("/orderReactions/:id", controllers.OrderReactions)
+    m.Get("/reworkingReactions", controllers.ReworkingReactions)
     //m.Post("/billRecords", controllers.CreateBillRecord)
     //m.Put("/billRecords", controllers.UpdateBillRecord)
 
@@ -86,7 +89,7 @@ func main() {
     m.Get("/uploading", controllers.UploadingReactionBoards)
     m.Post("/:board/:file", controllers.CreateReactionFile)
   })
-  m.Get("/api/consts", controllers.Consts)
+  //m.Get("/api/consts", controllers.Consts)
 
   http.ListenAndServe(Config["port"].(string), m)
 }

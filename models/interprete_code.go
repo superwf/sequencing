@@ -34,7 +34,11 @@ func GetInterpreteCodes(req *http.Request)([]InterpreteCode, int){
   }
   available := req.FormValue("available")
   if available != "" {
-    db = db.Where("available = ?", available)
+    if available != "false" {
+      db = db.Where("available = 1")
+    } else {
+      db = db.Where("available = 0")
+    }
   }
   var count int
   records := []InterpreteCode{}

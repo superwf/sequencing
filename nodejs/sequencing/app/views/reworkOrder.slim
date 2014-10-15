@@ -1,4 +1,4 @@
-table.table.table-bordered.table-striped
+table.table.table-bordered
   thead
     tr
       th ng-bind="'client' | translate"
@@ -13,8 +13,8 @@ table.table.table-bordered.table-striped
       th ng-bind="'precheck' | translate"
       th ng-bind="'interprete' | translate"
       th ng-bind="'interpreter' | translate"
-  tbody
-    tr ng-repeat="r in records"
+  tbody selectable='' selectable-options='{filter: "tr"}'
+    tr ng-repeat="r in records" i='{{$index}}'
       td
         | {{r.client}}
       td
@@ -36,6 +36,12 @@ table.table.table-bordered.table-striped
       td
         | {{r.interprete_code.code}}
       td
-        | {{r.interpreter}}
+        | {{r.interpreter.name}}
 .navbar.text-center.navbar-fixed-bottom
-  ng-include src="'/views/pager.html'"
+  .btn-group
+    button.btn.btn-warning ng-click='addition()'
+      | {{'addition' | translate}}
+    button.btn.btn-warning ng-click='reshake()'
+      | {{'reshake' | translate}}
+    button.btn.btn-success ng-click='pcr()'
+      | PCR

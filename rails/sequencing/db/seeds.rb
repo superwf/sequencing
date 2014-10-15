@@ -1,9 +1,14 @@
 db = ::Menu.connection
-seeds = %w{menus}
+seeds = %w{menus procedures}
 seeds.each do |f|
   yml = ::Rails.root.join("test/fixtures/#{f}.yml")
   table_name = f
-  db.execute("TRUNCATE TABLE #{table_name}")
+
+  # foreign key can not truncate
+  if table_name != 'procedures'
+    db.execute("TRUNCATE TABLE #{table_name}")
+  end
+
   if f == 'menus'
     #file_name = yml + '.erb'
     yml = ::ERB.new(::File.read("#{yml}.erb")).result(binding) 

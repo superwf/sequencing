@@ -4,6 +4,7 @@ import(
   "net/http"
   "time"
   "errors"
+  "sequencing/config"
 )
 
 type Primer struct {
@@ -27,7 +28,6 @@ type Primer struct {
   Creator
 }
 
-// todo when save generate expire date
 func (record *Primer) BeforeSave() error {
   if len(record.Name) > 200 || len(record.Name) == 0 {
     return errors.New("name length error")
@@ -47,11 +47,24 @@ func (record *Primer) BeforeSave() error {
     Db.Where("board_id = ? AND hole = ? AND id <> ?", record.BoardId, record.Hole, record.Id).First(&exist)
   } else {
     Db.Where("board_id = ? AND hole = ?", record.BoardId, record.Hole).First(&exist)
-    // todo generate expire date depend on store_type
   }
   if exist.Id > 0 {
     return errors.New("board hole repeat")
   }
+
+  // generate expire date depend on store_type
+  if record.StoreType == config.PrimerStoreType[0] {
+    record.ExpireDate = record.CreateDate.Add(time.Hour * 24 * 90)
+  }
+  if record.StoreType == config.PrimerStoreType[1] {
+    record.ExpireDate = record.CreateDate.Add(time.Hour * 24 * 365)
+  }
+  if record.Status == config.PrimerStatus[0] || record.Status == config.PrimerStatus[3] {
+    record.Available = false
+  } else {
+    record.Available = true
+  }
+
   return nil
 }
 
@@ -81,6 +94,14 @@ func GetPrimers(req *http.Request)([]map[string]interface{}, int){
   status := req.FormValue("status")
   if status != "" {
     db = db.Where("primers.status = ?", status)
+  }
+  available := req.FormValue("available")
+  if available != "" {
+    if available != "false" {
+      db = db.Where("primers.available = 1")
+    } else {
+      db = db.Where("primers.available = 0")
+    }
   }
   var count int
   db.Count(&count)

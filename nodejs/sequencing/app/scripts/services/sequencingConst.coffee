@@ -1,7 +1,6 @@
 'use strict'
 angular.module('sequencingApp').factory 'SequencingConst', ['$http', ($http)->
   sequencing = {
-    consts: '/api/consts'
     auth: '/api/auth'
     api: '/api/v1'
     yesno: {true: 'yes', false: 'no'}
@@ -60,42 +59,39 @@ angular.module('sequencingApp').factory 'SequencingConst', ['$http', ($http)->
       else if colRemainder == 1 && rowRemainder == 1
         4
   }
-  $http.get(sequencing.consts).success (data)->
-    for i, v of data
+
+  $http.get(sequencing.api + '/config').success (data)->
+    for i, v of data.config
       sequencing[i] = v
     null
-  sequencing.procedures = {}
-  $http.get(sequencing.api + '/procedures?all=true&available=true').success (data)->
-    for i, v of data
+
+    sequencing.procedures = {}
+    for i, v of data.procedures
       sequencing.procedures[v.id] = v
     null
 
-  sequencing.users = {}
-  $http.get(sequencing.api + '/users?all=true').success (data)->
-    for i, v of data
+    sequencing.users = {}
+    for i, v of data.users
       sequencing.users[v.id] = v
     null
 
-  sequencing.boardHeads = {}
-  $http.get(sequencing.api + '/boardHeads?all=true&available=true').success (data)->
-    for i, v of data
+    sequencing.boardHeads = {}
+    for i, v of data.boardHeads
       sequencing.boardHeads[v.id] = v
     null
 
-  sequencing.plasmidCodes = {}
-  $http.get(sequencing.api + '/plasmidCodes?all=true&available=true').success (data)->
-    for i, v of data
+    sequencing.plasmidCodes = {}
+    for i, v of data.plasmidCodes
       sequencing.plasmidCodes[v.id] = v
     null
-  sequencing.precheckCodes = {}
-  $http.get(sequencing.api + '/precheckCodes?all=true&available=true').success (data)->
-    for i, v of data
+
+    sequencing.precheckCodes = {}
+    for i, v of data.precheckCodes
       sequencing.precheckCodes[v.id] = v
     null
 
-  sequencing.interpreteCodes = {}
-  $http.get(sequencing.api + '/interpreteCodes?all=true&available=true').success (data)->
-    for i, v of data
+    sequencing.interpreteCodes = {}
+    for i, v of data.interpreteCodes
       sequencing.interpreteCodes[v.id] = v
     null
   sequencing

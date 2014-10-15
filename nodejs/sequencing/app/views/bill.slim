@@ -16,7 +16,7 @@ table.table.table-bordered.table-striped
   tbody
     tr ng-repeat="r in bill.bill_orders" ng-click='click(r.id, r.name)'
       td
-        a.btn.btn-success ng-click='edit(r)' ng-show='!inModal'
+        a.btn.btn-success ng-click='showOrder(r)'
           | {{r.order}}
       td
         | {{r.client}}

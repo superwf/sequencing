@@ -6,8 +6,8 @@ angular.module('sequencingApp').controller 'InterpreteCodesCtrl', ['$scope', 'In
     if $scope.records.length
       angular.forEach $scope.records, (v, i)->
         if v.board_head_id
-          if SequencingConst.board_heads[v.board_head_id]
-            v.board_head = SequencingConst.board_heads[v.board_head_id]
+          if SequencingConst.boardHeads[v.board_head_id]
+            v.board_head = SequencingConst.boardHeads[v.board_head_id]
           else
             BoardHead.get id: v.board_head_id, (data)->
               v.board_head = data

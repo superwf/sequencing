@@ -25,6 +25,8 @@ table#reaction_board.table-bordered.ui-selectable
     td.hole ng-repeat='c in reaction_board.cols' ng-click='selectReactionHole(c+r)' hole='{{c+r}}' col='{{c}}' row='{{r}}'
       .reaction ng-click='returnReaction(c+r, reaction_board.records[c+r])'
         | {{reaction_board.records[c+r].primer}}
+        .span ng-if='reaction_board.records[c+r]'
+          | [{{reaction_board.records[c+r].hole}}]
 
 .navbar.text-center
   .col-md-12.text-center

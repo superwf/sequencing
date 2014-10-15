@@ -30,6 +30,14 @@ func GetPrecheckCodes(req *http.Request)([]PrecheckCode, int){
   if code != "" {
     db = db.Where("code = ?", code)
   }
+  available := req.FormValue("available")
+  if available != "" {
+    if available != "false" {
+      db = db.Where("available = 1")
+    } else {
+      db = db.Where("available = 0")
+    }
+  }
   var count int
   records := []PrecheckCode{}
   all := req.FormValue("all")

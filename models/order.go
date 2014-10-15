@@ -41,7 +41,7 @@ func (order *Order)GenerateReworkSn(parentOrder *Order){
 
 // generate rework order by interprete_code
 func (order *Order)GenerateReworkOrder(){
-  rows, _ := Db.Table("reaction_files").Select("reactions.id, samples.id, interprete_codes.board_head_id").Joins("INNER JOIN interprete_codes ON reaction_files.code_id = interprete_coedes.id INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN sampls ON reactions.sample_id = samples.id").Where("reactions.order_id = ? AND interprete_codes.board_head_id > 0", order.Id).Rows()
+  rows, _ := Db.Table("reaction_files").Select("reactions.id, samples.id, interprete_codes.board_head_id").Joins("INNER JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN samples ON reactions.sample_id = samples.id").Where("reactions.order_id = ? AND interprete_codes.board_head_id > 0", order.Id).Rows()
   for rows.Next() {
     var reactionId, sampleId, boardHeadId int
     rows.Scan(&reactionId, &sampleId, &boardHeadId)
@@ -275,4 +275,23 @@ func (order *Order)CheckStatus() {
         Db.Model(order).Update("status", config.OrderStatus[2])
       }
   }
+}
+
+func (order *Order)Reactions()([]map[string]interface{}){
+  db := Db.Select("samples.name, boards.sn, primers.name, reaction_files.code_id, reactions.remark").Table("reactions").Joins("INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN primers ON reactions.primer_id = primers.id LEFT JOIN boards ON samples.board_id = boards.id LEFT JOIN reaction_files ON reactions.id = reaction_files.reaction_id").Where("reactions.order_id = ?", order.Id)
+  rows, _ := db.Rows()
+  result := []map[string]interface{}{}
+  for rows.Next() {
+    var sample, board, primer, remark string
+    var codeId int
+    rows.Scan(&sample, &board, &primer, &codeId, &remark)
+    result = append(result, map[string]interface{}{
+      "sample": sample,
+      "board": board,
+      "primer": primer,
+      "code_id": codeId,
+      "remark": remark,
+    })
+  }
+  return result
 }

@@ -16,6 +16,8 @@ var BillStatus []string
 var OrderStatus []string
 var EmailType []string
 var InterpreteResult []string
+var PrimerStatus []string
+var PrimerStoreType []string
 
 func init() {
   env := os.Getenv("GOENV")
@@ -64,6 +66,15 @@ func init() {
   interpreteResult := Consts["interpreteResult"].([]interface{})
   for _, v := range interpreteResult {
     InterpreteResult = append(InterpreteResult, v.(string))
+  }
+
+  primerStoreType := Consts["primerStoreType"].([]interface{})
+  for _, v := range primerStoreType {
+    PrimerStoreType = append(PrimerStoreType, v.(string))
+  }
+  primerStatus := Consts["primerStatus"].([]interface{})
+  for _, v := range primerStatus {
+    PrimerStatus = append(PrimerStatus, v.(string))
   }
 
   reactionFile := Config["reaction_file"].(map[interface{}]interface{})

@@ -78,6 +78,12 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
+  name: primer_board
+  url: '/boards?board_type=primer'
+  parent_id: <%= primer_setting_id %>
+<% id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= id %>
   name: vector
   url: '/vectors'
   parent_id: <%= primer_setting_id %>
@@ -115,7 +121,7 @@ end
 -
   id: <%= id %>
   name: sample_flow
-  url: '/boards?board_type=sample&status=unfinish'
+  url: '/boards?board_type=sample'
   parent_id: <%= sample_flow_id %>
 <% reaction_flow_id = ::FactoryGirl.generate :menu %>
 -
@@ -139,7 +145,7 @@ end
 -
   id: <%= id %>
   name: reaction_flow
-  url: '/boards?board_type=reaction&status=unfinish'
+  url: '/boards?board_type=reaction'
   parent_id: <%= reaction_flow_id %>
 <% interprete_id = ::FactoryGirl.generate :menu %>
 -

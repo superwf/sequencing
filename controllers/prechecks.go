@@ -8,8 +8,6 @@ import (
   "net/http"
   "encoding/json"
   "strconv"
-  //"log"
-  //"github.com/go-martini/martini"
 )
 
 func CreatePrecheck(req *http.Request, r render.Render, session sessions.Session) {
@@ -17,11 +15,6 @@ func CreatePrecheck(req *http.Request, r render.Render, session sessions.Session
   decoder := json.NewDecoder(req.Body)
   err := decoder.Decode(&records)
   if err != nil { panic(err) }
-  //defer func(){
-  //  if r := recover(); r != nil {
-  //    log.Fatal(r)
-  //  }
-  //}()
   if len(records) > 0 {
     creatorId := strconv.Itoa(session.Get("id").(int))
     var sql []string

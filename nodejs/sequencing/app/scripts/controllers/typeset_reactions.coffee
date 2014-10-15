@@ -57,6 +57,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
   $scope.transfer = ->
     selected = angular.element('#sample_boards .active .ui-selected')
     reaction_hole = angular.element('#reaction_board .ui-selected')
+    return if !$scope.reaction_board
     c = reaction_hole.attr('col')
     c_index = $scope.reaction_board.cols.indexOf(c)
     r = reaction_hole.attr('row')

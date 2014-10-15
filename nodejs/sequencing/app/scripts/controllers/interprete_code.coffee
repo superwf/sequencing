@@ -7,8 +7,7 @@ angular.module('sequencingApp').controller 'InterpreteCodeCtrl', ['$scope', 'Int
   $scope.board_heads
 
   if $scope.record.board_head_id
-    BoardHead.get id: $scope.record.board_head_id, (data)->
-      $scope.record.board_head = data
+    $scope.record.board_head = SequencingConst.boardHeads[$scope.record.board_head_id]
 
   $scope.save = ->
     if $scope.record.board_head

@@ -20,8 +20,8 @@ angular.module('sequencingApp').controller 'CompanyCtrl', ['$scope', 'Company', 
     else
       Company.create $scope.record, (data)->
         $scope.record.id = data.id
-    $scope.$close 'ok'
-    Modal.record = null
+    if $scope['$close']
+      $scope.$close 'ok'
     null
   $scope.showParent = ()->
     Modal.resource = Company
