@@ -14,6 +14,9 @@ angular.module('sequencingApp').controller 'MainCtrl', ['Security', '$scope', '$
     $scope.me = me
     me
 
+  $scope.$on 'event:title', (e, title)->
+    $scope.title = title
+
   Security.requestCurrentUser().then (me)->
     $rootScope.$broadcast 'event:authorized'
     $scope.me = me

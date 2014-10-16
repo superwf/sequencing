@@ -1,0 +1,26 @@
+h3.text-center
+  | {{order.sn}} / {{order.client.name}}
+p.alert.alert-info ng-if='order.remark'
+  | {{order.remark}}
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th ng-bind="'sample' | translate"
+      th
+        | {{'sample' | translate}}{{'board' | translate}}
+      th ng-bind="'primer' | translate"
+      th ng-bind="'interprete' | translate"
+      th ng-bind="'charge' | translate"
+      th
+        | {{'reaction' | translate}}{{'remark' | translate}}
+  tbody
+    tr ng-repeat="r in reactions"
+      td ng-bind='r.sample'
+      td ng-bind='r.board'
+      td ng-bind='r.primer'
+      td
+        | {{r.interprete_code.code}}[{{r.interprete_code.result | translate}}]
+      td
+        | {{yesno[r.interprete_code.charge] | translate}}
+      td
+        | {{yesno[r.interprete_code.charge] | translate}}

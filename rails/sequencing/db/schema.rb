@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141013085159) do
+ActiveRecord::Schema.define(version: 20141016022358) do
 
   create_table "bill_orders", primary_key: "order_id", force: true do |t|
     t.integer "bill_id",                                             null: false
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
   create_table "bill_records", primary_key: "bill_id", force: true do |t|
     t.text     "data",       null: false
     t.integer  "creator_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "bills", force: true do |t|
@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.decimal  "other_money", precision: 10, scale: 2, default: 0.0, null: false
     t.string   "status",                                             null: false
     t.integer  "creator_id",                                         null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
   end
 
   add_index "bills", ["sn"], name: "sn", unique: true, using: :btree
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.boolean  "with_date",  default: false, null: false
     t.boolean  "available",  default: true,  null: false
     t.integer  "creator_id", default: 0,     null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "board_heads", ["name", "board_type"], name: "board_type_name", unique: true, using: :btree
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.integer  "procedure_id", null: false
     t.integer  "creator_id",   null: false
     t.text     "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "board_records", ["board_id", "procedure_id"], name: "board_procedure", using: :btree
@@ -84,16 +84,38 @@ ActiveRecord::Schema.define(version: 20141013085159) do
   add_index "boards", ["create_date"], name: "create_date", using: :btree
   add_index "boards", ["sn"], name: "sn", unique: true, using: :btree
 
-  create_table "clients", force: true do |t|
-    t.string   "name",       default: "", null: false
-    t.integer  "company_id", default: 0,  null: false
-    t.string   "email",      default: "", null: false
-    t.string   "address",    default: "", null: false
-    t.string   "tel",        default: "", null: false
-    t.text     "remark",                  null: false
-    t.integer  "creator_id",              null: false
+  create_table "client_samples", force: true do |t|
+    t.string   "name"
+    t.integer  "client_id",                        null: false
+    t.string   "head",             default: "",    null: false
+    t.string   "structure",        default: "",    null: false
+    t.string   "vector",           default: "",    null: false
+    t.string   "resistance",       default: "",    null: false
+    t.string   "length",           default: "",    null: false
+    t.string   "primer",           default: "",    null: false
+    t.boolean  "universal_primer", default: false, null: false
+    t.boolean  "is_splice",        default: false, null: false
+    t.text     "remark"
+    t.string   "status",                           null: false
+    t.integer  "reaction_id",      default: 0,     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  add_index "client_samples", ["client_id"], name: "client_id", using: :btree
+  add_index "client_samples", ["reaction_id"], name: "reaction_id", using: :btree
+
+  create_table "clients", force: true do |t|
+    t.string   "name",               default: "", null: false
+    t.integer  "company_id",         default: 0,  null: false
+    t.string   "email",              default: "", null: false
+    t.string   "address",            default: "", null: false
+    t.string   "tel",                default: "", null: false
+    t.text     "remark",                          null: false
+    t.integer  "creator_id",                      null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "encrypted_password", default: "", null: false
   end
 
   add_index "clients", ["company_id"], name: "company_id", using: :btree
@@ -108,8 +130,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.string   "full_name",                                         null: false
     t.string   "full_code",                                         null: false
     t.integer  "creator_id",                          default: 0,   null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
   add_index "companies", ["code"], name: "code", using: :btree
@@ -121,8 +143,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.string   "status",                  null: false
     t.string   "remark",     default: "", null: false
     t.integer  "creator_id", default: 0,  null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "dilute_primers", ["created_at"], name: "created_at", using: :btree
@@ -134,8 +156,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.string   "email_type",                 null: false
     t.string   "remark",     default: "",    null: false
     t.integer  "creator_id", default: 0,     null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "emails", ["record_id", "email_type"], name: "record_id", using: :btree
@@ -157,8 +179,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.boolean  "charge",        default: false, null: false
     t.integer  "board_head_id", default: 0,     null: false
     t.integer  "creator_id",                    null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "menus", force: true do |t|
@@ -177,19 +199,6 @@ ActiveRecord::Schema.define(version: 20141013085159) do
 
   add_index "menus_roles", ["role_id", "menu_id"], name: "role_menu", unique: true, using: :btree
 
-  create_table "order_mails", force: true do |t|
-    t.integer  "order_id",   default: 0,     null: false
-    t.boolean  "sent",       default: false, null: false
-    t.string   "mail_type",                  null: false
-    t.string   "remark",     default: "",    null: false
-    t.integer  "creator_id", default: 0,     null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "order_mails", ["order_id", "mail_type"], name: "order_id", using: :btree
-  add_index "order_mails", ["sent"], name: "sent", using: :btree
-
   create_table "orders", force: true do |t|
     t.integer  "client_id",                           null: false
     t.integer  "number",              default: 1,     null: false
@@ -202,8 +211,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.string   "status",              default: "new", null: false
     t.text     "remark"
     t.integer  "creator_id",                          null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "orders", ["client_id"], name: "client_id", using: :btree
@@ -224,8 +233,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.string   "remark",                    null: false
     t.boolean  "available",  default: true, null: false
     t.integer  "creator_id", default: 0,    null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "plasmid_codes", ["code"], name: "code", unique: true, using: :btree
@@ -233,9 +242,11 @@ ActiveRecord::Schema.define(version: 20141013085159) do
   create_table "plasmids", primary_key: "sample_id", force: true do |t|
     t.integer  "code_id",    null: false
     t.integer  "creator_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
+
+  add_index "plasmids", ["code_id"], name: "code_id", using: :btree
 
   create_table "precheck_codes", force: true do |t|
     t.string   "code",                      null: false
@@ -243,16 +254,18 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.boolean  "available",  default: true, null: false
     t.string   "remark",     default: "",   null: false
     t.integer  "creator_id",                null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "prechecks", primary_key: "sample_id", force: true do |t|
     t.integer  "code_id",    null: false
     t.integer  "creator_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
+
+  add_index "prechecks", ["code_id"], name: "code_id", using: :btree
 
   create_table "primers", force: true do |t|
     t.string   "name",                                                      null: false
@@ -271,8 +284,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.boolean  "available",                                 default: true,  null: false
     t.text     "remark"
     t.integer  "creator_id",                                default: 0,     null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
   end
 
   add_index "primers", ["board_id", "hole"], name: "board_hole", unique: true, using: :btree
@@ -291,12 +304,12 @@ ActiveRecord::Schema.define(version: 20141013085159) do
   add_index "procedures", ["name"], name: "name", unique: true, using: :btree
 
   create_table "reaction_files", primary_key: "reaction_id", force: true do |t|
-    t.datetime "uploaded_at"
+    t.datetime "uploaded_at",                 null: false
     t.integer  "code_id",        default: 0,  null: false
     t.string   "proposal",       default: "", null: false
     t.string   "status",                      null: false
     t.integer  "interpreter_id", default: 0,  null: false
-    t.datetime "interpreted_at"
+    t.datetime "interpreted_at",              null: false
   end
 
   add_index "reaction_files", ["code_id"], name: "code_id", using: :btree
@@ -382,8 +395,8 @@ ActiveRecord::Schema.define(version: 20141013085159) do
     t.string   "resistance",  null: false
     t.string   "copy_number", null: false
     t.integer  "creator_id",  null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "vectors", ["name"], name: "name", using: :btree

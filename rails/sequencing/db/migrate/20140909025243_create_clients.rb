@@ -8,6 +8,7 @@ class CreateClients < ActiveRecord::Migration
       t.string :tel, null: false, default: ''
       t.text :remark, null: false
       t.column :creator_id, 'INT(11) UNSIGNED', null: false
+      t.string :encrypted_password, null: false, default: ''
       t.timestamps
     end
 

@@ -10,6 +10,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       if data.length == 0
         $rootScope.$broadcast 'event:notacceptable', {hint: 'sample type not_exist'}
   if $routeParams.id == 'new'
+    $scope.$emit 'event:title', 'new_order'
     $scope.sample_number = 1
     $scope.record = {create_date: SequencingConst.date2string(), number: 1, urgent: false, is_test: false}
     $scope.sample_board.create_date = $scope.record.create_date

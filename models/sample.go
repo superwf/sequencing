@@ -10,7 +10,7 @@ type Sample struct {
   Name string `json:"name"`
   OrderId int `json:"order_id"`
   VectorId int `json:"vector_id"`
-  Length string `json:"length"`
+  Fragment string `json:"fragment"`
   Resistance string `json:"resistance"`
   ReturnType string `json:"return_type"`
   BoardId int `json:"board_id"`

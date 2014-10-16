@@ -4,7 +4,7 @@ class CreateSamples < ActiveRecord::Migration
       t.string :name, null: false
       t.column :order_id, 'INT(11) UNSIGNED', null: false
       t.column :vector_id, 'INT(11) UNSIGNED', default: 0
-      t.string :length, default: 0, null: false
+      t.string :fragment, default: 0, null: false
       t.string :resistance, default: '', null: false
       t.string :return_type, default: '', null: false
       t.column :board_id, 'INT(11) UNSIGNED', default: 0
