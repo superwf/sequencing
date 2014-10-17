@@ -295,3 +295,6 @@ func (order *Order)Reactions()([]map[string]interface{}){
   }
   return result
 }
+
+func ReceiveOrder(){
+}

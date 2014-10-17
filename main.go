@@ -69,6 +69,8 @@ func main() {
     m.Put("/billRecords", controllers.UpdateBillRecord)
     m.Get("/orderReactions/:id", controllers.OrderReactions)
     m.Get("/reworkingReactions", controllers.ReworkingReactions)
+    m.Get("/clientReactions", controllers.GetClientReactions)
+    m.Post("/receiveOrder", controllers.ReceiveOrder)
     //m.Post("/billRecords", controllers.CreateBillRecord)
     //m.Put("/billRecords", controllers.UpdateBillRecord)
 

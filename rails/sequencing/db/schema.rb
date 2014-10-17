@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141016022358) do
+ActiveRecord::Schema.define(version: 20141017024940) do
 
   create_table "bill_orders", primary_key: "order_id", force: true do |t|
     t.integer "bill_id",                                             null: false
@@ -84,6 +84,27 @@ ActiveRecord::Schema.define(version: 20141016022358) do
   add_index "boards", ["create_date"], name: "create_date", using: :btree
   add_index "boards", ["sn"], name: "sn", unique: true, using: :btree
 
+  create_table "client_reactions", force: true do |t|
+    t.string   "sample"
+    t.string   "sample_type",      default: "",    null: false
+    t.string   "structure",        default: "",    null: false
+    t.integer  "client_id",                        null: false
+    t.string   "vector",           default: "",    null: false
+    t.string   "resistance",       default: "",    null: false
+    t.string   "length",           default: "",    null: false
+    t.string   "primer",           default: "",    null: false
+    t.boolean  "universal_primer", default: false, null: false
+    t.boolean  "is_splice",        default: false, null: false
+    t.text     "remark"
+    t.integer  "reaction_id",      default: 0,     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_reactions", ["client_id"], name: "client_id", using: :btree
+  add_index "client_reactions", ["reaction_id"], name: "reaction_id", using: :btree
+  add_index "client_reactions", ["sample"], name: "sample", using: :btree
+
   create_table "client_samples", force: true do |t|
     t.string   "name"
     t.integer  "client_id",                        null: false
@@ -91,7 +112,7 @@ ActiveRecord::Schema.define(version: 20141016022358) do
     t.string   "structure",        default: "",    null: false
     t.string   "vector",           default: "",    null: false
     t.string   "resistance",       default: "",    null: false
-    t.string   "length",           default: "",    null: false
+    t.string   "fragment",         default: "",    null: false
     t.string   "primer",           default: "",    null: false
     t.boolean  "universal_primer", default: false, null: false
     t.boolean  "is_splice",        default: false, null: false
@@ -344,7 +365,7 @@ ActiveRecord::Schema.define(version: 20141016022358) do
     t.string  "name",                          null: false
     t.integer "order_id",                      null: false
     t.integer "vector_id",     default: 0
-    t.string  "length",        default: "0",   null: false
+    t.string  "fragment",      default: "0",   null: false
     t.string  "resistance",    default: "",    null: false
     t.string  "return_type",   default: "",    null: false
     t.integer "board_id",      default: 0

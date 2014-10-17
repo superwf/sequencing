@@ -28,6 +28,9 @@ angular.module('sequencingApp', [
     .when '/roles/:id',
       templateUrl: 'views/role.html',
       controller: 'RoleCtrl'
+    .when '/receiveOrders',
+      templateUrl: 'views/clientReactions.html',
+      controller: 'ReceiveOrdersCtrl'
     .when '/orders',
       templateUrl: 'views/orders.html',
       controller: 'OrdersCtrl'

@@ -108,6 +108,12 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
+  name: receive_order
+  url: '/receiveOrders'
+  parent_id: <%= order_setting_id %>
+<% id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= id %>
   name: order
   url: '/orders'
   parent_id: <%= order_setting_id %>

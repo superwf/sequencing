@@ -1,0 +1,36 @@
+table.table.table-bordered
+  thead
+    tr
+      th
+        | {{'sample' | translate}}
+        button.btn.btn-info type='button' ng-click='selectAll()'
+          | {{'select_all' | translate}}
+      th ng-bind="'board_head' | translate"
+      th ng-bind="'vector' | translate"
+      th ng-bind="'resistance' | translate"
+      th ng-bind="'fragment' | translate"
+      th ng-bind="'primer' | translate"
+      th
+        | {{'primer' | translate}}{{'thickness' | translate}}
+      th style='min-width: 4em;' ng-bind="'splice' | translate"
+      th ng-bind="'remark' | translate"
+  tbody selectable='' selectable-options='{filter: "tr"}'
+    tr ng-repeat="r in records" i='{{$index}}' ng-class='["record"][r.reaction_id]'
+      td ng-bind='r.sample'
+      td ng-bind='r.sample_type + r.structure'
+      td
+        input.form-control style='width: 6em;display: inline;' ng-model='r.vector' title='{{"vector" | translate}}' ng-click='selectVector(r)' ng-class='vectorErrorClass[(r.vector && !r.vector_id) || r.error]'
+        | {{r.vector}}
+      td ng-bind='r.resistance'
+      td ng-bind='r.fragment'
+      td
+        input.form-control style='width: 6em;display: inline;' ng-model='r.primer' placeholder='{{"primer" | translate}}' title='{{"primer" | translate}}' ng-click='selectPrimer(r)' ng-class='primerErrorClass[!r.primer_id || r.error]'
+        | {{r.primer}}
+      td ng-bind='r.thickness'
+      td ng-bind='yesno[r.is_splice] | translate'
+      td ng-bind='r.remark'
+.navbar.text-center.navbar-fixed-bottom
+  button.btn.btn-danger type='button' ng-click='delete()'
+    | {{'delete' | translate}}{{'selected' | translate}}{{'reaction' | translate}}
+  button.btn.btn-success type='button' ng-click='submit()'
+    | {{'receive' | translate}}{{'selected' | translate}}{{'reaction' | translate}}
