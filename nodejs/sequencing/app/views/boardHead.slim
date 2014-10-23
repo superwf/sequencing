@@ -22,6 +22,12 @@
           | {{yesno[k] | translate}}
     .form-group
       .col-md-3
+        | {{'is_redo' | translate}}
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='record.is_redo' btn-radio='k' ng-repeat='k in [true, false]'
+          | {{yesno[k] | translate}}
+    .form-group
+      .col-md-3
         | {{'available' | translate}}
       .btn-group
         button.btn.btn-primary type='button' ng-model='record.available' btn-radio='k' ng-repeat='k in [true, false]'

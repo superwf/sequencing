@@ -12,13 +12,8 @@ class CreateSamples < ActiveRecord::Migration
       t.column :is_splice, 'TINYINT(1) UNSIGNED', null: false, default: false
       t.string :splice_status, null: false, default: ''
       t.column :is_through, 'TINYINT(1) UNSIGNED', null: false, default: false
-      #t.column :creator_id, 'INT(11) UNSIGNED', null: false, default: 0
-      t.text :remark
-      #t.timestamps
     end
-    [:order_id, :vector_id].each do |i|
-      add_index :samples, i, name: i
-    end
+    add_index :samples, [:order_id, :name], name: :order_id, unique: true
     add_index :samples, [:board_id, :hole], name: :board_hole
   end
 end

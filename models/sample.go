@@ -17,7 +17,6 @@ type Sample struct {
   Hole string `json:"hole"`
   IsSplice bool `json:"is_splice"`
   IsThrough bool `json:"is_through"`
-  Remark string `json:"remark"`
   Reactions []Reaction
 }
 

@@ -14,6 +14,7 @@ type BoardHead struct {
   Rows string `json:"rows"`
   WithDate bool `json:"with_date"`
   Available bool `json:"available"`
+  IsRedo bool `json:"is_redo"`
   Creator
 }
 
@@ -29,11 +30,7 @@ func (record *BoardHead) BeforeSave()(error) {
     return errors.New("board_type type")
   }
   // check repeat name with save type
-  exist := BoardHead{}
-  Db.Where("name = ? AND board_type = ? AND id != ?", record.Name, record.BoardType, record.Id).First(&exist)
-  if exist.Id > 0 {
-    return errors.New("name already exist")
-  }
+  // done by mysql unique index
   return nil
 }
 
@@ -47,6 +44,14 @@ func GetBoardHeads(req *http.Request)([]BoardHead, int){
   board_type := req.FormValue("board_type")
   if board_type != "" {
     db = db.Where("board_type = ?", board_type)
+  }
+  isRedo := req.FormValue("is_redo")
+  if isRedo != "" {
+    if isRedo == "false" || isRedo == "0"{
+      db = db.Where("is_redo = 0")
+    } else {
+      db = db.Where("is_redo = 1")
+    }
   }
   available := req.FormValue("available")
   if available != "" {

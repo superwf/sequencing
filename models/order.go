@@ -29,10 +29,10 @@ type Order struct {
 // generate sn
 func (order *Order)GenerateReworkSn(parentOrder *Order){
   board_head := BoardHead{}
-  Db.Where("available = 1 AND id = ?", order.BoardHeadId).First(&board_head)
+  Db.Where("id = ?", order.BoardHeadId).First(&board_head)
   if board_head.Name != "" && parentOrder.Sn != "" {
     order.Sn = parentOrder.Sn + "-" + board_head.Name + order.CreateDate.Format("0102")
-    Db.Where("sn = ?", order.Sn).First(&order)
+    //Db.Where("sn = ?", order.Sn).First(&order)
   } else {
     order.Sn = ""
   }
@@ -40,7 +40,7 @@ func (order *Order)GenerateReworkSn(parentOrder *Order){
 }
 
 // generate rework order by interprete_code
-func (order *Order)GenerateReworkOrder(){
+func (order *Order)GenerateReworkOrder() {
   rows, _ := Db.Table("reaction_files").Select("reactions.id, samples.id, interprete_codes.board_head_id").Joins("INNER JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN samples ON reactions.sample_id = samples.id").Where("reactions.order_id = ? AND interprete_codes.board_head_id > 0", order.Id).Rows()
   for rows.Next() {
     var reactionId, sampleId, boardHeadId int
@@ -100,10 +100,10 @@ func (record *Order)BeforeCreate() error {
   if board_head.Name == "" {
     return errors.New("board_head not_exist")
   }
-  record.Sn = record.CreateDate.Format("20060102") + "-" + board_head.Name + strconv.Itoa(record.Number)
-  if record.Id == 0 {
-    record.Status = "new"
+  if record.Sn == "" {
+    record.Sn = record.CreateDate.Format("20060102") + "-" + board_head.Name + strconv.Itoa(record.Number)
   }
+  record.Status = "new"
   return nil
 }
 
@@ -170,7 +170,7 @@ func (record *Order)BeforeDelete()error{
 
 // relate reactions order_id
 func (order *Order)RelateReactions(){
-  Db.Exec("UPDATE samples, reactions SET reactions.order_id = samples.order_id WHERE samples.order_id = ?", order.Id)
+  Db.Exec("UPDATE samples, reactions SET reactions.order_id = samples.order_id WHERE samples.order_id = ? AND samples.id = reactions.sample_id", order.Id)
 }
 
 func (order *Order)InterpretedReactionFiles()([]map[string]interface{}){
@@ -297,4 +297,15 @@ func (order *Order)Reactions()([]map[string]interface{}){
 }
 
 func ReceiveOrder(){
+}
+
+func NewOrder(clientId, boardHeadId int, parentOrder *Order)Order{
+  var maxNumber int
+  Db.Select("MAX(number)").Table("orders").Where("create_date = ? AND board_head_id = ?", Today(), boardHeadId).Row().Scan(&maxNumber)
+  order := Order{CreateDate: time.Now(), Number: maxNumber + 1, ClientId: clientId, BoardHeadId: boardHeadId}
+  if parentOrder.Sn != "" {
+    o := &order
+    o.GenerateReworkSn(parentOrder)
+  }
+  return order
 }

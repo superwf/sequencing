@@ -10,7 +10,7 @@ form.form-search.well name='searchForm'
       label style='float: left;'
         | {{'sample' | translate}}{{'type' | translate}}
       .btn-group
-        button.btn.btn-primary type='button' ng-model='s.board_head' btn-radio='h' ng-repeat='h in board_heads' required=''
+        button.btn.btn-primary type='button' ng-model='searcher.board_head' btn-radio='h' ng-repeat='h in board_heads' required=''
           | {{h.name}}
     .col-md-1
       button.btn.btn-success ng-click='search()' ng-bind='"search" | translate'

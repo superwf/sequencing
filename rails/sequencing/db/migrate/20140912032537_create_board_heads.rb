@@ -8,9 +8,11 @@ class CreateBoardHeads < ActiveRecord::Migration
       t.string :rows, null: false, default: '' # should like A,B,C,D, max is Z
       t.column :with_date, 'TINYINT(1) UNSIGNED', null: false, default: 0
       t.column :available, 'TINYINT(1) UNSIGNED', null: false, default: 1
+      t.column :is_redo, 'TINYINT(1) UNSIGNED', null: false, default: 0
       t.column :creator_id, 'INT(11) UNSIGNED', null: false, default: 0
       t.timestamps
     end
-    add_index :board_heads, [:name, :board_type], name: :board_type_name, unique: true
+    add_index :board_heads, [:board_type, :name], name: :board_type_name, unique: true
+    add_index :board_heads, :name, name: :name
   end
 end

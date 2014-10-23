@@ -73,18 +73,111 @@ func ReceiveOrder(req *http.Request, r render.Render){
     var boardHead models.BoardHead
     models.Db.Where("name = ? AND board_type = 'sample' AND available = 1", head).First(&boardHead)
     if boardHead.Id > 0 {
-      today := models.Today()
-      maxNumber = Db.Select("MAX(number)").Where("create_date = ? AND board_head_id = ?", today, boardHead.Id)
-      order := models.Order{CreateDate: today, Number: maxNumber + 1, ClientId: clientId, BoardHeadId: boardHead.Id}
+      // because client_reaction_id should be related to reaction_id, so do not use Db.Save(order)
+      order := models.NewOrder(int(firstClientId.(float64)), boardHead.Id, &models.Order{})
+      orderCreated := models.Db.Save(&order)
+      if orderCreated.Error == nil {
+        ids := []int{}
+        clearFailedOrder := func(order *models.Order, ids []int){
+          models.Db.Exec("UPDATE client_reactions SET reaction_id = 0 WHERE id IN (?)", ids)
+          models.Db.Delete(order)
+        }
+        for _, r := range records {
+          // id is client_reactions id
+          id := int(r["id"].(float64))
+          ids = append(ids, id)
+          primerId := int(r["primer_id"].(float64))
+          vectorId := int(r["vector_id"].(float64))
+          clientReaction := models.ClientReaction{Id: id}
+          models.Db.First(&clientReaction)
+          sample := models.Sample{
+            Name: clientReaction.Sample,
+            VectorId: vectorId,
+            Resistance: clientReaction.Resistance,
+            IsSplice: clientReaction.IsSplice,
+            OrderId: order.Id,
+          }
+          // if sample name repeat, treat it as the same sample
+          models.Db.Table("samples").Where("order_id = ? AND name = ?", order.Id, clientReaction.Sample).First(&sample)
+          if sample.Id == 0 {
+            sampleCreated := models.Db.Save(&sample)
+            if sampleCreated.Error != nil {
+              clearFailedOrder(&order, ids)
+              break
+            }
+          }
+          reaction := models.Reaction{
+            OrderId: order.Id,
+            SampleId: sample.Id,
+            PrimerId: primerId,
+            Remark: clientReaction.Remark,
+          }
+          reactionCreated := models.Db.Save(&reaction)
+          if reactionCreated.Error == nil {
+            models.Db.Model(&clientReaction).Update("reaction_id", reaction.Id)
+          } else {
+            clearFailedOrder(&order, ids)
+            break
+          }
+          //log.Println(id, primerId, vectorId, head)
+        }
+      } else {
+        r.JSON(http.StatusNotAcceptable, map[string]interface{}{"hint": orderCreated.Error.Error()})
+      }
     } else {
       return
     }
 
-    for _, r := range records {
-      id := int(r["id"].(float64))
-      primerId := int(r["primer_id"].(float64))
-      vectorId := int(r["vector_id"].(float64))
-      log.Println(id, primerId, vectorId, head)
-    }
   }
+}
+
+func GenerateRedoOrder(params martini.Params, req *http.Request, r render.Render) {
+  boardHeadId, _ := strconv.Atoi(params["boardHeadId"])
+  var ids []int
+  decoder := json.NewDecoder(req.Body)
+  err := decoder.Decode(&ids)
+  if err == nil && len(ids) > 0 {
+    var reactions []models.Reaction
+    models.Db.Table("reactions").Where("reactions.id IN (?)", ids).Order("reactions.order_id, reactions.sample_id").Find(&reactions)
+    orders := map[int]models.Order{}
+    samples := map[int]models.Sample{}
+    for _, r := range(reactions) {
+      if _, ok := orders[r.OrderId]; !ok {
+        o := models.Order{Id: r.OrderId}
+        models.Db.First(&o)
+        order := models.NewOrder(o.ClientId, boardHeadId, &o)
+        models.Db.Where("sn = ?", order.Sn).First(&order)
+        orders[r.OrderId] = order
+      }
+
+      _, ok := samples[r.SampleId]
+      if !ok {
+        sample := models.Sample{Id: r.SampleId}
+        models.Db.First(&sample)
+        sample.Id = 0
+        sample.BoardId = 0
+        sample.Hole = ""
+        samples[r.SampleId] = sample
+      }
+      sample := samples[r.SampleId]
+      r.Id = 0
+      r.BoardId = 0
+      r.Hole = ""
+      r.DilutePrimerId = 0
+      sample.Reactions = append(sample.Reactions, r)
+      order := orders[r.OrderId]
+      log.Println(order)
+      order.Samples = append(order.Samples, sample)
+      orders[r.OrderId] = order
+    }
+
+    for _, o := range orders {
+      or := &o
+      models.Db.Save(or)
+      or.RelateReactions()
+    }
+  } else {
+    r.JSON(http.StatusNotAcceptable, Ok_false)
+  }
+  r.JSON(http.StatusOK, Ok_true)
 }

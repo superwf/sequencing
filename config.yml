@@ -38,7 +38,7 @@ development:
     suffix: ['.ab1', '.seq']
 test:
   <<: *default
-  port: ":8082"
+  port: ":8079"
   mysql:
     host: "localhost"
     user: root

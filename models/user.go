@@ -45,7 +45,7 @@ func GetUsers(req *http.Request)([]User, int){
 
 // i do not kown how to emulate the php crypt function in golang, the golang blowfish crypt run in defferent way.
 func Login(user *User)(int, map[string]interface{}){
-  Db.First(user)
+  Db.Where("email = ?", user.Email).First(user)
   if(user.Id > 0) {
     cmd := exec.Command(`./blowfish.php`, user.Password, user.EncryptedPassword)
     result, err := cmd.Output()

@@ -2,11 +2,15 @@
 
 angular.module('sequencingApp').controller 'ReceiveOrdersCtrl', ['$scope', 'Order', 'Modal', '$modal', 'ClientReaction', 'Vector', 'Primer', ($scope, Order, Modal, $modal, ClientReaction, Vector, Primer) ->
 
-  ClientReaction.query receive: false, (data)->
-    $scope.records = data.records || []
-    $scope.totalItems = data.totalItems
-    $scope.perPage = data.perPage
+  getClientReaction = ->
+    ClientReaction.query receive: false, (data)->
+      $scope.records = data.records || []
+      $scope.totalItems = data.totalItems
+      $scope.perPage = data.perPage
+      null
     null
+
+  getClientReaction()
 
   $scope.selectVector = (r)->
     Modal.resource = Vector
@@ -56,7 +60,9 @@ angular.module('sequencingApp').controller 'ReceiveOrdersCtrl', ['$scope', 'Orde
           return
         records.push v
     if records.length
-      Order.receive records
+      Order.receive records, ->
+        getClientReaction()
+        null
     null
   null
 ]

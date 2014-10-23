@@ -1,3 +1,36 @@
+form.form-search.well name='searchForm'
+  .row
+    .col-md-2
+      input.form-control ng-model='searcher.sn' placeholder='{{"order" | translate}}' title="{{'order' | translate}}"
+    .col-md-2
+      input.form-control ng-model='searcher.client' placeholder='{{"client" | translate}}' title="{{'client' | translate}}"
+    .col-md-2
+      input.form-control ng-model='searcher.date_from' placeholder="{{'receive' | translate}}{{'date' | translate}}{{'from' | translate}}" ui-date='dateOption' ui-date-format='yy-mm-dd'
+    .col-md-2
+      input.form-control ng-model='searcher.date_to' placeholder="{{'to' | translate}}" ui-date='dateOption' ui-date-format='yy-mm-dd' title="{{'to' | translate}}"
+    .form-group.col-md-4
+      label style='float: left;'
+        | {{'sample' | translate}}{{'type' | translate}}
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='searcher.board_head_id' btn-radio='h.id' ng-repeat='h in board_heads'
+          | {{h.name}}
+  .row
+    .form-group.col-md-2
+      label style='float: left;'
+        | {{'precheck' | translate}}{{'ok' | translate}}
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='searcher.precheck_ok' btn-radio='y' ng-repeat='(y, v) in yesno'
+          | {{v | translate }}
+    .form-group.col-md-4
+      label style='float: left;'
+        | {{'interprete' | translate}}{{'result' | translate}}
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='searcher.interprete_result' btn-radio='r' ng-repeat='r in config.interpreteResult'
+          | {{r | translate }}
+    .col-md-1
+      button.btn.btn-success ng-click='search()' ng-bind='"search" | translate'
+    .col-md-2
+      | {{'max_reactions_count' | translate}}
 table.table.table-bordered
   thead
     tr
@@ -39,9 +72,7 @@ table.table.table-bordered
         | {{r.interpreter.name}}
 .navbar.text-center.navbar-fixed-bottom
   .btn-group
-    button.btn.btn-warning ng-click='addition()'
-      | {{'addition' | translate}}
-    button.btn.btn-warning ng-click='reshake()'
-      | {{'reshake' | translate}}
-    button.btn.btn-success ng-click='pcr()'
-      | PCR
+    button.btn.btn-primary type='button' ng-model='order.board_head' btn-radio='h' ng-repeat='h in redo_heads' required=''
+      | {{h.name}}
+    button.btn.btn-success type='button' ng-click='submit()'
+      | {{'submit' | translate}}

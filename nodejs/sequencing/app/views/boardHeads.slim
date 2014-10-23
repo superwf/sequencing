@@ -10,6 +10,7 @@ table.table.table-bordered.table-striped
       th ng-bind="'col' | translate"
       th ng-bind="'row' | translate"
       th ng-bind="'with_date' | translate"
+      th ng-bind="'is_redo' | translate"
       th ng-bind="'available' | translate"
   tbody
     tr ng-repeat="r in records"
@@ -28,6 +29,8 @@ table.table.table-bordered.table-striped
         | {{r.rows}}
       td
         | {{yesno[r.with_date] | translate}}
+      td
+        | {{yesno[r.is_redo] | translate}}
       td
         | {{yesno[r.available] | translate}}
 .navbar.navbar-fixed-bottom.text-center

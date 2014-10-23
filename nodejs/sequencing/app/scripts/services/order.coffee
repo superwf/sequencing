@@ -12,5 +12,6 @@ angular.module('sequencingApp').factory 'Order', ['SequencingConst', '$resource'
     sending: {isArray: true, url: SequencingConst.api + '/sendingOrderEmails'}
     reactions: {method: 'GET', isArray: true, url: SequencingConst.api + '/orderReactions/:id'}
     receive: {method: 'POST', url: SequencingConst.api + '/receiveOrder'}
+    generateRedo: {method: 'POST', url: SequencingConst.api + '/generateRedoOrder/:board_head_id'}
   }
 ]

@@ -4,7 +4,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
 
   $scope.sample_board = {}
   getBoardHead = ->
-    BoardHead.all {all: true, board_type: 'sample', available: 1}, (data)->
+    BoardHead.all {all: true, board_type: 'sample', is_redo: false, available: 1}, (data)->
       $scope.board_heads = data
       $scope.sample_board.number = 1
       if data.length == 0

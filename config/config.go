@@ -25,12 +25,7 @@ func init() {
     env = "development"
   }
 
-  var config_file string
-  if env == "test" {
-    config_file = "../config.yml"
-  } else {
-    config_file = "config.yml"
-  }
+  config_file := "config.yml"
 
   config_content, err := ioutil.ReadFile(config_file)
   if err != nil {

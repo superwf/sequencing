@@ -1,7 +1,7 @@
 form.form-search.well name='searchForm'
   .row
     .col-md-1 ng-show='!inModal'
-      a.btn.btn-success ng-click='/companies/new' ng-bind="'create' | translate"
+      a.btn.btn-success ng-href='/companies/new' ng-bind="'create' | translate"
     .col-md-2 ng-show='inModal'
       input.form-control ng-model='searcher.name' placeholder="{{'name' | translate}}"
     .col-md-2 ng-show='inModal'

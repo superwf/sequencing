@@ -8,12 +8,12 @@ class CreateReactions < ActiveRecord::Migration
       t.column :board_id, 'INT(11) UNSIGNED'
       t.string :hole, default: ''
       t.text :remark
-      #t.column :creator_id, 'INT(11) UNSIGNED', null: false
-      #t.timestamps
     end
-    [:order_id, :sample_id, :primer_id].each do |i|
+    [:order_id, :primer_id].each do |i|
       add_index :reactions, i, name: i
     end
+    add_index :reactions, [:sample_id, :primer_id], unique: true, name: :sample_primer
+    add_index :reactions, :primer_id, name: :primer_id
     add_index :reactions, [:board_id, :hole], name: :board_hole
     add_index :reactions, :dilute_primer_id, name: :dilute_primer_id
   end
