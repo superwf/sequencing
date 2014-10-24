@@ -3,7 +3,7 @@
 
 guard :shell do
   watch(%r{.+\.go$}) do |f|
-    r = `export GOENV=test;ginkgo`
+    r = `GOENV=test ginkgo -failFast`
     #a = `echo $PATH`
     puts r
     #puts "#{f} changed"

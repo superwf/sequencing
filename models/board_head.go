@@ -15,23 +15,6 @@ type BoardHead struct {
   WithDate bool `json:"with_date"`
   Available bool `json:"available"`
   IsRedo bool `json:"is_redo"`
-  Creator
-}
-
-// todo check the cols and rows format
-func (record *BoardHead) BeforeSave()(error) {
-  if len(record.Name) > 255 || len(record.Name) == 0 {
-    return errors.New("name length error")
-  }
-  if len(record.Remark) > 255 {
-    return errors.New("remark length error")
-  }
-  if record.BoardType != "sample" && record.BoardType != "primer" && record.BoardType != "reaction" {
-    return errors.New("board_type type")
-  }
-  // check repeat name with save type
-  // done by mysql unique index
-  return nil
 }
 
 func GetBoardHeads(req *http.Request)([]BoardHead, int){
@@ -71,6 +54,22 @@ func GetBoardHeads(req *http.Request)([]BoardHead, int){
     db.Count(&count)
   }
   return records, count
+}
+
+// todo check the cols and rows format
+func (record *BoardHead) BeforeSave()(error) {
+  if len(record.Name) > 255 || len(record.Name) == 0 {
+    return errors.New("name length error")
+  }
+  if len(record.Remark) > 255 {
+    return errors.New("remark length error")
+  }
+  if record.BoardType != "sample" && record.BoardType != "primer" && record.BoardType != "reaction" {
+    return errors.New("board_type type")
+  }
+  // check repeat name with save type
+  // done by mysql unique index
+  return nil
 }
 
 // done by mysql forign key constraint in rails db:seed

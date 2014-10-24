@@ -6,7 +6,6 @@ class CreateProcedures < ActiveRecord::Migration
       t.string :remark, null: false, default: ''
       t.string :flow_type, null: false, limit: 100, default: 'sample'
       t.column :board, 'TINYINT(1) UNSIGNED', limit: 1, null: false, default: false
-      t.column :creator_id, 'INT(11) UNSIGNED', null: false, default: 0
     end
     add_index :procedures, :name, name: :name, unique: true
   end

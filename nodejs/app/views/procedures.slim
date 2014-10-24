@@ -1,18 +1,24 @@
 table.table.table-bordered.table-striped
   thead
     tr
-      th ng-bind="'name' | translate"
+      th
+        | {{'name' | translate}}
+        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate" ng-if='!inModal'
       th ng-bind="'table' | translate"
       th ng-bind="'remark' | translate"
       th
         | {{'flow' | translate}}{{'type' | translate}}
       th ng-bind="'board' | translate"
-      th ng-show='!inModal'
-        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate"
   tbody
     tr ng-repeat="r in records" ng-click='click(r.id, r.name)'
       td
-        | {{r.name}}
+        span ng-if='!inModal'
+          a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}'
+            | {{'delete' | translate}}
+          a.btn.btn-success ng-click='edit(r)'
+            | {{r.name}}
+        span ng-if='inModal'
+          | {{r.name}}
       td
         | {{r.record_name}}
       td
@@ -21,10 +27,5 @@ table.table.table-bordered.table-striped
         | {{type[r.flow_type] | translate}}
       td
         | {{yesno[r.board] | translate}}
-      td ng-show='!inModal'
-        a.btn.btn-success ng-href='/procedures/{{r.id}}'
-          | {{'edit' | translate}}
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}'
-          | {{'delete' | translate}}
 .navbar.text-center ng-class="{true: '', false: 'navbar-fixed-bottom'}[inModal]"
   ng-include src="'/views/pager.html'"

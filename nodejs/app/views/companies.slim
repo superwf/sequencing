@@ -4,6 +4,7 @@ table.table.table-bordered.table-striped
     tr
       th ng-bind="'name' | translate"
       th ng-bind="'code' | translate"
+      th ng-bind="'full_code' | translate"
       th ng-bind="'price' | translate"
       th ng-bind="'full_name' | translate"
       th ng-show='!inModal'
@@ -14,6 +15,8 @@ table.table.table-bordered.table-striped
         | {{r.name}}
       td
         | {{r.code}}
+      td
+        | {{r.full_code}}
       td
         | {{r.price}}
       td

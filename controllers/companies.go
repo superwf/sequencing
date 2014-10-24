@@ -7,9 +7,10 @@ import (
   "sequencing/models"
   "net/http"
 )
-func GetCompanyTree(params martini.Params, req *http.Request, r render.Render) {
+func CompanyTree(params martini.Params, req *http.Request, r render.Render) {
   id, _ := strconv.Atoi(params["id"])
-  records := models.GetCompanyTree(id)
+  company := models.Company{Id: id}
+  records := company.Children()
   result := []map[string]interface{}{}
   for _, r := range(records) {
     d := map[string]interface{}{
@@ -20,7 +21,7 @@ func GetCompanyTree(params martini.Params, req *http.Request, r render.Render) {
       "price": r.Price,
       "parent_id": r.ParentId,
       "parent": r.Parent().Name,
-      "children_count": r.GetChildrenCount(),
+      "children_count": r.ChildrenCount(),
     }
     result = append(result, d)
   }

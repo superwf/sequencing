@@ -1,5 +1,6 @@
 db = ::Menu.connection
 seeds = %w{menus procedures}
+db.execute("TRUNCATE TABLE flows")
 seeds.each do |f|
   yml = ::Rails.root.join("test/fixtures/#{f}.yml")
   table_name = f
@@ -7,7 +8,7 @@ seeds.each do |f|
   # foreign key can not truncate
   #if table_name != 'procedures'
   #end
-  db.execute("TRUNCATE TABLE #{table_name}")
+  db.execute("DELETE FROM #{table_name}")
 
   if f == 'menus'
     #file_name = yml + '.erb'
@@ -61,66 +62,37 @@ end
 # this should be test in rspec
 
 # cascade order samples
-db.execute "ALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `sequencing`.`orders` (
-  `id`
-) ON DELETE CASCADE;"
+db.execute "ALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;"
 # cascade sample reactions
-db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `sequencing`.`samples` (
-  `id`
-) ON DELETE CASCADE;"
+db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;"
 # restrict company clients
-db.execute "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `sequencing`.`companies` (
-  `id`
-) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;"
+puts "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;"
 # cascade bill bill_orders
-db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `sequencing`.`bills` (
-  `id`
-) ON DELETE CASCADE;"
+db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;"
 # cascade order bill_orders
-db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `order_id` ) REFERENCES `sequencing`.`orders` (
-  `id`
-) ON DELETE CASCADE;"
+db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;"
 # cascade bill bill_records
-db.execute "ALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `sequencing`.`bills` (
-  `id`
-) ON DELETE CASCADE;"
+db.execute "ALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;"
 # restrict client primers
-db.execute "ALTER TABLE `primers` ADD FOREIGN KEY ( `client_id` ) REFERENCES `sequencing`.`clients` (
-  `id`
-) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `primers` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;"
 # restrict client orders
-db.execute "ALTER TABLE `orders` ADD FOREIGN KEY ( `client_id` ) REFERENCES `sequencing`.`clients` (
-  `id`
-) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `orders` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;"
 # restrict client orders
-db.execute "ALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `sequencing`.`board_heads` (
-  `id`
-) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;"
 
 # restrict procedure flows
-#db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `sequencing`.`procedures` ( `id`) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT;"
 
 # restrict board_head flows
-db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `sequencing`.`board_heads` (
-  `id`
-) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;"
 # restrict sample plasmids
-db.execute "ALTER TABLE `plasmids` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `sequencing`.`samples` (
-  `id`
-) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `plasmids` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;"
 # restrict plasmid_codes plasmids
-db.execute "ALTER TABLE `plasmids` ADD FOREIGN KEY ( `code_id` ) REFERENCES `sequencing`.`plasmid_codes` (
-  `id`
-) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `plasmids` ADD FOREIGN KEY ( `code_id` ) REFERENCES `plasmid_codes` ( `id`) ON DELETE RESTRICT;"
 # restrict sample prechecks
-db.execute "ALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `sequencing`.`samples` (
-  `id`
-) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;"
 # restrict precheck_codes prechecks
-db.execute "ALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `sequencing`.`precheck_codes` (
-  `id`
-) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT;"
 # restrict reaction reaction_files
-db.execute "ALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `sequencing`.`reactions` (
-  `id`
-) ON DELETE RESTRICT;"
+db.execute "ALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE RESTRICT;"

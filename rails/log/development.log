@@ -11760,3 +11760,208 @@ Mysql2::Error: Table 'sequencing.order_mails' doesn't exist: ALTER TABLE `order_
   [1m[36m (233.0ms)[0m  [1mALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `sequencing`.`reactions` (
   `id`
 ) ON DELETE RESTRICT;[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (31.9ms)[0m  TRUNCATE TABLE flows
+  [1m[36m (16.2ms)[0m  [1mTRUNCATE TABLE menus[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (1, 'system')[0m
+  [1m[35m (11.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (2, 'privilege', 1, '/roles')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (3, 'procedure', 1, '/procedures')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (4, 'board_head', 1, '/boardHeads')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (5, 'plasmid_code', 1, '/plasmidCodes')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (6, 'precheck_code', 1, '/precheckCodes')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (7, 'interprete_code', 1, '/interpreteCodes')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (8, 'client')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (9, 'company', 8, '/companyRoot')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (10, 'client', 8, '/clients')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (11, 'primer')[0m
+  [1m[35m (14.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (12, 'primer', 11, '/primers')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (13, 'primer_board', 11, '/boards?board_type=primer')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (14, 'vector', 11, '/vectors')
+  [1m[36m (13.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (15, 'order')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (16, 'new_order', 15, '/orders/new')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (17, 'new_rework_order', 15, '/orders/newRework')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (18, 'receive_order', 15, '/receiveOrders')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (19, 'order', 15, '/orders')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (20, 'sample')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (21, 'sample_flow', 20, '/boards?board_type=sample')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (22, 'reaction')
+  [1m[36m (14.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (23, 'dilute_primer', 22, '/dilutePrimers')[0m
+  [1m[35m (30.7ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (24, 'typeset', 22, '/typeset/reactions')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (25, 'reaction_flow', 22, '/boards?board_type=reaction')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (26, 'interprete')
+  [1m[36m (14.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (27, 'interprete', 26, '/reactionFiles')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (28, 'send_email', 26, '/sendOrderEmails')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (29, 'bill')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (30, 'bill', 29, '/bills')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (31, 'email')[0m
+  [1m[35m (14.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (32, 'email', 31, '/emails')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (8.8ms)[0m  TRUNCATE TABLE procedures
+Mysql2::Error: Cannot truncate a table referenced in a foreign key constraint (`sequencing_test`.`flows`, CONSTRAINT `flows_ibfk_2` FOREIGN KEY (`procedure_id`) REFERENCES `sequencing`.`procedures` (`id`)): TRUNCATE TABLE procedures
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (30.4ms)[0m  TRUNCATE TABLE flows
+  [1m[36m (16.6ms)[0m  [1mTRUNCATE TABLE menus[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (1, 'system')[0m
+  [1m[35m (15.8ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (2, 'privilege', 1, '/roles')
+  [1m[36m (13.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (3, 'procedure', 1, '/procedures')[0m
+  [1m[35m (14.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (4, 'board_head', 1, '/boardHeads')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (5, 'plasmid_code', 1, '/plasmidCodes')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (6, 'precheck_code', 1, '/precheckCodes')
+  [1m[36m (15.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (7, 'interprete_code', 1, '/interpreteCodes')[0m
+  [1m[35m (14.9ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (8, 'client')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (9, 'company', 8, '/companyRoot')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (10, 'client', 8, '/clients')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (11, 'primer')[0m
+  [1m[35m (14.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (12, 'primer', 11, '/primers')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (13, 'primer_board', 11, '/boards?board_type=primer')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (14, 'vector', 11, '/vectors')
+  [1m[36m (30.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (15, 'order')[0m
+  [1m[35m (15.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (16, 'new_order', 15, '/orders/new')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (17, 'new_rework_order', 15, '/orders/newRework')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (18, 'receive_order', 15, '/receiveOrders')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (19, 'order', 15, '/orders')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (20, 'sample')
+  [1m[36m (14.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (21, 'sample_flow', 20, '/boards?board_type=sample')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (22, 'reaction')
+  [1m[36m (14.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (23, 'dilute_primer', 22, '/dilutePrimers')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (24, 'typeset', 22, '/typeset/reactions')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (25, 'reaction_flow', 22, '/boards?board_type=reaction')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (26, 'interprete')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (27, 'interprete', 26, '/reactionFiles')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (28, 'send_email', 26, '/sendOrderEmails')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (29, 'bill')[0m
+  [1m[35m (13.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (30, 'bill', 29, '/bills')
+  [1m[36m (112.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (31, 'email')[0m
+  [1m[35m (24.6ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (32, 'email', 31, '/emails')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  TRUNCATE TABLE procedures
+Mysql2::Error: Cannot truncate a table referenced in a foreign key constraint (`sequencing_test`.`flows`, CONSTRAINT `flows_ibfk_2` FOREIGN KEY (`procedure_id`) REFERENCES `sequencing`.`procedures` (`id`)): TRUNCATE TABLE procedures
+  [1m[36m (0.4ms)[0m  [1mCREATE DATABASE `sequencing` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`[0m
+Mysql2::Error: Can't create database 'sequencing'; database exists: CREATE DATABASE `sequencing` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`
+  [1m[35m (0.2ms)[0m  CREATE DATABASE `sequencing_test` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`
