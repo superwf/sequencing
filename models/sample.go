@@ -18,6 +18,7 @@ type Sample struct {
   IsSplice bool `json:"is_splice"`
   IsThrough bool `json:"is_through"`
   Reactions []Reaction
+  ParentId int `json:"parent_id"`
 }
 
 func GetSamples(req *http.Request)([]Sample, int){

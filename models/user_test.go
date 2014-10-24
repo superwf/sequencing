@@ -62,6 +62,24 @@ var _ = Describe("test User", func(){
     Expect(len(users)).To(Equal(models.PerPage))
 
     Expect(users[0].Name).To(Equal("name0"))
+
+    req.Form.Set("name", "name3")
+    users, count = models.GetUsers(req)
+    Expect(count).To(Equal(1))
+
+    req.Form.Set("name", "")
+    req.Form.Set("email", "name3@chgb.org")
+    users, count = models.GetUsers(req)
+    Expect(count).To(Equal(1))
+
+    req.Form.Set("name", "xxxxx")
+    users, count = models.GetUsers(req)
+    Expect(count).To(Equal(0))
+
+    req.Form.Set("name", "")
+    req.Form.Set("email", "xxxxxxx")
+    users, count = models.GetUsers(req)
+    Expect(count).To(Equal(0))
   })
 
   It("test user role", func(){

@@ -48,7 +48,7 @@ func (order *Order)GenerateReworkOrder() {
     newOrder := Order{BoardHeadId: boardHeadId, CreateDate: time.Now()}
     newOrder.GenerateReworkSn(order)
     sample := Sample{}
-    Db.Select("samples.*").Table("samples, pc_relations").Where("pc_relations.parent_id = ? AND pc_relations.table_name = 'samples' AND pc_relations.child_id = samples.id AND samples.order_id = ?", sampleId, newOrder.Id).First(&sample)
+    Db.Where("parent_id = ?", sampleId).First(&sample)
     // if no child sample in the new order
     if sample.Id == 0 {
       sample := Sample{Id: sampleId}
@@ -57,8 +57,8 @@ func (order *Order)GenerateReworkOrder() {
       sample.OrderId = newOrder.Id
       sample.BoardId = 0
       sample.Hole = ""
+      sample.ParentId = sampleId
       Db.Save(&sample)
-      SavePcRelation(sampleId, sample.Id, "samples")
 
       reaction := Reaction{Id: reactionId}
       Db.First(&reaction)
@@ -68,11 +68,11 @@ func (order *Order)GenerateReworkOrder() {
       reaction.Hole = ""
       reaction.DilutePrimerId = 0
       reaction.SampleId = sample.Id
+      reaction.ParentId = reactionId
       Db.Save(&reaction)
-      SavePcRelation(reactionId, reaction.Id, "reactions")
     } else {
       reaction := Reaction{}
-      Db.Select("reactions.*").Table("reactions, pc_relations").Where("pc_relations.parent_id = ? AND pc_relations.table_name = 'reactions' AND pc_relations.child_id = reactions.id AND reactions.order_id = ? AND ", reactionId, newOrder.Id).First(&reaction)
+      Db.Where("parent_id = ?", reactionId).First(&reaction)
       if reaction.Id == 0 {
         reaction := Reaction{Id: reactionId}
         Db.First(&reaction)
@@ -82,8 +82,8 @@ func (order *Order)GenerateReworkOrder() {
         reaction.BoardId = 0
         reaction.Hole = ""
         reaction.DilutePrimerId = 0
+        reaction.ParentId = reactionId
         Db.Save(&reaction)
-        SavePcRelation(reactionId, reaction.Id, "reactions")
       }
     }
   }

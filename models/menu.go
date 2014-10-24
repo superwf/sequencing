@@ -8,6 +8,7 @@ type Menu struct {
 }
 
 // get the children of root menu
+// tested
 func (m *Menu) Children(u *User) []Menu {
   var submenus []Menu
   if u.Admin() {
@@ -19,6 +20,7 @@ func (m *Menu) Children(u *User) []Menu {
   return submenus
 }
 
+// tested
 func Navigation(u *User) []map[string]interface{} {
   var root_menus []Menu
   db := Db.Where("parent_id = 0").Order("id")
@@ -49,10 +51,3 @@ func Navigation(u *User) []map[string]interface{} {
   }
   return result
 }
-
-//func GetMenus(req *http.Request)([]Menu, int){
-//  db := Db.Model(Menu{}).Order("id")
-//  records := []Menu{}
-//  db.Find(&records)
-//  return records, 0
-//}

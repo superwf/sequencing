@@ -5,6 +5,7 @@ import (
   "sequencing/models"
   "strconv"
   "strings"
+  "net/http"
 )
 
 func prepare_roles(roles_count int) {
@@ -42,5 +43,37 @@ var _ = Describe("test Role", func(){
     user = new(models.User)
     Db.First(user)
     Expect(user.RoleId).To(Equal(2))
+  })
+
+  It("test GetRoles", func(){
+    prepare_roles(20)
+    req := new(http.Request)
+    roles, count := models.GetRoles(req)
+    Expect(len(roles)).To(Equal(models.PerPage))
+    Expect(count).To(Equal(20))
+
+    req.Form.Add("name", "role2")
+    roles, count = models.GetRoles(req)
+    Expect(len(roles)).To(Equal(1))
+    Expect(count).To(Equal(1))
+  })
+
+  It("test role.RoleActiveMenu", func(){
+    Db.Exec("TRUNCATE TABLE menus_roles")
+    prepare_roles(1)
+    prepare_menus(1)
+    var menu models.Menu
+    Db.First(&menu)
+    result := make(map[string]interface{})
+    result["active"] = true
+    result["menu_id"] = menu.Id
+    var count int
+    Db.Table("menus_roles").Count(&count)
+    Expect(count).To(Equal(0))
+    var role models.Role
+    Db.First(&role)
+    role.ActiveMenu(result)
+    Db.Table("menus_roles").Count(&count)
+    Expect(count).To(Equal(1))
   })
 })

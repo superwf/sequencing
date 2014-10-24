@@ -15,6 +15,7 @@ func UpdateRole(params martini.Params, r render.Render, req *http.Request){
   id, _ := strconv.Atoi(params["id"])
   var result map[string]interface{}
   parseJson(&result, req)
-  models.RoleActiveMenu(result, id)
+  role := models.Role{Id: id}
+  role.ActiveMenu(result)
   r.JSON(http.StatusAccepted, Ok_true)
 }

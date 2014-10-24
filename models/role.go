@@ -9,9 +9,9 @@ type Role struct {
   Name string `json:"name"`
   Menus []Menu `gorm:"many2many:menus_roles"`
   Users []User
-  Creator
 }
 
+// tested
 func GetRoles(req *http.Request)([]Role, int){
   page := getPage(req)
   db := Db.Model(Role{})
@@ -26,10 +26,11 @@ func GetRoles(req *http.Request)([]Role, int){
   return records, count
 }
 
-func RoleActiveMenu(result map[string]interface{}, role_id int) {
+// tested
+func (role Role)ActiveMenu(result map[string]interface{}) {
   if result["active"].(bool) {
-    Db.Exec("INSERT INTO menus_roles(role_id, menu_id) VALUES(?, ?)", role_id, result["menu_id"])
+    Db.Exec("INSERT INTO menus_roles(role_id, menu_id) VALUES(?, ?)", role.Id, result["menu_id"])
   } else {
-    Db.Exec("DELETE FROM menus_roles WHERE role_id = ? AND menu_id = ?", role_id, result["menu_id"])
+    Db.Exec("DELETE FROM menus_roles WHERE role_id = ? AND menu_id = ?", role.Id, result["menu_id"])
   }
 }

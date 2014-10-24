@@ -12,6 +12,7 @@ class CreateSamples < ActiveRecord::Migration
       t.column :is_splice, 'TINYINT(1) UNSIGNED', null: false, default: false
       t.string :splice_status, null: false, default: ''
       t.column :is_through, 'TINYINT(1) UNSIGNED', null: false, default: false
+      t.column :parent_id, 'INT(11) UNSIGNED', default: 0
     end
     add_index :samples, [:order_id, :name], name: :order_id, unique: true
     add_index :samples, [:board_id, :hole], name: :board_hole

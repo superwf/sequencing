@@ -31,11 +31,11 @@ default: &default
     billStatus: ['sign_bill', 'invoice', 'confirm_detail', 'payed', 'bad_debt']
     payType: ['check', 'cash', 'transfer_accounts']
     emailType: ['primer_expire', 'precheck', 'interprete']
-development:
-  <<: *default
   reaction_file:
     path: '/home/wangfan/golang/src/sequencing/reaction_files'
     suffix: ['.ab1', '.seq']
+development:
+  <<: *default
 test:
   <<: *default
   port: ":8079"

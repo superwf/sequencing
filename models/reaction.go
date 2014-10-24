@@ -14,6 +14,7 @@ type Reaction struct {
   DilutePrimerId int `json:"dilute_primer_id"`
   BoardId int `json:"board_id"`
   Hole string `json:"hole"`
+  ParentId int `json:"parent_id"`
   Remark string `json:"remark"`
 }
 

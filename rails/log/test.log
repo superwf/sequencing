@@ -127,3 +127,559 @@ Migrating to CreateSampleHeads (20140903043022)
   [1m[35mSQL (8.9ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140903043022')
   [1m[36m (26.1ms)[0m  [1mCOMMIT[0m
   [1m[35mActiveRecord::SchemaMigration Load (0.5ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36m (104.8ms)[0m  [1mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (174.2ms)[0m  CREATE UNIQUE INDEX `unique_schema_migrations`  ON `schema_migrations` (`version`) 
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20140813074925)
+  [1m[35m (128.1ms)[0m  CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `department_id` INT UNSIGNED NOT NULL, `role_id` INT UNSIGNED NOT NULL, `active` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `signature` varchar(255), `created_at` datetime, `updated_at` datetime, `email` varchar(255) NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` INT UNSIGNED DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `confirmation_token` varchar(255), `confirmed_at` datetime, `confirmation_sent_at` datetime, `unconfirmed_email` varchar(255), `failed_attempts` INT UNSIGNED DEFAULT 0 NOT NULL, `unlock_token` varchar(255), `locked_at` datetime) ENGINE=InnoDB
+  [1m[36m (170.8ms)[0m  [1mCREATE  INDEX `index_users_on_department_id`  ON `users` (`department_id`) [0m
+  [1m[35m (173.2ms)[0m  CREATE  INDEX `index_users_on_role_id`  ON `users` (`role_id`) 
+  [1m[36m (265.3ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_email`  ON `users` (`email`) [0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140813074925')[0m
+  [1m[35m (24.2ms)[0m  COMMIT
+Migrating to CreateRoles (20140825082704)
+  [1m[36m (119.6ms)[0m  [1mCREATE TABLE `roles` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140825082704')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+Migrating to CreateMenus (20140825082927)
+  [1m[36m (119.3ms)[0m  [1mCREATE TABLE `menus` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) DEFAULT '' NOT NULL, `url` varchar(255) DEFAULT '' NOT NULL, `parent_id` int(11) DEFAULT 0 NOT NULL, `remark` text) ENGINE=InnoDB[0m
+  [1m[35m (154.6ms)[0m  CREATE  INDEX `parent_id`  ON `menus` (`parent_id`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140825082927')
+  [1m[36m (24.9ms)[0m  [1mCOMMIT[0m
+Migrating to CreateMenusRoles (20140825083039)
+  [1m[35m (115.1ms)[0m  CREATE TABLE `menus_roles` (`menu_id` int(11) NOT NULL, `role_id` int(11) NOT NULL) ENGINE=InnoDB
+  [1m[36m (182.5ms)[0m  [1mCREATE UNIQUE INDEX `role_menu`  ON `menus_roles` (`role_id`, `menu_id`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140825083039')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+Migrating to CreateProcedures (20140828004433)
+  [1m[36m (117.4ms)[0m  [1mCREATE TABLE `procedures` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) DEFAULT '' NOT NULL, `record_name` varchar(255) DEFAULT '' NOT NULL, `remark` varchar(255) DEFAULT '' NOT NULL, `flow_type` varchar(100) DEFAULT 'sample' NOT NULL, `board` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (187.6ms)[0m  CREATE UNIQUE INDEX `name`  ON `procedures` (`name`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140828004433')
+  [1m[36m (83.3ms)[0m  [1mCOMMIT[0m
+Migrating to CreateCompanies (20140905061853)
+  [1m[35m (114.0ms)[0m  CREATE TABLE `companies` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `code` varchar(255) NOT NULL, `parent_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `price` DECIMAL(10, 2) UNSIGNED DEFAULT 0 NOT NULL, `full_name` varchar(255) NOT NULL, `full_code` varchar(255) NOT NULL, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (171.0ms)[0m  [1mCREATE  INDEX `name`  ON `companies` (`name`) [0m
+  [1m[35m (165.1ms)[0m  CREATE  INDEX `code`  ON `companies` (`code`) 
+  [1m[36m (156.6ms)[0m  [1mCREATE  INDEX `parent_id`  ON `companies` (`parent_id`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140905061853')[0m
+  [1m[35m (25.1ms)[0m  COMMIT
+Migrating to CreateClients (20140909025243)
+  [1m[36m (136.4ms)[0m  [1mCREATE TABLE `clients` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) DEFAULT '' NOT NULL, `company_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `email` varchar(255) DEFAULT '' NOT NULL, `address` varchar(255) DEFAULT '' NOT NULL, `tel` varchar(255) DEFAULT '' NOT NULL, `remark` text NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (160.8ms)[0m  CREATE  INDEX `name`  ON `clients` (`name`) 
+  [1m[36m (182.7ms)[0m  [1mCREATE  INDEX `email`  ON `clients` (`email`) [0m
+  [1m[35m (157.0ms)[0m  CREATE  INDEX `company_id`  ON `clients` (`company_id`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140909025243')
+  [1m[36m (27.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreatePrimers (20140909053451)
+  [1m[35m (118.8ms)[0m  CREATE TABLE `primers` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `origin_thickness` DECIMAL(10, 2) UNSIGNED NOT NULL DEFAULT 5, `annealing` varchar(255) DEFAULT '' NOT NULL, `seq` text, `client_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `board_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `hole` varchar(255) DEFAULT '' NOT NULL, `status` varchar(255) DEFAULT 'ok' NOT NULL, `store_type` varchar(255) DEFAULT '' NOT NULL, `create_date` date NOT NULL, `expire_date` date NOT NULL, `operate_date` date NOT NULL, `need_return` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `available` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `remark` text, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (160.8ms)[0m  [1mCREATE  INDEX `client_id`  ON `primers` (`client_id`) [0m
+  [1m[35m (157.0ms)[0m  CREATE  INDEX `name`  ON `primers` (`name`) 
+  [1m[36m (165.3ms)[0m  [1mCREATE UNIQUE INDEX `board_hole`  ON `primers` (`board_id`, `hole`) [0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140909053451')[0m
+  [1m[35m (26.8ms)[0m  COMMIT
+Migrating to CreateVectors (20140911012757)
+  [1m[36m (114.9ms)[0m  [1mCREATE TABLE `vectors` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `producer` varchar(255) NOT NULL, `length` varchar(255) NOT NULL, `resistance` varchar(255) NOT NULL, `copy_number` varchar(255) NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (152.5ms)[0m  CREATE  INDEX `name`  ON `vectors` (`name`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140911012757')
+  [1m[36m (26.8ms)[0m  [1mCOMMIT[0m
+Migrating to CreateBoardHeads (20140912032537)
+  [1m[35m (119.0ms)[0m  CREATE TABLE `board_heads` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `remark` varchar(255) DEFAULT '' NOT NULL, `board_type` varchar(255) DEFAULT '' NOT NULL, `cols` varchar(255) DEFAULT '' NOT NULL, `rows` varchar(255) DEFAULT '' NOT NULL, `with_date` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `available` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `is_redo` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (161.1ms)[0m  [1mCREATE UNIQUE INDEX `board_type_name`  ON `board_heads` (`board_type`, `name`) [0m
+  [1m[35m (164.9ms)[0m  CREATE  INDEX `name`  ON `board_heads` (`name`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140912032537')
+  [1m[36m (27.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateOrders (20140912071552)
+  [1m[35m (121.8ms)[0m  CREATE TABLE `orders` (`id` int(11) auto_increment PRIMARY KEY, `client_id` INT(11) UNSIGNED NOT NULL, `number` INT(11) UNSIGNED DEFAULT 1 NOT NULL, `board_head_id` INT(11) UNSIGNED NOT NULL, `create_date` date NOT NULL, `sn` varchar(255) NOT NULL, `urgent` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `is_test` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `transport_condition` varchar(255) DEFAULT '' NOT NULL, `status` varchar(255) DEFAULT 'new' NOT NULL, `remark` text, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (169.4ms)[0m  [1mCREATE  INDEX `client_id`  ON `orders` (`client_id`) [0m
+  [1m[35m (165.1ms)[0m  CREATE  INDEX `create_date`  ON `orders` (`create_date`) 
+  [1m[36m (156.9ms)[0m  [1mCREATE UNIQUE INDEX `sn`  ON `orders` (`sn`) [0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140912071552')[0m
+  [1m[35m (26.6ms)[0m  COMMIT
+Migrating to CreateSamples (20140916054327)
+  [1m[36m (138.0ms)[0m  [1mCREATE TABLE `samples` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `order_id` INT(11) UNSIGNED NOT NULL, `vector_id` INT(11) UNSIGNED DEFAULT 0, `fragment` varchar(255) DEFAULT 0 NOT NULL, `resistance` varchar(255) DEFAULT '' NOT NULL, `return_type` varchar(255) DEFAULT '' NOT NULL, `board_id` INT(11) UNSIGNED DEFAULT 0, `hole` varchar(255) DEFAULT '' NOT NULL, `is_splice` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `splice_status` varchar(255) DEFAULT '' NOT NULL, `is_through` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `parent_id` INT(11) UNSIGNED DEFAULT 0) ENGINE=InnoDB[0m
+  [1m[35m (168.7ms)[0m  CREATE UNIQUE INDEX `order_id`  ON `samples` (`order_id`, `name`) 
+  [1m[36m (190.7ms)[0m  [1mCREATE  INDEX `board_hole`  ON `samples` (`board_id`, `hole`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140916054327')[0m
+  [1m[35m (26.6ms)[0m  COMMIT
+Migrating to CreateReactions (20140916074104)
+  [1m[36m (89.5ms)[0m  [1mCREATE TABLE `reactions` (`id` int(11) auto_increment PRIMARY KEY, `order_id` INT(11) UNSIGNED NOT NULL, `sample_id` INT(11) UNSIGNED NOT NULL, `primer_id` INT(11) UNSIGNED NOT NULL, `dilute_primer_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `board_id` INT(11) UNSIGNED, `hole` varchar(255) DEFAULT '', `parent_id` INT(11) UNSIGNED DEFAULT 0, `remark` text) ENGINE=InnoDB[0m
+  [1m[35m (144.0ms)[0m  CREATE  INDEX `order_id`  ON `reactions` (`order_id`) 
+  [1m[36m (157.0ms)[0m  [1mCREATE  INDEX `primer_id`  ON `reactions` (`primer_id`) [0m
+  [1m[35m (156.7ms)[0m  CREATE UNIQUE INDEX `sample_primer`  ON `reactions` (`sample_id`, `primer_id`) 
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateReactions (20140916074104)
+  [1m[35m (0.3ms)[0m  CREATE TABLE `reactions` (`id` int(11) auto_increment PRIMARY KEY, `order_id` INT(11) UNSIGNED NOT NULL, `sample_id` INT(11) UNSIGNED NOT NULL, `primer_id` INT(11) UNSIGNED NOT NULL, `dilute_primer_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `board_id` INT(11) UNSIGNED, `hole` varchar(255) DEFAULT '', `parent_id` INT(11) UNSIGNED DEFAULT 0, `remark` text) ENGINE=InnoDB
+Mysql2::Error: Table 'reactions' already exists: CREATE TABLE `reactions` (`id` int(11) auto_increment PRIMARY KEY, `order_id` INT(11) UNSIGNED NOT NULL, `sample_id` INT(11) UNSIGNED NOT NULL, `primer_id` INT(11) UNSIGNED NOT NULL, `dilute_primer_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `board_id` INT(11) UNSIGNED, `hole` varchar(255) DEFAULT '', `parent_id` INT(11) UNSIGNED DEFAULT 0, `remark` text) ENGINE=InnoDB
+  [1m[36m (104.9ms)[0m  [1mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (140.7ms)[0m  CREATE UNIQUE INDEX `unique_schema_migrations`  ON `schema_migrations` (`version`) 
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20140813074925)
+  [1m[35m (106.0ms)[0m  CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `department_id` INT UNSIGNED NOT NULL, `role_id` INT UNSIGNED NOT NULL, `active` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `signature` varchar(255), `created_at` datetime, `updated_at` datetime, `email` varchar(255) NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` INT UNSIGNED DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `confirmation_token` varchar(255), `confirmed_at` datetime, `confirmation_sent_at` datetime, `unconfirmed_email` varchar(255), `failed_attempts` INT UNSIGNED DEFAULT 0 NOT NULL, `unlock_token` varchar(255), `locked_at` datetime) ENGINE=InnoDB
+  [1m[36m (193.1ms)[0m  [1mCREATE  INDEX `index_users_on_department_id`  ON `users` (`department_id`) [0m
+  [1m[35m (157.7ms)[0m  CREATE  INDEX `index_users_on_role_id`  ON `users` (`role_id`) 
+  [1m[36m (164.9ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_email`  ON `users` (`email`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140813074925')[0m
+  [1m[35m (26.5ms)[0m  COMMIT
+Migrating to CreateRoles (20140825082704)
+  [1m[36m (98.2ms)[0m  [1mCREATE TABLE `roles` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140825082704')[0m
+  [1m[35m (14.5ms)[0m  COMMIT
+Migrating to CreateMenus (20140825082927)
+  [1m[36m (89.7ms)[0m  [1mCREATE TABLE `menus` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) DEFAULT '' NOT NULL, `url` varchar(255) DEFAULT '' NOT NULL, `parent_id` int(11) DEFAULT 0 NOT NULL, `remark` text) ENGINE=InnoDB[0m
+  [1m[35m (143.8ms)[0m  CREATE  INDEX `parent_id`  ON `menus` (`parent_id`) 
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140825082927')
+  [1m[36m (27.7ms)[0m  [1mCOMMIT[0m
+Migrating to CreateMenusRoles (20140825083039)
+  [1m[35m (148.6ms)[0m  CREATE TABLE `menus_roles` (`menu_id` int(11) NOT NULL, `role_id` int(11) NOT NULL) ENGINE=InnoDB
+  [1m[36m (173.6ms)[0m  [1mCREATE UNIQUE INDEX `role_menu`  ON `menus_roles` (`role_id`, `menu_id`) [0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140825083039')[0m
+  [1m[35m (14.8ms)[0m  COMMIT
+Migrating to CreateProcedures (20140828004433)
+  [1m[36m (98.0ms)[0m  [1mCREATE TABLE `procedures` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) DEFAULT '' NOT NULL, `record_name` varchar(255) DEFAULT '' NOT NULL, `remark` varchar(255) DEFAULT '' NOT NULL, `flow_type` varchar(100) DEFAULT 'sample' NOT NULL, `board` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (144.0ms)[0m  CREATE UNIQUE INDEX `name`  ON `procedures` (`name`) 
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140828004433')
+  [1m[36m (27.6ms)[0m  [1mCOMMIT[0m
+Migrating to CreateCompanies (20140905061853)
+  [1m[35m (90.9ms)[0m  CREATE TABLE `companies` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `code` varchar(255) NOT NULL, `parent_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `price` DECIMAL(10, 2) UNSIGNED DEFAULT 0 NOT NULL, `full_name` varchar(255) NOT NULL, `full_code` varchar(255) NOT NULL, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (152.3ms)[0m  [1mCREATE  INDEX `name`  ON `companies` (`name`) [0m
+  [1m[35m (173.9ms)[0m  CREATE  INDEX `code`  ON `companies` (`code`) 
+  [1m[36m (181.9ms)[0m  [1mCREATE  INDEX `parent_id`  ON `companies` (`parent_id`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140905061853')[0m
+  [1m[35m (27.5ms)[0m  COMMIT
+Migrating to CreateClients (20140909025243)
+  [1m[36m (106.7ms)[0m  [1mCREATE TABLE `clients` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) DEFAULT '' NOT NULL, `company_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `email` varchar(255) DEFAULT '' NOT NULL, `address` varchar(255) DEFAULT '' NOT NULL, `tel` varchar(255) DEFAULT '' NOT NULL, `remark` text NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (143.7ms)[0m  CREATE  INDEX `name`  ON `clients` (`name`) 
+  [1m[36m (473.6ms)[0m  [1mCREATE  INDEX `email`  ON `clients` (`email`) [0m
+  [1m[35m (795.2ms)[0m  CREATE  INDEX `company_id`  ON `clients` (`company_id`) 
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140909025243')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+Migrating to CreatePrimers (20140909053451)
+  [1m[35m (538.8ms)[0m  CREATE TABLE `primers` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `origin_thickness` DECIMAL(10, 2) UNSIGNED NOT NULL DEFAULT 5, `annealing` varchar(255) DEFAULT '' NOT NULL, `seq` text, `client_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `board_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `hole` varchar(255) DEFAULT '' NOT NULL, `status` varchar(255) DEFAULT 'ok' NOT NULL, `store_type` varchar(255) DEFAULT '' NOT NULL, `create_date` date NOT NULL, `expire_date` date NOT NULL, `operate_date` date NOT NULL, `need_return` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `available` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `remark` text, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (151.9ms)[0m  [1mCREATE  INDEX `client_id`  ON `primers` (`client_id`) [0m
+  [1m[35m (156.9ms)[0m  CREATE  INDEX `name`  ON `primers` (`name`) 
+  [1m[36m (156.5ms)[0m  [1mCREATE UNIQUE INDEX `board_hole`  ON `primers` (`board_id`, `hole`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140909053451')[0m
+  [1m[35m (27.8ms)[0m  COMMIT
+Migrating to CreateVectors (20140911012757)
+  [1m[36m (106.4ms)[0m  [1mCREATE TABLE `vectors` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `producer` varchar(255) NOT NULL, `length` varchar(255) NOT NULL, `resistance` varchar(255) NOT NULL, `copy_number` varchar(255) NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (176.9ms)[0m  CREATE  INDEX `name`  ON `vectors` (`name`) 
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140911012757')
+  [1m[36m (27.2ms)[0m  [1mCOMMIT[0m
+Migrating to CreateBoardHeads (20140912032537)
+  [1m[35m (107.3ms)[0m  CREATE TABLE `board_heads` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `remark` varchar(255) DEFAULT '' NOT NULL, `board_type` varchar(255) DEFAULT '' NOT NULL, `cols` varchar(255) DEFAULT '' NOT NULL, `rows` varchar(255) DEFAULT '' NOT NULL, `with_date` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `available` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `is_redo` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (143.1ms)[0m  [1mCREATE UNIQUE INDEX `board_type_name`  ON `board_heads` (`board_type`, `name`) [0m
+  [1m[35m (157.7ms)[0m  CREATE  INDEX `name`  ON `board_heads` (`name`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140912032537')
+  [1m[36m (27.5ms)[0m  [1mCOMMIT[0m
+Migrating to CreateOrders (20140912071552)
+  [1m[35m (106.1ms)[0m  CREATE TABLE `orders` (`id` int(11) auto_increment PRIMARY KEY, `client_id` INT(11) UNSIGNED NOT NULL, `number` INT(11) UNSIGNED DEFAULT 1 NOT NULL, `board_head_id` INT(11) UNSIGNED NOT NULL, `create_date` date NOT NULL, `sn` varchar(255) NOT NULL, `urgent` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `is_test` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `transport_condition` varchar(255) DEFAULT '' NOT NULL, `status` varchar(255) DEFAULT 'new' NOT NULL, `remark` text, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (151.5ms)[0m  [1mCREATE  INDEX `client_id`  ON `orders` (`client_id`) [0m
+  [1m[35m (174.8ms)[0m  CREATE  INDEX `create_date`  ON `orders` (`create_date`) 
+  [1m[36m (422.4ms)[0m  [1mCREATE UNIQUE INDEX `sn`  ON `orders` (`sn`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140912071552')[0m
+  [1m[35m (27.7ms)[0m  COMMIT
+Migrating to CreateSamples (20140916054327)
+  [1m[36m (105.8ms)[0m  [1mCREATE TABLE `samples` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `order_id` INT(11) UNSIGNED NOT NULL, `vector_id` INT(11) UNSIGNED DEFAULT 0, `fragment` varchar(255) DEFAULT 0 NOT NULL, `resistance` varchar(255) DEFAULT '' NOT NULL, `return_type` varchar(255) DEFAULT '' NOT NULL, `board_id` INT(11) UNSIGNED DEFAULT 0, `hole` varchar(255) DEFAULT '' NOT NULL, `is_splice` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `splice_status` varchar(255) DEFAULT '' NOT NULL, `is_through` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `parent_id` INT(11) UNSIGNED DEFAULT 0) ENGINE=InnoDB[0m
+  [1m[35m (151.8ms)[0m  CREATE UNIQUE INDEX `order_id`  ON `samples` (`order_id`, `name`) 
+  [1m[36m (156.6ms)[0m  [1mCREATE  INDEX `board_hole`  ON `samples` (`board_id`, `hole`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140916054327')[0m
+  [1m[35m (27.8ms)[0m  COMMIT
+Migrating to CreateReactions (20140916074104)
+  [1m[36m (98.1ms)[0m  [1mCREATE TABLE `reactions` (`id` int(11) auto_increment PRIMARY KEY, `order_id` INT(11) UNSIGNED NOT NULL, `sample_id` INT(11) UNSIGNED NOT NULL, `primer_id` INT(11) UNSIGNED NOT NULL, `dilute_primer_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `board_id` INT(11) UNSIGNED, `hole` varchar(255) DEFAULT '', `parent_id` INT(11) UNSIGNED DEFAULT 0, `remark` text) ENGINE=InnoDB[0m
+  [1m[35m (143.3ms)[0m  CREATE  INDEX `order_id`  ON `reactions` (`order_id`) 
+  [1m[36m (207.7ms)[0m  [1mCREATE  INDEX `primer_id`  ON `reactions` (`primer_id`) [0m
+  [1m[35m (174.3ms)[0m  CREATE UNIQUE INDEX `sample_primer`  ON `reactions` (`sample_id`, `primer_id`) 
+  [1m[36m (190.2ms)[0m  [1mCREATE  INDEX `board_hole`  ON `reactions` (`board_id`, `hole`) [0m
+  [1m[35m (148.9ms)[0m  CREATE  INDEX `dilute_primer_id`  ON `reactions` (`dilute_primer_id`) 
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140916074104')
+  [1m[36m (27.3ms)[0m  [1mCOMMIT[0m
+Migrating to CreateBoards (20140917014840)
+  [1m[35m (137.2ms)[0m  CREATE TABLE `boards` (`id` int(11) auto_increment PRIMARY KEY, `board_head_id` INT(11) UNSIGNED NOT NULL, `procedure_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `number` INT(11) UNSIGNED DEFAULT 1, `create_date` date NOT NULL, `status` varchar(255) DEFAULT 'new' NOT NULL, `sn` varchar(50) NOT NULL) ENGINE=InnoDB
+  [1m[36m (143.3ms)[0m  [1mCREATE  INDEX `create_date`  ON `boards` (`create_date`) [0m
+  [1m[35m (156.4ms)[0m  CREATE  INDEX `board_head_id`  ON `boards` (`board_head_id`) 
+  [1m[36m (173.7ms)[0m  [1mCREATE UNIQUE INDEX `sn`  ON `boards` (`sn`) [0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140917014840')[0m
+  [1m[35m (39.8ms)[0m  COMMIT
+Migrating to CreateFlows (20140917061747)
+  [1m[36m (116.9ms)[0m  [1mCREATE TABLE `flows` (`id` int(11) auto_increment PRIMARY KEY, `board_head_id` INT(11) UNSIGNED NOT NULL, `procedure_id` INT(11) UNSIGNED NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (193.2ms)[0m  CREATE UNIQUE INDEX `board_procedure`  ON `flows` (`board_head_id`, `procedure_id`) 
+  [1m[36m (173.4ms)[0m  [1mCREATE  INDEX `procedure_id`  ON `flows` (`procedure_id`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140917061747')[0m
+  [1m[35m (20.6ms)[0m  COMMIT
+Migrating to CreatePlasmids (20140922030115)
+  [1m[36m (132.3ms)[0m  [1mCREATE TABLE `plasmids` (`sample_id` int(11) auto_increment PRIMARY KEY, `code_id` INT(11) UNSIGNED NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (149.7ms)[0m  ALTER TABLE plasmids CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140922030115')
+  [1m[36m (14.4ms)[0m  [1mCOMMIT[0m
+Migrating to CreatePlasmidCodes (20140922030219)
+  [1m[35m (112.1ms)[0m  CREATE TABLE `plasmid_codes` (`id` int(11) auto_increment PRIMARY KEY, `code` varchar(255) NOT NULL, `remark` varchar(255) NOT NULL, `available` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (168.4ms)[0m  [1mCREATE UNIQUE INDEX `code`  ON `plasmid_codes` (`code`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140922030219')[0m
+  [1m[35m (27.8ms)[0m  COMMIT
+Migrating to CreatePrecheckCodes (20140924055540)
+  [1m[36m (131.6ms)[0m  [1mCREATE TABLE `precheck_codes` (`id` int(11) auto_increment PRIMARY KEY, `code` varchar(255) NOT NULL, `ok` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `available` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `remark` varchar(255) DEFAULT '' NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140924055540')[0m
+  [1m[35m (14.4ms)[0m  COMMIT
+Migrating to CreatePrechecks (20140924055708)
+  [1m[36m (109.9ms)[0m  [1mCREATE TABLE `prechecks` (`sample_id` int(11) auto_increment PRIMARY KEY, `code_id` INT(11) UNSIGNED NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (158.0ms)[0m  ALTER TABLE prechecks CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140924055708')
+  [1m[36m (31.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateDilutePrimers (20140924082941)
+  [1m[35m (130.9ms)[0m  CREATE TABLE `dilute_primers` (`id` int(11) auto_increment PRIMARY KEY, `primer_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `status` varchar(255) NOT NULL, `remark` varchar(255) DEFAULT '' NOT NULL, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (163.1ms)[0m  [1mCREATE  INDEX `primer_id`  ON `dilute_primers` (`primer_id`) [0m
+  [1m[35m (145.7ms)[0m  CREATE  INDEX `created_at`  ON `dilute_primers` (`created_at`) 
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140924082941')
+  [1m[36m (20.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateBoardRecords (20140928011255)
+  [1m[35m (104.0ms)[0m  CREATE TABLE `board_records` (`id` int(11) auto_increment PRIMARY KEY, `board_id` INT(11) UNSIGNED NOT NULL, `procedure_id` INT(11) UNSIGNED NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `data` text, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (189.1ms)[0m  [1mCREATE  INDEX `board_procedure`  ON `board_records` (`board_id`, `procedure_id`) [0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140928011255')[0m
+  [1m[35m (15.8ms)[0m  COMMIT
+Migrating to CreateReactionFiles (20140929005912)
+  [1m[36m (141.1ms)[0m  [1mCREATE TABLE `reaction_files` (`reaction_id` int(11) auto_increment PRIMARY KEY, `uploaded_at` datetime, `code_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `proposal` varchar(255) DEFAULT '' NOT NULL, `status` varchar(255) NOT NULL, `interpreter_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `interpreted_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (176.2ms)[0m  CREATE  INDEX `code_id`  ON `reaction_files` (`code_id`) 
+  [1m[36m (182.4ms)[0m  [1mCREATE  INDEX `interpreter_id`  ON `reaction_files` (`interpreter_id`) [0m
+  [1m[35m (216.3ms)[0m  CREATE  INDEX `status`  ON `reaction_files` (`status`) 
+  [1m[36m (153.1ms)[0m  [1mALTER TABLE reaction_files CHANGE reaction_id reaction_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140929005912')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+Migrating to CreateInterpreteCodes (20140930012128)
+  [1m[36m (126.7ms)[0m  [1mCREATE TABLE `interprete_codes` (`id` int(11) auto_increment PRIMARY KEY, `code` varchar(255) NOT NULL, `result` varchar(255) NOT NULL, `remark` varchar(255) NOT NULL, `available` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `charge` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `board_head_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140930012128')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+Migrating to CreateBills (20141009082301)
+  [1m[36m (125.9ms)[0m  [1mCREATE TABLE `bills` (`id` int(11) auto_increment PRIMARY KEY, `create_date` date NOT NULL, `number` INT(11) UNSIGNED DEFAULT 1 NOT NULL, `sn` varchar(255) NOT NULL, `money` DECIMAL(10,2) UNSIGNED DEFAULT 0 NOT NULL, `other_money` DECIMAL(10,2) DEFAULT 0 NOT NULL, `status` varchar(255) NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (167.7ms)[0m  CREATE UNIQUE INDEX `sn`  ON `bills` (`sn`) 
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20141009082301')
+  [1m[36m (21.4ms)[0m  [1mCOMMIT[0m
+Migrating to CreateBillOrders (20141009082635)
+  [1m[35m (140.7ms)[0m  CREATE TABLE `bill_orders` (`order_id` int(11) auto_increment PRIMARY KEY, `bill_id` INT(11) UNSIGNED NOT NULL, `price` DECIMAL(10,2) UNSIGNED DEFAULT 0 NOT NULL, `money` DECIMAL(10,2) UNSIGNED DEFAULT 0 NOT NULL, `other_money` DECIMAL(10,2) DEFAULT 0 NOT NULL, `charge_count` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `remark` varchar(255)) ENGINE=InnoDB
+  [1m[36m (170.8ms)[0m  [1mCREATE  INDEX `bill_id`  ON `bill_orders` (`bill_id`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20141009082635')[0m
+  [1m[35m (42.6ms)[0m  COMMIT
+Migrating to CreateBillRecords (20141011030653)
+  [1m[36m (114.3ms)[0m  [1mCREATE TABLE `bill_records` (`bill_id` int(11) auto_increment PRIMARY KEY, `data` text NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20141011030653')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+Migrating to CreateEmails (20141013085159)
+  [1m[36m (119.7ms)[0m  [1mCREATE TABLE `emails` (`id` int(11) auto_increment PRIMARY KEY, `record_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `sent` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `email_type` varchar(255) NOT NULL, `remark` varchar(255) DEFAULT '' NOT NULL, `creator_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (180.0ms)[0m  CREATE  INDEX `record_id`  ON `emails` (`record_id`, `email_type`) 
+  [1m[36m (144.4ms)[0m  [1mCREATE  INDEX `sent`  ON `emails` (`sent`) [0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (1.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20141013085159')[0m
+  [1m[35m (37.6ms)[0m  COMMIT
+Migrating to CreateClientReactions (20141017024940)
+  [1m[36m (102.6ms)[0m  [1mCREATE TABLE `client_reactions` (`id` int(11) auto_increment PRIMARY KEY, `sample` varchar(255) NOT NULL, `sample_type` varchar(255) DEFAULT '' NOT NULL, `structure` varchar(255) DEFAULT '' NOT NULL, `client_id` INT(11) UNSIGNED NOT NULL, `fragment` varchar(255) DEFAULT '' NOT NULL, `vector` varchar(255) DEFAULT '' NOT NULL, `resistance` varchar(255) DEFAULT '' NOT NULL, `primer` varchar(255) DEFAULT '' NOT NULL, `universal_primer` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `is_splice` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `remark` varchar(255) DEFAULT '' NOT NULL, `reaction_id` INT(11) UNSIGNED DEFAULT 0 NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (151.0ms)[0m  CREATE  INDEX `sample`  ON `client_reactions` (`sample`) 
+  [1m[36m (149.3ms)[0m  [1mCREATE  INDEX `client_id`  ON `client_reactions` (`client_id`) [0m
+  [1m[35m (157.0ms)[0m  CREATE  INDEX `reaction_id`  ON `client_reactions` (`reaction_id`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20141017024940')
+  [1m[36m (27.9ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (72.0ms)[0m  TRUNCATE TABLE menus
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (1, 'system')
+  [1m[36m (17.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (2, 'privilege', 1, '/roles')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (3, 'procedure', 1, '/procedures')
+  [1m[36m (24.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (4, 'board_head', 1, '/boardHeads')[0m
+  [1m[35m (27.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (6.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (5, 'plasmid_code', 1, '/plasmidCodes')
+  [1m[36m (66.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (6, 'precheck_code', 1, '/precheckCodes')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (7, 'interprete_code', 1, '/interpreteCodes')
+  [1m[36m (13.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (8, 'client')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (9, 'company', 8, '/companyRoot')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (10, 'client', 8, '/clients')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (11, 'primer')
+  [1m[36m (13.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (12, 'primer', 11, '/primers')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (13, 'primer_board', 11, '/boards?board_type=primer')
+  [1m[36m (13.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (14, 'vector', 11, '/vectors')[0m
+  [1m[35m (13.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (15, 'order')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (16, 'new_order', 15, '/orders/new')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (17, 'new_rework_order', 15, '/orders/newRework')
+  [1m[36m (13.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (18, 'receive_order', 15, '/receiveOrders')[0m
+  [1m[35m (14.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (19, 'order', 15, '/orders')
+  [1m[36m (13.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (20, 'sample')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (21, 'sample_flow', 20, '/boards?board_type=sample')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (22, 'reaction')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (23, 'dilute_primer', 22, '/dilutePrimers')
+  [1m[36m (14.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.9ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (24, 'typeset', 22, '/typeset/reactions')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (25, 'reaction_flow', 22, '/boards?board_type=reaction')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (26, 'interprete')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (27, 'interprete', 26, '/reactionFiles')
+  [1m[36m (13.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (28, 'send_email', 26, '/sendOrderEmails')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (29, 'bill')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (30, 'bill', 29, '/bills')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (31, 'email')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (32, 'email', 31, '/emails')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (16.4ms)[0m  [1mTRUNCATE TABLE procedures[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `name`, `record_name`) VALUES (1, 1, '电泳', 'electros')[0m
+  [1m[35m (116.8ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `name`, `record_name`) VALUES (1, 1, '摇菌', 'shake_bacs')
+  [1m[36m (20.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`creator_id`, `name`, `record_name`) VALUES (1, '质粒', 'plasmids')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`creator_id`, `name`, `record_name`) VALUES (1, '预检', 'prechecks')
+  [1m[36m (13.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '热循环', 'heat_cycles')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '酒精纯化', 'alcohols')
+  [1m[36m (13.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '上机记录', 'abi_records')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 'reaction', '上传测序文件', 'reaction_files')
+  [1m[36m (13.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (148.6ms)[0m  ALTER TABLE bill_orders CHANGE order_id order_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.3ms)[0m  [1mUPDATE bill_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (128.7ms)[0m  ALTER TABLE bill_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE bill_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (174.2ms)[0m  ALTER TABLE bill_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (124.9ms)[0m  [1mALTER TABLE bill_records CHANGE bill_id bill_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.6ms)[0m  UPDATE bills SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (194.4ms)[0m  [1mALTER TABLE bills CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.7ms)[0m  UPDATE bills SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (115.4ms)[0m  [1mALTER TABLE bills CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (116.3ms)[0m  ALTER TABLE bills CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.2ms)[0m  [1mUPDATE board_heads SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (150.5ms)[0m  ALTER TABLE board_heads CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.7ms)[0m  [1mUPDATE board_heads SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (115.6ms)[0m  ALTER TABLE board_heads CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (116.4ms)[0m  [1mALTER TABLE board_heads CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE board_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (131.9ms)[0m  [1mALTER TABLE board_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.7ms)[0m  UPDATE board_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (115.2ms)[0m  [1mALTER TABLE board_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (116.6ms)[0m  ALTER TABLE board_records CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (125.9ms)[0m  [1mALTER TABLE boards CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.3ms)[0m  UPDATE client_reactions SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (109.9ms)[0m  [1mALTER TABLE client_reactions CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE client_reactions SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (115.9ms)[0m  [1mALTER TABLE client_reactions CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (108.0ms)[0m  ALTER TABLE client_reactions CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.4ms)[0m  [1mUPDATE clients SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (158.9ms)[0m  ALTER TABLE clients CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.5ms)[0m  [1mUPDATE clients SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (157.6ms)[0m  ALTER TABLE clients CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (141.4ms)[0m  [1mALTER TABLE clients CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.3ms)[0m  UPDATE companies SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (110.7ms)[0m  [1mALTER TABLE companies CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.7ms)[0m  UPDATE companies SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (107.1ms)[0m  [1mALTER TABLE companies CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (132.9ms)[0m  ALTER TABLE companies CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE dilute_primers SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (169.2ms)[0m  ALTER TABLE dilute_primers CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE dilute_primers SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (124.2ms)[0m  ALTER TABLE dilute_primers CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (116.3ms)[0m  [1mALTER TABLE dilute_primers CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.3ms)[0m  UPDATE emails SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (150.2ms)[0m  [1mALTER TABLE emails CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.6ms)[0m  UPDATE emails SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (123.9ms)[0m  [1mALTER TABLE emails CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (116.5ms)[0m  ALTER TABLE emails CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (134.4ms)[0m  [1mALTER TABLE flows CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.8ms)[0m  UPDATE interprete_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (125.6ms)[0m  [1mALTER TABLE interprete_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.7ms)[0m  UPDATE interprete_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (148.8ms)[0m  [1mALTER TABLE interprete_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (116.4ms)[0m  ALTER TABLE interprete_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (133.2ms)[0m  [1mALTER TABLE menus CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.2ms)[0m  UPDATE orders SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (128.4ms)[0m  [1mALTER TABLE orders CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE orders SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (124.0ms)[0m  [1mALTER TABLE orders CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (116.6ms)[0m  ALTER TABLE orders CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.4ms)[0m  [1mUPDATE plasmid_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (192.6ms)[0m  ALTER TABLE plasmid_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.6ms)[0m  [1mUPDATE plasmid_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (156.7ms)[0m  ALTER TABLE plasmid_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (116.4ms)[0m  [1mALTER TABLE plasmid_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.3ms)[0m  UPDATE plasmids SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (129.8ms)[0m  [1mALTER TABLE plasmids CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (6.0ms)[0m  UPDATE plasmids SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (176.3ms)[0m  [1mALTER TABLE plasmids CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (42.1ms)[0m  ALTER TABLE plasmids CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.2ms)[0m  [1mUPDATE precheck_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (167.5ms)[0m  ALTER TABLE precheck_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE precheck_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (158.0ms)[0m  ALTER TABLE precheck_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (108.2ms)[0m  [1mALTER TABLE precheck_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE prechecks SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (136.5ms)[0m  [1mALTER TABLE prechecks CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.6ms)[0m  UPDATE prechecks SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (107.2ms)[0m  [1mALTER TABLE prechecks CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (43.5ms)[0m  ALTER TABLE prechecks CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.4ms)[0m  [1mUPDATE primers SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (116.1ms)[0m  ALTER TABLE primers CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.5ms)[0m  [1mUPDATE primers SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (157.3ms)[0m  ALTER TABLE primers CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (120.3ms)[0m  [1mALTER TABLE primers CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (129.0ms)[0m  ALTER TABLE procedures CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.6ms)[0m  [1mUPDATE reaction_files SET uploaded_at = '0000-00-00 00:00:00' WHERE uploaded_at IS NULL[0m
+  [1m[35m (143.2ms)[0m  ALTER TABLE reaction_files CHANGE uploaded_at uploaded_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.7ms)[0m  [1mUPDATE reaction_files SET interpreted_at = '0000-00-00 00:00:00' WHERE interpreted_at IS NULL[0m
+  [1m[35m (127.8ms)[0m  ALTER TABLE reaction_files CHANGE interpreted_at interpreted_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.6ms)[0m  [1mALTER TABLE reaction_files CHANGE reaction_id reaction_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (147.3ms)[0m  ALTER TABLE reactions CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (144.3ms)[0m  [1mALTER TABLE samples CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.2ms)[0m  UPDATE vectors SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (135.7ms)[0m  [1mALTER TABLE vectors CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE vectors SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (723.8ms)[0m  [1mALTER TABLE vectors CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (325.1ms)[0m  ALTER TABLE vectors CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (141.3ms)[0m  [1mALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `sequencing`.`orders` (
+  `id`
+) ON DELETE CASCADE;[0m
+  [1m[35m (166.6ms)[0m  ALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `sequencing`.`samples` (
+  `id`
+) ON DELETE CASCADE;
+  [1m[36m (116.4ms)[0m  [1mALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `sequencing`.`companies` (
+  `id`
+) ON DELETE RESTRICT;[0m
+  [1m[35m (124.8ms)[0m  ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `sequencing`.`bills` (
+  `id`
+) ON DELETE CASCADE;
+  [1m[36m (124.8ms)[0m  [1mALTER TABLE `bill_orders` ADD FOREIGN KEY ( `order_id` ) REFERENCES `sequencing`.`orders` (
+  `id`
+) ON DELETE CASCADE;[0m
+  [1m[35m (433.0ms)[0m  ALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `sequencing`.`bills` (
+  `id`
+) ON DELETE CASCADE;
+  [1m[36m (116.5ms)[0m  [1mALTER TABLE `primers` ADD FOREIGN KEY ( `client_id` ) REFERENCES `sequencing`.`clients` (
+  `id`
+) ON DELETE RESTRICT;[0m
+  [1m[35m (116.4ms)[0m  ALTER TABLE `orders` ADD FOREIGN KEY ( `client_id` ) REFERENCES `sequencing`.`clients` (
+  `id`
+) ON DELETE RESTRICT;
+  [1m[36m (116.5ms)[0m  [1mALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `sequencing`.`board_heads` (
+  `id`
+) ON DELETE RESTRICT;[0m
+  [1m[35m (257.9ms)[0m  ALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `sequencing`.`board_heads` (
+  `id`
+) ON DELETE RESTRICT;
+  [1m[36m (208.2ms)[0m  [1mALTER TABLE `plasmids` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `sequencing`.`samples` (
+  `id`
+) ON DELETE RESTRICT;[0m
+  [1m[35m (200.0ms)[0m  ALTER TABLE `plasmids` ADD FOREIGN KEY ( `code_id` ) REFERENCES `sequencing`.`plasmid_codes` (
+  `id`
+) ON DELETE RESTRICT;
+  [1m[36m (174.5ms)[0m  [1mALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `sequencing`.`samples` (
+  `id`
+) ON DELETE RESTRICT;[0m
+  [1m[35m (149.9ms)[0m  ALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `sequencing`.`precheck_codes` (
+  `id`
+) ON DELETE RESTRICT;
+  [1m[36m (108.5ms)[0m  [1mALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `sequencing`.`reactions` (
+  `id`
+) ON DELETE RESTRICT;[0m
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE bill_orders ENGINE = MEMORY[0m
+Mysql2::Error: Cannot delete or update a parent row: a foreign key constraint fails: ALTER TABLE bill_orders ENGINE = MEMORY

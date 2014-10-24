@@ -2,7 +2,6 @@ package models
 
 import (
   "os/exec"
-  //"github.com/jinzhu/gorm"
   "log"
   "time"
   "net/http"
@@ -20,10 +19,12 @@ type User struct {
   UpdatedAt time.Time
 }
 
+// tested
 func (u User)Admin() bool {
   return u.RoleId == 1 || u.Id == 1
 }
 
+// tested
 func GetUsers(req *http.Request)([]User, int){
   page := getPage(req)
   db := Db.Model(User{})
@@ -31,6 +32,11 @@ func GetUsers(req *http.Request)([]User, int){
   if name != "" {
     db = db.Where("name LIKE ?", (name + "%"))
   }
+  email := req.FormValue("email")
+  if email != "" {
+    db = db.Where("email LIKE ?", (email + "%"))
+  }
+
   var count int
   db.Count(&count)
   users := []User{}
@@ -44,6 +50,7 @@ func GetUsers(req *http.Request)([]User, int){
 }
 
 // i do not kown how to emulate the php crypt function in golang, the golang blowfish crypt run in defferent way.
+// tested
 func Login(user *User)(int, map[string]interface{}){
   if user.Email == "" {
     return http.StatusUnauthorized, map[string]interface{}{"ok": false, "error": "login_error"}

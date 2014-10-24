@@ -17,7 +17,7 @@ func prepare_menus (menu_count int) {
 }
 var _ = Describe("Menu", func() {
 
-  It("MenuChildren", func(){
+  It("test Children", func(){
     prepare_menus(2)
     child_menu := new(models.Menu)
     root_menu := new(models.Menu)
