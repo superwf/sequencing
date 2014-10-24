@@ -5,9 +5,9 @@ seeds.each do |f|
   table_name = f
 
   # foreign key can not truncate
-  if table_name != 'procedures'
-    db.execute("TRUNCATE TABLE #{table_name}")
-  end
+  #if table_name != 'procedures'
+  #end
+  db.execute("TRUNCATE TABLE #{table_name}")
 
   if f == 'menus'
     #file_name = yml + '.erb'
@@ -98,15 +98,10 @@ db.execute "ALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES 
 ) ON DELETE RESTRICT;"
 
 # restrict procedure flows
-db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `sequencing`.`procedures` (
-  `id`
-) ON DELETE RESTRICT;"
+#db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `sequencing`.`procedures` ( `id`) ON DELETE RESTRICT;"
+
 # restrict board_head flows
-db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `sequencing`.`procedures` (
-  `id`
-) ON DELETE RESTRICT;"
-# restrict order order_mails
-db.execute "ALTER TABLE `order_mails` ADD FOREIGN KEY ( `order_id` ) REFERENCES `sequencing`.`orders` (
+db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `sequencing`.`board_heads` (
   `id`
 ) ON DELETE RESTRICT;"
 # restrict sample plasmids

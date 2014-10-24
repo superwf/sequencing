@@ -1,0 +1,129 @@
+  [1m[36m (243.4ms)[0m  [1mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (765.9ms)[0m  CREATE UNIQUE INDEX `unique_schema_migrations`  ON `schema_migrations` (`version`) 
+  [1m[36mActiveRecord::SchemaMigration Load (14.4ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20140813074925)
+  [1m[35m (39.9ms)[0m  CREATE OR REPLACE VIEW users AS SELECT * FROM user_passport
+Mysql2::Error: Table 'sequencing_test.user_passport' doesn't exist: CREATE OR REPLACE VIEW users AS SELECT * FROM user_passport
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20140813074925)
+  [1m[35m (136.5ms)[0m  CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (17.2ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140813074925')
+  [1m[36m (26.1ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.5ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36mActiveRecord::SchemaMigration Load (36.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36m (275.8ms)[0m  [1mALTER TABLE users ENGINE= MEMORY[0m
+  [1m[36m (111.8ms)[0m  [1mALTER TABLE ttt ENGINE= MEMORY[0m
+  [1m[35m (57.9ms)[0m  ALTER TABLE users ENGINE= MEMORY
+  [1m[36m (96.9ms)[0m  [1mALTER TABLE ttt ENGINE= MEMORY[0m
+  [1m[35m (40.9ms)[0m  ALTER TABLE users ENGINE= MEMORY
+  [1m[36m (102.2ms)[0m  [1mALTER TABLE ttt ENGINE= MEMORY[0m
+  [1m[35m (52.6ms)[0m  ALTER TABLE users ENGINE= MEMORY
+  [1m[36m (61.1ms)[0m  [1mALTER TABLE users ENGINE = MEMORY[0m
+  [1m[36m (119.0ms)[0m  [1mALTER TABLE users ENGINE = MEMORY[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+Migrating to CreateUsers (20140813074925)
+  [1m[36m (58.7ms)[0m  [1mDROP TABLE users [0m
+  [1m[35mSQL (74.0ms)[0m  DELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20140813074925'
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20140813074925)
+  [1m[35m (141.1ms)[0m  CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `department_id` INT UNSIGNED NOT NULL, `role_id` INT UNSIGNED NOT NULL, `active` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `signature` varchar(255), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (217.0ms)[0m  [1mCREATE  INDEX `index_users_on_department_id`  ON `users` (`department_id`) [0m
+  [1m[35m (163.6ms)[0m  CREATE  INDEX `index_users_on_role_id`  ON `users` (`role_id`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (4.5ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140813074925')
+  [1m[36m (17.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.5ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+Migrating to CreateUsers (20140813074925)
+  [1m[36m (34.6ms)[0m  [1mDROP TABLE users [0m
+  [1m[35mSQL (21.5ms)[0m  DELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20140813074925'
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20140813074925)
+  [1m[35m (138.0ms)[0m  CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `department_id` INT UNSIGNED NOT NULL, `role_id` INT UNSIGNED NOT NULL, `active` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `signature` varchar(255), `created_at` datetime, `updated_at` datetime, `email` varchar(255) NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` INT UNSIGNED DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `confirmation_token` varchar(255), `confirmed_at` datetime, `confirmation_sent_at` datetime, `unconfirmed_email` varchar(255), `failed_attempts` INT UNSIGNED DEFAULT 0 NOT NULL, `unlock_token` varchar(255), `locked_at` datetime) ENGINE=InnoDB
+  [1m[36m (164.9ms)[0m  [1mCREATE  INDEX `index_users_on_department_id`  ON `users` (`department_id`) [0m
+  [1m[35m (198.7ms)[0m  CREATE  INDEX `index_users_on_role_id`  ON `users` (`role_id`) 
+  [1m[36m (173.3ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_email`  ON `users` (`email`) [0m
+  [1m[35m (148.6ms)[0m  CREATE UNIQUE INDEX `index_users_on_reset_password_token`  ON `users` (`reset_password_token`) 
+  [1m[36m (148.6ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_confirmation_token`  ON `users` (`confirmation_token`) [0m
+  [1m[35m (148.5ms)[0m  CREATE UNIQUE INDEX `index_users_on_unlock_token`  ON `users` (`unlock_token`) 
+  [1m[36m (0.6ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_authentication_token`  ON `users` (`authentication_token`) [0m
+Mysql2::Error: Key column 'authentication_token' doesn't exist in table: CREATE UNIQUE INDEX `index_users_on_authentication_token`  ON `users` (`authentication_token`) 
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20140813074925)
+  [1m[35m (0.6ms)[0m  CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `department_id` INT UNSIGNED NOT NULL, `role_id` INT UNSIGNED NOT NULL, `active` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `signature` varchar(255), `created_at` datetime, `updated_at` datetime, `email` varchar(255) NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` INT UNSIGNED DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `confirmation_token` varchar(255), `confirmed_at` datetime, `confirmation_sent_at` datetime, `unconfirmed_email` varchar(255), `failed_attempts` INT UNSIGNED DEFAULT 0 NOT NULL, `unlock_token` varchar(255), `locked_at` datetime) ENGINE=InnoDB
+Mysql2::Error: Table 'users' already exists: CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `department_id` INT UNSIGNED NOT NULL, `role_id` INT UNSIGNED NOT NULL, `active` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `signature` varchar(255), `created_at` datetime, `updated_at` datetime, `email` varchar(255) NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` INT UNSIGNED DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `confirmation_token` varchar(255), `confirmed_at` datetime, `confirmation_sent_at` datetime, `unconfirmed_email` varchar(255), `failed_attempts` INT UNSIGNED DEFAULT 0 NOT NULL, `unlock_token` varchar(255), `locked_at` datetime) ENGINE=InnoDB
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20140813074925)
+  [1m[35m (119.7ms)[0m  CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `department_id` INT UNSIGNED NOT NULL, `role_id` INT UNSIGNED NOT NULL, `active` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `signature` varchar(255), `created_at` datetime, `updated_at` datetime, `email` varchar(255) NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` INT UNSIGNED DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `confirmation_token` varchar(255), `confirmed_at` datetime, `confirmation_sent_at` datetime, `unconfirmed_email` varchar(255), `failed_attempts` INT UNSIGNED DEFAULT 0 NOT NULL, `unlock_token` varchar(255), `locked_at` datetime) ENGINE=InnoDB
+  [1m[36m (156.8ms)[0m  [1mCREATE  INDEX `index_users_on_department_id`  ON `users` (`department_id`) [0m
+  [1m[35m (173.7ms)[0m  CREATE  INDEX `index_users_on_role_id`  ON `users` (`role_id`) 
+  [1m[36m (156.9ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_email`  ON `users` (`email`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140813074925')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+Migrating to CreateUsers (20140813074925)
+  [1m[36m (19.6ms)[0m  [1mDROP TABLE users [0m
+  [1m[35mSQL (61.4ms)[0m  DELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20140813074925'
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20140813074925)
+  [1m[35m (100.1ms)[0m  CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `department_id` INT UNSIGNED NOT NULL, `role_id` INT UNSIGNED NOT NULL, `active` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL, `signature` varchar(255), `created_at` datetime, `updated_at` datetime, `email` varchar(255) NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` INT UNSIGNED DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `confirmation_token` varchar(255), `confirmed_at` datetime, `confirmation_sent_at` datetime, `unconfirmed_email` varchar(255), `failed_attempts` INT UNSIGNED DEFAULT 0 NOT NULL, `unlock_token` varchar(255), `locked_at` datetime) ENGINE=InnoDB
+  [1m[36m (148.5ms)[0m  [1mCREATE  INDEX `index_users_on_department_id`  ON `users` (`department_id`) [0m
+  [1m[35m (149.3ms)[0m  CREATE  INDEX `index_users_on_role_id`  ON `users` (`role_id`) 
+  [1m[36m (148.4ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_email`  ON `users` (`email`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140813074925')[0m
+  [1m[35m (21.5ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36m (414.3ms)[0m  [1mALTER TABLE users ENGINE = MEMORY[0m
+  [1m[36mActiveRecord::SchemaMigration Load (30.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateRoles (20140825082704)
+  [1m[35m (154.6ms)[0m  CREATE TABLE `roles` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140825082704')
+  [1m[36m (17.7ms)[0m  [1mCOMMIT[0m
+Migrating to CreateMenus (20140825082927)
+  [1m[35m (107.7ms)[0m  CREATE TABLE `menus` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255), `url` varchar(255), `parent_id` int(11)) ENGINE=InnoDB
+  [1m[36m (181.9ms)[0m  [1mCREATE  INDEX `parent_id`  ON `menus` (`parent_id`) [0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20140825082927')[0m
+  [1m[35m (14.6ms)[0m  COMMIT
+Migrating to CreateMenusRoles (20140825083039)
+  [1m[36m (115.3ms)[0m  [1mCREATE TABLE `menus_roles` (`menu_id` int(11), `role_id` int(11)) ENGINE=InnoDB[0m
+  [1m[35m (140.4ms)[0m  CREATE UNIQUE INDEX `role_menu`  ON `menus_roles` (`role_id`, `menu_id`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140825083039')
+  [1m[36m (13.8ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.5ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36m (76.5ms)[0m  [1mALTER TABLE menus ENGINE = MEMORY[0m
+  [1m[35m (116.0ms)[0m  ALTER TABLE menus_roles ENGINE = MEMORY
+  [1m[36m (115.2ms)[0m  [1mALTER TABLE roles ENGINE = MEMORY[0m
+  [1m[35m (93.3ms)[0m  ALTER TABLE users ENGINE = MEMORY
+  [1m[36m (105.3ms)[0m  [1mALTER TABLE menus ENGINE = MEMORY[0m
+  [1m[35m (76.3ms)[0m  ALTER TABLE menus_roles ENGINE = MEMORY
+  [1m[36m (84.1ms)[0m  [1mALTER TABLE roles ENGINE = MEMORY[0m
+  [1m[35m (72.6ms)[0m  ALTER TABLE users ENGINE = MEMORY
+  [1m[36mActiveRecord::SchemaMigration Load (29.7ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateProcedures (20140828004433)
+  [1m[35m (120.8ms)[0m  CREATE TABLE `procedures` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `desc` varchar(100) NOT NULL, `type` varchar(100) NOT NULL, `board` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `attachment` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (13.5ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140828004433')
+  [1m[36m (21.9ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateSampleHeads (20140903043022)
+  [1m[35m (276.9ms)[0m  CREATE TABLE `sample_heads` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(100) NOT NULL, `remark` varchar(100) DEFAULT '' NOT NULL, `auto_precheck` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL, `available` TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL) ENGINE=InnoDB
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (8.9ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140903043022')
+  [1m[36m (26.1ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.5ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`

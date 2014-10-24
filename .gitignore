@@ -4,17 +4,17 @@ config.yaml
 
 reaction_files
 
-rails/sequencing/.bundle
-rails/sequencing/log/*.log
-rails/sequencing/tmp
+rails/.bundle
+rails/log/*.log
+rails/tmp
 
 
-nodejs/sequencing/node_modules
-nodejs/sequencing/dist
-nodejs/sequencing/*.tmp
-nodejs/sequencing/.sass-cache
-nodejs/sequencing/app/bower_components
-nodejs/sequencing/app/views/*.html
-nodejs/sequencing/app/scripts/*.js
-nodejs/sequencing/app/scripts/*/*.js
-nodejs/sequencing/test/spec/*/*.js
+nodejs/node_modules
+nodejs/dist
+nodejs/*.tmp
+nodejs/.sass-cache
+nodejs/app/bower_components
+nodejs/app/views/*.html
+nodejs/app/scripts/*.js
+nodejs/app/scripts/*/*.js
+nodejs/test/spec/*/*.js
