@@ -17,6 +17,7 @@ type BoardHead struct {
   IsRedo bool `json:"is_redo"`
 }
 
+// tested
 func GetBoardHeads(req *http.Request)([]BoardHead, int){
   page := getPage(req)
   db := Db.Model(BoardHead{}).Order("id DESC")
@@ -57,6 +58,7 @@ func GetBoardHeads(req *http.Request)([]BoardHead, int){
 }
 
 // todo check the cols and rows format
+// tested
 func (record *BoardHead) BeforeSave()(error) {
   if len(record.Name) > 255 || len(record.Name) == 0 {
     return errors.New("name length error")
@@ -65,20 +67,9 @@ func (record *BoardHead) BeforeSave()(error) {
     return errors.New("remark length error")
   }
   if record.BoardType != "sample" && record.BoardType != "primer" && record.BoardType != "reaction" {
-    return errors.New("board_type type")
+    return errors.New("board_type error")
   }
   // check repeat name with save type
   // done by mysql unique index
   return nil
 }
-
-// done by mysql forign key constraint in rails db:seed
-//func (head *BoardHead)BeforeDelete()(error){
-//  Db.First(head)
-//  var count int
-//  Db.Table(head.BoardType + "_boards").Select("id").Where("board_head_id = ?", head.Id).Limit(1).Count(&count)
-//  if count > 0 {
-//    return errors.New("board already exist")
-//  }
-//  return nil
-//}

@@ -8,7 +8,7 @@ import (
 )
 
 func prepare_menus (menu_count int) {
-  models.Db.Exec("TRUNCATE TABLE menus")
+  Db.Exec("TRUNCATE TABLE menus")
   var sql []string
   for i := 0; i < menu_count; i++ {
     sql = append(sql, `("menu` + strconv.Itoa(i) + `", "/url")`)

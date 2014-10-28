@@ -2,7 +2,7 @@
 # More info at https://github.com/guard/guard#readme
 
 guard :shell do
-  watch(%r{.+\.go$}) do |f|
+  watch(%r{.+\_test.go$}) do |f|
     r = `GOENV=test ginkgo -failFast`
     #a = `echo $PATH`
     puts r

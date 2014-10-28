@@ -6,6 +6,7 @@ import(
   "errors"
   "net/http"
   "strings"
+  "sequencing/config"
 )
 
 type Board struct {
@@ -18,12 +19,13 @@ type Board struct {
   Sn string `json:"sn"`
 }
 
-func (record *Board)BeforeSave() error {
+func (record *Board)BeforeCreate() error {
   board_head := BoardHead{}
   Db.Where("available = 1 AND id = ?", record.BoardHeadId).First(&board_head)
   if board_head.Name == "" {
     return errors.New("board_head not_exist")
   }
+  record.Status = config.BoardStatus[0]
   // generate sn
   if board_head.WithDate {
     record.Sn = record.CreateDate.Format("20060102") + "-" + board_head.Name + strconv.Itoa(record.Number)

@@ -67,7 +67,6 @@ db.execute "ALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `ord
 db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;"
 # restrict company clients
 db.execute "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;"
-puts "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;"
 # cascade bill bill_orders
 db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;"
 # cascade order bill_orders
@@ -78,8 +77,10 @@ db.execute "ALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES 
 db.execute "ALTER TABLE `primers` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;"
 # restrict client orders
 db.execute "ALTER TABLE `orders` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;"
-# restrict client orders
+# restrict board_head boards
 db.execute "ALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;"
+# restrict board_head orders
+db.execute "ALTER TABLE `orders` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;"
 
 # restrict procedure flows
 db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT;"

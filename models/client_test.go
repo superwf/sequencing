@@ -13,8 +13,8 @@ import (
 func prepare_clients(count int) {
   prepare_companies(1)
   company := models.Company{}
-  models.Db.First(&company)
-  models.Db.Exec("DELETE FROM clients")
+  Db.First(&company)
+  Db.Exec("DELETE FROM clients")
   var sql []string
   var n string
   var now string = time.Now().String()

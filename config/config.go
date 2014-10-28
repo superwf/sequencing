@@ -18,6 +18,7 @@ var EmailType []string
 var InterpreteResult []string
 var PrimerStatus []string
 var PrimerStoreType []string
+var BoardStatus []string
 
 func init() {
   env := os.Getenv("GOENV")
@@ -70,6 +71,10 @@ func init() {
   primerStatus := Consts["primerStatus"].([]interface{})
   for _, v := range primerStatus {
     PrimerStatus = append(PrimerStatus, v.(string))
+  }
+  boardStatus := Consts["boardStatus"].([]interface{})
+  for _, v := range boardStatus {
+    BoardStatus = append(BoardStatus, v.(string))
   }
 
   reactionFile := Config["reaction_file"].(map[interface{}]interface{})

@@ -11,7 +11,7 @@ import (
 
 // get the record by sn or create it
 func CreateBoard(req *http.Request, r render.Render) {
-  record := models.Board{Status: "new"}
+  record := models.Board{}
   parseJson(&record, req)
 
   board_head := models.BoardHead{}
