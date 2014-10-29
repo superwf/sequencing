@@ -97,9 +97,15 @@ angular.module('sequencingApp', [
     .when '/emails',
       templateUrl: 'views/emails.html',
       controller: 'EmailsCtrl'
+    .when '/bills/new',
+      templateUrl: 'views/newBill.html',
+      controller: 'NewBillCtrl'
     .when '/bills',
       templateUrl: 'views/bills.html',
       controller: 'BillsCtrl'
+    .when '/prepayments',
+      templateUrl: 'views/prepayments.html',
+      controller: 'PrepaymentsCtrl'
     .otherwise
       redirectTo: '/'
   $httpProvider.interceptors.push 'notifyHttpInterceptor'

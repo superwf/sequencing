@@ -14,7 +14,6 @@ func prepare_clients(count int) {
   prepare_companies(1)
   company := models.Company{}
   Db.First(&company)
-  Db.Exec("DELETE FROM clients")
   var sql []string
   var n string
   var now string = time.Now().String()
@@ -27,6 +26,9 @@ func prepare_clients(count int) {
 }
 
 var _ = Describe("test Client", func(){
+  BeforeEach(func(){
+    ClearData()
+  })
   It("test login", func(){
   })
 })

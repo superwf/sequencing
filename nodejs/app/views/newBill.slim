@@ -1,0 +1,31 @@
+.text-center
+  .btn-group
+    button.btn.btn-success ng-click='checkout()'
+      | {{'create' | translate}}{{'bill' | translate}}
+    input.form-control style='float: left; width: 10em;' ng-model='today' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
+table.table.table-bordered
+  thead
+    tr
+      th
+        | {{'sn' | translate}}
+      th ng-bind="'client' | translate"
+      th ng-bind="'status' | translate"
+      th ng-bind="'urgent' | translate"
+      th ng-bind="'is_test' | translate"
+      th ng-bind="'remark' | translate"
+  tbody selectable='' selectable-options='{filter: "tr"}'
+    tr ng-repeat="o in orders" i='{{$index}}'
+      td
+        | {{o.sn}}
+      td
+        | {{o.client}}
+      td
+        | {{orderStatus[o.status] | translate}}
+      td
+        | {{yesno[o.urgent] | translate}}
+      td
+        | {{yesno[o.is_test] | translate}}
+      td
+        | {{o.remark}}
+.navbar.navbar-fixed-bottom.text-center
+  ng-include src="'/views/pager.html'"

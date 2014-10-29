@@ -56,7 +56,7 @@ func GetReactions(req *http.Request)([]Reaction, int){
 
 func ReworkingReactions(req *http.Request)([]map[string]interface{}){
   joins := "INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN orders ON samples.order_id = orders.id INNER JOIN clients ON orders.client_id = clients.id LEFT JOIN vectors ON samples.vector_id = vectors.id LEFT JOIN boards ON samples.board_id = boards.id LEFT JOIN primers ON reactions.primer_id = primers.id"
-  db := Db.Table("reactions").Select("orders.sn, clients.name, reactions.id, orders.board_head_id, samples.name, boards.sn, samples.hole, primers.name, prechecks.code_id, reaction_files.code_id, reaction_files.proposal, reaction_files.interpreter_id, vectors.name")
+  db := Db.Table("reactions").Select("orders.sn, clients.name, reactions.id, reactions.parent_id, orders.board_head_id, samples.name, boards.sn, samples.hole, primers.name, prechecks.code_id, reaction_files.code_id, reaction_files.proposal, reaction_files.interpreter_id, vectors.name")
   sample_id := req.FormValue("sample_id")
   if sample_id != "" {
     db = db.Where("sample_id = ?", sample_id)
@@ -109,8 +109,19 @@ func ReworkingReactions(req *http.Request)([]map[string]interface{}){
   for rows.Next() {
     var order, client, sample, primer, board, hole, proposal string
     var vector sql.NullString
-    var reactionId, precheckCodeId, interpreteCodeId, interpreterId, boardHeadId int
-    rows.Scan(&order, &client, &reactionId, &boardHeadId, &sample, &board, &hole, &primer, &precheckCodeId, &interpreteCodeId, &proposal, &interpreterId, &vector)
+    var reactionId, parentId, precheckCodeId, interpreteCodeId, interpreterId, boardHeadId int
+    rows.Scan(&order, &client, &reactionId, &parentId, &boardHeadId, &sample, &board, &hole, &primer, &precheckCodeId, &interpreteCodeId, &proposal, &interpreterId, &vector)
+    if parentId == 0 {
+      parentId = reactionId
+    }
+    reworks := map[string]int{}
+    rs, _ := Db.Select("board_heads.name, COUNT(*)").Table("reactions").Joins("INNER JOIN orders ON reactions.order_id = orders.id INNER JOIN board_heads ON orders.board_head_id = board_heads.id").Where("reactions.parent_id = ?", parentId).Rows()
+    for rs.Next(){
+      var head string
+      var reworkCount int
+      rs.Scan(&head, &reworkCount)
+      reworks[head] = reworkCount
+    }
     d := map[string]interface{}{
       "id": reactionId,
       "order": order,
@@ -125,6 +136,7 @@ func ReworkingReactions(req *http.Request)([]map[string]interface{}){
       "precheck_code_id": precheckCodeId,
       "interprete_code_id": interpreteCodeId,
       "interpreter_id": interpreterId,
+      "reworks": reworks,
     }
     result = append(result, d)
   }

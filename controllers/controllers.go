@@ -71,8 +71,10 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetEmails(req)
   case "bills":
     return models.GetBills(req)
-  //case "reactinoFiles":
-  //  return models.GetReactionFiles(req)
+  case "prepayments":
+    return models.GetPrepayments(req)
+  case "prepaymentRecords":
+    return models.GetPrepaymentRecords(req)
   default:
     return nil, 0
   }
@@ -124,6 +126,10 @@ func initRecord(resources string, id int)(interface{}) {
     return &models.Bill{Id: id}
   case "emails":
     return &models.Email{Id: id}
+  case "prepayments":
+    return &models.Prepayment{Id: id}
+  case "prepaymentRecords":
+    return &models.PrepaymentRecord{Id: id}
   default:
     return nil
   }

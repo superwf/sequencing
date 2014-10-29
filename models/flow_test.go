@@ -4,7 +4,6 @@ import (
 )
 
 func prepare_flows(count int) {
-  models.Db.Exec("DELETE FROM flows")
   prepare_board_heads(count)
   prepare_procedures(count)
   for i := 0; i < count; i++ {

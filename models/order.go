@@ -41,6 +41,7 @@ func (record *Order)BeforeCreate() error {
   return nil
 }
 
+// tested
 func GetOrders(req *http.Request)([]map[string]interface{}, int){
   page := getPage(req)
   db := Db.Table("orders").Select("orders.id, orders.client_id, orders.number, orders.board_head_id, orders.create_date, orders.sn, orders.urgent, orders.is_test, orders.transport_condition, orders.status, orders.remark, clients.name").Joins("INNER JOIN clients ON clients.id = orders.client_id")
@@ -99,11 +100,9 @@ func (order *Order)GenerateReworkSn(parentOrder *Order){
   Db.Where("id = ?", order.BoardHeadId).First(&board_head)
   if board_head.Name != "" && parentOrder.Sn != "" {
     order.Sn = parentOrder.Sn + "-" + board_head.Name + order.CreateDate.Format("0102")
-    //Db.Where("sn = ?", order.Sn).First(&order)
   } else {
     order.Sn = ""
   }
-  Db.Save(order)
 }
 
 // generate rework order by interprete_code
@@ -114,6 +113,7 @@ func (order *Order)GenerateReworkOrder() {
     rows.Scan(&reactionId, &sampleId, &boardHeadId)
     newOrder := Order{BoardHeadId: boardHeadId, CreateDate: time.Now()}
     newOrder.GenerateReworkSn(order)
+    Db.Save(&newOrder)
     sample := Sample{}
     Db.Where("parent_id = ?", sampleId).First(&sample)
     // if no child sample in the new order

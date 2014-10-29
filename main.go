@@ -72,6 +72,7 @@ func main() {
     m.Get("/clientReactions", controllers.GetClientReactions)
     m.Post("/receiveOrder", controllers.ReceiveOrder)
     m.Post("/generateRedoOrder/:boardHeadId", controllers.GenerateRedoOrder)
+    //m.Post("/PrepaymentRecords", controllers.CreatePrepaymentRecord)
     //m.Post("/billRecords", controllers.CreateBillRecord)
     //m.Put("/billRecords", controllers.UpdateBillRecord)
 

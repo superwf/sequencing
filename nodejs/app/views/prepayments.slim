@@ -1,0 +1,46 @@
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th
+        | {{'company' | translate}}
+        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate" ng-show='!inModal'
+      th ng-bind="'create_date' | translate"
+      th ng-bind="'money' | translate"
+      th ng-bind="'balance' | translate"
+      th ng-bind="'invoice' | translate"
+      th ng-bind="'remark' | translate"
+      th
+        | {{'related' | translate}}{{'bill' | translate}}
+      th ng-if='inModal'
+        | {{'relate' | translate}}{{'money' | translate}}
+  tbody
+    tr ng-repeat="r in records"
+      td
+        a.btn.btn-success ng-click='edit(r)' ng-if='!inModal'
+          | {{r.company.name}}
+        span ng-if='inModal'
+          | {{r.company.name}}
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}' ng-if='!inModal'
+          | {{'delete' | translate}}
+      td
+        | {{r.create_date | date:'yyyy-MM-dd'}}
+      td
+        | {{r.money}}
+      td
+        | {{r.balance}}
+      td
+        | {{r.invoice}}
+      td
+        | {{r.remark}}
+      td
+        span.badge ng-repeat='pr in r.prepayment_records'
+          | {{'bill' | translate}}: {{pr.bill}};
+          | {{'money' | translate}}: [{{pr.money}}]
+          | {{'remark' | translate}}: {{pr.remark}}
+      td ng-if='inModal'
+        .form-group.col-md-7
+          input.form-control ng-model='record.money' placeholder='{{"money" | translate}}' type='number'
+          input.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}'
+          button.btn.btn-success ng-click='createPrepaymentRecord(r)' ng-disabled='!record.money'
+            | {{"create" | translate}}{{'relate' | translate}}
+ng-include src="'/views/pager.html'"

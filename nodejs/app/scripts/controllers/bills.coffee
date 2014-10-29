@@ -1,41 +1,26 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Order', 'SequencingConst', 'Modal', '$modal', ($scope, Bill, Order, SequencingConst, Modal, $modal) ->
-  $scope.getBills = ->
-    $scope.showBills = true
-    $scope.showOrders = false
-    Bill.query (data)->
-      $scope.bills = data.records
-      $scope.totalItems = data.totalItems
-      $scope.perPage = data.perPage
+angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Order', 'SequencingConst', 'Modal', '$modal', 'PrepaymentRecord', 'Company', ($scope, Bill, Order, SequencingConst, Modal, $modal, PrepaymentRecord, Company) ->
+  Bill.query (data)->
+    $scope.bills = data.records
+    angular.forEach $scope.bills, (v, i)->
+      PrepaymentRecord.query bill_id: v.id, all: true, (data)->
+        v.prepayment_records = data
+        null
       null
-  newBill = ->
-    $scope.showOrders = true
-    $scope.showBills = false
-    Order.query status: 'to_checkout', (data)->
-      $scope.orders = data.records
-      $scope.totalItems = data.totalItems
-      $scope.perPage = data.perPage
-      null
-  $scope.orderStatus = SequencingConst.orderStatus
-
-  $scope.checkout = ->
-    if $scope.orders && $scope.orders.length
-      ids = []
-      angular.forEach $scope.orders, (o, i)->
-        if angular.element('tr.ui-selected[i='+i+']').length
-          ids.push o.id
-      if ids.length
-        Bill.create ids: ids, create_date: $scope.today, ->
-          newBill()
-    else
-      newBill()
-
-  $scope.today = SequencingConst.date2string()
+    $scope.totalItems = data.totalItems
+    $scope.perPage = data.perPage
+    null
 
   $scope.delete = (id, index)->
-    Bill.delete {id: id}
-    $scope.bills.splice index, 1
+    Bill.delete {id: id}, ->
+      $scope.bills.splice index, 1
+
+  $scope.cancelRelate = (bill, id, i)->
+    PrepaymentRecord.delete id: id, ->
+      bill.prepayment_records.splice i, 1
+      null
+    null
 
   $scope.edit = (record)->
     Modal.record = record
@@ -53,4 +38,17 @@ angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Orde
       size: 'lg'
     }
 
+  $scope.prepayment = (bill)->
+    Modal.bill = bill
+    modal = $modal.open {
+      templateUrl: '/views/prepayments.html'
+      controller: 'PrepaymentsCtrl'
+      size: 'lg'
+    }
+    .result.then (record)->
+      bill.prepayment_records.push record
+      null
+    null
+
+  null
 ]

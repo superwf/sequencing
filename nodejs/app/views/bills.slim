@@ -1,11 +1,4 @@
-.text-center
-  .btn-group
-    button.btn.btn-success ng-click='checkout()'
-      | {{'create' | translate}}{{'bill' | translate}}
-    input.form-control style='float: left; width: 10em;' ng-show='showOrders' ng-model='today' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
-    button.btn.btn-primary type='button' ng-click='getBills()'
-      | {{'view' | translate}}{{'bill' | translate}}
-table.table.table-bordered.table-striped ng-show='showBills'
+table.table.table-bordered.table-striped
   thead
     tr
       th
@@ -16,7 +9,10 @@ table.table.table-bordered.table-striped ng-show='showBills'
       th ng-bind="'money' | translate"
       th
         | {{'other' | translate}}{{'money' | translate}}
+      th ng-bind="'invoice' | translate"
       th ng-bind="'status' | translate"
+      th
+        | {{'related' | translate}}{{'prepayment' | translate}}
   tbody
     tr ng-repeat="b in bills"
       td
@@ -26,6 +22,8 @@ table.table.table-bordered.table-striped ng-show='showBills'
           | {{'delete' | translate}}
         a.btn.btn-success ng-click='run(b)'
           | {{'flow' | translate}}
+        a.btn.btn-success ng-click='prepayment(b)'
+          | {{'relate' | translate}}{{'prepayment' | translate}}
       td
         | {{b.create_date | date: 'yyyy-MM-dd'}}
       td
@@ -35,31 +33,12 @@ table.table.table-bordered.table-striped ng-show='showBills'
       td
         | {{b.other_money}}
       td
+        | {{b.invoice}}
+      td
         | {{b.status | translate}}
-
-table.table.table-bordered ng-show='showOrders'
-  thead
-    tr
-      th
-        | {{'sn' | translate}}
-      th ng-bind="'client' | translate"
-      th ng-bind="'status' | translate"
-      th ng-bind="'urgent' | translate"
-      th ng-bind="'is_test' | translate"
-      th ng-bind="'remark' | translate"
-  tbody selectable='' selectable-options='{filter: "tr"}'
-    tr ng-repeat="o in orders" i='{{$index}}'
       td
-        | {{o.sn}}
-      td
-        | {{o.client}}
-      td
-        | {{orderStatus[o.status] | translate}}
-      td
-        | {{yesno[o.urgent] | translate}}
-      td
-        | {{yesno[o.is_test] | translate}}
-      td
-        | {{o.remark}}
-.navbar.navbar-fixed-bottom.text-center
-  ng-include src="'/views/pager.html'"
+        button.btn.btn-info ng-repeat='pr in b.prepayment_records' ng-confirm-click='cancelRelate(b, pr.id, $index)' message='{{"cancel" | translate}}{{"relate" | translate}}'
+          | {{'company' | translate}}: {{pr.company}}
+          | {{'money' | translate}}: [{{pr.money}}]
+          | {{'remark' | translate}}: {{pr.remark}}
+ng-include src="'/views/pager.html'"

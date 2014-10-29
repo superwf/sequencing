@@ -10,7 +10,7 @@ class CreateOrders < ActiveRecord::Migration
       t.column :is_test, 'TINYINT(1) UNSIGNED', null: false, default: false
       t.string :transport_condition, null: false, default: ''
       t.string :status, null: false, default: 'new'
-      t.text :remark
+      t.string :remark, null: false, default: '', limit: 500
       t.column :creator_id, 'INT(11) UNSIGNED', null: false
       t.timestamps
     end

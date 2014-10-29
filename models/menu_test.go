@@ -8,7 +8,6 @@ import (
 )
 
 func prepare_menus (menu_count int) {
-  Db.Exec("TRUNCATE TABLE menus")
   var sql []string
   for i := 0; i < menu_count; i++ {
     sql = append(sql, `("menu` + strconv.Itoa(i) + `", "/url")`)
@@ -16,6 +15,10 @@ func prepare_menus (menu_count int) {
   Db.Exec(`INSERT INTO menus (name, url) VALUES ` + strings.Join(sql, ","))
 }
 var _ = Describe("Menu", func() {
+
+  BeforeEach(func(){
+    ClearData()
+  })
 
   It("test Children", func(){
     prepare_menus(2)

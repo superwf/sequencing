@@ -10,10 +10,6 @@ import (
 )
 
 func prepare_board_heads(count int) {
-  Db.Exec("TRUNCATE TABLE boards")
-  Db.Exec("TRUNCATE TABLE flows")
-  Db.Exec("DELETE FROM orders")
-  Db.Exec("DELETE FROM board_heads")
   var sql []string
   var n string
   for i := 0; i < count; i++ {
@@ -24,6 +20,9 @@ func prepare_board_heads(count int) {
 }
 
 var _ = Describe("test BoardHead", func(){
+  BeforeEach(func(){
+    ClearData()
+  })
   It("test GetBoardHeads", func(){
     prepare_board_heads(20)
     req := new(http.Request)

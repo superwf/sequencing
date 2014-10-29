@@ -180,8 +180,20 @@ end
 <% id = ::FactoryGirl.generate :menu %>
 -
   id: <%= id %>
+  name: new_bill
+  url: '/bills/new'
+  parent_id: <%= bill_id %>
+<% id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= id %>
   name: bill
   url: '/bills'
+  parent_id: <%= bill_id %>
+<% id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= id %>
+  name: prepayment
+  url: '/prepayments'
   parent_id: <%= bill_id %>
 <% email_id = ::FactoryGirl.generate :menu %>
 -

@@ -46,6 +46,8 @@ table.table.table-bordered
       th ng-bind="'precheck' | translate"
       th ng-bind="'interprete' | translate"
       th ng-bind="'interpreter' | translate"
+      th
+        | {{'rework_count' | translate}}
   tbody selectable='' selectable-options='{filter: "tr"}'
     tr ng-repeat="r in records" i='{{$index}}'
       td
@@ -70,6 +72,9 @@ table.table.table-bordered
         | {{r.interprete_code.code}}
       td
         | {{r.interpreter.name}}
+      td
+        span.budge ng-repeat='(head, count) in r.reworks' ng-if='count > 0'
+          | {{head}}[{{count}}]
 .navbar.text-center.navbar-fixed-bottom
   .btn-group
     button.btn.btn-primary type='button' ng-model='order.board_head' btn-radio='h' ng-repeat='h in redo_heads' required=''

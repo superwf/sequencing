@@ -21,9 +21,12 @@ func ClearData() {
   Db.Exec("TRUNCATE TABLE boards")
   Db.Exec("TRUNCATE TABLE flows")
   Db.Exec("TRUNCATE TABLE menus")
+  Db.Exec("TRUNCATE TABLE prepayment_records")
+  Db.Exec("DELETE FROM orders")
   Db.Exec("DELETE FROM procedures")
   Db.Exec("DELETE FROM board_heads")
 
   Db.Exec("DELETE FROM clients")
+  Db.Exec("DELETE FROM prepayments")
   Db.Exec("DELETE FROM companies")
 }

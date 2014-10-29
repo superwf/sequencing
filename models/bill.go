@@ -14,6 +14,7 @@ type Bill struct {
   Sn string `json:"sn"`
   Money float64 `json:"money"`
   OtherMoney float64 `json:"other_money"`
+  Invoice string `json:"invoice"`
   Status string `json:"status"`
   BillOrder []BillOrder
   Creator
@@ -21,17 +22,17 @@ type Bill struct {
 
 func GetBills(req *http.Request)([]map[string]interface{}, int){
   page := getPage(req)
-  db := Db.Select("DISTINCT bills.id, bills.sn, bills.create_date, companies.name, bills.money, bills.other_money, bills.status").Table("bills").Joins("LEFT JOIN bill_orders ON bills.id = bill_orders.bill_id LEFT JOIN orders ON bill_orders.order_id = orders.id LEFT JOIN clients ON orders.client_id = clients.id LEFT JOIN companies ON clients.company_id = companies.id")
+  db := Db.Select("DISTINCT bills.id, bills.sn, bills.create_date, companies.name, bills.money, bills.other_money, bills.invoice, bills.status").Table("bills").Joins("LEFT JOIN bill_orders ON bills.id = bill_orders.bill_id LEFT JOIN orders ON bill_orders.order_id = orders.id LEFT JOIN clients ON orders.client_id = clients.id LEFT JOIN companies ON clients.company_id = companies.id")
   var count int
   db.Count(&count)
   rows, _ := db.Limit(PerPage).Offset(page * PerPage).Rows()
   result := []map[string]interface{}{}
   for rows.Next(){
     var id int
-    var sn, company, status string
+    var sn, company, invoice, status string
     var create_date time.Time
     var money, other_money float64
-    rows.Scan(&id, &sn, &create_date, &company, &money, &other_money, &status)
+    rows.Scan(&id, &sn, &create_date, &company, &money, &other_money, &invoice, &status)
     d := map[string]interface{}{
       "id": id,
       "sn": sn,
@@ -39,6 +40,7 @@ func GetBills(req *http.Request)([]map[string]interface{}, int){
       "company": company,
       "money": money,
       "other_money": other_money,
+      "invoice": invoice,
       "status": status,
     }
     result = append(result, d)

@@ -10,11 +10,6 @@ import (
 )
 
 func prepare_orders(count int) {
-  Db.Exec("DELETE FROM orders")
-  Db.Exec("TRUNCATE TABLE boards")
-  Db.Exec("TRUNCATE TABLE flows")
-  Db.Exec("DELETE FROM clients")
-  Db.Exec("DELETE FROM board_heads")
   prepare_clients(1)
   prepare_board_heads(1)
   head := models.BoardHead{}
@@ -27,6 +22,9 @@ func prepare_orders(count int) {
   }
 }
 var _ = Describe("test Order", func(){
+  BeforeEach(func(){
+    ClearData()
+  })
   It("test order.BeforeCreate", func(){
     prepare_orders(1)
     order := models.Order{}
@@ -85,5 +83,16 @@ var _ = Describe("test Order", func(){
     Expect(len(orders)).To(Equal(0))
     Expect(count).To(Equal(0))
     req.Form.Set("status", "")
+  })
+
+  It("test order.GenerateReworkSn", func(){
+    prepare_orders(1)
+    o := models.Order{}
+    Db.First(&o)
+    head := models.BoardHead{}
+    Db.First(&head)
+    order := models.Order{BoardHeadId: head.Id, CreateDate: time.Now()}
+    order.GenerateReworkSn(&o)
+    Expect(order.Sn).To(Equal(o.Sn + "-" + head.Name + order.CreateDate.Format("0102")))
   })
 })

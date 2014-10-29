@@ -10,8 +10,6 @@ import (
 )
 
 func prepare_procedures(count int) {
-  models.Db.Exec("DELETE FROM flows")
-  models.Db.Exec("DELETE FROM procedures")
   var sql []string
   var n string
   for i := 0; i < count; i++ {
@@ -21,6 +19,9 @@ func prepare_procedures(count int) {
   Db.Exec(`INSERT INTO procedures (name, record_name, flow_type) VALUES ` + strings.Join(sql, ","))
 }
 var _ = Describe("test Procedure", func(){
+  BeforeEach(func(){
+    ClearData()
+  })
   It("test GetProcedures", func(){
     prepare_procedures(15)
     req := new(http.Request)

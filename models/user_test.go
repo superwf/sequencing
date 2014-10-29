@@ -10,7 +10,6 @@ import (
 )
 
 func prepare_user () {
-  models.Db.Exec("TRUNCATE TABLE users")
   user := models.User{
     Name: "hongyan",
     DepartmentId: 1,
@@ -22,7 +21,6 @@ func prepare_user () {
 }
 
 func prepare_users(users_count int) {
-  Db.Exec("TRUNCATE TABLE users")
   var sql []string
   var n string
   var now string = time.Now().String()
@@ -34,6 +32,9 @@ func prepare_users(users_count int) {
 }
 
 var _ = Describe("test User", func(){
+  BeforeEach(func(){
+    ClearData()
+  })
   It("test login", func(){
     prepare_user()
     user := models.User{

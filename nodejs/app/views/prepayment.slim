@@ -1,0 +1,15 @@
+.row
+  .col-md-8.col-md-offset-1.well
+    form.form-horizontal.text-center name='form'
+      .form-group.col-md-6
+        input.form-control ng-model='record.company.name' placeholder='{{"company" | translate}}' title='{{"company" | translate}}' ng-focus='selectCompany()' required=''
+      .form-group.col-md-6
+        input.form-control ng-model='record.create_date' placeholder='{{"receive" | translate}}{{"date" | translate}}' title='{{"receive" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
+      .form-group.col-md-6
+        input.form-control ng-model='record.money' placeholder='{{"money" | translate}}' title='{{"money" | translate}}' required=''
+      .form-group.col-md-6
+        input.form-control ng-model='record.invoice' placeholder='{{"invoice" | translate}}' title='{{"invoice" | translate}}'
+      .form-group.col-md-12
+        input.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
+      .form-group.col-md-12
+        button.btn.btn-success ng-click='save()' ng-disabled='!form.$valid' ng-bind='"save" | translate'

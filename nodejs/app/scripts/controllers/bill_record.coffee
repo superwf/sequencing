@@ -17,6 +17,8 @@ angular.module('sequencingApp').controller 'BillRecordCtrl', ['$scope', 'BillRec
       bill_id: $scope.bill.id
       data: JSON.stringify($scope.record.data)
     } , ->
+      $scope.bill.invoice = $scope.record.data.invoice_sn
+      Bill.update id: $scope.bill.id, $scope.bill
       $scope.$close 'ok'
 
   $scope.payType = SequencingConst.payType

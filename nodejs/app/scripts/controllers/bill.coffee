@@ -5,7 +5,7 @@ angular.module('sequencingApp').controller 'BillCtrl', ['$scope', 'Bill', 'Seque
     $scope.bill.bill_orders = data
   $scope.save = (bo)->
     Bill.update_bill_order bo
-    bo.moeny = bo.price * bo.charge_count + other_money
+    bo.moeny = bo.price * bo.charge_count + bo.other_money
 
   $scope.delete = (bo, index)->
     Bill.delete_bill_order {id: bo.id}

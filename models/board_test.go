@@ -8,7 +8,6 @@ import (
 )
 
 func prepare_boards(count int) {
-  Db.Exec("DELETE FROM boards")
   prepare_board_heads(1)
   head := models.BoardHead{}
   Db.First(&head)
@@ -16,6 +15,9 @@ func prepare_boards(count int) {
   Db.Save(&board)
 }
 var _ = Describe("test Board", func(){
+  BeforeEach(func(){
+    ClearData()
+  })
   It("test board.BeforeCreate", func(){
     prepare_board_heads(1)
     head := models.BoardHead{}

@@ -11,8 +11,6 @@ import (
 )
 
 func prepare_companies(count int) {
-  models.Db.Exec("DELETE FROM clients")
-  models.Db.Exec("DELETE FROM companies")
   var sql []string
   var n string
   var now string = time.Now().String()
@@ -23,6 +21,10 @@ func prepare_companies(count int) {
   Db.Exec(`INSERT INTO companies (name, code, creator_id, created_at, updated_at) VALUES ` + strings.Join(sql, ","))
 }
 var _ = Describe("test Company", func(){
+  BeforeEach(func(){
+    ClearData()
+  })
+
   It("test GetCompanies", func(){
     prepare_companies(20)
     req := new(http.Request)

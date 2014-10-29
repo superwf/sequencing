@@ -8,6 +8,7 @@ import (
   "sequencing/models"
   "net/http"
   "encoding/json"
+  "time"
   "log"
 )
 
@@ -140,44 +141,52 @@ func GenerateRedoOrder(params martini.Params, req *http.Request, r render.Render
     var reactions []models.Reaction
     models.Db.Table("reactions").Where("reactions.id IN (?)", ids).Order("reactions.order_id, reactions.sample_id").Find(&reactions)
     orders := map[int]models.Order{}
-    samples := map[int]models.Sample{}
+    //samples := map[int]models.Sample{}
+    now := time.Now()
     for _, r := range(reactions) {
-      if _, ok := orders[r.OrderId]; !ok {
+      newOrder, ok := orders[r.OrderId]
+      if !ok {
         o := models.Order{Id: r.OrderId}
         models.Db.First(&o)
-        order := models.NewOrder(o.ClientId, boardHeadId, &o)
-        models.Db.Where("sn = ?", order.Sn).First(&order)
-        orders[r.OrderId] = order
+        newOrder = models.Order{ClientId: o.ClientId, BoardHeadId: boardHeadId, CreateDate: now}
+        newOrderP := &newOrder
+        newOrderP.GenerateReworkSn(&o)
+        models.Db.Where("sn = ?", newOrder.Sn).First(newOrderP)
+        if newOrder.Id == 0 {
+          models.Db.Save(newOrderP)
+        }
+        orders[r.OrderId] = newOrder
       }
 
-      _, ok := samples[r.SampleId]
-      if !ok {
-        sample := models.Sample{Id: r.SampleId}
-        models.Db.First(&sample)
-        sample.Id = 0
-        sample.BoardId = 0
-        sample.Hole = ""
-        samples[r.SampleId] = sample
+      newSample := models.Sample{Id: r.SampleId}
+      models.Db.First(&newSample)
+      // relate the origin sample
+      if newSample.ParentId == 0 {
+        newSample.ParentId = newSample.Id
       }
-      sample := samples[r.SampleId]
+      newSample.Id = 0
+      newSample.BoardId = 0
+      newSample.Hole = ""
+      newSample.OrderId = newOrder.Id
+
+      if r.ParentId == 0 {
+        r.ParentId = r.Id
+      }
       r.Id = 0
       r.BoardId = 0
       r.Hole = ""
       r.DilutePrimerId = 0
-      sample.Reactions = append(sample.Reactions, r)
-      order := orders[r.OrderId]
-      log.Println(order)
-      order.Samples = append(order.Samples, sample)
-      orders[r.OrderId] = order
+      newSample.Reactions = append(newSample.Reactions, r)
+      models.Db.Save(&newSample)
+      log.Println(newOrder)
     }
-
     for _, o := range orders {
-      or := &o
-      models.Db.Save(or)
-      or.RelateReactions()
+      oP := &o
+      oP.RelateReactions()
     }
+    r.JSON(http.StatusOK, Ok_true)
   } else {
     r.JSON(http.StatusNotAcceptable, Ok_false)
+    return
   }
-  r.JSON(http.StatusOK, Ok_true)
 }

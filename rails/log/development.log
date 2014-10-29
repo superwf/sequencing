@@ -12203,3 +12203,1117 @@ Mysql2::Error: Can't create database 'sequencing'; database exists: CREATE DATAB
   [1m[35m (166.6ms)[0m  ALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;
   [1m[36m (216.5ms)[0m  [1mALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT;[0m
   [1m[35m (149.6ms)[0m  ALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE RESTRICT;
+  [1m[36mActiveRecord::SchemaMigration Load (22.6ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreatePrepayments (20141029013442)
+  [1m[35m (151.9ms)[0m  CREATE TABLE `prepayments` (`id` int(11) auto_increment PRIMARY KEY, `company_id` INT(11) UNSIGNED NOT NULL, `create_date` date NOT NULL, `money` DECIMAL(10,2) UNSIGNED DEFAULT 0 NOT NULL, `balance` DECIMAL(10,2) UNSIGNED DEFAULT 0 NOT NULL, `invoice` varchar(500) DEFAULT '' NOT NULL, `remark` varchar(500) DEFAULT '' NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (159.3ms)[0m  [1mCREATE  INDEX `company_id`  ON `prepayments` (`company_id`) [0m
+  [1m[35m (156.9ms)[0m  CREATE  INDEX `create_date`  ON `prepayments` (`create_date`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20141029013442')
+  [1m[36m (23.9ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.5ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (45.5ms)[0m  TRUNCATE TABLE flows
+  [1m[36m (15.9ms)[0m  [1mDELETE FROM menus[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (1, 'system')[0m
+  [1m[35m (18.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (2, 'privilege', 1, '/roles')
+  [1m[36m (13.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (3, 'procedure', 1, '/procedures')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (4, 'board_head', 1, '/boardHeads')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (5, 'plasmid_code', 1, '/plasmidCodes')[0m
+  [1m[35m (13.6ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (6, 'precheck_code', 1, '/precheckCodes')
+  [1m[36m (13.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (7, 'interprete_code', 1, '/interpreteCodes')[0m
+  [1m[35m (14.8ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (8, 'client')
+  [1m[36m (23.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (9, 'company', 8, '/companyRoot')[0m
+  [1m[35m (30.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (10, 'client', 8, '/clients')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (11, 'primer')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (12, 'primer', 11, '/primers')
+  [1m[36m (13.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (13, 'primer_board', 11, '/boards?board_type=primer')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (14, 'vector', 11, '/vectors')
+  [1m[36m (13.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (15, 'order')[0m
+  [1m[35m (14.7ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (16, 'new_order', 15, '/orders/new')
+  [1m[36m (13.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (17, 'new_rework_order', 15, '/orders/newRework')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (18, 'receive_order', 15, '/receiveOrders')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (19, 'order', 15, '/orders')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (20, 'sample')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (21, 'sample_flow', 20, '/boards?board_type=sample')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (22, 'reaction')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (23, 'dilute_primer', 22, '/dilutePrimers')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (24, 'typeset', 22, '/typeset/reactions')
+  [1m[36m (63.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (25, 'reaction_flow', 22, '/boards?board_type=reaction')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (26, 'interprete')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (27, 'interprete', 26, '/reactionFiles')[0m
+  [1m[35m (14.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (28, 'send_email', 26, '/sendOrderEmails')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (29, 'bill')[0m
+  [1m[35m (14.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (30, 'bill', 29, '/bills')
+  [1m[36m (30.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (31, 'email')[0m
+  [1m[35m (14.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (32, 'email', 31, '/emails')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (16.2ms)[0m  DELETE FROM procedures
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `name`, `record_name`) VALUES (1, 1, '电泳', 'electros')
+  [1m[36m (22.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `name`, `record_name`) VALUES (1, 1, '摇菌', 'shake_bacs')[0m
+  [1m[35m (15.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `procedures` (`creator_id`, `name`, `record_name`) VALUES (1, '质粒', 'plasmids')
+  [1m[36m (15.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `procedures` (`creator_id`, `name`, `record_name`) VALUES (1, '预检', 'prechecks')[0m
+  [1m[35m (15.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '热循环', 'heat_cycles')
+  [1m[36m (13.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '酒精纯化', 'alcohols')[0m
+  [1m[35m (13.6ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '上机记录', 'abi_records')
+  [1m[36m (13.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 'reaction', '上传测序文件', 'reaction_files')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (63.2ms)[0m  [1mALTER TABLE bill_orders CHANGE order_id order_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.5ms)[0m  UPDATE bill_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (53.4ms)[0m  [1mALTER TABLE bill_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE bill_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (40.9ms)[0m  [1mALTER TABLE bill_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (41.6ms)[0m  ALTER TABLE bill_records CHANGE bill_id bill_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.3ms)[0m  [1mUPDATE bills SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (63.5ms)[0m  ALTER TABLE bills CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.8ms)[0m  [1mUPDATE bills SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (90.7ms)[0m  ALTER TABLE bills CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (50.0ms)[0m  [1mALTER TABLE bills CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.2ms)[0m  UPDATE board_heads SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (50.7ms)[0m  [1mALTER TABLE board_heads CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.2ms)[0m  UPDATE board_heads SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE board_heads CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (49.9ms)[0m  ALTER TABLE board_heads CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE board_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (103.6ms)[0m  ALTER TABLE board_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.6ms)[0m  [1mUPDATE board_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (50.3ms)[0m  ALTER TABLE board_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (83.2ms)[0m  [1mALTER TABLE board_records CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (45.3ms)[0m  ALTER TABLE boards CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.1ms)[0m  [1mUPDATE client_reactions SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (80.0ms)[0m  ALTER TABLE client_reactions CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE client_reactions SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (124.5ms)[0m  ALTER TABLE client_reactions CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (174.0ms)[0m  [1mALTER TABLE client_reactions CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.5ms)[0m  UPDATE clients SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (93.5ms)[0m  [1mALTER TABLE clients CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE clients SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (83.1ms)[0m  [1mALTER TABLE clients CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (74.9ms)[0m  ALTER TABLE clients CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.2ms)[0m  [1mUPDATE companies SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (80.1ms)[0m  ALTER TABLE companies CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE companies SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (599.4ms)[0m  ALTER TABLE companies CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (192.2ms)[0m  [1mALTER TABLE companies CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.5ms)[0m  UPDATE dilute_primers SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (84.5ms)[0m  [1mALTER TABLE dilute_primers CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE dilute_primers SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (74.4ms)[0m  [1mALTER TABLE dilute_primers CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (75.0ms)[0m  ALTER TABLE dilute_primers CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE emails SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (84.3ms)[0m  ALTER TABLE emails CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE emails SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (83.1ms)[0m  ALTER TABLE emails CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (50.0ms)[0m  [1mALTER TABLE emails CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (77.6ms)[0m  ALTER TABLE flows CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE interprete_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (83.9ms)[0m  ALTER TABLE interprete_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE interprete_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.5ms)[0m  ALTER TABLE interprete_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (83.4ms)[0m  [1mALTER TABLE interprete_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (50.5ms)[0m  ALTER TABLE menus CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.5ms)[0m  [1mUPDATE orders SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (89.5ms)[0m  ALTER TABLE orders CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.5ms)[0m  [1mUPDATE orders SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (107.7ms)[0m  ALTER TABLE orders CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (92.7ms)[0m  [1mALTER TABLE orders CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE plasmid_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (55.8ms)[0m  [1mALTER TABLE plasmid_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE plasmid_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (82.8ms)[0m  [1mALTER TABLE plasmid_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (83.6ms)[0m  ALTER TABLE plasmid_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE plasmids SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (94.0ms)[0m  ALTER TABLE plasmids CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE plasmids SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (82.7ms)[0m  ALTER TABLE plasmids CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (83.8ms)[0m  [1mALTER TABLE plasmids CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.4ms)[0m  UPDATE precheck_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (96.0ms)[0m  [1mALTER TABLE precheck_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE precheck_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (88.0ms)[0m  [1mALTER TABLE precheck_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (41.7ms)[0m  ALTER TABLE precheck_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE prechecks SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (44.6ms)[0m  ALTER TABLE prechecks CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.6ms)[0m  [1mUPDATE prechecks SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (74.2ms)[0m  ALTER TABLE prechecks CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE prechecks CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.2ms)[0m  UPDATE prepayments SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (156.0ms)[0m  [1mALTER TABLE prepayments CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE prepayments SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (199.2ms)[0m  [1mALTER TABLE prepayments CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (158.0ms)[0m  ALTER TABLE prepayments CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.5ms)[0m  [1mUPDATE primers SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (80.0ms)[0m  ALTER TABLE primers CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.6ms)[0m  [1mUPDATE primers SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (74.0ms)[0m  ALTER TABLE primers CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (75.2ms)[0m  [1mALTER TABLE primers CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (74.7ms)[0m  ALTER TABLE procedures CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE reaction_files SET uploaded_at = '0000-00-00 00:00:00' WHERE uploaded_at IS NULL[0m
+  [1m[35m (104.5ms)[0m  ALTER TABLE reaction_files CHANGE uploaded_at uploaded_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE reaction_files SET interpreted_at = '0000-00-00 00:00:00' WHERE interpreted_at IS NULL[0m
+  [1m[35m (82.9ms)[0m  ALTER TABLE reaction_files CHANGE interpreted_at interpreted_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (66.7ms)[0m  [1mALTER TABLE reaction_files CHANGE reaction_id reaction_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (85.6ms)[0m  ALTER TABLE reactions CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (84.4ms)[0m  [1mALTER TABLE samples CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.2ms)[0m  UPDATE vectors SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (87.7ms)[0m  [1mALTER TABLE vectors CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE vectors SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (74.5ms)[0m  [1mALTER TABLE vectors CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (99.9ms)[0m  ALTER TABLE vectors CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (122.9ms)[0m  [1mALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (174.7ms)[0m  ALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;
+  [1m[36m (141.4ms)[0m  [1mALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (116.6ms)[0m  ALTER TABLE `prepayments` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (240.9ms)[0m  [1mALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (166.9ms)[0m  ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;
+  [1m[36m (566.5ms)[0m  [1mALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (141.3ms)[0m  ALTER TABLE `primers` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (184.6ms)[0m  [1mALTER TABLE `orders` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (108.1ms)[0m  ALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (124.9ms)[0m  [1mALTER TABLE `orders` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (133.0ms)[0m  ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (108.1ms)[0m  [1mALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (166.6ms)[0m  ALTER TABLE `plasmids` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (149.7ms)[0m  [1mALTER TABLE `plasmids` ADD FOREIGN KEY ( `code_id` ) REFERENCES `plasmid_codes` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (184.7ms)[0m  ALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (139.8ms)[0m  [1mALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (174.9ms)[0m  ALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE RESTRICT;
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (25.1ms)[0m  TRUNCATE TABLE flows
+  [1m[36m (41.5ms)[0m  [1mDELETE FROM menus[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (1, 'system')[0m
+  [1m[35m (16.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (2, 'privilege', 1, '/roles')
+  [1m[36m (13.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (3, 'procedure', 1, '/procedures')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (4, 'board_head', 1, '/boardHeads')
+  [1m[36m (15.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (5, 'plasmid_code', 1, '/plasmidCodes')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (6, 'precheck_code', 1, '/precheckCodes')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (7, 'interprete_code', 1, '/interpreteCodes')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (8, 'client')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (9, 'company', 8, '/companyRoot')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (10, 'client', 8, '/clients')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (11, 'primer')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (12, 'primer', 11, '/primers')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (13, 'primer_board', 11, '/boards?board_type=primer')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (14, 'vector', 11, '/vectors')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (15, 'order')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (16, 'new_order', 15, '/orders/new')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (17, 'new_rework_order', 15, '/orders/newRework')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (18, 'receive_order', 15, '/receiveOrders')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (19, 'order', 15, '/orders')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (20, 'sample')
+  [1m[36m (14.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (21, 'sample_flow', 20, '/boards?board_type=sample')[0m
+  [1m[35m (14.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (22, 'reaction')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (23, 'dilute_primer', 22, '/dilutePrimers')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (24, 'typeset', 22, '/typeset/reactions')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (25, 'reaction_flow', 22, '/boards?board_type=reaction')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (26, 'interprete')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (27, 'interprete', 26, '/reactionFiles')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (28, 'send_email', 26, '/sendOrderEmails')
+  [1m[36m (13.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (29, 'bill')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (30, 'bill', 29, '/bills')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (31, 'email')[0m
+  [1m[35m (9.6ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+Mysql2::Error: closed MySQL connection: ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (14.8ms)[0m  TRUNCATE TABLE flows
+  [1m[36m (16.4ms)[0m  [1mDELETE FROM menus[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (1, 'system')[0m
+  [1m[35m (11.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (2, 'privilege', 1, '/roles')
+  [1m[36m (13.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (3, 'procedure', 1, '/procedures')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (4, 'board_head', 1, '/boardHeads')
+  [1m[36m (15.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (5, 'plasmid_code', 1, '/plasmidCodes')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (6, 'precheck_code', 1, '/precheckCodes')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (7, 'interprete_code', 1, '/interpreteCodes')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (8, 'client')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (9, 'company', 8, '/companyRoot')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (10, 'client', 8, '/clients')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (11, 'primer')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (12, 'primer', 11, '/primers')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (13, 'primer_board', 11, '/boards?board_type=primer')[0m
+  [1m[35m (15.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (14, 'vector', 11, '/vectors')
+  [1m[36m (15.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (15, 'order')[0m
+  [1m[35m (14.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (16, 'new_order', 15, '/orders/new')
+  [1m[36m (15.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (17, 'new_rework_order', 15, '/orders/newRework')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (18, 'receive_order', 15, '/receiveOrders')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (19, 'order', 15, '/orders')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (20, 'sample')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (21, 'sample_flow', 20, '/boards?board_type=sample')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (22, 'reaction')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (23, 'dilute_primer', 22, '/dilutePrimers')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (24, 'typeset', 22, '/typeset/reactions')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (25, 'reaction_flow', 22, '/boards?board_type=reaction')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (26, 'interprete')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (27, 'interprete', 26, '/reactionFiles')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (28, 'send_email', 26, '/sendOrderEmails')
+  [1m[36m (15.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (29, 'bill')[0m
+  [1m[35m (15.1ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (30, 'bill', 29, '/bills')
+  [1m[36m (14.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (31, 'email')[0m
+  [1m[35m (15.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (32, 'email', 31, '/emails')
+  [1m[36m (15.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (16.3ms)[0m  DELETE FROM procedures
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `name`, `record_name`) VALUES (1, 1, '电泳', 'electros')
+  [1m[36m (17.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `name`, `record_name`) VALUES (1, 1, '摇菌', 'shake_bacs')[0m
+  [1m[35m (13.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `procedures` (`creator_id`, `name`, `record_name`) VALUES (1, '质粒', 'plasmids')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `procedures` (`creator_id`, `name`, `record_name`) VALUES (1, '预检', 'prechecks')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '热循环', 'heat_cycles')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '酒精纯化', 'alcohols')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '上机记录', 'abi_records')
+  [1m[36m (13.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `procedures` (`creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 'reaction', '上传测序文件', 'reaction_files')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (48.5ms)[0m  [1mALTER TABLE bill_orders CHANGE order_id order_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.3ms)[0m  UPDATE bill_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (86.2ms)[0m  [1mALTER TABLE bill_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.4ms)[0m  UPDATE bill_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (49.5ms)[0m  [1mALTER TABLE bill_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (50.0ms)[0m  ALTER TABLE bill_records CHANGE bill_id bill_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.3ms)[0m  [1mUPDATE bills SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (267.8ms)[0m  ALTER TABLE bills CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.1ms)[0m  [1mUPDATE bills SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (83.5ms)[0m  ALTER TABLE bills CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (50.1ms)[0m  [1mALTER TABLE bills CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.2ms)[0m  UPDATE board_heads SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (45.2ms)[0m  [1mALTER TABLE board_heads CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE board_heads SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (99.2ms)[0m  [1mALTER TABLE board_heads CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (98.7ms)[0m  ALTER TABLE board_heads CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE board_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (53.4ms)[0m  ALTER TABLE board_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE board_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (41.2ms)[0m  ALTER TABLE board_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE board_records CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (52.0ms)[0m  ALTER TABLE boards CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE client_reactions SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (51.2ms)[0m  ALTER TABLE client_reactions CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE client_reactions SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.4ms)[0m  ALTER TABLE client_reactions CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (41.2ms)[0m  [1mALTER TABLE client_reactions CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.1ms)[0m  UPDATE clients SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (70.6ms)[0m  [1mALTER TABLE clients CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE clients SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (40.9ms)[0m  [1mALTER TABLE clients CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (50.1ms)[0m  ALTER TABLE clients CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.4ms)[0m  [1mUPDATE companies SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (51.5ms)[0m  ALTER TABLE companies CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE companies SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.1ms)[0m  ALTER TABLE companies CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (83.7ms)[0m  [1mALTER TABLE companies CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE dilute_primers SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (51.7ms)[0m  [1mALTER TABLE dilute_primers CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE dilute_primers SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (41.5ms)[0m  [1mALTER TABLE dilute_primers CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (49.6ms)[0m  ALTER TABLE dilute_primers CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.1ms)[0m  [1mUPDATE emails SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (46.7ms)[0m  ALTER TABLE emails CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE emails SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.2ms)[0m  ALTER TABLE emails CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (50.3ms)[0m  [1mALTER TABLE emails CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (46.7ms)[0m  ALTER TABLE flows CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.4ms)[0m  [1mUPDATE interprete_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (51.3ms)[0m  ALTER TABLE interprete_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE interprete_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.1ms)[0m  ALTER TABLE interprete_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (83.7ms)[0m  [1mALTER TABLE interprete_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (49.8ms)[0m  ALTER TABLE menus CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE orders SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (45.2ms)[0m  ALTER TABLE orders CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.5ms)[0m  [1mUPDATE orders SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.4ms)[0m  ALTER TABLE orders CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE orders CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE plasmid_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (53.1ms)[0m  [1mALTER TABLE plasmid_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.6ms)[0m  UPDATE plasmid_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (49.3ms)[0m  [1mALTER TABLE plasmid_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (49.6ms)[0m  ALTER TABLE plasmid_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.4ms)[0m  [1mUPDATE plasmids SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (53.1ms)[0m  ALTER TABLE plasmids CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.6ms)[0m  [1mUPDATE plasmids SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.1ms)[0m  ALTER TABLE plasmids CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (83.3ms)[0m  [1mALTER TABLE plasmids CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.4ms)[0m  UPDATE precheck_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (51.0ms)[0m  [1mALTER TABLE precheck_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE precheck_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (49.5ms)[0m  [1mALTER TABLE precheck_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (41.7ms)[0m  ALTER TABLE precheck_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.4ms)[0m  [1mUPDATE prechecks SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (44.8ms)[0m  ALTER TABLE prechecks CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE prechecks SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (41.1ms)[0m  ALTER TABLE prechecks CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (41.7ms)[0m  [1mALTER TABLE prechecks CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.2ms)[0m  UPDATE prepayments SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (43.6ms)[0m  [1mALTER TABLE prepayments CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.2ms)[0m  UPDATE prepayments SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (41.6ms)[0m  [1mALTER TABLE prepayments CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (41.6ms)[0m  ALTER TABLE prepayments CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE primers SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (62.9ms)[0m  ALTER TABLE primers CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE primers SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (46.0ms)[0m  ALTER TABLE primers CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (75.1ms)[0m  [1mALTER TABLE primers CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (41.1ms)[0m  ALTER TABLE procedures CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE reaction_files SET uploaded_at = '0000-00-00 00:00:00' WHERE uploaded_at IS NULL[0m
+  [1m[35m (37.7ms)[0m  ALTER TABLE reaction_files CHANGE uploaded_at uploaded_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE reaction_files SET interpreted_at = '0000-00-00 00:00:00' WHERE interpreted_at IS NULL[0m
+  [1m[35m (59.1ms)[0m  ALTER TABLE reaction_files CHANGE interpreted_at interpreted_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.8ms)[0m  [1mALTER TABLE reaction_files CHANGE reaction_id reaction_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (44.9ms)[0m  ALTER TABLE reactions CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (43.9ms)[0m  [1mALTER TABLE samples CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE vectors SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE vectors CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.2ms)[0m  UPDATE vectors SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (41.3ms)[0m  [1mALTER TABLE vectors CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (41.9ms)[0m  ALTER TABLE vectors CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (993.9ms)[0m  [1mALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (174.6ms)[0m  ALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;
+  [1m[36m (133.2ms)[0m  [1mALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (150.1ms)[0m  ALTER TABLE `prepayments` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (207.9ms)[0m  [1mALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (171.7ms)[0m  ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;
+  [1m[36m (169.4ms)[0m  [1mALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (174.8ms)[0m  ALTER TABLE `primers` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (141.4ms)[0m  [1mALTER TABLE `primers` ADD FOREIGN KEY ( `board_id` ) REFERENCES `boards` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (133.1ms)[0m  ALTER TABLE `orders` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (208.3ms)[0m  [1mALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (124.9ms)[0m  ALTER TABLE `orders` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (116.4ms)[0m  [1mALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (108.0ms)[0m  ALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (141.5ms)[0m  [1mALTER TABLE `plasmids` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (125.4ms)[0m  ALTER TABLE `plasmids` ADD FOREIGN KEY ( `code_id` ) REFERENCES `plasmid_codes` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (149.6ms)[0m  [1mALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (174.8ms)[0m  ALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (125.0ms)[0m  [1mALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (95.2ms)[0m  TRUNCATE TABLE flows
+  [1m[36m (162.5ms)[0m  [1mDELETE FROM menus[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (1, 'system')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (2, 'privilege', 1, '/roles')
+  [1m[36m (23.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (3, 'procedure', 1, '/procedures')[0m
+  [1m[35m (22.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (4, 'board_head', 1, '/boardHeads')
+  [1m[36m (22.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (5, 'plasmid_code', 1, '/plasmidCodes')[0m
+  [1m[35m (25.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (6, 'precheck_code', 1, '/precheckCodes')
+  [1m[36m (22.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (7, 'interprete_code', 1, '/interpreteCodes')[0m
+  [1m[35m (22.9ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (8, 'client')
+  [1m[36m (56.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (9, 'company', 8, '/companyRoot')[0m
+  [1m[35m (122.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (10, 'client', 8, '/clients')
+  [1m[36m (47.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (11, 'primer')[0m
+  [1m[35m (96.7ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (12, 'primer', 11, '/primers')
+  [1m[36m (39.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (13, 'primer_board', 11, '/boards?board_type=primer')[0m
+  [1m[35m (39.0ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (14, 'vector', 11, '/vectors')
+  [1m[36m (32.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (15, 'order')[0m
+  [1m[35m (38.7ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (16, 'new_order', 15, '/orders/new')
+  [1m[36m (47.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (17, 'new_rework_order', 15, '/orders/newRework')[0m
+  [1m[35m (47.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (18, 'receive_order', 15, '/receiveOrders')
+  [1m[36m (39.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (19, 'order', 15, '/orders')[0m
+  [1m[35m (47.1ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (20, 'sample')
+  [1m[36m (39.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (21, 'sample_flow', 20, '/boards?board_type=sample')[0m
+  [1m[35m (343.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (22, 'reaction')
+  [1m[36m (43.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (23, 'dilute_primer', 22, '/dilutePrimers')[0m
+  [1m[35m (39.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (24, 'typeset', 22, '/typeset/reactions')
+  [1m[36m (56.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (25, 'reaction_flow', 22, '/boards?board_type=reaction')[0m
+  [1m[35m (39.1ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (26, 'interprete')
+  [1m[36m (39.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (27, 'interprete', 26, '/reactionFiles')[0m
+  [1m[35m (50.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (28, 'send_email', 26, '/sendOrderEmails')
+  [1m[36m (43.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (29, 'bill')[0m
+  [1m[35m (39.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (30, 'bill', 29, '/bills')
+  [1m[36m (38.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (31, 'prepayment', 29, '/prepayments')[0m
+  [1m[35m (39.2ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (32, 'email')
+  [1m[36m (13.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (33, 'email', 32, '/emails')[0m
+  [1m[35m (38.5ms)[0m  COMMIT
+  [1m[36m (41.3ms)[0m  [1mDELETE FROM procedures[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `name`, `record_name`) VALUES (1, 1, '电泳', 'electros')[0m
+  [1m[35m (29.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `name`, `record_name`) VALUES (1, 1, '摇菌', 'shake_bacs')
+  [1m[36m (23.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`creator_id`, `name`, `record_name`) VALUES (1, '质粒', 'plasmids')[0m
+  [1m[35m (31.6ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`creator_id`, `name`, `record_name`) VALUES (1, '预检', 'prechecks')
+  [1m[36m (39.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '热循环', 'heat_cycles')[0m
+  [1m[35m (71.7ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '酒精纯化', 'alcohols')
+  [1m[36m (46.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '上机记录', 'abi_records')[0m
+  [1m[35m (22.6ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `procedures` (`creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 'reaction', '上传测序文件', 'reaction_files')
+  [1m[36m (29.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (241.3ms)[0m  ALTER TABLE bill_orders CHANGE order_id order_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.2ms)[0m  [1mUPDATE bill_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (177.6ms)[0m  ALTER TABLE bill_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE bill_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (52.6ms)[0m  ALTER TABLE bill_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (124.9ms)[0m  [1mALTER TABLE bill_records CHANGE bill_id bill_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.1ms)[0m  UPDATE bills SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (106.5ms)[0m  [1mALTER TABLE bills CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE bills SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (83.1ms)[0m  [1mALTER TABLE bills CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (74.8ms)[0m  ALTER TABLE bills CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.2ms)[0m  [1mUPDATE board_heads SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (67.9ms)[0m  ALTER TABLE board_heads CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.5ms)[0m  [1mUPDATE board_heads SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (82.7ms)[0m  ALTER TABLE board_heads CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (208.0ms)[0m  [1mALTER TABLE board_heads CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.3ms)[0m  UPDATE board_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (145.0ms)[0m  [1mALTER TABLE board_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE board_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (99.5ms)[0m  [1mALTER TABLE board_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (241.8ms)[0m  ALTER TABLE board_records CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (64.3ms)[0m  [1mALTER TABLE boards CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.2ms)[0m  UPDATE client_reactions SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (122.9ms)[0m  [1mALTER TABLE client_reactions CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.2ms)[0m  UPDATE client_reactions SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (69.8ms)[0m  [1mALTER TABLE client_reactions CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (66.6ms)[0m  ALTER TABLE client_reactions CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.2ms)[0m  [1mUPDATE clients SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (342.6ms)[0m  ALTER TABLE clients CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.5ms)[0m  [1mUPDATE clients SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (259.5ms)[0m  ALTER TABLE clients CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (166.9ms)[0m  [1mALTER TABLE clients CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.2ms)[0m  UPDATE companies SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (285.5ms)[0m  [1mALTER TABLE companies CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE companies SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (135.8ms)[0m  [1mALTER TABLE companies CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (50.3ms)[0m  ALTER TABLE companies CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (24.0ms)[0m  [1mUPDATE dilute_primers SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (100.5ms)[0m  ALTER TABLE dilute_primers CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE dilute_primers SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.2ms)[0m  ALTER TABLE dilute_primers CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (158.5ms)[0m  [1mALTER TABLE dilute_primers CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE emails SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (114.6ms)[0m  [1mALTER TABLE emails CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE emails SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (49.5ms)[0m  [1mALTER TABLE emails CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (49.9ms)[0m  ALTER TABLE emails CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (269.8ms)[0m  [1mALTER TABLE flows CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE interprete_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (130.4ms)[0m  [1mALTER TABLE interprete_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.2ms)[0m  UPDATE interprete_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (141.0ms)[0m  [1mALTER TABLE interprete_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (50.1ms)[0m  ALTER TABLE interprete_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (83.2ms)[0m  [1mALTER TABLE menus CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.5ms)[0m  UPDATE orders SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (63.0ms)[0m  [1mALTER TABLE orders CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE orders SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (82.2ms)[0m  [1mALTER TABLE orders CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (50.5ms)[0m  ALTER TABLE orders CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.5ms)[0m  [1mUPDATE plasmid_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (127.4ms)[0m  ALTER TABLE plasmid_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE plasmid_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (223.3ms)[0m  ALTER TABLE plasmid_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (159.6ms)[0m  [1mALTER TABLE plasmid_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.3ms)[0m  UPDATE plasmids SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (240.6ms)[0m  [1mALTER TABLE plasmids CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.2ms)[0m  UPDATE plasmids SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (249.9ms)[0m  [1mALTER TABLE plasmids CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (258.7ms)[0m  ALTER TABLE plasmids CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.3ms)[0m  [1mUPDATE precheck_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (54.5ms)[0m  ALTER TABLE precheck_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE precheck_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (149.8ms)[0m  ALTER TABLE precheck_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (166.0ms)[0m  [1mALTER TABLE precheck_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE prechecks SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (57.2ms)[0m  [1mALTER TABLE prechecks CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.6ms)[0m  UPDATE prechecks SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (65.9ms)[0m  [1mALTER TABLE prechecks CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (41.3ms)[0m  ALTER TABLE prechecks CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.2ms)[0m  [1mUPDATE prepayments SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (52.4ms)[0m  ALTER TABLE prepayments CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE prepayments SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (41.1ms)[0m  ALTER TABLE prepayments CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (50.0ms)[0m  [1mALTER TABLE prepayments CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.2ms)[0m  UPDATE primers SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (65.5ms)[0m  [1mALTER TABLE primers CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE primers SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (49.6ms)[0m  [1mALTER TABLE primers CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (158.2ms)[0m  ALTER TABLE primers CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE procedures CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.2ms)[0m  UPDATE reaction_files SET uploaded_at = '0000-00-00 00:00:00' WHERE uploaded_at IS NULL
+  [1m[36m (352.0ms)[0m  [1mALTER TABLE reaction_files CHANGE uploaded_at uploaded_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.2ms)[0m  UPDATE reaction_files SET interpreted_at = '0000-00-00 00:00:00' WHERE interpreted_at IS NULL
+  [1m[36m (917.0ms)[0m  [1mALTER TABLE reaction_files CHANGE interpreted_at interpreted_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (350.0ms)[0m  ALTER TABLE reaction_files CHANGE reaction_id reaction_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (549.2ms)[0m  [1mALTER TABLE reactions CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (96.2ms)[0m  ALTER TABLE samples CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE vectors SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (233.1ms)[0m  ALTER TABLE vectors CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE vectors SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (83.7ms)[0m  ALTER TABLE vectors CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (158.7ms)[0m  [1mALTER TABLE vectors CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (356.7ms)[0m  ALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;
+  [1m[36m (416.6ms)[0m  [1mALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (576.7ms)[0m  ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (483.0ms)[0m  [1mALTER TABLE `prepayments` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (499.8ms)[0m  ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;
+  [1m[36m (992.3ms)[0m  [1mALTER TABLE `bill_orders` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (174.2ms)[0m  ALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;
+  [1m[36m (158.8ms)[0m  [1mALTER TABLE `primers` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (508.1ms)[0m  ALTER TABLE `primers` ADD FOREIGN KEY ( `board_id` ) REFERENCES `boards` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (323.8ms)[0m  [1mALTER TABLE `orders` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (284.5ms)[0m  ALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (165.5ms)[0m  [1mALTER TABLE `orders` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (175.0ms)[0m  ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (149.6ms)[0m  [1mALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (166.6ms)[0m  ALTER TABLE `plasmids` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (424.9ms)[0m  [1mALTER TABLE `plasmids` ADD FOREIGN KEY ( `code_id` ) REFERENCES `plasmid_codes` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (316.3ms)[0m  ALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (250.0ms)[0m  [1mALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (166.4ms)[0m  ALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE RESTRICT;
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreatePrepaymentRecords (20141029025626)
+  [1m[35m (128.1ms)[0m  CREATE TABLE `prepayment_records` (`id` int(11) auto_increment PRIMARY KEY, `prepayment_id` INT(11) UNSIGNED NOT NULL, `bill_id` INT(11) UNSIGNED NOT NULL, `create_date` date NOT NULL, `money` DECIMAL(10,2) UNSIGNED DEFAULT 0 NOT NULL, `remark` varchar(500) DEFAULT '' NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (176.5ms)[0m  [1mCREATE  INDEX `prepayment_id`  ON `prepayment_records` (`prepayment_id`) [0m
+  [1m[35m (187.4ms)[0m  CREATE  INDEX `bill_id`  ON `prepayment_records` (`bill_id`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20141029025626')
+  [1m[36m (16.3ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (63.7ms)[0m  TRUNCATE TABLE flows
+  [1m[36m (24.4ms)[0m  [1mDELETE FROM menus[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (1, 'system')[0m
+  [1m[35m (242.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (2, 'privilege', 1, '/roles')
+  [1m[36m (40.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (3, 'procedure', 1, '/procedures')[0m
+  [1m[35m (18.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (4, 'board_head', 1, '/boardHeads')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (5, 'plasmid_code', 1, '/plasmidCodes')[0m
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (6, 'precheck_code', 1, '/precheckCodes')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (7, 'interprete_code', 1, '/interpreteCodes')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (8, 'client')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (9, 'company', 8, '/companyRoot')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (10, 'client', 8, '/clients')
+  [1m[36m (13.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (11, 'primer')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (12, 'primer', 11, '/primers')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (13, 'primer_board', 11, '/boards?board_type=primer')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (14, 'vector', 11, '/vectors')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (15, 'order')[0m
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (16, 'new_order', 15, '/orders/new')
+  [1m[36m (14.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (17, 'new_rework_order', 15, '/orders/newRework')[0m
+  [1m[35m (13.2ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (18, 'receive_order', 15, '/receiveOrders')
+  [1m[36m (13.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (19, 'order', 15, '/orders')[0m
+  [1m[35m (14.6ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (20, 'sample')
+  [1m[36m (14.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (21, 'sample_flow', 20, '/boards?board_type=sample')[0m
+  [1m[35m (13.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (22, 'reaction')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (23, 'dilute_primer', 22, '/dilutePrimers')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (24, 'typeset', 22, '/typeset/reactions')
+  [1m[36m (14.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (25, 'reaction_flow', 22, '/boards?board_type=reaction')[0m
+  [1m[35m (13.7ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`) VALUES (26, 'interprete')
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (27, 'interprete', 26, '/reactionFiles')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (28, 'send_email', 26, '/sendOrderEmails')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (29, 'bill')[0m
+  [1m[35m (13.7ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (30, 'new_bill', 29, '/bills/new')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (31, 'bill', 29, '/bills')[0m
+  [1m[35m (14.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (32, 'prepayment', 29, '/prepayments')
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `menus` (`id`, `name`) VALUES (33, 'email')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`) VALUES (34, 'email', 33, '/emails')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (16.2ms)[0m  DELETE FROM procedures
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `name`, `record_name`) VALUES (1, 1, '电泳', 'electros')
+  [1m[36m (20.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `name`, `record_name`) VALUES (1, 1, '摇菌', 'shake_bacs')[0m
+  [1m[35m (14.1ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`creator_id`, `name`, `record_name`) VALUES (1, '质粒', 'plasmids')
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`creator_id`, `name`, `record_name`) VALUES (1, '预检', 'prechecks')[0m
+  [1m[35m (12.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '热循环', 'heat_cycles')
+  [1m[36m (13.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '酒精纯化', 'alcohols')[0m
+  [1m[35m (13.7ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO `procedures` (`board`, `creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 1, 'reaction', '上机记录', 'abi_records')
+  [1m[36m (13.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `procedures` (`creator_id`, `flow_type`, `name`, `record_name`) VALUES (1, 'reaction', '上传测序文件', 'reaction_files')[0m
+  [1m[35m (14.0ms)[0m  COMMIT
+  [1m[36m (161.5ms)[0m  [1mALTER TABLE bill_orders CHANGE order_id order_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.3ms)[0m  UPDATE bill_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (153.9ms)[0m  [1mALTER TABLE bill_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE bill_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (66.3ms)[0m  [1mALTER TABLE bill_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (49.8ms)[0m  ALTER TABLE bill_records CHANGE bill_id bill_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (0.5ms)[0m  [1mUPDATE bills SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (54.3ms)[0m  ALTER TABLE bills CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE bills SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (99.4ms)[0m  ALTER TABLE bills CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.8ms)[0m  [1mALTER TABLE bills CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE board_heads SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (50.4ms)[0m  [1mALTER TABLE board_heads CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE board_heads SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (49.2ms)[0m  [1mALTER TABLE board_heads CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (83.3ms)[0m  ALTER TABLE board_heads CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE board_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (53.1ms)[0m  ALTER TABLE board_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.6ms)[0m  [1mUPDATE board_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.0ms)[0m  ALTER TABLE board_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE board_records CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (52.8ms)[0m  ALTER TABLE boards CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.2ms)[0m  [1mUPDATE client_reactions SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (84.5ms)[0m  ALTER TABLE client_reactions CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.6ms)[0m  [1mUPDATE client_reactions SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (99.1ms)[0m  ALTER TABLE client_reactions CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (50.0ms)[0m  [1mALTER TABLE client_reactions CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.2ms)[0m  UPDATE clients SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (50.9ms)[0m  [1mALTER TABLE clients CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE clients SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (41.2ms)[0m  [1mALTER TABLE clients CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (41.7ms)[0m  ALTER TABLE clients CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.6ms)[0m  [1mUPDATE companies SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (51.1ms)[0m  ALTER TABLE companies CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE companies SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.4ms)[0m  ALTER TABLE companies CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE companies CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE dilute_primers SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (57.8ms)[0m  [1mALTER TABLE dilute_primers CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE dilute_primers SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (82.9ms)[0m  [1mALTER TABLE dilute_primers CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (50.0ms)[0m  ALTER TABLE dilute_primers CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE emails SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (49.0ms)[0m  ALTER TABLE emails CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE emails SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (41.1ms)[0m  ALTER TABLE emails CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE emails CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (52.8ms)[0m  ALTER TABLE flows CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE interprete_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (51.8ms)[0m  ALTER TABLE interprete_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.2ms)[0m  [1mUPDATE interprete_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (50.0ms)[0m  ALTER TABLE interprete_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (99.7ms)[0m  [1mALTER TABLE interprete_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (59.2ms)[0m  ALTER TABLE menus CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE orders SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (54.9ms)[0m  ALTER TABLE orders CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE orders SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.3ms)[0m  ALTER TABLE orders CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE orders CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.4ms)[0m  UPDATE plasmid_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (42.3ms)[0m  [1mALTER TABLE plasmid_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.4ms)[0m  UPDATE plasmid_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (49.6ms)[0m  [1mALTER TABLE plasmid_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (49.8ms)[0m  ALTER TABLE plasmid_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.6ms)[0m  [1mUPDATE plasmids SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (57.1ms)[0m  ALTER TABLE plasmids CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.6ms)[0m  [1mUPDATE plasmids SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.1ms)[0m  ALTER TABLE plasmids CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (50.0ms)[0m  [1mALTER TABLE plasmids CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.2ms)[0m  UPDATE precheck_codes SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (52.1ms)[0m  [1mALTER TABLE precheck_codes CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.3ms)[0m  UPDATE precheck_codes SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (41.2ms)[0m  [1mALTER TABLE precheck_codes CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (75.0ms)[0m  ALTER TABLE precheck_codes CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE prechecks SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (62.1ms)[0m  ALTER TABLE prechecks CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.6ms)[0m  [1mUPDATE prechecks SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (48.7ms)[0m  ALTER TABLE prechecks CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (58.3ms)[0m  [1mALTER TABLE prechecks CHANGE sample_id sample_id INT(11) UNSIGNED NOT NULL[0m
+  [1m[35m (0.2ms)[0m  UPDATE prepayment_records SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (126.8ms)[0m  [1mALTER TABLE prepayment_records CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.7ms)[0m  UPDATE prepayment_records SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (107.1ms)[0m  [1mALTER TABLE prepayment_records CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (124.9ms)[0m  ALTER TABLE prepayment_records CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.3ms)[0m  [1mUPDATE prepayments SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (52.0ms)[0m  ALTER TABLE prepayments CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.4ms)[0m  [1mUPDATE prepayments SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (41.0ms)[0m  ALTER TABLE prepayments CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (50.0ms)[0m  [1mALTER TABLE prepayments CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.5ms)[0m  UPDATE primers SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL
+  [1m[36m (55.0ms)[0m  [1mALTER TABLE primers CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE primers SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL
+  [1m[36m (49.3ms)[0m  [1mALTER TABLE primers CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (49.9ms)[0m  ALTER TABLE primers CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (49.7ms)[0m  [1mALTER TABLE procedures CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (0.6ms)[0m  UPDATE reaction_files SET uploaded_at = '0000-00-00 00:00:00' WHERE uploaded_at IS NULL
+  [1m[36m (58.6ms)[0m  [1mALTER TABLE reaction_files CHANGE uploaded_at uploaded_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (0.5ms)[0m  UPDATE reaction_files SET interpreted_at = '0000-00-00 00:00:00' WHERE interpreted_at IS NULL
+  [1m[36m (49.2ms)[0m  [1mALTER TABLE reaction_files CHANGE interpreted_at interpreted_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'[0m
+  [1m[35m (50.0ms)[0m  ALTER TABLE reaction_files CHANGE reaction_id reaction_id INT(11) UNSIGNED NOT NULL
+  [1m[36m (85.8ms)[0m  [1mALTER TABLE reactions CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (93.8ms)[0m  ALTER TABLE samples CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  [1m[36m (0.2ms)[0m  [1mUPDATE vectors SET created_at = '0000-00-00 00:00:00' WHERE created_at IS NULL[0m
+  [1m[35m (52.7ms)[0m  ALTER TABLE vectors CHANGE created_at created_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (0.3ms)[0m  [1mUPDATE vectors SET updated_at = '0000-00-00 00:00:00' WHERE updated_at IS NULL[0m
+  [1m[35m (49.7ms)[0m  ALTER TABLE vectors CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'
+  [1m[36m (49.9ms)[0m  [1mALTER TABLE vectors CHANGE id id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT[0m
+  [1m[35m (136.9ms)[0m  ALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;
+  [1m[36m (141.4ms)[0m  [1mALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (191.6ms)[0m  ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (216.5ms)[0m  [1mALTER TABLE `prepayments` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (174.7ms)[0m  ALTER TABLE `prepayment_records` ADD FOREIGN KEY ( `prepayment_id` ) REFERENCES `prepayments` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (224.9ms)[0m  [1mALTER TABLE `prepayment_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (149.7ms)[0m  ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;
+  [1m[36m (133.2ms)[0m  [1mALTER TABLE `bill_orders` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;[0m
+  [1m[35m (133.1ms)[0m  ALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;
+  [1m[36m (158.1ms)[0m  [1mALTER TABLE `primers` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (149.8ms)[0m  ALTER TABLE `primers` ADD FOREIGN KEY ( `board_id` ) REFERENCES `boards` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (133.1ms)[0m  [1mALTER TABLE `orders` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (141.5ms)[0m  ALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (166.5ms)[0m  [1mALTER TABLE `orders` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (124.9ms)[0m  ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (133.0ms)[0m  [1mALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (133.1ms)[0m  ALTER TABLE `plasmids` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (584.3ms)[0m  [1mALTER TABLE `plasmids` ADD FOREIGN KEY ( `code_id` ) REFERENCES `plasmid_codes` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (765.3ms)[0m  ALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;
+  [1m[36m (141.4ms)[0m  [1mALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT;[0m
+  [1m[35m (141.2ms)[0m  ALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE RESTRICT;

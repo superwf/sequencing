@@ -2660,3 +2660,12 @@ Migrating to CreateClientReactions (20141017024940)
   [1m[35m (161.2ms)[0m  ALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE RESTRICT;
   [1m[36m (113.4ms)[0m  [1mALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT;[0m
   [1m[35m (124.8ms)[0m  ALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE RESTRICT;
+  [1m[36mActiveRecord::SchemaMigration Load (10.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreatePrepayments (20141029013442)
+  [1m[35m (65.6ms)[0m  CREATE TABLE `prepayments` (`id` int(11) auto_increment PRIMARY KEY, `company_id` INT(11) UNSIGNED NOT NULL, `create_date` date NOT NULL, `money` DECIMAL(10,2) UNSIGNED DEFAULT 0 NOT NULL, `balance` DECIMAL(10,2) UNSIGNED DEFAULT 0 NOT NULL, `invoice` varchar(500) DEFAULT '' NOT NULL, `remark` varchar(500) DEFAULT '' NOT NULL, `creator_id` INT(11) UNSIGNED NOT NULL, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (159.9ms)[0m  [1mCREATE  INDEX `company_id`  ON `prepayments` (`company_id`) [0m
+  [1m[35m (157.6ms)[0m  CREATE  INDEX `create_date`  ON `prepayments` (`create_date`) 
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20141029013442')
+  [1m[36m (25.9ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.5ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`

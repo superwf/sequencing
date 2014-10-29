@@ -9,7 +9,6 @@ import (
 )
 
 func prepare_roles(roles_count int) {
-  Db.Exec("TRUNCATE TABLE roles")
   var sql []string
   for i := 0; i < roles_count; i++ {
     sql = append(sql, `("role` + strconv.Itoa(i) + `")`)
@@ -18,6 +17,9 @@ func prepare_roles(roles_count int) {
 }
 
 var _ = Describe("test Role", func(){
+  BeforeEach(func(){
+    ClearData()
+  })
   It("test has menus", func(){
     prepare_roles(1)
     role := new(models.Role)

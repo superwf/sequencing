@@ -29,18 +29,8 @@ type Primer struct {
 }
 
 func (record *Primer) BeforeSave() error {
-  if len(record.Name) > 200 || len(record.Name) == 0 {
+  if len(record.Name) > 255 || len(record.Name) == 0 {
     return errors.New("name length error")
-  }
-  client := Client{Id: record.ClientId}
-  Db.First(&client)
-  if client.Name == "" {
-    return errors.New("client not_exist")
-  }
-  board := Board{Id: record.BoardId}
-  Db.First(&board)
-  if board.Sn == "" {
-    return errors.New("board not_exist")
   }
   exist := Primer{}
   if record.Id > 0 {
