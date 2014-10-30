@@ -2,6 +2,7 @@
 
 angular.module('sequencingApp').controller 'ReceiveOrdersCtrl', ['$scope', 'Order', 'Modal', '$modal', 'ClientReaction', 'Vector', 'Primer', ($scope, Order, Modal, $modal, ClientReaction, Vector, Primer) ->
 
+  $scope.$emit 'event:title', 'receive_order'
   getClientReaction = ->
     ClientReaction.query receive: false, (data)->
       $scope.records = data.records || []

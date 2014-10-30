@@ -1,7 +1,7 @@
 package models_test
 import (
 	. "github.com/onsi/ginkgo"
-	//. "github.com/onsi/gomega"
+	. "github.com/onsi/gomega"
   "sequencing/models"
   "strconv"
   "strings"
@@ -29,6 +29,23 @@ var _ = Describe("test Client", func(){
   BeforeEach(func(){
     ClearData()
   })
-  It("test login", func(){
+  It("test client.BeforeSave", func(){
+    prepare_clients(1)
+    c := models.Client{}
+    Db.First(&c)
+    c.Name = ""
+    for i := 0; i < 256; i++ {
+      c.Name += "a"
+    }
+    saved := Db.Save(&c)
+    Expect(saved.Error == nil).To(Equal(false))
+    c.Name = "a"
+
+    c.Email = ""
+    for i := 0; i < 256; i++ {
+      c.Email += "a"
+    }
+    saved = Db.Save(&c)
+    Expect(saved.Error == nil).To(Equal(false))
   })
 })

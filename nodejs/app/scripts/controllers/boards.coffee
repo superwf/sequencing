@@ -2,6 +2,8 @@
 
 angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', 'Procedure', 'SequencingConst', '$routeParams', ($scope, Board, Modal, $modal, $location, Procedure, SequencingConst, $routeParams) ->
   $scope.searcher = $location.search()
+  if $scope.searcher.board_type
+    $scope.$emit 'event:title', $scope.searcher.board_type + '_board'
   $scope.search = ->
     Board.query $scope.searcher, (data) ->
       angular.forEach data.records, (d)->

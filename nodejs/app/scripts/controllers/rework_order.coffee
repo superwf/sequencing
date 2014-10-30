@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'ReworkOrderCtrl', ['$scope', 'Reaction', 'Modal', '$modal', 'SequencingConst', 'BoardHead', 'Order', ($scope, Reaction, Modal, $modal, SequencingConst, BoardHead, Order) ->
+  $scope.$emit 'event:title', 'new_rework_order'
 
   $scope.searcher = {}
 

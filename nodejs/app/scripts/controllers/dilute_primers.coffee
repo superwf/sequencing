@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'DilutePrimersCtrl', ['$scope', 'Reaction', 'SequencingConst', '$rootScope', 'DilutePrimer', ($scope, Reaction, SequencingConst, $rootScope, DilutePrimer) ->
+  $scope.$emit 'event:title', 'dilute_primer'
   getRecords = ->
     Reaction.dilute (data)->
       angular.forEach data, (d)->

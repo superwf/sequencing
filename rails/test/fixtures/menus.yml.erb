@@ -129,6 +129,12 @@ end
   name: sample_flow
   url: '/boards?board_type=sample'
   parent_id: <%= sample_flow_id %>
+<% id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= id %>
+  name: typeset
+  url: '/typeset/samples'
+  parent_id: <%= sample_flow_id %>
 <% reaction_flow_id = ::FactoryGirl.generate :menu %>
 -
   id: <%= reaction_flow_id %>

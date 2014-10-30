@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'EmailsCtrl', ['$scope', 'SequencingConst', 'Email', 'Order', ($scope, SequencingConst, Email, Order) ->
+  $scope.$emit 'event:title', 'email'
   $scope.clients = {}
   Email.query (data)->
     $scope.emails = data.records

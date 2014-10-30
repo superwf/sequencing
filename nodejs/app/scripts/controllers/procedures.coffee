@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'ProceduresCtrl', ['$scope', 'Procedure', 'Modal', '$modal', ($scope, Procedure, Modal, $modal) ->
+  $scope.$emit 'event:title', 'procedure'
   Procedure.query (data) ->
     $scope.records = data.records
     $scope.totalItems = data.totalItems

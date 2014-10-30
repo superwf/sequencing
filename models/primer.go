@@ -60,19 +60,61 @@ func (record *Primer) BeforeSave() error {
 
 func GetPrimers(req *http.Request)([]map[string]interface{}, int){
   page := getPage(req)
-  db := Db.Table("primers").Select("primers.id, primers.name, primers.origin_thickness, primers.annealing, primers.seq, primers.client_id, primers.board_id, primers.hole, primers.status, primers.store_type, primers.create_date, primers.expire_date, primers.operate_date, primers.need_return, primers.available, primers.remark, boards.sn, clients.name").Joins("LEFT JOIN boards ON primers.board_id = boards.id LEFT JOIN clients ON primers.client_id = clients.id")
+  join := "LEFT JOIN clients ON primers.client_id = clients.id"
+  db := Db.Table("primers").Select("primers.id, primers.name, primers.origin_thickness, primers.annealing, primers.seq, primers.client_id, primers.board_id, primers.hole, primers.status, primers.store_type, primers.create_date, primers.expire_date, primers.operate_date, primers.need_return, primers.available, primers.remark, boards.sn, clients.name")
   name := req.FormValue("name")
   if name != "" {
     db = db.Where("primers.name LIKE ?", (name + "%"))
   }
+
   board_id := req.FormValue("board_id")
-  if board_id != "" {
-    db = db.Where("primers.board_id = ?", board_id)
+  board := req.FormValue("board")
+  if board == "" && board_id == "" {
+    join = join + " LEFT JOIN boards ON primers.board_id = boards.id"
+  } else {
+    join = join + " INNER JOIN boards ON primers.board_id = boards.id"
+    if board != "" {
+      db = db.Where("boards.sn = ?", board)
+    }
+    if board_id != "" {
+      db = db.Where("primers.board_id = ?", board_id)
+    }
+    hole := req.FormValue("hole")
+    if hole != "" {
+      db = db.Where("primers.hole = ?", hole)
+    }
   }
+
   client_id := req.FormValue("client_id")
   if client_id != "" {
     db = db.Where("primers.client_id = ?", client_id)
   }
+  client := req.FormValue("client")
+  if client != "" {
+    db = db.Where("clients.name = ?", client)
+  }
+
+  expire := req.FormValue("expire")
+  if expire != "" {
+    today := Today()
+    if expire == "yes" {
+      db = db.Where("expire_date < ? AND expire_date <> '0000-00-00'", today)
+    }
+    if expire == "no" {
+      db = db.Where("expire_date >= ?", today)
+    }
+  }
+
+  needReturn := req.FormValue("need_return")
+  if needReturn != "" {
+    if needReturn == "yes" {
+      db = db.Where("need_return = 1")
+    }
+    if needReturn == "no" {
+      db = db.Where("need_return = 0")
+    }
+  }
+
   date_from := req.FormValue("date_from")
   if date_from != "" {
     db = db.Where("primers.create_date >= ?", date_from)
@@ -81,10 +123,17 @@ func GetPrimers(req *http.Request)([]map[string]interface{}, int){
   if date_to != "" {
     db = db.Where("primers.create_date <= ?", date_to)
   }
+
   status := req.FormValue("status")
   if status != "" {
     db = db.Where("primers.status = ?", status)
   }
+
+  storeType := req.FormValue("storeType")
+  if storeType != "" {
+    db = db.Where("primers.store_type = ?", storeType)
+  }
+
   available := req.FormValue("available")
   if available != "" {
     if available != "false" {
@@ -93,6 +142,7 @@ func GetPrimers(req *http.Request)([]map[string]interface{}, int){
       db = db.Where("primers.available = 0")
     }
   }
+  db = db.Joins(join)
   var count int
   db.Count(&count)
   rows, _ := db.Limit(PerPage).Offset(page * PerPage).Rows()

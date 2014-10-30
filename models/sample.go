@@ -47,3 +47,35 @@ func (record *Sample) BeforeSave() error {
   //}
   return nil
 }
+
+func TypesettingSampleHeads()([]BoardHead){
+  heads := []BoardHead{}
+  Db.Select("DISTINCT board_heads.*").Table("samples").Joins("INNER JOIN orders ON samples.order_id = orders.id INNER JOIN board_heads ON orders.board_head_id = board_heads.id").Where("samples.board_id = 0").Find(&heads)
+  return heads
+}
+func TypesettingSamples(headId string)([]map[string]interface{}){
+  samples := []map[string]interface{}{}
+  rows, _ := Db.Select("samples.name, orders.sn, board_heads.name, board_heads.id, samples.id").Table("samples").Joins("INNER JOIN orders ON samples.order_id = orders.id INNER JOIN board_heads ON orders.board_head_id = board_heads.id").Where("samples.board_id = 0 AND orders.board_head_id = ?", headId).Rows()
+  for rows.Next(){
+    var sampleId, headId int
+    var sample, order, head string
+    rows.Scan(&sample, &order, &head, &headId, &sampleId)
+    d := map[string]interface{}{
+      "sample_id": sampleId,
+      "head_id": headId,
+      "sample": sample,
+      "order": order,
+      "head": head,
+    }
+    primers := []string{}
+    rs, _ := Db.Select("primers.name").Table("reactions").Joins("INNER JOIN primers ON reactions.primer_id = primers.id").Where("sample_id = ?", sampleId).Rows()
+    for rs.Next() {
+      var primer string
+      rs.Scan(&primer)
+      primers = append(primers, primer)
+    }
+    d["primers"] = primers
+    samples = append(samples, d)
+  }
+  return samples
+}

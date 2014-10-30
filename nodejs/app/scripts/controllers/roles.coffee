@@ -1,5 +1,6 @@
 'use strict'
 angular.module('sequencingApp').controller 'RolesCtrl', ['$scope', 'Role', ($scope, Role) ->
+  $scope.$emit 'event:title', 'privilege'
   $scope.searcher = {}
 
   $scope.search = ->

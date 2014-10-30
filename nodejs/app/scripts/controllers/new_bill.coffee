@@ -1,5 +1,6 @@
 'use strict'
 angular.module('sequencingApp').controller 'NewBillCtrl', ['$scope', 'Bill', 'Order', 'SequencingConst', 'Modal', '$modal', ($scope, Bill, Order, SequencingConst, Modal, $modal) ->
+  $scope.$emit 'event:title', 'new_bill'
   newBill = ->
     $scope.showOrders = true
     $scope.showBills = false

@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'PlasmidCodesCtrl', ['$scope', 'PlasmidCode', 'Modal', '$modal', ($scope, PlasmidCode, Modal, $modal) ->
+  $scope.$emit 'event:title', 'plasmid_code'
   $scope.searcher = {}
   $scope.search = ->
     PlasmidCode.query $scope.searcher, (data) ->

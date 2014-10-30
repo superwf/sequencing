@@ -88,6 +88,9 @@ angular.module('sequencingApp', [
     .when '/typeset/reactions',
       templateUrl: 'views/typesetReactions.html',
       controller: 'TypesetReactionsCtrl'
+    .when '/typeset/samples',
+      templateUrl: 'views/typesetSamples.html',
+      controller: 'TypesetSamplesCtrl'
     .when '/reactionFiles',
       templateUrl: 'views/reactionFiles.html',
       controller: 'ReactionFilesCtrl'

@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'BoardHeadsCtrl', ['$scope', 'BoardHead', '$modal', 'Modal', ($scope, BoardHead, $modal, Modal) ->
+  $scope.$emit 'event:title', 'board_head'
   $scope.searcher = {}
   $scope.search = ->
     BoardHead.query $scope.searcher, (data) ->

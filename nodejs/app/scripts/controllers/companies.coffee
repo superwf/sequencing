@@ -1,7 +1,9 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'CompaniesCtrl', ['$scope', 'Company', ($scope, Company) ->
-  $scope.inModal = false
+  $scope.inModal = !!$scope.$close
+  if !$scope.inModal
+    $scope.$emit 'event:title', 'company'
   $scope.searcher = {}
   $scope.search = ->
     Company.query $scope.searcher, (data) ->

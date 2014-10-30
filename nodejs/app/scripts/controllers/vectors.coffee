@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'VectorsCtrl', ['$scope', 'Vector', 'Modal', '$modal', ($scope, Vector, Modal, $modal) ->
+  $scope.$emit 'event:title', 'vector'
   Vector.query (data) ->
     $scope.records = data.records || []
     $scope.totalItems = data.totalItems

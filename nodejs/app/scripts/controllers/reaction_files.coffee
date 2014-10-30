@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'ReactionFilesCtrl', ['$scope', 'ReactionFile', 'Modal', '$modal', 'SequencingConst', '$window', '$timeout', 'InterpreteCode', ($scope, ReactionFile, Modal, $modal, SequencingConst, $window, $timeout, InterpreteCode) ->
+  $scope.$emit 'event:title', 'interprete'
   $scope.interpreteCodeColor = SequencingConst.interpreteCodeColor
   showCode = (fn)->
     $scope.codes = {}

@@ -59,7 +59,6 @@ func getPage(req *http.Request) int {
   return page
 }
 
-
 func Now()string{
   return time.Now().UTC().Format(time.RFC3339)
 }

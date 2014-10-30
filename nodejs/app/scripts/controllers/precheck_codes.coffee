@@ -1,5 +1,6 @@
 'use strict'
 angular.module('sequencingApp').controller 'PrecheckCodesCtrl', ['$scope', 'PrecheckCode', 'Modal', '$modal', ($scope, PrecheckCode, Modal, $modal) ->
+  $scope.$emit 'event:title', 'precheck_code'
   PrecheckCode.query (data) ->
     $scope.records = data.records || []
     $scope.totalItems = data.totalItems

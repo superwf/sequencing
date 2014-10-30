@@ -1,0 +1,47 @@
+.row
+  .col-md-5
+    table.table.table-bordered
+      thead
+        tr
+          th ng-bind="'sample' | translate"
+          th ng-bind="'board_head' | translate"
+          th ng-bind="'order' | translate"
+          th ng-bind="'primer' | translate"
+      tbody selectable='' selectable-options='{filter: "tr"}'
+        tr ng-repeat="r in records" i='{{$index}}' ng-if='!r.typesetted'
+          td
+            | {{r.sample}}
+          td
+            | {{r.head}}
+          td
+            | {{r.order}}
+          td
+            span ng-repeat='primer in r.primers'
+              | {{primer}}
+              br
+
+  .board.col-md-7 ng-if='board.board_head'
+    table.table.table-bordered selectable='' selectable-options='{filter: "td.hole", cancel: "span"}'
+      tr
+        th
+          | {{board.sn}}
+        th ng-repeat='c in cols'
+          | {{c}}
+      tr ng-repeat='r in rows'
+        td
+          | {{r}}
+        td ng-repeat='c in cols' hole='{{c+r}}' ng-class="{true: 'hole'}[!boardRecords[c+r] && !samples[c][r]]"
+          | {{boardRecords[c+r]}}
+          span ng-show='samples[c][r]' ng-click='clearHole(c, r)'
+            | {{'sample' | translate}} : {{samples[c][r].sample}}
+
+.navbar.text-center
+  .form-group.col-md-7.col-md-offset-3
+    .btn-group.col-md-3
+      button.btn.btn-primary type='button' ng-model='board.board_head' btn-radio='h' ng-repeat='h in heads'
+        | {{h.name}}
+    .col-md-2
+      input.form-control ng-model='board.number' placeholder='{{"number" | translate}}' title='{{"number" | translate}}' type='number'
+    .col-md-3
+      button.btn.btn-success ng-bind='"typeset" | translate' ng-click='typeset()'
+      button.btn.btn-success ng-bind='"submit" | translate' ng-confirm-click='submit()' message='{{"confirm" | translate}}'

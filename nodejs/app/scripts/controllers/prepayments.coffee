@@ -1,5 +1,6 @@
 'use strict'
 angular.module('sequencingApp').controller 'PrepaymentsCtrl', ['$scope', 'Prepayment', 'Modal', '$modal', 'Company', 'PrepaymentRecord', ($scope, Prepayment, Modal, $modal, Company, PrepaymentRecord) ->
+  $scope.$emit 'event:title', 'prepayment'
   $scope.inModal = !!$scope.$close
   $scope.searcher = {}
   if $scope.inModal

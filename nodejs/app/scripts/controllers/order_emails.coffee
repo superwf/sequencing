@@ -1,5 +1,6 @@
 'use strict'
 angular.module('sequencingApp').controller 'OrderEmailsCtrl', ['$scope', 'SequencingConst', 'Email', 'Order', ($scope, SequencingConst, Email, Order) ->
+  $scope.$emit 'event:title', 'send_email'
   $scope.interpreteCodeColor = SequencingConst.interpreteCodeColor
 
   Order.sending (data)->

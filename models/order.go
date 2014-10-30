@@ -210,67 +210,40 @@ func (order *Order)CheckStatus() {
   if order.Status == "" && order.Id > 0 {
     Db.First(order)
   }
-  switch order.Status {
-    case "new":
+  bill := Bill{}
+  Db.Table("bills").Joins("INNER JOIN bill_orders ON bills.id = bill_orders.bill_id").Where("bill_orders.order_id = ?", order.Id).First(&bill)
+  if bill.Status != "" {
+    if bill.Status == config.BillStatus[3] || bill.Status == config.BillStatus[4] {
+      // finished
+      Db.Model(order).Update("status", config.OrderStatus[4])
+    } else {
+      // checkout
+      Db.Model(order).Update("status", config.OrderStatus[3])
+    }
+  } else {
+    var interpretedCount int
+    Db.Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id").Where("reaction_files.status <> 'interpreting'").Count(&interpretedCount)
+    if interpretedCount == 0 {
       var count int
       Db.Table("samples").Joins("INNER JOIN boards ON samples.board_id = boards.id").Where("boards.status <> 'new' AND samples.order_id = ?", order.Id).Limit(1).Count(&count)
       if count > 0 {
-        Db.Model(order).Update("status", "run")
-      }
-    case "run":
-      var reactionCount int
-      var interpretedCount int
-      Db.Table("reactions").Where("reactions.order_id = ?", order.Id).Count(&reactionCount)
-      Db.Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id").Where("reaction_files.status <> 'interpreting'").Where("reactions.order_id = ?", order.Id).Count(&interpretedCount)
-      log.Println(reactionCount)
-      log.Println(interpretedCount)
-      if reactionCount == interpretedCount {
-        Db.Model(order).Update("status", "to_checkout")
-        return
-      }
-
-      // back
-      var count int
-      Db.Table("samples").Joins("INNER JOIN boards ON samples.board_id = boards.id").Where("boards.status <> 'new' AND samples.order_id = ?", order.Id).Limit(1).Count(&count)
-      if count == 0 {
-        Db.Model(order).Update("status", "new")
-      }
-    case "to_checkout":
-      var billOrder BillOrder
-      Db.Where("order_id = ?", order.Id).First(&billOrder)
-      if billOrder.BillId > 0 {
-        Db.Model(order).Update("status", config.OrderStatus[3])
-        return
-      }
-      var reactionCount int
-      var interpretedCount int
-      Db.Table("reactions").Where("reactions.order_id = ?", order.Id).Count(&reactionCount)
-      Db.Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id").Where("reaction_files.status <> 'interpreting'").Count(&interpretedCount)
-      if reactionCount > interpretedCount {
+        // run
         Db.Model(order).Update("status", config.OrderStatus[1])
-        return
-      }
-    case "checkout":
-      var bill Bill
-      Db.Table("bills").Joins("INNRE JOIN bill_orders ON bill_orders.bill_id = bills.id").Where("bill_orders.order_id = ? AND bills.status == 'finish'", order.Id).First(&bill)
-      if bill.Status == "finish" {
-        Db.Model(order).Update("status", "finish")
-        return
-      } else if bill.Status == "" {
-        Db.Model(order).Update("status", config.OrderStatus[2])
-      }
-
-    case "finish":
-      var bill Bill
-      Db.Table("bills").Joins("INNER JOIN bill_orders ON bill_orders.bill_id = bills.id").Where("bill_orders.order_id = ?", order.Id).First(&bill)
-      if bill.Id > 0 {
-        if bill.Status != config.BillStatus[3] && bill.Status !=config.BillStatus[4] {
-          Db.Model(order).Update("status", "checkout")
-          return
-        }
       } else {
-        Db.Model(order).Update("status", config.OrderStatus[2])
+        // new
+        Db.Model(order).Update("status", config.OrderStatus[0])
       }
+    } else {
+      var reactionCount int
+      Db.Table("reactions").Where("reactions.order_id = ?", order.Id).Count(&reactionCount)
+      if reactionCount == interpretedCount {
+        // to_checkout
+        Db.Model(order).Update("status", config.OrderStatus[2])
+      } else {
+        // run
+        Db.Model(order).Update("status", config.OrderStatus[1])
+      }
+    }
   }
 }
 

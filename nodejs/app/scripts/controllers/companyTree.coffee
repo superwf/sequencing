@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'CompanyTreeCtrl', ['$scope', 'CompanyTree', 'Company', '$modal', 'Modal', ($scope, CompanyTree, Company, $modal, Modal) ->
+  $scope.$emit 'event:title', 'company'
   CompanyTree.records id: 0, (data)->
     $scope.record =
       children: data

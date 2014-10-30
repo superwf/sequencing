@@ -15,15 +15,13 @@ type Client struct{
   Creator
 }
 
+// tested
 func (record *Client) BeforeSave() error {
   if len(record.Name) > 255 || len(record.Name) == 0 {
     return errors.New("name length error")
   }
   if len(record.Email) > 255 || len(record.Email) == 0 {
     return errors.New("email length error")
-  }
-  if record.CompanyId == 0 {
-    return errors.New("company not_exist")
   }
   return nil
 }
@@ -49,10 +47,7 @@ func GetClients(req *http.Request)([]map[string]interface{}, int){
   }
   var count int
   db.Count(&count)
-  //records := []Client{}
-  //db.Limit(PerPage).Offset(page * PerPage).Find(&records)
   rows, _ := db.Limit(PerPage).Offset(page * PerPage).Order("clients.id DESC").Rows()
-  defer rows.Close()
   var result []map[string]interface{}
   for rows.Next() {
     var id, companyId int
@@ -71,13 +66,3 @@ func GetClients(req *http.Request)([]map[string]interface{}, int){
   }
   return result, count
 }
-
-// done by mysql forign key constraint in rails db:seed
-//func (client *Client)BeforeDelete()(error){
-//  var primer Primer
-//  Db.Where("client_id = ?", client.Id).First(&primer)
-//  if primer.Id > 0 {
-//    return errors.New("primer exist")
-//  }
-//  return nil
-//}

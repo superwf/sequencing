@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'Vector', 'SequencingConst', '$routeParams', 'Modal', 'Reaction', 'BoardHead', 'Board', ($scope, Vector, SequencingConst, $routeParams, Modal, Reaction, BoardHead, Board) ->
+  $scope.$emit 'event:title', 'typeset'
   # first get the sampleboards those can be typeset to reaction
   Board.typeseteReactionSampleBoards (data)->
     $scope.sampleBoards = data
@@ -118,5 +119,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
             }
         Reaction.updates reactions, ->
           getBoardRecords($scope.reaction_board.sn)
+          null
+      null
   null
 ]
