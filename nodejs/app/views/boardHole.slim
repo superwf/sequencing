@@ -8,7 +8,7 @@ table.table.table-bordered
   tr ng-repeat='r in rows'
     td.hole
       | {{r}}
-    td.hole ng-repeat='c in cols' ng-click='selectHole(sn, c+r, board_id)'
+    td.hole ng-repeat='c in cols' ng-click='selectHole(sn, c+r, board_id)' ng-class='{true: "pointer"}[inModal]'
       div ng-if='boardRecords[c+r].name'
         | {{board_head.board_type | translate}} : {{boardRecords[c+r].name}}
       div ng-if='boardRecords[c+r].sample'

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'OrdersCtrl', ['$scope', 'Order', 'Modal', '$modal', 'SequencingConst', 'BoardHead', ($scope, Order, Modal, $modal, SequencingConst, BoardHead) ->
+angular.module('sequencingApp').controller 'OrdersCtrl', ['$scope', 'Order', 'Modal', '$modal', 'Sequencing', 'BoardHead', ($scope, Order, Modal, $modal, Sequencing, BoardHead) ->
   $scope.$emit 'event:title', 'order'
   $scope.searcher = {}
   $scope.s = {}
@@ -28,5 +28,5 @@ angular.module('sequencingApp').controller 'OrdersCtrl', ['$scope', 'Order', 'Mo
       controller: 'OrderCtrl'
       size: 'lg'
     }
-  $scope.orderStatus = SequencingConst.orderStatus
+  $scope.orderStatus = Sequencing.orderStatus
 ]

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Order', 'SequencingConst', 'Modal', '$modal', 'PrepaymentRecord', 'Company', ($scope, Bill, Order, SequencingConst, Modal, $modal, PrepaymentRecord, Company) ->
+angular.module('sequencingApp').controller 'BillsCtrl', ['$scope', 'Bill', 'Order', 'Sequencing', 'Modal', '$modal', 'PrepaymentRecord', 'Company', ($scope, Bill, Order, Sequencing, Modal, $modal, PrepaymentRecord, Company) ->
   $scope.$emit 'event:title', 'bill'
   Bill.query (data)->
     $scope.bills = data.records

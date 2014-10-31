@@ -1,6 +1,6 @@
 'use strict'
-angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'SequencingConst', '$routeParams', 'Modal', '$modal', 'BoardHead', 'Client', 'Vector', 'Primer', '$rootScope', 'Board', ($scope, Order, SequencingConst, $routeParams, Modal, $modal, BoardHead, Client, Vector, Primer, $rootScope, Board) ->
-  $scope.transportCondition = SequencingConst.transportCondition
+angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Sequencing', '$routeParams', 'Modal', '$modal', 'BoardHead', 'Client', 'Vector', 'Primer', '$rootScope', 'Board', ($scope, Order, Sequencing, $routeParams, Modal, $modal, BoardHead, Client, Vector, Primer, $rootScope, Board) ->
+  $scope.transportCondition = Sequencing.transportCondition
 
   $scope.sample_board = {}
   getBoardHead = ->
@@ -9,19 +9,18 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       $scope.sample_board.number = 1
       if data.length == 0
         $rootScope.$broadcast 'event:notacceptable', {hint: 'sample type not_exist'}
+  $scope.inModal = !!$scope.$close
   if $routeParams.id == 'new'
     $scope.$emit 'event:title', 'new_order'
     $scope.sample_number = 1
-    $scope.record = {create_date: SequencingConst.date2string(), number: 1, urgent: false, is_test: false}
+    $scope.record = {create_date: Sequencing.date2string(), number: 1, urgent: false, is_test: false}
     $scope.sample_board.create_date = $scope.record.create_date
-    $scope.board_create_date = SequencingConst.date2string()
-    $scope.inModal = false
+    $scope.board_create_date = Sequencing.date2string()
     getBoardHead()
   else
     if Modal.record
-      $scope.inModal = true
       $scope.record = Modal.record
-      $scope.record.create_date = SequencingConst.date2string(Modal.record.create_date)
+      $scope.record.create_date = Sequencing.date2string(Modal.record.create_date)
     else
       getBoardHead()
       $scope.record = Order.get id: $routeParams.id
@@ -34,7 +33,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       $scope.record.board_head_id = $scope.sample_board.board_head.id
       $scope.cols = $scope.sample_board.board_head.cols.split(',')
       $scope.rows = $scope.sample_board.board_head.rows.split(',')
-      $scope.sample_board.sn = SequencingConst.boardSn($scope.sample_board)
+      $scope.sample_board.sn = Sequencing.boardSn($scope.sample_board)
       getBoardRecords($scope.sample_board.sn)
   getBoardRecords = (sn)->
     Board.records idsn: sn, (data)->
@@ -85,6 +84,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
     modal = $modal.open {
       templateUrl: '/views/clients.html'
       controller: 'ModalTableCtrl'
+      size: 'lg'
       resolve:
         searcher: ->
           {}
@@ -176,15 +176,17 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
 
   $scope.save = ->
     if $scope.record.id
-      record = SequencingConst.copyWithDate($scope.record, 'create_date')
-      Order.update record
+      record = Sequencing.copyWithDate($scope.record, 'create_date')
+      Order.update record, ->
+        if $scope.inModal
+          $scope.$close 'ok'
     else
       board = {
         board_head_id: $scope.sample_board.board_head.id
         number: $scope.sample_board.number
         create_date: $scope.sample_board.create_date
       }
-      board = SequencingConst.copyWithDate(board, 'create_date')
+      board = Sequencing.copyWithDate(board, 'create_date')
       Board.create board, (data)->
         $scope.board = data
         samples = []
@@ -198,7 +200,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
         if samples.length == 0
           $rootScope.$broadcast 'event:notacceptable', hint: 'sample not_exist'
         else
-          record = SequencingConst.copyWithDate($scope.record, 'create_date')
+          record = Sequencing.copyWithDate($scope.record, 'create_date')
           record.samples = samples
           Order.create record, (data)->
             if data.id > 0

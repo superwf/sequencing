@@ -1,6 +1,6 @@
 tabset#sample_boards
   tab heading='{{b.sn}}' ng-repeat='b in sampleBoards' select='selectSampleBoard(b)'
-    table.table-bordered selectable='' selectable-options='{filter: ".reaction"}' index='{{$index}}'
+    table.table.table-bordered selectable='' selectable-options='{filter: ".reaction"}' index='{{$index}}'
       tr
         th
         th ng-repeat='c in b.cols'
@@ -14,7 +14,7 @@ tabset#sample_boards
 
 h2.text-center ng-show='reaction_board.sn'
   | {{reaction_board.sn}}
-table#reaction_board.table-bordered.ui-selectable
+table#reaction_board.table.table-bordered.ui-selectable
   tr
     th
     th ng-repeat='c in reaction_board.cols'

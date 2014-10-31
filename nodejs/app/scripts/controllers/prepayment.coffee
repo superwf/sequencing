@@ -1,8 +1,8 @@
 'use strict'
-angular.module('sequencingApp').controller 'PrepaymentCtrl', ['$scope', 'Prepayment', 'SequencingConst', 'Modal', 'Company', '$modal', ($scope, Prepayment, SequencingConst, Modal, Company, $modal) ->
+angular.module('sequencingApp').controller 'PrepaymentCtrl', ['$scope', 'Prepayment', 'Sequencing', 'Modal', 'Company', '$modal', ($scope, Prepayment, Sequencing, Modal, Company, $modal) ->
   $scope.record = Modal.record
   $scope.save = ->
-    record = SequencingConst.copyWithDate($scope.record, 'create_date')
+    record = Sequencing.copyWithDate($scope.record, 'create_date')
     record.money = record.money * 1
     if $scope.record.id
       Prepayment.update record

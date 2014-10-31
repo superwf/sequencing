@@ -1,8 +1,8 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'ReactionFilesCtrl', ['$scope', 'ReactionFile', 'Modal', '$modal', 'SequencingConst', '$window', '$timeout', 'InterpreteCode', ($scope, ReactionFile, Modal, $modal, SequencingConst, $window, $timeout, InterpreteCode) ->
+angular.module('sequencingApp').controller 'ReactionFilesCtrl', ['$scope', 'ReactionFile', 'Modal', '$modal', 'Sequencing', '$window', '$timeout', 'InterpreteCode', ($scope, ReactionFile, Modal, $modal, Sequencing, $window, $timeout, InterpreteCode) ->
   $scope.$emit 'event:title', 'interprete'
-  $scope.interpreteCodeColor = SequencingConst.interpreteCodeColor
+  $scope.interpreteCodeColor = Sequencing.interpreteCodeColor
   showCode = (fn)->
     $scope.codes = {}
     if !$scope.codes.length
@@ -19,7 +19,7 @@ angular.module('sequencingApp').controller 'ReactionFilesCtrl', ['$scope', 'Reac
           console.log $scope.codes
           for v, i in $scope.interpretingRecords
             $scope.interpretingRecords[i].instrument = JSON.parse($scope.interpretingRecords[i].instrument)
-            $scope.interpretingRecords[i].quadrant = SequencingConst.quadrant($scope.interpretingRecords[i].reaction_hole)
+            $scope.interpretingRecords[i].quadrant = Sequencing.quadrant($scope.interpretingRecords[i].reaction_hole)
             $scope.interpretingRecords[i].code = $scope.codes[v.code_id]
       else
         ReactionFile.download (data) ->
@@ -38,7 +38,7 @@ angular.module('sequencingApp').controller 'ReactionFilesCtrl', ['$scope', 'Reac
       selected.each ->
         i = parseInt(this.getAttribute('i'))
         ids.push $scope.downloadingRecords[i].id
-        $window.open SequencingConst.api + '/downloadReactionFiles?ids=' + ids, ->
+        $window.open Sequencing.api + '/downloadReactionFiles?ids=' + ids, ->
         $timeout ->
           $scope.downloadingRecords = []
           showCode ->

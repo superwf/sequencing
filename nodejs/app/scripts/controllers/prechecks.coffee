@@ -1,7 +1,7 @@
 'use strict'
-angular.module('sequencingApp').controller 'PrechecksCtrl', ['$scope', 'Modal', 'SequencingConst', 'Precheck', 'PrecheckCode', 'BoardHead', ($scope, Modal, SequencingConst, Precheck, PrecheckCode, BoardHead) ->
+angular.module('sequencingApp').controller 'PrechecksCtrl', ['$scope', 'Modal', 'Sequencing', 'Precheck', 'PrecheckCode', 'BoardHead', ($scope, Modal, Sequencing, Precheck, PrecheckCode, BoardHead) ->
   $scope.board = Modal.board
-  $scope.codes = SequencingConst.precheckCodes
+  $scope.codes = Sequencing.precheckCodes
 
   $scope.selectCode = (code)->
     angular.element("td.ui-selected").each ->
@@ -14,7 +14,7 @@ angular.module('sequencingApp').controller 'PrechecksCtrl', ['$scope', 'Modal', 
     record.code_id = null
     null
 
-  boardHead = SequencingConst.boardHeads[$scope.board.board_head_id]
+  boardHead = Sequencing.boardHeads[$scope.board.board_head_id]
   $scope.cols = boardHead.cols.split(',')
   $scope.rows = boardHead.rows.split(',')
   Precheck.all all: true, board_id: $scope.board.id, (records)->

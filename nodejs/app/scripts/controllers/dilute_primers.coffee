@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'DilutePrimersCtrl', ['$scope', 'Reaction', 'SequencingConst', '$rootScope', 'DilutePrimer', ($scope, Reaction, SequencingConst, $rootScope, DilutePrimer) ->
+angular.module('sequencingApp').controller 'DilutePrimersCtrl', ['$scope', 'Reaction', 'Sequencing', '$rootScope', 'DilutePrimer', ($scope, Reaction, Sequencing, $rootScope, DilutePrimer) ->
   $scope.$emit 'event:title', 'dilute_primer'
   getRecords = ->
     Reaction.dilute (data)->
@@ -10,8 +10,8 @@ angular.module('sequencingApp').controller 'DilutePrimersCtrl', ['$scope', 'Reac
       $scope.records = data
   getRecords()
 
-  $scope.diluteThickness = SequencingConst.diluteThickness
-  $scope.status = SequencingConst.dilutePrimerStatus
+  $scope.diluteThickness = Sequencing.diluteThickness
+  $scope.status = Sequencing.dilutePrimerStatus
 
   $scope.$watch 'batch_status', (status)->
     if $scope.batch_status

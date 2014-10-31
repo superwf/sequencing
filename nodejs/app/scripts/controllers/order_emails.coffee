@@ -1,7 +1,7 @@
 'use strict'
-angular.module('sequencingApp').controller 'OrderEmailsCtrl', ['$scope', 'SequencingConst', 'Email', 'Order', ($scope, SequencingConst, Email, Order) ->
+angular.module('sequencingApp').controller 'OrderEmailsCtrl', ['$scope', 'Sequencing', 'Email', 'Order', ($scope, Sequencing, Email, Order) ->
   $scope.$emit 'event:title', 'send_email'
-  $scope.interpreteCodeColor = SequencingConst.interpreteCodeColor
+  $scope.interpreteCodeColor = Sequencing.interpreteCodeColor
 
   Order.sending (data)->
     $scope.orders = data || []
@@ -18,7 +18,7 @@ angular.module('sequencingApp').controller 'OrderEmailsCtrl', ['$scope', 'Sequen
     if send
       angular.forEach $scope.orders, (order, i)->
         if angular.element('tr.ui-selected[i=' + i + ']').length
-          Email.create record_id: order.id, email_type: SequencingConst.emailType[2], ->
+          Email.create record_id: order.id, email_type: Sequencing.emailType[2], ->
             $scope.orders.splice i, 1
     else
       angular.forEach $scope.orders, (order, i)->

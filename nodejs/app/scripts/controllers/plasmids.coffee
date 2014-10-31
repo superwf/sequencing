@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'PlasmidsCtrl', ['$scope', 'Modal', 'SequencingConst', 'Plasmid', 'PlasmidCode', 'BoardHead', ($scope, Modal, SequencingConst, Plasmid, PlasmidCode, BoardHead) ->
+angular.module('sequencingApp').controller 'PlasmidsCtrl', ['$scope', 'Modal', 'Sequencing', 'Plasmid', 'PlasmidCode', 'BoardHead', ($scope, Modal, Sequencing, Plasmid, PlasmidCode, BoardHead) ->
   $scope.board = Modal.board
   $scope.codes = {}
   PlasmidCode.all all: true, (codes)->

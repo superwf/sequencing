@@ -1,14 +1,14 @@
 'use strict'
-angular.module('sequencingApp').controller 'InterpreteCodesCtrl', ['$scope', 'InterpreteCode', 'Modal', '$modal', 'SequencingConst', 'BoardHead', ($scope, InterpreteCode, Modal, $modal, SequencingConst, BoardHead) ->
+angular.module('sequencingApp').controller 'InterpreteCodesCtrl', ['$scope', 'InterpreteCode', 'Modal', '$modal', 'Sequencing', 'BoardHead', ($scope, InterpreteCode, Modal, $modal, Sequencing, BoardHead) ->
   $scope.$emit 'event:title', 'interprete_code'
-  $scope.interpreteCodeColor = SequencingConst.interpreteCodeColor
+  $scope.interpreteCodeColor = Sequencing.interpreteCodeColor
   InterpreteCode.query (data) ->
     $scope.records = data.records || []
     if $scope.records.length
       angular.forEach $scope.records, (v, i)->
         if v.board_head_id
-          if SequencingConst.boardHeads[v.board_head_id]
-            v.board_head = SequencingConst.boardHeads[v.board_head_id]
+          if Sequencing.boardHeads[v.board_head_id]
+            v.board_head = Sequencing.boardHeads[v.board_head_id]
           else
             BoardHead.get id: v.board_head_id, (data)->
               v.board_head = data

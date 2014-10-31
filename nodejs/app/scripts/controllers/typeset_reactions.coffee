@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'Vector', 'SequencingConst', '$routeParams', 'Modal', 'Reaction', 'BoardHead', 'Board', ($scope, Vector, SequencingConst, $routeParams, Modal, Reaction, BoardHead, Board) ->
+angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'Vector', 'Sequencing', '$routeParams', 'Modal', 'Reaction', 'BoardHead', 'Board', ($scope, Vector, Sequencing, $routeParams, Modal, Reaction, BoardHead, Board) ->
   $scope.$emit 'event:title', 'typeset'
   # first get the sampleboards those can be typeset to reaction
   Board.typeseteReactionSampleBoards (data)->
@@ -28,7 +28,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
         $rootScope.$broadcast 'event:notacceptable', {hint: 'sample type not_exist'}
   getBoardHead()
 
-  today = SequencingConst.date2string()
+  today = Sequencing.date2string()
   $scope.reaction_board = {records: {}, create_date: today}
 
   getBoardRecords = (sn)->
@@ -42,7 +42,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
   $scope.$watch 'reaction_board.board_head.name + reaction_board.board_number', (h)->
     returnAll()
     if $scope.reaction_board.board_head
-      $scope.reaction_board.sn = SequencingConst.boardSn($scope.reaction_board)
+      $scope.reaction_board.sn = Sequencing.boardSn($scope.reaction_board)
       $scope.reaction_board.cols = $scope.reaction_board.board_head.cols.split(',')
       $scope.reaction_board.rows = $scope.reaction_board.board_head.rows.split(',')
     getBoardRecords($scope.reaction_board.sn)
@@ -105,7 +105,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
       create_date: $scope.reaction_board.create_date
       number: $scope.reaction_board.number
     }
-    board = SequencingConst.copyWithDate(board, 'create_date')
+    board = Sequencing.copyWithDate(board, 'create_date')
     Board.create board, (data)->
       board_id = data.id
       if board_id > 0

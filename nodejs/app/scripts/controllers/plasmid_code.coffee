@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').controller 'PlasmidCodeCtrl', ['$scope', 'PlasmidCode', 'SequencingConst', 'Modal', ($scope, PlasmidCode, SequencingConst, Modal) ->
+angular.module('sequencingApp').controller 'PlasmidCodeCtrl', ['$scope', 'PlasmidCode', 'Sequencing', 'Modal', ($scope, PlasmidCode, Sequencing, Modal) ->
   $scope.record = Modal.record
 
   $scope.save = ->

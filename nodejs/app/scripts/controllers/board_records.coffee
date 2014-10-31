@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'BoardRecordsCtrl', ['$scope', 'Modal', 'SequencingConst', 'BoardRecord', ($scope, Modal, SequencingConst, BoardRecord) ->
+angular.module('sequencingApp').controller 'BoardRecordsCtrl', ['$scope', 'Modal', 'Sequencing', 'BoardRecord', ($scope, Modal, Sequencing, BoardRecord) ->
   $scope.board = Modal.board
 
   if $scope.board.procedure.record_name == 'abi_records'
@@ -20,6 +20,6 @@ angular.module('sequencingApp').controller 'BoardRecordsCtrl', ['$scope', 'Modal
     angular.element(dom_selector).datetimepicker()
     null
 
-  $scope.instruments = SequencingConst.abiInstruments
+  $scope.instruments = Sequencing.abiInstruments
   null
 ]

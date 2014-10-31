@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').factory 'SequencingConst', ['$http', ($http)->
+angular.module('sequencingApp').factory 'Sequencing', ['$http', ($http)->
   sequencing = {
     auth: '/api/auth'
     api: '/api/v1'

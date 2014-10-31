@@ -1,7 +1,7 @@
 'use strict'
-angular.module('sequencingApp').factory 'CompanyTree', ['SequencingConst', '$resource', (SequencingConst, $resource)->
-  $resource SequencingConst.api + '/companies/:id', id: '@id', {
-    update: {method: 'PUT', url: SequencingConst.api + '/companies/:id'}
-    records: {isArray: true, method: 'GET', url: SequencingConst.api + '/companyTree/:id'}
+angular.module('sequencingApp').factory 'CompanyTree', ['Sequencing', '$resource', (Sequencing, $resource)->
+  $resource Sequencing.api + '/companies/:id', id: '@id', {
+    update: {method: 'PUT', url: Sequencing.api + '/companies/:id'}
+    records: {isArray: true, method: 'GET', url: Sequencing.api + '/companyTree/:id'}
   }
 ]

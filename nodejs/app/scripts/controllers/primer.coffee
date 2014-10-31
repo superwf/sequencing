@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', 'Modal', '$modal', 'SequencingConst', 'Client', '$rootScope', 'Board', 'BoardHead', ($scope, Primer, Modal, $modal, SequencingConst, Client, $rootScope, Board, BoardHead) ->
-  $scope.storeType = SequencingConst.primerStoreType
+angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', 'Modal', '$modal', 'Sequencing', 'Client', '$rootScope', 'Board', 'BoardHead', ($scope, Primer, Modal, $modal, Sequencing, Client, $rootScope, Board, BoardHead) ->
+  $scope.storeType = Sequencing.primerStoreType
   $scope.board_number = 1
   $scope.obj = {continue: false}
   BoardHead.all {all: true, board_type: 'primer', available: 1}, (data)->
@@ -10,14 +10,14 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', 'M
       $rootScope.$broadcast 'event:notacceptable', {hint: 'primer_head not_exist'}
     else
       $scope.obj.primer_head = data[0]
-  $scope.status = SequencingConst.primerStatus
+  $scope.status = Sequencing.primerStatus
   if Modal.record.board
     $scope.board_hole = Modal.record.board + ' : ' + Modal.record.hole
   $scope.record = Modal.record
-  $scope.record.create_date = SequencingConst.date2string(Modal.record.create_date)
+  $scope.record.create_date = Sequencing.date2string(Modal.record.create_date)
 
   save_primer = ->
-    record = SequencingConst.copyWithDate($scope.record, 'create_date')
+    record = Sequencing.copyWithDate($scope.record, 'create_date')
     if $scope.record.id
       Primer.update record, ->
         $scope.$close 'ok'
@@ -34,7 +34,7 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', 'M
         create_date: $scope.record.create_date
         number: $scope.board_number
         board_head_id: $scope.obj.primer_head.id
-      record = SequencingConst.copyWithDate(record, 'create_date')
+      record = Sequencing.copyWithDate(record, 'create_date')
       Board.create record, (data)->
         $scope.board = data
         $scope.record.board_id = data.id

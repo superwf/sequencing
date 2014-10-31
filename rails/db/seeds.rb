@@ -65,6 +65,8 @@ end
 db.execute "ALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;"
 # cascade sample reactions
 db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;"
+# restrict primer reactions
+db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `primer_id` ) REFERENCES `primers` ( `id`) ON DELETE RESTRICT;"
 # restrict company clients
 db.execute "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;"
 # restrict company prepayments

@@ -2,11 +2,22 @@
 
 angular.module('sequencingApp').controller 'VectorsCtrl', ['$scope', 'Vector', 'Modal', '$modal', ($scope, Vector, Modal, $modal) ->
   $scope.$emit 'event:title', 'vector'
-  Vector.query (data) ->
-    $scope.records = data.records || []
-    $scope.totalItems = data.totalItems
-    $scope.perPage = data.perPage
-    null
+
+  $scope.inModal = !!$scope.$close
+
+  $scope.searcher = {}
+
+  $scope.search = ->
+    Vector.query $scope.searcher, (data) ->
+      $scope.records = data.records || []
+      $scope.totalItems = data.totalItems
+      $scope.perPage = data.perPage
+      null
+
+  $scope.search()
+  $scope.$watch 'searcher.name', (name)->
+    if name
+      $scope.search()
  
   $scope.delete = (id, index)->
     Vector.delete {id: id}, ->

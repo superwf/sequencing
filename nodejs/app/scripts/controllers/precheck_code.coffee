@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').controller 'PrecheckCodeCtrl', ['$scope', 'PrecheckCode', 'SequencingConst', 'Modal', ($scope, PrecheckCode, SequencingConst, Modal) ->
+angular.module('sequencingApp').controller 'PrecheckCodeCtrl', ['$scope', 'PrecheckCode', 'Sequencing', 'Modal', ($scope, PrecheckCode, Sequencing, Modal) ->
   $scope.record = Modal.record
 
   $scope.save = ->

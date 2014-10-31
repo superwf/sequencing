@@ -1,6 +1,6 @@
 'use strict'
-angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routeParams', 'Modal', '$modal', 'BoardHead', 'SequencingConst', 'Procedure', 'Flow', ($scope, $routeParams, Modal, $modal, BoardHead, SequencingConst, Procedure, Flow) ->
-  $scope.boardType = SequencingConst.boardType
+angular.module('sequencingApp').controller 'BoardHeadCtrl', ['$scope', '$routeParams', 'Modal', '$modal', 'BoardHead', 'Sequencing', 'Procedure', 'Flow', ($scope, $routeParams, Modal, $modal, BoardHead, Sequencing, Procedure, Flow) ->
+  $scope.boardType = Sequencing.boardType
   $scope.record = Modal.record
   Procedure.all {all: true, board_head_id: $scope.record.id}, (data)->
     $scope.procedures = data

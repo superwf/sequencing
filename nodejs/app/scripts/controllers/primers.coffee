@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'PrimersCtrl', ['$scope', 'Primer', 'Modal', '$modal', 'SequencingConst', ($scope, Primer, Modal, $modal, SequencingConst) ->
+angular.module('sequencingApp').controller 'PrimersCtrl', ['$scope', 'Primer', 'Modal', '$modal', 'Sequencing', ($scope, Primer, Modal, $modal, Sequencing) ->
   $scope.$emit 'event:title', 'primer'
   $scope.searcher = {}
   $scope.search = ->
@@ -15,14 +15,14 @@ angular.module('sequencingApp').controller 'PrimersCtrl', ['$scope', 'Primer', '
       return
   $scope.search()
 
-  $scope.config = SequencingConst
+  $scope.config = Sequencing
  
   $scope.delete = (id, index)->
     Primer.delete {id: id}
     $scope.records.splice index, 1
 
   $scope.create = ->
-    Modal.record = {status: 'ok', store_type: '90days', need_return: false, origin_thickness: '5', create_date: SequencingConst.date2string()}
+    Modal.record = {status: 'ok', store_type: '90days', need_return: false, origin_thickness: '5', create_date: Sequencing.date2string()}
     $modal.open {
       templateUrl: '/views/primer.html'
       controller: 'PrimerCtrl'

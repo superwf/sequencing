@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').controller 'OrderEmailsCtrl', ['$scope', 'SequencingConst', 'Email', 'Order', ($scope, SequencingConst, Email, Order) ->
+angular.module('sequencingApp').controller 'OrderEmailsCtrl', ['$scope', 'Sequencing', 'Email', 'Order', ($scope, Sequencing, Email, Order) ->
   $scope.getOrders = ->
     Email.sending (data)->
       $scope.orders = data
@@ -11,7 +11,7 @@ angular.module('sequencingApp').controller 'OrderEmailsCtrl', ['$scope', 'Sequen
         order.reactions = data
     else
       order.reactions = []
-  $scope.interpreteCodeColor = SequencingConst.interpreteCodeColor
+  $scope.interpreteCodeColor = Sequencing.interpreteCodeColor
 
   $scope.send = (send)->
     if send

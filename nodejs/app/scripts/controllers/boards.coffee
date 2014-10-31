@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', 'Procedure', 'SequencingConst', '$routeParams', ($scope, Board, Modal, $modal, $location, Procedure, SequencingConst, $routeParams) ->
+angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', 'Procedure', 'Sequencing', '$routeParams', ($scope, Board, Modal, $modal, $location, Procedure, Sequencing, $routeParams) ->
   $scope.searcher = $location.search()
   if $scope.searcher.board_type
     $scope.$emit 'event:title', $scope.searcher.board_type + '_board'
@@ -10,10 +10,10 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
         d.create_date = new Date(d.create_date)
       $scope.records = data.records
       angular.forEach $scope.records, (record)->
-        record.board_head = SequencingConst.boardHeads[record.board_head_id]
+        record.board_head = Sequencing.boardHeads[record.board_head_id]
         if record.procedure_id > 0
-          if SequencingConst.procedures[record.procedure_id]
-            record.procedure = SequencingConst.procedures[record.procedure_id]
+          if Sequencing.procedures[record.procedure_id]
+            record.procedure = Sequencing.procedures[record.procedure_id]
           else
             Procedure.get id: record.procedure_id, (procedure)->
               record.procedure = procedure
@@ -44,7 +44,7 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
     if board.procedure.board
       ctrl = 'BoardRecordsCtrl'
     else
-      ctrl = SequencingConst.camelcase(record_name) + 'Ctrl'
+      ctrl = Sequencing.camelcase(record_name) + 'Ctrl'
     if board.procedure.record_name != 'reaction_files'
       modal = $modal.open {
         templateUrl: '/views/' + record_name + '.html'

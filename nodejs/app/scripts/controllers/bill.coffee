@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').controller 'BillCtrl', ['$scope', 'Bill', 'SequencingConst', 'Modal', '$modal', 'Order', ($scope, Bill, SequencingConst, Modal, $modal, Order) ->
+angular.module('sequencingApp').controller 'BillCtrl', ['$scope', 'Bill', 'Sequencing', 'Modal', '$modal', 'Order', ($scope, Bill, Sequencing, Modal, $modal, Order) ->
   $scope.bill = Modal.record
   Bill.bill_orders bill_id: $scope.bill.id, (data)->
     $scope.bill.bill_orders = data

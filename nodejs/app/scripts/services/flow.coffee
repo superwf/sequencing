@@ -1,9 +1,9 @@
 'use strict'
 
-angular.module('sequencingApp').factory 'Flow', ['SequencingConst', '$resource', (SequencingConst, $resource)->
-  $resource SequencingConst.api + '/flows/:id', id: '@id', {
-    update: {method: 'PUT', url: SequencingConst.api + '/flows/:id'}
-    'delete': {method: 'DELETE', url: SequencingConst.api + '/flows/:id'}
+angular.module('sequencingApp').factory 'Flow', ['Sequencing', '$resource', (Sequencing, $resource)->
+  $resource Sequencing.api + '/flows/:id', id: '@id', {
+    update: {method: 'PUT', url: Sequencing.api + '/flows/:id'}
+    'delete': {method: 'DELETE', url: Sequencing.api + '/flows/:id'}
     create: {method: 'POST'}
     query: {isArray: false, method: 'GET'}
   }

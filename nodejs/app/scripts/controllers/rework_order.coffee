@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'ReworkOrderCtrl', ['$scope', 'Reaction', 'Modal', '$modal', 'SequencingConst', 'BoardHead', 'Order', ($scope, Reaction, Modal, $modal, SequencingConst, BoardHead, Order) ->
+angular.module('sequencingApp').controller 'ReworkOrderCtrl', ['$scope', 'Reaction', 'Modal', '$modal', 'Sequencing', 'BoardHead', 'Order', ($scope, Reaction, Modal, $modal, Sequencing, BoardHead, Order) ->
   $scope.$emit 'event:title', 'new_rework_order'
 
   $scope.searcher = {}
@@ -11,19 +11,19 @@ angular.module('sequencingApp').controller 'ReworkOrderCtrl', ['$scope', 'Reacti
   BoardHead.all {all: true, board_type: 'sample', is_redo: true, available: 1}, (data)->
     $scope.redo_heads = data
 
-  $scope.config = SequencingConst
+  $scope.config = Sequencing
   $scope.search = ->
     Reaction.reworking $scope.searcher, (data) ->
       $scope.records = data || []
       for i, v of $scope.records
         if v.board_head_id
-          $scope.records[i].board_head = SequencingConst.boardHeads[v.board_head_id]
+          $scope.records[i].board_head = Sequencing.boardHeads[v.board_head_id]
         if v.precheck_code_id
-          $scope.records[i].precheck_code = SequencingConst.precheckCodes[v.precheck_code_id]
+          $scope.records[i].precheck_code = Sequencing.precheckCodes[v.precheck_code_id]
         if v.interprete_code_id
-          $scope.records[i].interprete_code = SequencingConst.interpreteCodes[v.interprete_code_id]
+          $scope.records[i].interprete_code = Sequencing.interpreteCodes[v.interprete_code_id]
         if v.interpreter_id
-          $scope.records[i].interpreter = SequencingConst.users[v.interpreter_id]
+          $scope.records[i].interpreter = Sequencing.users[v.interpreter_id]
       null
 
   $scope.submit = ->

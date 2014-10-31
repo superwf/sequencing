@@ -1,8 +1,8 @@
 'use strict'
-angular.module('sequencingApp').controller 'RoleCtrl', ['$scope', 'Role', '$routeParams', 'Menu', '$http', 'SequencingConst', ($scope, Role, $routeParams, Menu, $http, SequencingConst) ->
+angular.module('sequencingApp').controller 'RoleCtrl', ['$scope', 'Role', '$routeParams', 'Menu', '$http', 'Sequencing', ($scope, Role, $routeParams, Menu, $http, Sequencing) ->
   $scope.record = Role.get id: $routeParams.id
   $scope.update = (menu_id, active)->
-    $http.put SequencingConst.api + '/roles/' + $scope.record.id, {menu_id: menu_id, active: active}
+    $http.put Sequencing.api + '/roles/' + $scope.record.id, {menu_id: menu_id, active: active}
 
   Menu.query role_id: $routeParams.id, (data)->
     roots = []

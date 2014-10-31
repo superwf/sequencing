@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'TypesetSamplesCtrl', ['$scope', 'Sample', 'Board', 'SequencingConst', ($scope, Sample, Board, SequencingConst) ->
+angular.module('sequencingApp').controller 'TypesetSamplesCtrl', ['$scope', 'Sample', 'Board', 'Sequencing', ($scope, Sample, Board, Sequencing) ->
   $scope.$emit 'event:title', 'sample_typeset'
   Sample.typesettingHeads (data)->
     $scope.heads = data
@@ -16,10 +16,10 @@ angular.module('sequencingApp').controller 'TypesetSamplesCtrl', ['$scope', 'Sam
       Sample.typesetting board_head_id: headId, (data)->
         $scope.records = data
         null
-      $scope.board.create_date = SequencingConst.date2string()
+      $scope.board.create_date = Sequencing.date2string()
       $scope.cols = $scope.board.board_head.cols.split(',')
       $scope.rows = $scope.board.board_head.rows.split(',')
-      $scope.board.sn = SequencingConst.boardSn($scope.board)
+      $scope.board.sn = Sequencing.boardSn($scope.board)
       sn = $scope.board.sn
       Board.records idsn: sn, (data)->
         if data
@@ -62,7 +62,7 @@ angular.module('sequencingApp').controller 'TypesetSamplesCtrl', ['$scope', 'Sam
     $scope.samples[c][r] = null
 
   $scope.submit = ->
-    board = SequencingConst.copyWithDate($scope.board, 'create_date')
+    board = Sequencing.copyWithDate($scope.board, 'create_date')
     Board.create board, (data)->
       records = []
       for c in $scope.cols

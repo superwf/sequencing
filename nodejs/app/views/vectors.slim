@@ -1,9 +1,10 @@
+ng-include src="'/views/vectorSearch.html'"
 table.table.table-bordered.table-striped
   thead
     tr
       th
         | {{'name' | translate}}
-        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate" ng-show='!inModal'
+        a.btn.btn-success ng-click='create()' ng-bind="'create' | translate" ng-if='!inModal'
       th ng-bind="'producer' | translate"
       th ng-bind="'length' | translate"
       th ng-bind="'resistance' | translate"
@@ -11,11 +12,11 @@ table.table.table-bordered.table-striped
   tbody
     tr ng-repeat="r in records" ng-click='click(r.id, r.name)'
       td
-        a.btn.btn-success ng-click='edit(r)' ng-show='!inModal'
+        a.btn.btn-success ng-click='edit(r)' ng-if='!inModal'
           | {{r.name}}
-        span ng-show='inModal'
+        span ng-if='inModal'
           | {{r.name}}
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}' ng-show='!inModal'
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}' ng-if='!inModal'
           | {{'delete' | translate}}
       td
         | {{r.producer}}

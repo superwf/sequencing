@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').factory 'Security', ['$modal', '$location', '$http', '$q', 'SequencingConst', ($modal, $location, $http, $q, SequencingConst)->
+angular.module('sequencingApp').factory 'Security', ['$modal', '$location', '$http', '$q', 'Sequencing', ($modal, $location, $http, $q, Sequencing)->
   redirect = (url)->
     url = url || '/'
     $location.path url
@@ -18,16 +18,16 @@ angular.module('sequencingApp').factory 'Security', ['$modal', '$location', '$ht
       service.modal = null
       redirect()
     login: (user)->
-      $http(method: 'POST', url: SequencingConst.auth + '/login', data: user)
+      $http(method: 'POST', url: Sequencing.auth + '/login', data: user)
     logout: (redirectTo)->
-      $http(method: 'DELETE', url: SequencingConst.auth + '/logout').then ->
+      $http(method: 'DELETE', url: Sequencing.auth + '/logout').then ->
         service.me = null
         redirect redirectTo
     requestCurrentUser: ->
       if service.isAuthenticated()
         $q.when(service.me)
       else
-        $http.get(SequencingConst.auth + '/me').then (response)->
+        $http.get(Sequencing.auth + '/me').then (response)->
           service.me = response.data
           service.me
     me: null,

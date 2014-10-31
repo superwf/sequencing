@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').controller 'NewBillCtrl', ['$scope', 'Bill', 'Order', 'SequencingConst', 'Modal', '$modal', ($scope, Bill, Order, SequencingConst, Modal, $modal) ->
+angular.module('sequencingApp').controller 'NewBillCtrl', ['$scope', 'Bill', 'Order', 'Sequencing', 'Modal', '$modal', ($scope, Bill, Order, Sequencing, Modal, $modal) ->
   $scope.$emit 'event:title', 'new_bill'
   newBill = ->
     $scope.showOrders = true
@@ -10,7 +10,7 @@ angular.module('sequencingApp').controller 'NewBillCtrl', ['$scope', 'Bill', 'Or
       $scope.perPage = data.perPage
       null
     null
-  $scope.orderStatus = SequencingConst.orderStatus
+  $scope.orderStatus = Sequencing.orderStatus
 
   $scope.checkout = ->
     if $scope.orders && $scope.orders.length
@@ -24,7 +24,7 @@ angular.module('sequencingApp').controller 'NewBillCtrl', ['$scope', 'Bill', 'Or
     else
       newBill()
 
-  $scope.today = SequencingConst.date2string()
+  $scope.today = Sequencing.date2string()
   null
 
 ]
