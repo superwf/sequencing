@@ -1,7 +1,7 @@
 .btn.btn-default
   | {{'precheck_code' | translate}}
 .btn-group
-  button.btn.btn-success type='button' ng-repeat='code in codes' ng-click='selectCode(code)' ng-class='{true: "btn-success", false: "btn-danger"}[code.ok]'
+  button.btn.btn-success type='button' ng-repeat='code in codes' ng-click='selectCode(code)' ng-class='{true: "alert-success", false: "alert-danger"}[code.ok]'
     | {{code.code}}
 h3.text-center
   | {{board.sn}}

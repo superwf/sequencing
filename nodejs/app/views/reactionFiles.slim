@@ -9,7 +9,7 @@ table.table.table-bordered ng-show='downloadingRecords.length > 0'
       th ng-bind="'primer' | translate"
       th ng-bind="'reaction_board' | translate"
       th ng-bind="'upload' | translate"
-  tbody selectable='' selectable-options='{filter: "tr"}'
+  tbody selectable='' selectable-options='{filter: "tr"}' selectable-data='downloadingRecords'
     tr ng-repeat='r in downloadingRecords' i='{{$index}}'
       td
         | {{r.id}}
@@ -28,7 +28,9 @@ table.table.table-bordered ng-show='downloadingRecords.length > 0'
       td
         | {{r.upload_time | date: 'yyyy-MM-dd HH:mm:ss'}}
 
-.well ng-show='interpretingRecords.length > 0'
+.well.form-search ng-show='interpretingRecords.length > 0'
+  .btn.btn-default ng-disabled='true'
+    | {{'interprete_code' | translate}}
   .btn-group
     button.btn type='button' ng-repeat='code in codes' ng-click='selectCode(code)' ng-class='interpreteCodeColor[code.result]'
       | {{code.code}}
@@ -82,5 +84,5 @@ table.table.table-bordered ng-show='interpretingRecords.length > 0'
         | {{r.upload_time | date: 'yyyy-MM-dd HH:mm:ss'}}
 .navbar.text-center.navbar-fixed-bottom
   button.btn.btn-success ng-click='download()' ng-bind='"download" | translate' ng-show='downloadingRecords.length > 0'
-  button.btn.btn-success ng-click='save("interpreted")' ng-bind='"interprete" | translate' ng-show='interpretingRecords.length > 0'
   button.btn.btn-success ng-click='save("interpreting")' ng-bind='"save" | translate' ng-show='interpretingRecords.length > 0'
+  button.btn.btn-success ng-click='save("interpreted")' ng-bind='"submit" | translate' ng-show='interpretingRecords.length > 0'

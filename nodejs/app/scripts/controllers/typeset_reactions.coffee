@@ -43,6 +43,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
   $scope.$watch 'rb.board_head.name + rb.number', (h)->
     if $scope.rb.board_head
       returnAll()
+      $scope.rb.records = {}
       $scope.rb.sn = Sequencing.boardSn($scope.rb)
       Board.get id: $scope.rb.sn, (b)->
         if !b.status || b.status == 'new'

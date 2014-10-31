@@ -12,7 +12,7 @@ tabset#sample_boards
           .reaction ng-repeat='(reaction_id, p) in b.records[c+r]' hole='{{c+r}}' index='{{$index}}' reaction_id='{{p.reaction_id}}' ng-show='!p.reaction_hole'
             | {{p.primer}}
 
-h2.text-center ng-show='rb.sn'
+h2.text-center ng-if='rb.sn'
   | {{rb.sn}}
 table.reaction_board.table.table-bordered.ui-selectable ng-if='rb.showAs == "board"'
   tr
@@ -54,7 +54,7 @@ table.reaction_board.table.table-bordered.ui-selectable ng-if='rb.showAs == "boa
         | {{h.name}}
     input.form-control ng-model='rb.number' placeholder='{{"board" | translate}}{{"number" | translate}}' title='{{"board" | translate}}{{"number" | translate}}' type='number' required='' style="width: 60px; display: inline;"
     span ng-if='rb.board_head && rb.number'
-      button.btn.btn-primary ng-click='transfer()' ng-bind='"typeset" | translate'
+      button.btn.btn-primary ng-click='typeset()' ng-bind='"typeset" | translate'
       button.btn.btn-info ng-click='showAsQudrant()' ng-bind='"quadrant" | translate'
       button.btn.btn-primary ng-click='showAsBoard()' ng-bind='"normal" | translate'
     button.btn.btn-success ng-confirm-click='submit()' ng-bind='"submit" | translate' message='{{"confirm" | translate}}' ng-if='canTypeset()'

@@ -16,9 +16,9 @@ angular.module('sequencingApp').controller 'ReactionFilesCtrl', ['$scope', 'Reac
       if data.length > 0
         showCode ->
           $scope.interpretingRecords = data
-          console.log $scope.codes
           for v, i in $scope.interpretingRecords
-            $scope.interpretingRecords[i].instrument = JSON.parse($scope.interpretingRecords[i].instrument)
+            if $scope.interpretingRecords[i].instrument
+              $scope.interpretingRecords[i].instrument = JSON.parse($scope.interpretingRecords[i].instrument)
             $scope.interpretingRecords[i].quadrant = Sequencing.quadrant($scope.interpretingRecords[i].reaction_hole)
             $scope.interpretingRecords[i].code = $scope.codes[v.code_id]
       else

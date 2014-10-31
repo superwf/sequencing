@@ -119,13 +119,14 @@ func InterpretingReactionFiles(r render.Render, session sessions.Session){
   models.Db.Where("record_name = 'abi_records'").First(&procedure)
   if procedure.Id > 0 {
     userId := strconv.Itoa(session.Get("id").(int))
-    rows, _ := models.Db.Select("reaction_files.reaction_id, reaction_files.code_id, reaction_files.uploaded_at, samples.name, sample_boards.sn, samples.hole, orders.sn, primers.name, reaction_boards.sn, reactions.hole, board_records.data, clients.name, reaction_files.proposal").Table("reaction_files").Joins("LEFT JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN orders ON samples.order_id = orders.id INNER JOIN boards AS sample_boards ON sample_boards.id = samples.board_id INNER JOIN boards AS reaction_boards ON reaction_boards.id = reactions.board_id INNER JOIN clients ON orders.client_id = clients.id INNER JOIN primers ON reactions.primer_id = primers.id INNER JOIN board_records ON reactions.board_id = board_records.board_id").Where("reaction_files.status = 'interpreting' AND reaction_files.interpreter_id = ? AND board_records.procedure_id = ?", userId, procedure.Id).Rows()
+    rows, _ := models.Db.Select("reaction_files.reaction_id, reaction_files.code_id, reaction_files.uploaded_at, samples.name, sample_boards.sn, samples.hole, orders.sn, primers.name, reaction_boards.sn, reactions.hole, reactions.board_id, clients.name, reaction_files.proposal").Table("reaction_files").Joins("LEFT JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id INNER JOIN reactions ON reaction_files.reaction_id = reactions.id INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN orders ON samples.order_id = orders.id INNER JOIN boards AS sample_boards ON sample_boards.id = samples.board_id INNER JOIN boards AS reaction_boards ON reaction_boards.id = reactions.board_id INNER JOIN clients ON orders.client_id = clients.id INNER JOIN primers ON reactions.primer_id = primers.id").Where("reaction_files.status = 'interpreting' AND reaction_files.interpreter_id = ?", userId).Rows()
     result := []map[string]interface{}{}
     for rows.Next() {
-      var id, codeId int
+      var id, codeId, reactionBoardId int
       var uploadTime time.Time
       var sample, sampleBoard, sampleHole, reactionBoard, reactionHole, order, client, primer, instrument, proposal string
-      rows.Scan(&id, &codeId, &uploadTime, &sample, &sampleBoard, &sampleHole, &order, &primer, &reactionBoard, &reactionHole, &instrument, &client, &proposal)
+      rows.Scan(&id, &codeId, &uploadTime, &sample, &sampleBoard, &sampleHole, &order, &primer, &reactionBoard, &reactionHole, &reactionBoardId, &client, &proposal)
+      models.Db.Select("board_records.data").Table("board_records").Where("board_records.board_id = ? AND board_records.procedure_id = ?", reactionBoardId, procedure.Id).Row().Scan(&instrument)
       d := map[string]interface{}{
         "id": id,
         "code_id": codeId,
