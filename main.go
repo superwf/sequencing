@@ -38,7 +38,7 @@ func main() {
     m.Get("/boardRecords/:idsn", controllers.BoardRecords)
     m.Put("/boards/:id/confirm", controllers.ConfirmBoard)
     m.Put("/boards/:id/nextProcedure", controllers.BoardNextProcedure)
-    m.Get("/boards/:id", controllers.GetBoard)
+    m.Get("/boards/:idsn", controllers.GetBoard)
     m.Post("/plasmids", controllers.CreatePlasmid)
     m.Post("/prechecks", controllers.CreatePrecheck)
     m.Get("/dilutePrimers", controllers.DilutePrimers)

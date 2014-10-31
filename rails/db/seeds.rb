@@ -94,6 +94,8 @@ db.execute "ALTER TABLE `orders` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES 
 
 # restrict procedure flows
 db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT;"
+# restrict procedure board_records
+db.execute "ALTER TABLE `board_records` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT;"
 
 # restrict board_head flows
 db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;"
@@ -107,3 +109,5 @@ db.execute "ALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `
 db.execute "ALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT;"
 # restrict reaction reaction_files
 db.execute "ALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE CASCADE;"
+# restrict board board_records
+db.execute "ALTER TABLE `board_records` ADD FOREIGN KEY ( `board_id` ) REFERENCES `boards` ( `id`) ON DELETE CASCADE;"

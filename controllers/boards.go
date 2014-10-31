@@ -54,10 +54,17 @@ func ConfirmBoard(params martini.Params, r render.Render) {
 }
 
 func GetBoard(params martini.Params, r render.Render) {
-  id, _ := strconv.Atoi(params["id"])
-  record := models.Board{Id: id}
-  models.Db.First(&record)
-  r.JSON(http.StatusOK, record)
+  idsn := params["idsn"]
+  board := models.Board{}
+  isId, _ := regexp.MatchString(`^\d+$`, idsn)
+  col := ""
+  if isId {
+    col = "id"
+  } else {
+    col = "sn"
+  }
+  models.Db.Where(col + " = ?", idsn).First(&board)
+  r.JSON(http.StatusOK, board)
 }
 
 func BoardNextProcedure(params martini.Params, r render.Render) {

@@ -41,12 +41,17 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
             $scope.rb.records[d.hole] = d
 
   $scope.$watch 'rb.board_head.name + rb.number', (h)->
-    returnAll()
     if $scope.rb.board_head
+      returnAll()
       $scope.rb.sn = Sequencing.boardSn($scope.rb)
-      $scope.rb.cols = $scope.rb.board_head.cols.split(',')
-      $scope.rb.rows = $scope.rb.board_head.rows.split(',')
-    getBoardRecords($scope.rb.sn)
+      Board.get id: $scope.rb.sn, (b)->
+        if !b.status || b.status == 'new'
+          $scope.rb.cols = $scope.rb.board_head.cols.split(',')
+          $scope.rb.rows = $scope.rb.board_head.rows.split(',')
+          getBoardRecords($scope.rb.sn)
+        else
+          $scope.$emit 'event:notacceptable', {hint: 'board status error'}
+        null
 
     null
 
@@ -57,7 +62,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
     angular.element('.reaction_board td[hole='+hole+']').addClass('ui-selected')
     null
 
-  $scope.transfer = ->
+  $scope.typeset = ->
     if $scope.rb.activeRB == 'board'
       cols = $scope.rb.cols
       rows = $scope.rb.rows
@@ -109,7 +114,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
   $scope.canTypeset = ->
     !angular.equals $scope.rb.records, {}
 
-  $scope.typeset = ->
+  $scope.submit = ->
     board = {
       board_head_id: $scope.rb.board_head.id
       create_date: $scope.rb.create_date
