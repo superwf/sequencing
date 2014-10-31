@@ -1,9 +1,11 @@
+.btn.btn-default
+  | {{'plasmid_code' | translate}}
 .btn-group
   button.btn.btn-success type='button' ng-repeat='code in codes' ng-click='selectCode(code)'
     | {{code.code}}
-h2.text-center
+h3.text-center
   | {{board.sn}}
-table.table-bordered selectable='' selectable-options='{filter: "td.hole", cancel: "span.code"}'
+table.table.table-bordered selectable='' selectable-options='{filter: "td.hole", cancel: "span.code"}'
   tr
     th
     th ng-repeat='c in cols'

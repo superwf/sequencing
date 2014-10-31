@@ -9,25 +9,24 @@ table.table.table-bordered.table-striped
       th ng-bind="'urgent' | translate"
       th ng-bind="'is_test' | translate"
       th ng-bind="'remark' | translate"
-      th
   tbody
     tr ng-repeat="r in records"
       td
-        | {{r.sn}}
+        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}' ng-if='r.status == "new"'
+          | {{'delete' | translate}}
+        a.btn.btn-info ng-click='orderReactions(r)'
+          | {{'view' | translate}}{{'reaction' | translate}}
+        a.btn.btn-primary ng-click='edit(r)'
+          | {{r.sn}}
       td
         | {{r.client}}
       td
-        | {{orderStatus[r.status] | translate}}
+        | {{r.status | translate}}
       td
         | {{yesno[r.urgent] | translate}}
       td
         | {{yesno[r.is_test] | translate}}
       td
         | {{r.remark}}
-      td
-        a.btn.btn-success ng-click='edit(r)'
-          | {{'edit' | translate}}
-        a.btn.btn-danger ng-confirm-click='delete(r.id, $index)' message='{{"confirm" | translate}}'
-          | {{'delete' | translate}}
 .navbar.navbar-fixed-bottom.text-center
   ng-include src="'/views/pager.html'"

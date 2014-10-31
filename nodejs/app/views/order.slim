@@ -1,9 +1,9 @@
 .row
   .well ng-class="{true: 'col-md-10 col-md-offset-1', false: 'col-md-12'}[inModal]"
     form#orderForm.form-horizontal.text-center name='form'
-      .form-group.col-md-3
+      .form-group.col-md-1 style='width: 9em;'
         input.form-control ng-model='record.create_date' placeholder='{{"receive" | translate}}{{"date" | translate}}' title='{{"receive" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
-      .form-group.col-md-1
+      .form-group.col-md-1 style='width: 7em;'
         input.form-control ng-model='record.number' placeholder='{{"number" | translate}}' title='{{"number" | translate}}' type='number' required=''
       .form-group.col-md-2
         label
@@ -17,10 +17,10 @@
         .btn-group
           button.btn.btn-primary type='button' ng-model='record.is_test' btn-radio='n' ng-repeat='n in [false, true]'
             | {{yesno[n] | translate}}
-      .form-group.col-md-3
+      .form-group.col-md-2
         input.form-control ng-model='record.client' placeholder='{{"client" | translate}}' title='{{"client" | translate}}' ng-focus='selectClient()' required=''
-      ng-include src="inModal ? null : '/views/newOrderBoard.html'"
-      .form-group.col-md-12
-        textarea.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
+      .form-group.col-md-4 style='margin-left: 1em;'
+        input.form-control ng-model='record.remark' placeholder='{{"remark" | translate}}' title='{{"remark" | translate}}'
+      ng-include src="'/views/newOrderBoard.html'" ng-if='!inModal'
 .navbar.text-center.navbar-fixed-bottom
   button.btn.btn-success ng-click='save()' ng-bind='"save" | translate' ng-disabled='!form.$valid'

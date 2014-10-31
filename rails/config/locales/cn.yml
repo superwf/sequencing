@@ -1,0 +1,26 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+cn:
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 无效的数据
+        restrict_dependent_destroy:
+          one: "已经关联数据%{record}"
+          many: "已经关联数据%{record}"
+  time:
+    formats:
+      default: '%Y-%m-%d %H:%M:%S'
+  email:
+    primer:
+      title: 诺赛基因引物过期通知
+      dear_client: 尊敬的客户
+      hello: 您好
+      notice: 您有以下引物将要过期，如无特殊通知，到期后我公司会将引物作废处理，谢谢您的配合。
+    send_order_mail:
+      title: 诺赛基因订单
+      notice: "<h3>此邮件是您的订单%{sn}的%{type}结果通知。</h3><p>该邮件由系统自动发送，如有疑问，您可回复至services@chgb.org.cn或致电010-67868644/67873039/67874478。谢谢您对我公司的支持。</p>"
+      precheck: 预检
+      quality: 质检
+      splice_notice: 您的订单中含有拼接样品，拼接结果将会在测序结果半日后发送。

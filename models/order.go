@@ -231,7 +231,12 @@ func (order *Order)CheckStatus() {
         Db.Model(order).Update("status", config.OrderStatus[1])
       } else {
         // new
-        Db.Model(order).Update("status", config.OrderStatus[0])
+        Db.Table("samples").Where("samples.order_id = ?", order.Id).Count(&count)
+        if count > 0 {
+          Db.Model(order).Update("status", config.OrderStatus[0])
+        } else {
+          log.Fatalln("order has no samples, id: ", order.Id)
+        }
       }
     } else {
       var reactionCount int

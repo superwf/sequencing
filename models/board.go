@@ -133,12 +133,12 @@ func (board Board)Records()(interface{}) {
 }
 
 // used when reaction typeset
-// assume it is a sample_board
+// it should be a sample_board
 func (board Board)SampleBoardPrimers()(interface{}){
   if board.Id < 1 {
     return []bool{}
   }
-  rows, _ := Db.Table("reactions").Select("reactions.id, reactions.sample_id, reactions.primer_id, primers.name, samples.hole").Joins("INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN primers ON primers.id = reactions.primer_id").Where("samples.board_id = ?", board.Id).Rows()
+  rows, _ := Db.Table("reactions").Select("reactions.id, reactions.sample_id, reactions.primer_id, primers.name, samples.hole").Joins("INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN primers ON primers.id = reactions.primer_id").Where("samples.board_id = ? AND reactions.board_id = 0", board.Id).Rows()
   var records []map[string]interface{}
   for rows.Next() {
     var reactionId, sampleId, primerId int

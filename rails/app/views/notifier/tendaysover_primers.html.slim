@@ -1,0 +1,28 @@
+doctype 5
+html
+  head
+    title = t('.title')
+  body
+    h3
+      = t('.dear_client')
+      = @client.to_s
+      = t('.hello')
+    p
+      = t('.notice')
+    table style='width: 80%; text-align: center;' border=1 cellspacing=0
+      thead
+        tr
+          th = t('activerecord.attributes.primer.name')
+          th = t('activerecord.attributes.primer.created_date')
+          th = t('activerecord.attributes.primer.over_date')
+          th = t('activerecord.attributes.primer.sequence')
+          th = t('activerecord.attributes.primer.origin_thickness')
+      tbody
+        - @client.primer_mails.unsent.each do |primer_mail|
+          - primer = primer_mail.primer
+          tr
+            td = primer.name
+            td = primer.created_date
+            td = primer.over_date
+            td = primer.sequence
+            td = primer.origin_thickness

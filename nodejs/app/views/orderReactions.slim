@@ -19,7 +19,8 @@ table.table.table-bordered.table-striped
       td ng-bind='r.board'
       td ng-bind='r.primer'
       td
-        | {{r.interprete_code.code}}[{{r.interprete_code.result | translate}}]
+        span ng-if='r.interprete_code'
+          | {{r.interprete_code.code}}[{{r.interprete_code.result | translate}}]
       td
         | {{yesno[r.interprete_code.charge] | translate}}
       td

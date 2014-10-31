@@ -28,5 +28,12 @@ angular.module('sequencingApp').controller 'OrdersCtrl', ['$scope', 'Order', 'Mo
       controller: 'OrderCtrl'
       size: 'lg'
     }
-  $scope.orderStatus = Sequencing.orderStatus
+
+  $scope.orderReactions = (o)->
+    Modal.order = o
+    Modal.modal = $modal.open {
+      templateUrl: '/views/orderReactions.html'
+      controller: 'OrderReactionsCtrl'
+      size: 'lg'
+    }
 ]

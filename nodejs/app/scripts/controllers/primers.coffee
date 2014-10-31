@@ -18,8 +18,8 @@ angular.module('sequencingApp').controller 'PrimersCtrl', ['$scope', 'Primer', '
   $scope.config = Sequencing
  
   $scope.delete = (id, index)->
-    Primer.delete {id: id}
-    $scope.records.splice index, 1
+    Primer.delete {id: id}, ->
+      $scope.records.splice index, 1
 
   $scope.create = ->
     Modal.record = {status: 'ok', store_type: '90days', need_return: false, origin_thickness: '5', create_date: Sequencing.date2string()}

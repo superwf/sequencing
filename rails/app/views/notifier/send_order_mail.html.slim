@@ -1,0 +1,8 @@
+doctype 5
+html
+  head
+    title = t('.title')
+  body
+    == t('.notice', sn: @order.sn, type: @type_text)
+    - if @order.is_splice?
+      p = t('.splice_notice')

@@ -7,6 +7,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
     $scope.sampleBoards = data
 
   $scope.activeSampleBoard = null
+
   $scope.selectSampleBoard = (b)->
     $scope.activeSampleBoard = b
     if !b.records
@@ -23,46 +24,52 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
   getBoardHead = ->
     BoardHead.all {all: true, board_type: 'reaction', available: 1}, (data)->
       $scope.board_heads = data
-      $scope.reaction_board.number = 1
+      $scope.rb.number = 1
       if data.length == 0
         $rootScope.$broadcast 'event:notacceptable', {hint: 'sample type not_exist'}
   getBoardHead()
 
   today = Sequencing.date2string()
-  $scope.reaction_board = {records: {}, create_date: today}
+  $scope.rb = {records: {}, create_date: today, showAs: 'board', activeRB: 'board'}
 
   getBoardRecords = (sn)->
     if sn
       Board.records idsn: sn, (data)->
         if data
-          $scope.reaction_board.records = {}
+          $scope.rb.records = {}
           angular.forEach data, (d)->
-            $scope.reaction_board.records[d.hole] = d
+            $scope.rb.records[d.hole] = d
 
-  $scope.$watch 'reaction_board.board_head.name + reaction_board.board_number', (h)->
+  $scope.$watch 'rb.board_head.name + rb.number', (h)->
     returnAll()
-    if $scope.reaction_board.board_head
-      $scope.reaction_board.sn = Sequencing.boardSn($scope.reaction_board)
-      $scope.reaction_board.cols = $scope.reaction_board.board_head.cols.split(',')
-      $scope.reaction_board.rows = $scope.reaction_board.board_head.rows.split(',')
-    getBoardRecords($scope.reaction_board.sn)
+    if $scope.rb.board_head
+      $scope.rb.sn = Sequencing.boardSn($scope.rb)
+      $scope.rb.cols = $scope.rb.board_head.cols.split(',')
+      $scope.rb.rows = $scope.rb.board_head.rows.split(',')
+    getBoardRecords($scope.rb.sn)
 
     null
 
 
-  $scope.selectReactionHole = (hole)->
-    angular.element('#reaction_board td.ui-selected').removeClass('ui-selected')
-    angular.element('#reaction_board td[hole='+hole+']').addClass('ui-selected')
+  $scope.selectReactionHole = (activeRB, hole)->
+    $scope.rb.activeRB = activeRB
+    angular.element('.reaction_board td.ui-selected').removeClass('ui-selected')
+    angular.element('.reaction_board td[hole='+hole+']').addClass('ui-selected')
     null
 
   $scope.transfer = ->
+    if $scope.rb.activeRB == 'board'
+      cols = $scope.rb.cols
+      rows = $scope.rb.rows
+    else
+      cols = $scope.rb[$scope.rb.activeRB].cols
+      rows = $scope.rb[$scope.rb.activeRB].rows
     selected = angular.element('#sample_boards .active .ui-selected')
-    reaction_hole = angular.element('#reaction_board .ui-selected')
-    return if !$scope.reaction_board
+    reaction_hole = angular.element('.reaction_board .ui-selected')
     c = reaction_hole.attr('col')
-    c_index = $scope.reaction_board.cols.indexOf(c)
+    c_index = cols.indexOf(c)
     r = reaction_hole.attr('row')
-    r_index = $scope.reaction_board.rows.indexOf(r)
+    r_index = rows.indexOf(r)
     if selected.length && reaction_hole.length
       for sc in $scope.activeSampleBoard.cols
         for sr in $scope.activeSampleBoard.rows
@@ -73,16 +80,16 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
             reaction = $scope.activeSampleBoard.records[hole][reaction_id]
             if !reaction.reaction_hole
               inserted = false
-              for ci, c of $scope.reaction_board.cols
+              for ci, c of cols
                 break if inserted
-                for ri, r of $scope.reaction_board.rows
+                for ri, r of rows
                   ci = parseInt(ci)
                   ri = parseInt(ri)
                   if (ci == c_index && ri >= r_index) || ci > c_index
-                    if !$scope.reaction_board.records[c+r]
+                    if !$scope.rb.records[c+r]
                       hole = c+r
                       reaction.reaction_hole = hole
-                      $scope.reaction_board.records[hole] = reaction
+                      $scope.rb.records[hole] = reaction
                       $scope.selectReactionHole(hole)
                       inserted = true
                       break
@@ -91,26 +98,29 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
   $scope.returnReaction = (hole, reaction)->
     if !reaction.id
       reaction.reaction_hole = null
-      delete $scope.reaction_board.records[hole]
+      delete $scope.rb.records[hole]
 
   returnAll = ->
-    for hole, r of $scope.reaction_board.records
+    for hole, r of $scope.rb.records
       if !r.id
         r.reaction_hole = null
-        delete $scope.reaction_board.records[hole]
+        delete $scope.rb.records[hole]
+
+  $scope.canTypeset = ->
+    !angular.equals $scope.rb.records, {}
 
   $scope.typeset = ->
     board = {
-      board_head_id: $scope.reaction_board.board_head.id
-      create_date: $scope.reaction_board.create_date
-      number: $scope.reaction_board.number
+      board_head_id: $scope.rb.board_head.id
+      create_date: $scope.rb.create_date
+      number: $scope.rb.number
     }
     board = Sequencing.copyWithDate(board, 'create_date')
     Board.create board, (data)->
       board_id = data.id
       if board_id > 0
         reactions = []
-        for hole, reaction of $scope.reaction_board.records
+        for hole, reaction of $scope.rb.records
           if reaction.reaction_hole
             reactions.push {
               board_id: board_id
@@ -118,8 +128,43 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
               hole: reaction.reaction_hole
             }
         Reaction.updates reactions, ->
-          getBoardRecords($scope.reaction_board.sn)
+          getBoardRecords($scope.rb.sn)
           null
       null
+
+  $scope.rb.showAs = 'board'
+  $scope.showAsBoard = ->
+    $scope.rb.showAs = 'board'
+    null
+
+  $scope.showAsQudrant = ->
+    $scope.rb.showAs = 'quadrant'
+    cols = $scope.rb.cols
+    if cols
+      rows = $scope.rb.rows
+      $scope.rb.q1 = {cols: [], rows: []}
+      $scope.rb.q2 = {cols: [], rows: []}
+      $scope.rb.q3 = {cols: [], rows: []}
+      $scope.rb.q4 = {cols: [], rows: []}
+      for ci, c of cols
+        for ri, r of rows
+          q = 'q' + Sequencing.quadrant(c+r)
+          inArray = false
+          for qc in $scope.rb[q].cols
+            if qc == c
+              inArray = true
+              break
+          if !inArray
+            $scope.rb[q].cols.push c
+
+          inArray = false
+          for qr in $scope.rb[q].rows
+            if qr == r
+              inArray = true
+              break
+          if !inArray
+            $scope.rb[q].rows.push r
+    null
+
   null
 ]

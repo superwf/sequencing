@@ -11,13 +11,18 @@ angular.module('sequencingApp').directive 'notifyFlash', ['$rootScope', '$transl
       null
     $rootScope.$on 'event:notacceptable', (e, data)->
       scope.level = 'danger'
-      duplicateError = /Duplicate entry '(.+?)' for key '(.+?)'/
-      m = data.hint.match(duplicateError)
       scope.msg = ''
-      if m != null
+      duplicateError = /Duplicate entry '(.+?)' for key '(.+?)'/
+      m1 = data.hint.match(duplicateError)
+      constraintError = /constraint fails/
+      m2 = data.hint.match(constraintError)
+      if m1 != null
         $translate(m[2]).then (l)->
           scope.msg += l + m[1]
         $translate('duplicate').then (l)->
+          scope.msg += l
+      else if m2 != null
+        $translate('already_relate').then (l)->
           scope.msg += l
       else
         msgs = data.hint.split ' '

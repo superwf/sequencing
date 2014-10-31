@@ -1,7 +1,9 @@
+.btn.btn-default
+  | {{'precheck_code' | translate}}
 .btn-group
   button.btn.btn-success type='button' ng-repeat='code in codes' ng-click='selectCode(code)' ng-class='{true: "btn-success", false: "btn-danger"}[code.ok]'
     | {{code.code}}
-h2.text-center
+h3.text-center
   | {{board.sn}}
 table.table.table-bordered selectable='' selectable-options='{filter: "td.hole", cancel: "span.code"}'
   tr
