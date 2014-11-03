@@ -14,8 +14,9 @@ angular.module('sequencingApp').controller 'ClientCtrl', ['$scope', 'Client', '$
   $scope.showCompany = ()->
     Modal.resource = Company
     $modal.open {
-      templateUrl: '/views/companiesTable.html'
+      templateUrl: '/views/companies.html'
       controller: 'ModalTableCtrl'
+      size: 'lg'
       resolve:
         searcher: ->
           {}

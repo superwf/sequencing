@@ -19,3 +19,7 @@ func UpdateRole(params martini.Params, r render.Render, req *http.Request){
   role.ActiveMenu(result)
   r.JSON(http.StatusAccepted, Ok_true)
 }
+
+func GetRoles( r render.Render, req *http.Request){
+  r.JSON(http.StatusAccepted, models.GetRoles(req))
+}

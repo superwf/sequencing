@@ -13,7 +13,16 @@ angular.module('sequencingApp').controller 'ReworkOrderCtrl', ['$scope', 'Reacti
 
   $scope.config = Sequencing
   $scope.search = ->
-    Reaction.reworking $scope.searcher, (data) ->
+    s = angular.copy $scope.searcher
+    ids = []
+    for id, b of s.board_head_id
+      if b
+        ids.push parseInt(id)
+    if ids.length
+      s.board_head_id = ids
+    else
+      delete s.board_head_id
+    Reaction.reworking s, (data) ->
       $scope.records = data || []
       for i, v of $scope.records
         if v.board_head_id

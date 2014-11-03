@@ -4,5 +4,3 @@ h2.text-center
 .col-md-2 ng-repeat="r in records" ng-show="r.id != 1"
   a.btn.btn-success ng-href="/roles/{{r.id}}"
     | {{r.name}}
-.navbar.navbar-fixed-bottom.text-center
-  ng-include src="'/views/pager.html'"

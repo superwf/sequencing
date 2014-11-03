@@ -1,7 +1,6 @@
 package models
 import (
   "net/http"
-  "strings"
   "strconv"
   "encoding/json"
 )
@@ -9,55 +8,30 @@ import (
 type DilutePrimer struct {
   Id int `json:"id"`
   PrimerId int `json:"primer_id"`
+  OrderId int `json:"order_id"`
   Status string `json:"status"`
   Remark string `json:"remark"`
   Creator
 }
 
 func DilutingPrimer(req *http.Request)([]map[string]interface{}) {
-  var reactionIds []string
-  rows, _ := Db.Table("reactions").Select("reactions.id").Joins("INNER JOIN samples ON samples.id = reactions.sample_id INNER JOIN boards ON boards.id = samples.board_id").Where("reactions.dilute_primer_id = 0 AND boards.status <> 'new'").Rows()
-  for rows.Next() {
-    var id int
-    rows.Scan(&id)
-    reactionIds = append(reactionIds, strconv.Itoa(id))
-  }
+  rows, _ := Db.Table("reactions").Select("DISTINCT primers.id, primers.name, primer_boards.sn, clients.name, orders.sn, sample_boards.sn, primers.origin_thickness, primers.remark").Joins("INNER JOIN samples ON samples.id = reactions.sample_id INNER JOIN boards AS sample_boards ON samples.board_id = sample_boards.id INNER JOIN orders ON reactions.order_id = orders.id INNER JOIN clients ON orders.client_id = clients.id INNER JOIN primers ON reactions.primer_id = primers.id INNER JOIN boards AS primer_boards ON primers.board_id = primer_boards.id").Where("reactions.dilute_primer_id = 0 AND sample_boards.status <> 'new'").Rows()
   result := []map[string]interface{}{}
-  if len(reactionIds) == 0 {
-    return result
-  }
-  reactionSql := strings.Join(reactionIds, ",")
-  //var primerIds = []string
-  rows, _ = Db.Table("reactions").Select("DISTINCT reactions.primer_id").Where("reactions.id IN (" + reactionSql + ")").Rows()
   for rows.Next() {
-    var id, reactions_count int
-    var primer, primer_board, primer_hole, origin_thickness, primer_remark string
-    rows.Scan(&id)
-    Db.Table("primers").Select("primers.name, primers.hole, primers.origin_thickness, boards.sn, primers.remark").Joins("INNER JOIN boards ON primers.board_id = boards.id").Where("primers.id = " + strconv.Itoa(id)).Row().Scan(&primer, &primer_hole, &origin_thickness, &primer_board, &primer_remark)
-    Db.Table("reactions").Joins("INNER JOIN samples ON samples.id = reactions.sample_id INNER JOIN orders ON orders.id = samples.order_id INNER JOIN clients ON orders.client_id = clients.id").Where("reactions.id IN (" + reactionSql + ") AND reactions.primer_id = ?", id).Count(&reactions_count)
-    orderRows, _ := Db.Table("reactions").Select("DISTINCT orders.sn, clients.name").Joins("INNER JOIN samples ON samples.id = reactions.sample_id INNER JOIN orders ON orders.id = samples.order_id INNER JOIN clients ON orders.client_id = clients.id").Where("reactions.id IN (" + reactionSql + ") AND reactions.primer_id = ?", id).Rows()
-    var orderClient []string
-    for orderRows.Next() {
-      var order, client string
-      orderRows.Scan(&order, &client)
-      orderClient = append(orderClient, order + " / " + client)
-    }
-    var sampleBoard []string
-    sampleBoardRows, _ := Db.Table("boards").Select("DISTINCT boards.sn").Joins("INNER JOIN samples ON boards.id = samples.board_id INNER JOIN reactions ON samples.id = reactions.sample_id").Where("reactions.id IN(" + reactionSql + ") AND reactions.primer_id = ?", id).Rows()
-    for sampleBoardRows.Next() {
-      var board string
-      sampleBoardRows.Scan(&board)
-      sampleBoard = append(sampleBoard, board)
-    }
+    var primerId, reactionsCount int
+    var order, client, primer, primerBoard, sampleBoard, originThickness, primerRemark string
+    rows.Scan(&primerId, &primer, &primerBoard, &client, &order, &sampleBoard, &originThickness, &primerRemark)
+    Db.Select("COUNT(reactions.id)").Table("reactions").Where("reactions.dilute_primer_id = 0 AND boards.status <> 'new' AND reactions.primer_id = ?", primerId).Row().Scan(&reactionsCount)
     d := map[string]interface{}{
-      "primer_id": id,
+      "primer_id": primerId,
       "primer": primer,
-      "primer_board": primer_board,
-      "order_client": orderClient,
+      "primer_board": primerBoard,
+      "client": client,
+      "order": order,
       "sample_board": sampleBoard,
-      "origin_thickness": origin_thickness,
-      "reactions_count": reactions_count,
-      "primer_remark": primer_remark,
+      "origin_thickness": originThickness,
+      "reactions_count": reactionsCount,
+      "primer_remark": primerRemark,
     }
     result = append(result, d)
   }

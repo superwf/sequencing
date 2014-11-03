@@ -55,7 +55,7 @@ end
 -
   id: <%= id %>
   name: company
-  url: '/companyRoot'
+  url: '/companies'
   parent_id: <%= client_company_id %>
 <% id = ::FactoryGirl.generate :menu %>
 -
@@ -158,6 +158,12 @@ end
   id: <%= id %>
   name: reaction_flow
   url: '/boards?board_type=reaction'
+  parent_id: <%= reaction_flow_id %>
+<% id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= id %>
+  name: reaction
+  url: '/reactions'
   parent_id: <%= reaction_flow_id %>
 <% interprete_id = ::FactoryGirl.generate :menu %>
 -

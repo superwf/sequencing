@@ -14,7 +14,7 @@ angular.module('sequencingApp').controller 'PrepaymentCtrl', ['$scope', 'Prepaym
   $scope.selectCompany = ->
     Modal.resource = Company
     modal = $modal.open {
-      templateUrl: '/views/companiesTable.html'
+      templateUrl: '/views/companies.html'
       controller: 'ModalTableCtrl'
       resolve:
         searcher: ->

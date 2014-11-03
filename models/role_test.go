@@ -50,14 +50,12 @@ var _ = Describe("test Role", func(){
   It("test GetRoles", func(){
     prepare_roles(20)
     req := new(http.Request)
-    roles, count := models.GetRoles(req)
-    Expect(len(roles)).To(Equal(models.PerPage))
-    Expect(count).To(Equal(20))
+    roles := models.GetRoles(req)
+    Expect(len(roles)).To(Equal(20))
 
     req.Form.Add("name", "role2")
-    roles, count = models.GetRoles(req)
+    roles = models.GetRoles(req)
     Expect(len(roles)).To(Equal(1))
-    Expect(count).To(Equal(1))
   })
 
   It("test role.RoleActiveMenu", func(){

@@ -28,10 +28,12 @@ angular.module('sequencingApp').controller 'DilutePrimersCtrl', ['$scope', 'Reac
     records = []
     angular.element("tbody tr").each (k, v)->
       if angular.element(this).hasClass("ui-selected")
+        v = $scope.records[k]
         r = {
-          primer_id: $scope.records[k].primer_id
-          status: $scope.records[k].status
-          remark: $scope.records[k].remark
+          primer_id: v.primer_id
+          order_id: v.order_id
+          status: v.status
+          remark: v.remark
         }
         records.push r
     if records.length

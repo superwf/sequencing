@@ -17,8 +17,8 @@ angular.module('sequencingApp').directive 'notifyFlash', ['$rootScope', '$transl
       constraintError = /constraint fails/
       m2 = data.hint.match(constraintError)
       if m1 != null
-        $translate(m[2]).then (l)->
-          scope.msg += l + m[1]
+        $translate(m1[2]).then (l)->
+          scope.msg += l + m1[1]
         $translate('duplicate').then (l)->
           scope.msg += l
       else if m2 != null

@@ -16,19 +16,21 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', 'M
   $scope.record = Modal.record
   $scope.record.create_date = Sequencing.date2string(Modal.record.create_date)
 
-  save_primer = ->
+  save_primer = (board)->
     record = Sequencing.copyWithDate($scope.record, 'create_date')
     if $scope.record.id
       Primer.update record, ->
         $scope.$close 'ok'
     else
       Primer.create record, (data)->
+        data.board = board
+        data.client = $scope.record.client
         $scope.$close data
 
   $scope.save = ->
     if $scope.board && $scope.board.id
       $scope.record.board_id = $scope.board.id
-      save_primer()
+      save_primer($scope.board.sn)
     else
       record =
         create_date: $scope.record.create_date
@@ -38,7 +40,7 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', 'M
       Board.create record, (data)->
         $scope.board = data
         $scope.record.board_id = data.id
-        save_primer()
+        save_primer(data.sn)
 
   $scope.selectClient = ->
     Modal.resource = Client

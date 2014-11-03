@@ -12,18 +12,15 @@ type Role struct {
 }
 
 // tested
-func GetRoles(req *http.Request)([]Role, int){
-  page := getPage(req)
-  db := Db.Model(Role{})
+func GetRoles(req *http.Request)([]Role){
+  db := Db.Table("roles")
   name := req.FormValue("name")
   if name != "" {
     db = db.Where("name LIKE ?", ("%" + name + "%"))
   }
-  var count int
-  db.Count(&count)
   records := []Role{}
-  db.Limit(PerPage).Offset(page * PerPage).Find(&records)
-  return records, count
+  db.Find(&records)
+  return records
 }
 
 // tested

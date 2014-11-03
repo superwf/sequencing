@@ -12,7 +12,7 @@ form.form-search.well name='searchForm'
       label style='float: left;'
         | {{'sample' | translate}}{{'type' | translate}}
       .btn-group
-        button.btn.btn-primary type='button' ng-model='searcher.board_head_id' btn-radio='h.id' ng-repeat='h in board_heads'
+        button.btn.btn-primary type='button' ng-model='searcher.board_head_id[h.id]' btn-checkbox='' ng-repeat='h in board_heads'
           | {{h.name}}
   .row
     .form-group.col-md-2

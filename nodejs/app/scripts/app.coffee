@@ -52,12 +52,9 @@ angular.module('sequencingApp', [
     .when '/clients',
       templateUrl: 'views/clients.html',
       controller: 'ClientsCtrl'
-    .when '/companyRoot',
+    .when '/companies',
       templateUrl: 'views/companyRoot.html',
       controller: 'CompanyTreeCtrl'
-    .when '/companies',
-      templateUrl: 'views/companies.html',
-      controller: 'CompaniesCtrl'
     .when '/companies/:id',
       templateUrl: 'views/company.html',
       controller: 'CompanyCtrl'
@@ -85,6 +82,9 @@ angular.module('sequencingApp', [
     .when '/dilutePrimers',
       templateUrl: 'views/dilutePrimers.html',
       controller: 'DilutePrimersCtrl'
+    .when '/reactions',
+      templateUrl: 'views/reactions.html',
+      controller: 'ReactionsCtrl'
     .when '/typeset/reactions',
       templateUrl: 'views/typesetReactions.html',
       controller: 'TypesetReactionsCtrl'

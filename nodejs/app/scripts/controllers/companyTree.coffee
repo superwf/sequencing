@@ -1,10 +1,14 @@
 'use strict'
 
 angular.module('sequencingApp').controller 'CompanyTreeCtrl', ['$scope', 'CompanyTree', 'Company', '$modal', 'Modal', ($scope, CompanyTree, Company, $modal, Modal) ->
+
+  $scope.inModal = !!$scope.$close
   $scope.$emit 'event:title', 'company'
+
   CompanyTree.records id: 0, (data)->
-    $scope.record =
+    $scope.record = {
       children: data
+    }
     return
 
   $scope.expand = (record)->
@@ -14,10 +18,23 @@ angular.module('sequencingApp').controller 'CompanyTreeCtrl', ['$scope', 'Compan
           record.children = data
       else
         record.children = []
-    null
+    return
   $scope.delete = (record)->
     Company.delete id: record.id, ->
       record.deleted = true
+      return
+    return
+
+  $scope.create = ->
+    Modal.record = {}
+    $modal.open {
+      templateUrl: '/views/company.html'
+      controller: 'CompanyCtrl'
+    }
+    .result.then (record)->
+      if $scope.records
+        $scope.records.unshift record
+      return
 
   $scope.edit = (record)->
     Modal.record = record
@@ -25,5 +42,23 @@ angular.module('sequencingApp').controller 'CompanyTreeCtrl', ['$scope', 'Compan
       templateUrl: '/views/company.html'
       controller: 'CompanyCtrl'
     }
-  null
+    return
+
+  $scope.showTable = false
+
+  $scope.showTree = ->
+    $scope.showTable = false
+    return
+
+  $scope.searcher = {}
+  $scope.search = ->
+    $scope.showTable = true
+    s = $scope.searcher
+    if(s.name || s.code)
+      Company.query s, (data)->
+        $scope.records = data.records || []
+        $scope.totalItems = data.totalItems
+        $scope.perPage = data.perPage
+    return
+  return
 ]

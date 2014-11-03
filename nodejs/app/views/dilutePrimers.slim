@@ -28,13 +28,9 @@ table.table.table-bordered selectable='' selectable-options='{filter: "tbody tr"
       td
         | {{r.primer_board}}
       td
-        span ng-repeat='oc in r.order_client'
-          | {{oc}}
-          br
+        | {{r.order}} / {{r.client}}
       td
-        span ng-repeat='board in r.sample_board'
-          | {{board}}
-          br
+        | {{r.sample_board}}
       td
         | {{r.origin_thickness}}
       td

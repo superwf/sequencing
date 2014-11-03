@@ -29,6 +29,7 @@ func main() {
   m.Use(requireLogin)
   m.Group("/api/v1", func(r martini.Router) {
     m.Get("/config", controllers.Config)
+    m.Get("/roles", controllers.GetRoles)
     m.Put("/roles/:id", controllers.UpdateRole)
     m.Get("/companyTree/:id", controllers.CompanyTree)
     m.Post("/orders", controllers.CreateOrder)

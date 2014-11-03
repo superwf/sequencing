@@ -1,3 +1,6 @@
 ng-include src="'/views/companySearch.html'"
-ol.tree
-  ng-include src="'/views/companyTree.html'"
+div ng-if='!showTable'
+  ol.tree
+    ng-include src="'/views/companyTree.html'"
+div ng-if='showTable'
+  ng-include src="'/views/companies.html'"

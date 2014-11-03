@@ -1,6 +1,16 @@
 db = ::Menu.connection
-seeds = %w{menus procedures}
+
+db.execute("TRUNCATE TABLE dilute_primers")
 db.execute("TRUNCATE TABLE flows")
+db.execute("TRUNCATE TABLE board_records")
+db.execute("TRUNCATE TABLE prechecks")
+db.execute("TRUNCATE TABLE plasmids")
+db.execute("TRUNCATE TABLE plasmids")
+db.execute("DELETE FROM orders")
+db.execute("DELETE FROM primers")
+db.execute("DELETE FROM boards")
+
+seeds = %w{menus procedures}
 seeds.each do |f|
   yml = ::Rails.root.join("test/fixtures/#{f}.yml")
   table_name = f
@@ -67,6 +77,8 @@ db.execute "ALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `ord
 db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;"
 # restrict primer reactions
 db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `primer_id` ) REFERENCES `primers` ( `id`) ON DELETE RESTRICT;"
+# restrict primer dilute_primers
+db.execute "ALTER TABLE `dilute_primers` ADD FOREIGN KEY ( `primer_id` ) REFERENCES `primers` ( `id`) ON DELETE RESTRICT;"
 # restrict company clients
 db.execute "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;"
 # restrict company prepayments

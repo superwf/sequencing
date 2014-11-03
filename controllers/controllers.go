@@ -37,8 +37,6 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
   switch resources {
   case "procedures":
     return models.GetProcedures(req)
-  case "roles":
-    return models.GetRoles(req)
   case "companies":
     return models.GetCompanies(req)
   case "clients":
