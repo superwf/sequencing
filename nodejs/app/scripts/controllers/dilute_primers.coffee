@@ -26,9 +26,8 @@ angular.module('sequencingApp').controller 'DilutePrimersCtrl', ['$scope', 'Reac
   
   $scope.save = ->
     records = []
-    angular.element("tbody tr").each (k, v)->
-      if angular.element(this).hasClass("ui-selected")
-        v = $scope.records[k]
+    angular.forEach $scope.records, (v, i)->
+      if v.selected
         r = {
           primer_id: v.primer_id
           order_id: v.order_id
@@ -36,6 +35,7 @@ angular.module('sequencingApp').controller 'DilutePrimersCtrl', ['$scope', 'Reac
           remark: v.remark
         }
         records.push r
+      return
     if records.length
       DilutePrimer.create records, ->
         getRecords()

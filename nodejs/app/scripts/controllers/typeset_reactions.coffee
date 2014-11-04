@@ -133,7 +133,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
               id: reaction.reaction_id
               hole: reaction.reaction_hole
             }
-        Reaction.updates reactions, ->
+        Reaction.typeset reactions, ->
           getBoardRecords($scope.rb.sn)
           null
       null

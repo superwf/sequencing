@@ -16,6 +16,7 @@ type Sample struct {
   BoardId int `json:"board_id"`
   Hole string `json:"hole"`
   IsSplice bool `json:"is_splice"`
+  SpliceStatus string `json:"splice_status"`
   IsThrough bool `json:"is_through"`
   Reactions []Reaction
   ParentId int `json:"parent_id"`

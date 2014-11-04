@@ -1,4 +1,4 @@
-table.table.table-bordered selectable='' selectable-options='{filter: "tbody tr", cancel: "input,select,button"}'
+table.table.table-bordered selectable='' selectable-options='{filter: "tbody tr", cancel: "input,select,button", data: "records"}'
   thead
     tr
       th
@@ -22,7 +22,7 @@ table.table.table-bordered selectable='' selectable-options='{filter: "tbody tr"
       th
         | {{'dilute' | translate}}{{'remark' | translate}}
   tbody
-    tr ng-repeat="r in records"
+    tr ng-repeat="r in records" i='{{$index}}'
       td
         | {{r.primer}}
       td

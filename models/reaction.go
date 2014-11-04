@@ -20,10 +20,9 @@ type Reaction struct {
   Remark string `json:"remark"`
 }
 
-func GetReactions(req *http.Request)([]Reaction, int){
-  page := getPage(req)
+func GetReactions(req *http.Request)([]map[string]interface{}, int){
   joinSql := "INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN orders ON samples.order_id = orders.id INNER JOIN clients ON orders.client_id = clients.id LEFT JOIN vectors ON samples.vector_id = vectors.id LEFT JOIN boards AS sample_boards ON samples.board_id = sample_boards.id LEFT JOIN prechecks ON samples.id = prechecks.sample_id LEFT JOIN reaction_files ON reactions.id = reaction_files.reaction_id LEFT JOIN primers ON reactions.primer_id = primers.id LEFT JOIN boards AS reaction_boards ON reactions.board_id = reaction_boards.id"
-  db := Db.Table("reactions").Select("orders.sn, orders.remark, clients.name, clients.tel, reactions.id, orders.board_head_id, samples.name, sample_boards.sn, samples.hole, primers.name, reaction_boards.sn, reactions.hole, prechecks.code_id, reaction_files.code_id, reaction_files.proposal, reaction_files.interpreter_id, vectors.name")
+  db := Db.Table("reactions").Select("reactions.id, reactions.primer_id, reactions.remark, orders.sn, orders.remark, orders.status, orders.urgent, orders.is_test, clients.id, clients.name, clients.tel, orders.board_head_id, samples.id, samples.name, samples.vector_id, sample_boards.sn, sample_boards.procedure_id, samples.hole, primers.name, reaction_boards.sn, reaction_boards.procedure_id, reactions.hole, prechecks.code_id, reaction_files.code_id, reaction_files.proposal, reaction_files.interpreter_id, vectors.name").Order("reactions.id DESC")
   sample_id := req.FormValue("sample_id")
   if sample_id != "" {
     db = db.Where("sample_id = ?", sample_id)
@@ -52,16 +51,46 @@ func GetReactions(req *http.Request)([]Reaction, int){
   db = db.Joins(joinSql)
   var count int
   db.Count(&count)
-  result := []Reaction{}
-  all := req.FormValue("all")
-  if all == "" {
-    rows, _ := db.Limit(PerPage).Offset(page * PerPage).Rows()
-    for rows.Next() {
-      //var vector, sampleBoard, reactionBoard sql.NullString
-      //var precheckCodeId, interpreteCodeId sql.NullInt
+  result := []map[string]interface{}{}
+  page := getPage(req)
+  rows, _ := db.Limit(PerPage).Offset(page * PerPage).Rows()
+  for rows.Next() {
+    var reactionId, sampleId, boardHeadId, primerId, clientId, vectorId int
+    var urgent, isTest bool
+    var order, orderRemark, orderStatus, client, clientTel, sample, sampleHole, primer, reactionHole, reactionRemark string
+    var vector, sampleBoard, reactionBoard, proposal sql.NullString
+    var precheckCodeId, interpreteCodeId, interpreterId, sampleProcedureId, reactionProcedureId sql.NullInt64
+    rows.Scan(&reactionId, &primerId, &reactionRemark, &order, &orderRemark, &orderStatus, &urgent, &isTest, &clientId, &client, &clientTel, &boardHeadId, &sampleId, &sample, &vectorId, &sampleBoard, &sampleProcedureId, &sampleHole, &primer, &reactionBoard, &reactionProcedureId, &reactionHole, &precheckCodeId, &interpreteCodeId, &proposal, &interpreterId, &vector)
+    d := map[string]interface{}{
+      "reaction_id": reactionId,
+      "primer_id": primerId,
+      "board_head_id": boardHeadId,
+      "client_id": clientId,
+      "order": order,
+      "order_remark": orderRemark,
+      "order_status": orderStatus,
+      "urgent": urgent,
+      "is_test": isTest,
+      "client": client,
+      "client_tel": clientTel,
+      "sample_id": sampleId,
+      "sample": sample,
+      "vector_id": vectorId,
+      "sample_board": sampleBoard.String,
+      "sample_hole": sampleHole,
+      "sample_procedure_id": sampleProcedureId.Int64,
+      "primer": primer,
+      "reaction_board": reactionBoard.String,
+      "reaction_procedure_id": reactionProcedureId.Int64,
+      "reaction_hole": reactionHole,
+      "precheck_code_id": precheckCodeId.Int64,
+      "interprete_code_id": interpreteCodeId.Int64,
+      "proposal": proposal.String,
+      "interpreterId": interpreterId.Int64,
+      "vector": vector.String,
+      "reaction_remark": reactionRemark,
     }
-  } else {
-    db.Find(&result)
+    result = append(result, d)
   }
   return result, count
 }

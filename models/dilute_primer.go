@@ -15,12 +15,12 @@ type DilutePrimer struct {
 }
 
 func DilutingPrimer(req *http.Request)([]map[string]interface{}) {
-  rows, _ := Db.Table("reactions").Select("DISTINCT primers.id, primers.name, primer_boards.sn, clients.name, orders.sn, sample_boards.sn, primers.origin_thickness, primers.remark").Joins("INNER JOIN samples ON samples.id = reactions.sample_id INNER JOIN boards AS sample_boards ON samples.board_id = sample_boards.id INNER JOIN orders ON reactions.order_id = orders.id INNER JOIN clients ON orders.client_id = clients.id INNER JOIN primers ON reactions.primer_id = primers.id INNER JOIN boards AS primer_boards ON primers.board_id = primer_boards.id").Where("reactions.dilute_primer_id = 0 AND sample_boards.status <> 'new'").Rows()
+  rows, _ := Db.Table("reactions").Select("DISTINCT primers.id, primers.name, primer_boards.sn, clients.name, orders.id, orders.sn, sample_boards.sn, primers.origin_thickness, primers.remark").Joins("INNER JOIN samples ON samples.id = reactions.sample_id INNER JOIN boards AS sample_boards ON samples.board_id = sample_boards.id INNER JOIN orders ON reactions.order_id = orders.id INNER JOIN clients ON orders.client_id = clients.id INNER JOIN primers ON reactions.primer_id = primers.id INNER JOIN boards AS primer_boards ON primers.board_id = primer_boards.id").Where("reactions.dilute_primer_id = 0 AND sample_boards.status <> 'new'").Rows()
   result := []map[string]interface{}{}
   for rows.Next() {
-    var primerId, reactionsCount int
+    var orderId, primerId, reactionsCount int
     var order, client, primer, primerBoard, sampleBoard, originThickness, primerRemark string
-    rows.Scan(&primerId, &primer, &primerBoard, &client, &order, &sampleBoard, &originThickness, &primerRemark)
+    rows.Scan(&primerId, &primer, &primerBoard, &client, &orderId, &order, &sampleBoard, &originThickness, &primerRemark)
     Db.Select("COUNT(reactions.id)").Table("reactions").Where("reactions.dilute_primer_id = 0 AND boards.status <> 'new' AND reactions.primer_id = ?", primerId).Row().Scan(&reactionsCount)
     d := map[string]interface{}{
       "primer_id": primerId,
@@ -28,6 +28,7 @@ func DilutingPrimer(req *http.Request)([]map[string]interface{}) {
       "primer_board": primerBoard,
       "client": client,
       "order": order,
+      "order_id": orderId,
       "sample_board": sampleBoard,
       "origin_thickness": originThickness,
       "reactions_count": reactionsCount,

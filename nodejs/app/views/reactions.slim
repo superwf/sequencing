@@ -1,0 +1,80 @@
+ng-include src="'/views/reactionSearch.html'"
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th ng-bind="'client' | translate"
+      th ng-bind="'order' | translate"
+      th
+        | {{'order' | translate}}{{'remark' | translate}}
+      th
+        | {{'order' | translate}}{{'status' | translate}}
+      th ng-bind="'urgent' | translate"
+      th ng-bind="'is_test' | translate"
+      th ng-bind="'splice' | translate"
+      th
+        | {{'sample' | translate}}{{'board' | translate}}
+      th ng-bind="'sample' | translate"
+      th ng-bind="'vector' | translate"
+      th
+        | {{'sample' | translate}}{{'status' | translate}}
+      th ng-bind="'primer' | translate"
+      th
+        | {{'reaction' | translate}}{{'board' | translate}}
+      th
+        | {{'reaction' | translate}}{{'status' | translate}}
+      th ng-bind="'charge' | translate"
+      th
+        | {{'reaction' | translate}}{{'remark' | translate}}
+  tbody
+    tr ng-repeat="r in records"
+      td
+        | {{r.client}}
+        span ng-if='r.client_tel'
+          | / {{r.client_tel}}
+      td ng-bind='r.order'
+      td
+        | {{r.order_remark}}
+      td
+        | {{r.order_status | translate}}
+      td
+        | {{yesno[r.urgent] | translate}}
+      td
+        | {{yesno[r.is_test] | translate}}
+      td ng-bind='r.order_splice'
+      td
+        span ng-if='r.sample_board'
+          | {{r.sample_board}}:{{r.sample_hole}}
+      td ng-click='edit(r, "Sample", true)'
+        input.form-control ng-model='r.sample' placeholder='{{"sample" | translate}}' title='{{"sample" | translate}}' ng-blur='edit(r, "Sample", false)' ng-if='r.editSample'
+        span ng-if='!r.editSample'
+          | {{r.sample}}
+      td ng-click='edit(r, "Vector", true)'
+        input.form-control ng-model='r.vector' placeholder='{{"vector" | translate}}' title='{{"vector" | translate}}' ng-if='r.editVector' ng-blur='edit(r, "Vector", false)' ng-click='select(r, "vector")'
+        span ng-if='!r.editVector'
+          | {{r.vector}}
+      td
+        span ng-if='r.precheck_code_id'
+          | {{r.precheck_code.remark}}
+        span ng-if='!r.precheck_code_id'
+          | {{r.sample_status}}
+      td ng-click='edit(r, "Primer", true)'
+        input.form-control ng-model='r.primer' placeholder='{{"primer" | translate}}' title='{{"primer" | translate}}' ng-click='select(r, "primer")' ng-if='r.editPrimer' ng-blur='edit(r, "Primer", false)'
+        span ng-if='!r.editPrimer'
+          | {{r.primer}}
+      td
+        span ng-if='r.reaction_board'
+          | {{r.reaction_board}}:{{r.reaction_hole}}
+      td
+        span ng-if='r.interprete_code_id'
+          | {{r.interprete_code.code}}[{{r.interprete_code.result | translate}}]
+        span ng-if='!r.interprete_code_id'
+          | {{r.reaction_status}}
+      td
+        span ng-if='r.interprete_code_id'
+          | {{yesno[r.interprete_code.charge] | translate}}
+      td
+        .input-group
+          input.form-control ng-model='r.reaction_remark'
+          span.input-group-btn
+            button.btn.btn-success ng-click='save(r)'
+              | {{'save' | translate}}
