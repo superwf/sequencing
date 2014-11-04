@@ -15,7 +15,6 @@ type Sample struct {
   ReturnType string `json:"return_type"`
   BoardId int `json:"board_id"`
   Hole string `json:"hole"`
-  IsSplice bool `json:"is_splice"`
   SpliceStatus string `json:"splice_status"`
   IsThrough bool `json:"is_through"`
   Reactions []Reaction

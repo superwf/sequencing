@@ -20,6 +20,7 @@ default: &default
     primerStoreType: ['90days', '1year', 'infinate']
     primerStatus: ['not_receive', 'ok', 'lack', 'runout']
     primerNewStatus: ['not_receive', 'ok']
+    spliceStatus: ['new', 'run', 'finish', 'concession']
     diluteThickNess: '5pmol/ul'
     dilutePrimerStatus: ['ok', 'lack', 'runout']
     orderStatus: ['new', 'run', 'to_checkout', 'checkout', 'finish']

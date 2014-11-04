@@ -19,6 +19,7 @@ var InterpreteResult []string
 var PrimerStatus []string
 var PrimerStoreType []string
 var BoardStatus []string
+var SpliceStatus []string
 
 func init() {
   env := os.Getenv("GOENV")
@@ -75,6 +76,10 @@ func init() {
   boardStatus := Consts["boardStatus"].([]interface{})
   for _, v := range boardStatus {
     BoardStatus = append(BoardStatus, v.(string))
+  }
+  spliceStatus := Consts["spliceStatus"].([]interface{})
+  for _, v := range spliceStatus {
+    SpliceStatus = append(SpliceStatus, v.(string))
   }
 
   reactionFile := Config["reaction_file"].(map[interface{}]interface{})

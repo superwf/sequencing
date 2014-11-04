@@ -45,7 +45,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
   # input sample name
   $scope.samples = {}
   $scope.sample = {}
-  $scope.$watch 'sample.sample_prefix + sample.sample_number + sample.sample_suffix', ->
+  $scope.$watch 'sample.sample_prefix + sample.sample_number + sample.sample_suffix + sample.splice', ->
     if typeof($scope.sample.sample_number) == 'number'
       number = $scope.sample.sample_number
       angular.forEach $scope.cols, (c)->
@@ -63,6 +63,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
             if !$scope.samples[c][r]
               $scope.samples[c][r] = {}
             $scope.samples[c][r].name = name
+            $scope.samples[c][r].splice = $scope.sample.splice
     else
       name = ''
       if $scope.sample.sample_prefix
@@ -78,6 +79,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
               if !$scope.samples[c][r]
                 $scope.samples[c][r] = {}
               $scope.samples[c][r].name = name
+              $scope.samples[c][r].splice = $scope.sample.splice
 
   $scope.selectClient = ->
     Modal.resource = Client
@@ -197,6 +199,10 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
               sample.hole = c + r
               sample.board_id = $scope.board.id
               samples.push v1
+              if v.splice
+                v.splice_status = 'new'
+              else
+                v.splice_status = ''
         if samples.length == 0
           $rootScope.$broadcast 'event:notacceptable', hint: 'sample not_exist'
         else

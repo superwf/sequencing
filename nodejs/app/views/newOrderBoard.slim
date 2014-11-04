@@ -15,6 +15,12 @@
       input.form-control style='width: 9em;' placeholder='{{"sample" | translate}}{{"prefix" | translate}}' title='{{"sample" | translate}}{{"prefix" | translate}}' ng-model='sample.sample_prefix'
       input.form-control style='width: 5em;' placeholder='{{"number" | translate}}' title='{{"number" | translate}}' ng-model='sample.sample_number' type='number'
       input.form-control style='width: 9em;' placeholder='{{"sample" | translate}}{{"suffix" | translate}}' title='{{"sample" | translate}}{{"suffix" | translate}}' ng-model='sample.sample_suffix'
+  .form-group.col-md-2
+    label
+      | {{'splice' | translate}}
+    .btn-group
+      button.btn.btn-primary type='button' ng-model='sample.splice' btn-radio='n' ng-repeat='n in [false, true]'
+        | {{yesno[n] | translate}}
   .col-md-2
     .input-group
       input.form-control ng-model='vector' placeholder='{{"vector" | translate}}' title='{{"vector" | translate}}' ng-focus='selectVector()'
@@ -47,6 +53,9 @@
           | {{boardRecords[c+r]}}
           span ng-show='samples[c][r].name'
             | {{'sample' | translate}} : {{samples[c][r].name}}
+            br
+          span ng-if='samples[c][r].splice'
+            | {{'splice' | translate}}
             br
           span.vector ng-show='samples[c][r].vector_id' ng-click='deleteVector(samples[c][r])'
             | {{'vector' | translate}} :

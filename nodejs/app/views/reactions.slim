@@ -10,10 +10,10 @@ table.table.table-bordered.table-striped
         | {{'order' | translate}}{{'status' | translate}}
       th ng-bind="'urgent' | translate"
       th ng-bind="'is_test' | translate"
-      th ng-bind="'splice' | translate"
       th
         | {{'sample' | translate}}{{'board' | translate}}
       th ng-bind="'sample' | translate"
+      th ng-bind="'splice' | translate"
       th ng-bind="'vector' | translate"
       th
         | {{'sample' | translate}}{{'status' | translate}}
@@ -40,7 +40,6 @@ table.table.table-bordered.table-striped
         | {{yesno[r.urgent] | translate}}
       td
         | {{yesno[r.is_test] | translate}}
-      td ng-bind='r.order_splice'
       td
         span ng-if='r.sample_board'
           | {{r.sample_board}}:{{r.sample_hole}}
@@ -48,6 +47,9 @@ table.table.table-bordered.table-striped
         input.form-control ng-model='r.sample' placeholder='{{"sample" | translate}}' title='{{"sample" | translate}}' ng-blur='edit(r, "Sample", false)' ng-if='r.editSample'
         span ng-if='!r.editSample'
           | {{r.sample}}
+      td
+        span ng-if='r.splice'
+          | {{r.splice | translate}}
       td ng-click='edit(r, "Vector", true)'
         input.form-control ng-model='r.vector' placeholder='{{"vector" | translate}}' title='{{"vector" | translate}}' ng-if='r.editVector' ng-blur='edit(r, "Vector", false)' ng-click='select(r, "vector")'
         span ng-if='!r.editVector'
