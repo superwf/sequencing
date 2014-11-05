@@ -6,6 +6,7 @@ import (
   "github.com/go-martini/martini"
   "strconv"
   "sequencing/models"
+  "sequencing/config"
   "net/http"
   "encoding/json"
   "time"
@@ -22,6 +23,14 @@ func CreateOrder(params martini.Params, req *http.Request, r render.Render, sess
     order.RelateReactions()
   }
   renderDbResult(r, saved, order)
+}
+
+func UpdateOrder(params martini.Params, req *http.Request, r render.Render, session sessions.Session) {
+  id, _ := strconv.Atoi(params["id"])
+  order := models.Order{Id: id}
+  parseJson(&order, req)
+  models.Db.Exec("UPDATE orders SET client_id = ?, is_test = ?, remark = ? WHERE id = ?", order.ClientId, order.IsTest, order.Remark, order.Id)
+  r.JSON(http.StatusOK, Ok_true)
 }
 
 func Reinterprete(req *http.Request, r render.Render, session sessions.Session){
@@ -91,11 +100,15 @@ func ReceiveOrder(req *http.Request, r render.Render){
           vectorId := int(r["vector_id"].(float64))
           clientReaction := models.ClientReaction{Id: id}
           models.Db.First(&clientReaction)
+          spliceStatus := ""
+          if clientReaction.IsSplice {
+            spliceStatus = config.SpliceStatus[0]
+          }
           sample := models.Sample{
             Name: clientReaction.Sample,
             VectorId: vectorId,
             Resistance: clientReaction.Resistance,
-            IsSplice: clientReaction.IsSplice,
+            SpliceStatus: spliceStatus,
             OrderId: order.Id,
           }
           // if sample name repeat, treat it as the same sample

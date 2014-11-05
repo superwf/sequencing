@@ -23,15 +23,15 @@
         | {{yesno[n] | translate}}
   .col-md-2
     .input-group
-      input.form-control ng-model='vector' placeholder='{{"vector" | translate}}' title='{{"vector" | translate}}' ng-focus='selectVector()'
-      span.input-group-btn
-        button.btn.btn-default type='button' ng-click='addVector()' title='{{"add" | translate}}{{"vector" | translate}}'
-          i.glyphicon.glyphicon-plus
-  .col-md-2
-    .input-group
       input.form-control ng-model='primer' placeholder='{{"primer" | translate}}' title='{{"primer" | translate}}' ng-focus='selectPrimer()' ng-disabled='!record.client_id'
       span.input-group-btn
         button.btn.btn-default type='button' ng-click='addPrimer()' title='{{"add" | translate}}{{"primer" | translate}}'
+          i.glyphicon.glyphicon-plus
+  .col-md-2
+    .input-group
+      input.form-control ng-model='vector' placeholder='{{"vector" | translate}}' title='{{"vector" | translate}}' ng-focus='selectVector()'
+      span.input-group-btn
+        button.btn.btn-default type='button' ng-click='addVector()' title='{{"add" | translate}}{{"vector" | translate}}'
           i.glyphicon.glyphicon-plus
   .col-md-1
     .input-group

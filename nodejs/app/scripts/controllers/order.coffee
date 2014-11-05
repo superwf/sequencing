@@ -198,11 +198,12 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
               sample = v1
               sample.hole = c + r
               sample.board_id = $scope.board.id
-              samples.push v1
-              if v.splice
-                v.splice_status = 'new'
+              if v1.splice
+                v1.splice_status = 'new'
               else
-                v.splice_status = ''
+                v1.splice_status = ''
+              samples.push v1
+            return
         if samples.length == 0
           $rootScope.$broadcast 'event:notacceptable', hint: 'sample not_exist'
         else
@@ -210,10 +211,15 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
           record.samples = samples
           Order.create record, (data)->
             if data.id > 0
-              $scope.record.id = data.id
+              $scope.record.id = 0
               $scope.samples = []
               getBoardRecords($scope.board.sn)
               angular.element(".ui-selected").removeClass("ui-selected")
+              table = angular.element("table[selectable]")
+              table.selectable('disable')
+              table.selectable('enable')
+            return
+        return
           #, (err)->
           #  $rootScope.$broadcast 'event:notacceptable', err.data
   null

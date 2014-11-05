@@ -33,6 +33,7 @@ func main() {
     m.Put("/roles/:id", controllers.UpdateRole)
     m.Get("/companyTree/:id", controllers.CompanyTree)
     m.Post("/orders", controllers.CreateOrder)
+    m.Put("/orders", controllers.UpdateOrder)
     m.Post("/boards", controllers.CreateBoard)
     m.Post("/flows", controllers.CreateFlow)
     m.Delete("/flows/:id", controllers.DeleteFlow)
