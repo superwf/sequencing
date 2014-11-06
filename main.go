@@ -42,6 +42,7 @@ func main() {
     m.Put("/boards/:id/nextProcedure", controllers.BoardNextProcedure)
     m.Put("/retypesetBoard/:id", controllers.RetypesetBoard)
     m.Get("/boards/:idsn", controllers.GetBoard)
+    m.Post("/boardRecords", controllers.CreateBoardRecord)
     m.Post("/plasmids", controllers.CreatePlasmid)
     m.Post("/prechecks", controllers.CreatePrecheck)
     m.Get("/dilutePrimers", controllers.DilutePrimers)

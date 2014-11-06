@@ -72,6 +72,7 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
     return
 
   $scope.retypeset = (board)->
-    Board.retypeset id: board.id
+    Board.retypeset id: board.id, ->
+      $scope.search()
   return
 ]
