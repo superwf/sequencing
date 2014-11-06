@@ -4,6 +4,7 @@ import (
   "github.com/martini-contrib/render"
   "github.com/go-martini/martini"
   "sequencing/models"
+  "sequencing/config"
   "net/http"
   "strconv"
   "regexp"
@@ -27,7 +28,7 @@ func CreateBoard(req *http.Request, r render.Render) {
   }
 }
 
-func BoardRecords(params martini.Params, r render.Render){
+func BoardHoleRecords(params martini.Params, r render.Render){
   idsn := params["idsn"]
   board := models.Board{}
   isId, _ := regexp.MatchString(`^\d+$`, idsn)
@@ -78,4 +79,17 @@ func SampleBoardPrimers(params martini.Params, r render.Render){
   id, _ := strconv.Atoi(params["id"])
   board := models.Board{Id: id}
   r.JSON(http.StatusOK, board.SampleBoardPrimers())
+}
+
+func RetypesetBoard(params martini.Params, r render.Render){
+  board := models.Board{}
+  models.Db.Where("id = ?", params["id"]).First(&board)
+  if board.Status == config.BoardStatus[0] {
+    boardHead := models.BoardHead{Id: board.BoardHeadId}
+    models.Db.First(&boardHead)
+    models.Db.Exec("UPDATE " + boardHead.BoardType + "s SET board_id = 0, hole = '' WHERE board_id = ?", board.Id)
+    r.JSON(http.StatusOK, Ok_true)
+  } else {
+    r.JSON(http.StatusNotAcceptable, Ok_false)
+  }
 }

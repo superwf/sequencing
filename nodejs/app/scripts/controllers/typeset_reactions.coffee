@@ -9,17 +9,32 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
   $scope.activeSampleBoard = null
 
   $scope.selectSampleBoard = (b)->
-    $scope.activeSampleBoard = b
     if !b.records
+      b.is_test = 0
+      b.urgent = 0
+      b.precheckNotOk = 0
       BoardHead.get id: b.board_head_id, (head)->
         b.cols = head.cols.split(',')
         b.rows = head.rows.split(',')
+        return
       Board.sampleBoardPrimers id: b.id, (data)->
         if data
           b.records = {}
+          precheckCodes = Sequencing.precheckCodes
           angular.forEach data, (d)->
             b.records[d.hole] ||= {}
             b.records[d.hole][d.reaction_id] = d
+            precheck = precheckCodes[d.precheck_code_id]
+            if !precheck.ok
+              b.precheckNotOk += 1
+            if d.urgent
+              b.urgent += 1
+            if d.is_test
+              b.is_test += 1
+            return
+        return
+    $scope.activeSampleBoard = b
+    return
 
   getBoardHead = ->
     BoardHead.all {all: true, board_type: 'reaction', available: 1}, (data)->
@@ -34,7 +49,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
 
   getBoardRecords = (sn)->
     if sn
-      Board.records idsn: sn, (data)->
+      Board.holeRecords idsn: sn, (data)->
         if data
           $scope.rb.records = {}
           angular.forEach data, (d)->
@@ -80,28 +95,31 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
       for sc in $scope.activeSampleBoard.cols
         for sr in $scope.activeSampleBoard.rows
           hole = sc + sr
-          dom = angular.element('#sample_boards .active .reaction.ui-selected[hole=' + hole + ']')
-          if dom.length
-            reaction_id = dom.attr('reaction_id')
-            reaction = $scope.activeSampleBoard.records[hole][reaction_id]
-            if !reaction.reaction_hole
-              inserted = false
-              for ci, c of cols
-                break if inserted
-                for ri, r of rows
-                  ci = parseInt(ci)
-                  ri = parseInt(ri)
-                  if (ci == c_index && ri >= r_index) || ci > c_index
-                    if !$scope.rb.records[c+r]
-                      hole = c+r
-                      reaction.reaction_hole = hole
-                      $scope.rb.records[hole] = reaction
-                      $scope.selectReactionHole(hole)
-                      inserted = true
-                      break
+          # one hole may has multi reactions
+          doms = angular.element('#sample_boards .active .reaction.ui-selected[hole=' + hole + ']')
+          if doms.length
+            doms.each ->
+              reaction_id = this.getAttribute('reaction_id') * 1
+              reaction = $scope.activeSampleBoard.records[hole][reaction_id]
+              if reaction && !reaction.reaction_hole
+                inserted = false
+                for ci, c of cols
+                  break if inserted
+                  for ri, r of rows
+                    ci = parseInt(ci)
+                    ri = parseInt(ri)
+                    if (ci == c_index && ri >= r_index) || ci > c_index
+                      reaction_hole = c+r
+                      if !$scope.rb.records[reaction_hole]
+                        reaction.reaction_hole = reaction_hole
+                        $scope.rb.records[reaction_hole] = reaction
+                        $scope.selectReactionHole($scope.rb.activeRB, reaction_hole)
+                        inserted = true
+                        break
     null
 
   $scope.returnReaction = (hole, reaction)->
+    console.log reaction
     if !reaction.id
       reaction.reaction_hole = null
       delete $scope.rb.records[hole]

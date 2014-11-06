@@ -1,5 +1,5 @@
 tabset#sample_boards
-  tab heading='{{b.sn}}' ng-repeat='b in sampleBoards' select='selectSampleBoard(b)'
+  tab heading='{{b.sn}}[{{"urgent" | translate}}: {{b.urgent}}][{{"is_test" | translate}}: {{b.is_test}}][{{"precheck" | translate}}{{"not_ok" | translate}}: {{b.precheckNotOk}}][{{"all" | translate}}: {{b.records.length}}]' ng-repeat='b in sampleBoards' select='selectSampleBoard(b)'
     table.table.table-bordered selectable='' selectable-options='{filter: ".reaction"}' index='{{$index}}'
       tr
         th
@@ -9,8 +9,12 @@ tabset#sample_boards
         td.hole
           | {{r}}
         td.hole ng-repeat='c in b.cols'
-          .reaction ng-repeat='(reaction_id, p) in b.records[c+r]' hole='{{c+r}}' index='{{$index}}' reaction_id='{{p.reaction_id}}' ng-show='!p.reaction_hole'
+          .reaction ng-repeat='(reaction_id, p) in b.records[c+r]' hole='{{c+r}}' index='{{$index}}' reaction_id='{{p.reaction_id}}' ng-if='!p.reaction_hole'
             | {{p.primer}}
+            span.alert-info ng-if='p.urgent'
+              | [{{'urgent' | translate}}]
+            span.alert-success ng-if='p.is_test'
+              | [{{'is_test' | translate}}]
 
 h2.text-center ng-if='rb.sn'
   | {{rb.sn}}
@@ -25,8 +29,12 @@ table.reaction_board.table.table-bordered.ui-selectable ng-if='rb.showAs == "boa
     td.hole ng-repeat='c in rb.cols' ng-click='selectReactionHole("board", c+r)' hole='{{c+r}}' col='{{c}}' row='{{r}}'
       .reaction.pointer ng-click='returnReaction(c+r, rb.records[c+r])'
         | {{rb.records[c+r].primer}}
-        .span ng-if='rb.records[c+r]'
+        span.alert-warning ng-if='rb.records[c+r]'
           | [{{rb.records[c+r].hole}}]
+        span.alert-info ng-show='rb.records[c+r].urgent'
+          | [{{'urgent' | translate}}]
+        span.alert-success ng-if='rb.records[c+r].is_test'
+          | [{{'is_test' | translate}}]
 
 .reaction_board.row ng-if='rb.showAs == "quadrant"'
   .col-md-5 ng-repeat='q in [1,2,3,4]'
@@ -39,11 +47,15 @@ table.reaction_board.table.table-bordered.ui-selectable ng-if='rb.showAs == "boa
       tr ng-repeat='r in rb["q" + q].rows'
         td.hole
           | {{r}}
-        td.hole ng-repeat='c in rb["q" + q].cols' ng-click='selectReactionHole("q" + q, c+r)' hole='{{c+r}}' col='{{c}}' row='{{r}}'
+        td.hole ng-repeat='c in rb["q" + q].cols' ng-click='selectReactionHole("q" + q, c+r)' hole='{{c+r}}' col='{{c}}' row='{{r}}' ng-init='rb.records[c+r]'
           .reaction.pointer ng-click='returnReaction(c+r, rb.records[c+r])'
             | {{rb.records[c+r].primer}}
-            .span ng-if='rb.records[c+r]'
+            span.alert-warning ng-if='rb.records[c+r]'
               | [{{rb.records[c+r].hole}}]
+            span.alert-info ng-show='rb.records[c+r].urgent'
+              | [{{'urgent' | translate}}]
+            span.alert-success ng-if='rb.records[c+r].is_test'
+              | [{{'is_test' | translate}}]
 
 .navbar.text-center
   .col-md-12.text-center

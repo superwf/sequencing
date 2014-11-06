@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', 'Procedure', 'Sequencing', '$routeParams', ($scope, Board, Modal, $modal, $location, Procedure, Sequencing, $routeParams) ->
+angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', 'Procedure', 'Sequencing', '$routeParams', 'BoardRecord', ($scope, Board, Modal, $modal, $location, Procedure, Sequencing, $routeParams, BoardRecord) ->
   $scope.searcher = $location.search()
   if $scope.searcher.board_type
     $scope.$emit 'event:title', $scope.searcher.board_type + '_board'
@@ -14,9 +14,18 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
         if record.procedure_id > 0
           if Sequencing.procedures[record.procedure_id]
             record.procedure = Sequencing.procedures[record.procedure_id]
-          else
-            Procedure.get id: record.procedure_id, (procedure)->
-              record.procedure = procedure
+            abi_record_procedure = null
+            abi_record_procedure_id = null
+            for i, p of Sequencing.procedures
+              if p.record_name == 'abi_records'
+                abi_record_procedure_id = i
+                abi_record_procedure = p
+                break
+            if record.procedure.record_name == 'reaction_files'
+              BoardRecord.query board_id: record.id, procedure_id: abi_record_procedure_id, (data)->
+                if data.records[0]
+                  record.abi_record = $scope.$eval(data.records[0].data)
+                return
       $scope.totalItems = data.totalItems
       $scope.perPage = data.perPage
       return
@@ -41,23 +50,28 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
   $scope.run = (board)->
     Modal.board = board
     record_name = board.procedure.record_name
-    if board.procedure.board
+    if board.procedure.record_name == 'reaction_files'
+      record_name = 'abi_records'
+      ctrl = 'BoardRecordsCtrl'
+    else if board.procedure.board
       ctrl = 'BoardRecordsCtrl'
     else
       ctrl = Sequencing.camelcase(record_name) + 'Ctrl'
-    if board.procedure.record_name != 'reaction_files'
-      modal = $modal.open {
-        templateUrl: '/views/' + record_name + '.html'
-        size: 'lg'
-        controller: ctrl
-      }
-      modal.result.then ->
-        Board.nextProcedure id: board.id, (procedure)->
-          if procedure.id
-            board.procedure = procedure
-            board.procedure_id = procedure.id
-          Modal.board = null
-          null
-    null
-  null
+    $modal.open {
+      templateUrl: '/views/' + record_name + '.html'
+      size: 'lg'
+      controller: ctrl
+    }
+    .result.then ->
+      Board.nextProcedure id: board.id, (procedure)->
+        if procedure.id
+          board.procedure = procedure
+          board.procedure_id = procedure.id
+        Modal.board = null
+        return
+    return
+
+  $scope.retypeset = (board)->
+    Board.retypeset id: board.id
+  return
 ]

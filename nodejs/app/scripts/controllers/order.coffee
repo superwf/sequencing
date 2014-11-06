@@ -36,7 +36,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
       $scope.sample_board.sn = Sequencing.boardSn($scope.sample_board)
       getBoardRecords($scope.sample_board.sn)
   getBoardRecords = (sn)->
-    Board.records idsn: sn, (data)->
+    Board.holeRecords idsn: sn, (data)->
       if data
         $scope.boardRecords = {}
         angular.forEach data, (d)->
@@ -199,7 +199,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
               sample.hole = c + r
               sample.board_id = $scope.board.id
               if v1.splice
-                v1.splice_status = 'new'
+                v1.splice_status = Sequencing.spliceStatus[0]
               else
                 v1.splice_status = ''
               samples.push v1

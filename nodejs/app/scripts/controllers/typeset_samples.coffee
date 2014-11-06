@@ -21,7 +21,7 @@ angular.module('sequencingApp').controller 'TypesetSamplesCtrl', ['$scope', 'Sam
       $scope.rows = $scope.board.board_head.rows.split(',')
       $scope.board.sn = Sequencing.boardSn($scope.board)
       sn = $scope.board.sn
-      Board.records idsn: sn, (data)->
+      Board.holeRecords idsn: sn, (data)->
         if data
           $scope.boardRecords = {}
           angular.forEach data, (d)->

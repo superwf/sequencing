@@ -49,6 +49,8 @@ func initRecords(resources string, req *http.Request)(interface{}, int) {
     return models.GetPrimers(req)
   case "orders":
     return models.GetOrders(req)
+  case "boardRecords":
+    return models.GetBoardRecords(req)
   case "samples":
     return models.GetSamples(req)
   case "reactions":

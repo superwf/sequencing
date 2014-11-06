@@ -16,12 +16,23 @@ table.table.table-bordered.table-striped
       td
         a.btn.btn-success ng-click='show(r)'
           | {{r.sn}}
-        a.btn.btn-success ng-confirm-click='confirm(r)' message='{{"confirm" | translate}}{{"typeset" | translate}}' ng-show='r.status == "new" && r.count > 0 && r.board_head.board_type != "primer"'
-          | {{'confirm' | translate}}{{"typeset" | translate}}
+        span ng-if='r.status == "new" && r.count > 0 && r.board_head.board_type != "primer"'
+
+          a.btn.btn-success ng-confirm-click='confirm(r)' message='{{"confirm" | translate}}{{"typeset" | translate}}'
+            | {{'confirm' | translate}}{{"typeset" | translate}}
+          a.btn.btn-warning ng-confirm-click='retypeset(r)' message='{{"confirm" | translate}}{{"retypeset" | translate}}'
+            | {{"retypeset" | translate}}
         a.btn.btn-success ng-click='run(r)' message='{{"run" | translate}}' ng-show='r.procedure.id > 0'
           | {{r.procedure.name}}
-        .progress ng-if='r.procedure.record_name == "reaction_files"'
-          .progress-bar.progress-bar-striped.active role='progressbar' aria-valuenow='45' aria-valuemin='0' aria-valuemax='100' style='width: 40%'
+        br ng-if='r.abi_record'
+        span.label.label-info ng-if='r.abi_record' style='font-size: 100%'
+          | {{'quadrant' | translate}}{{'sequence' | translate}}: {{r.abi_record.quadrant_sequence}}
+        span.label.label-primary ng-if='r.abi_record' style='font-size: 100%'
+          |{{'start' | translate}}{{'time' | translate}} : {{r.abi_record.run_time}}
+        span.label.label-success ng-if='r.abi_record' style='font-size: 100%'
+          |{{'instrument' | translate}}: {{r.abi_record.instrument}}
+        /.progress ng-if='r.procedure.record_name == "reaction_files"'
+        /  .progress-bar.progress-bar-striped.active role='progressbar' aria-valuenow='45' aria-valuemin='0' aria-valuemax='100' style='width: 50%'
       td
         | {{r.board_head.name}}
       td

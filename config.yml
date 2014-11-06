@@ -17,14 +17,14 @@ default: &default
     name: sequencing-session
   consts:
     boardType: ['sample', 'reaction', 'primer']
+    boardStatus: ['new', 'run', 'finish']
     primerStoreType: ['90days', '1year', 'infinate']
     primerStatus: ['not_receive', 'ok', 'lack', 'runout']
     primerNewStatus: ['not_receive', 'ok']
-    spliceStatus: ['new', 'run', 'finish', 'concession']
+    spliceStatus: ['not_operate', 'run', 'finish', 'concession']
     diluteThickNess: '5pmol/ul'
     dilutePrimerStatus: ['ok', 'lack', 'runout']
     orderStatus: ['new', 'run', 'to_checkout', 'checkout', 'finish']
-    boardStatus: ['new', 'run', 'finish']
     transportCondition: ['4-10degree', 'dry_ice', 'room_temperature']
     abiInstruments: ['1','2','3','4']
     interpreteResult: ['pass', 'concession', 'rework', 'reshake']

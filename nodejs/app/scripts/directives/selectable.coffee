@@ -9,13 +9,15 @@ angular.module('sequencingApp').directive 'selectable', [->
       options = {}
     if options.data
       options.selected = (e, ui)->
-        i = ui.selected.getAttribute('i') * 1
-        scope[options.data][i].selected = true
+        i = ui.selected.getAttribute('i')
+        if i
+          scope[options.data][i*1].selected = true
         null
 
       options.unselected = (e, ui)->
-        i = ui.unselected.getAttribute('i') * 1
-        scope[options.data][i].selected = false
+        i = ui.unselected.getAttribute('i')
+        if i
+          scope[options.data][i*1].selected = false
         null
 
     jQuery(element).selectable options

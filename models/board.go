@@ -115,7 +115,7 @@ func (board Board)Records()(interface{}) {
     return records
   } else {
     rows, _ := Db.Table("reactions").Select("reactions.id, reactions.hole, samples.name, primers.name").Joins("INNER JOIN samples ON samples.id = reactions.sample_id INNER JOIN primers ON primers.id = reactions.primer_id").Where("reactions.board_id = ?", board.Id).Rows()
-    var result []map[string]interface{}
+    result := []map[string]interface{}{}
     for rows.Next() {
       var id int
       var hole, sample, primer string
@@ -138,18 +138,22 @@ func (board Board)SampleBoardPrimers()(interface{}){
   if board.Id < 1 {
     return []bool{}
   }
-  rows, _ := Db.Table("reactions").Select("reactions.id, reactions.sample_id, reactions.primer_id, primers.name, samples.hole").Joins("INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN primers ON primers.id = reactions.primer_id").Where("samples.board_id = ? AND reactions.board_id = 0", board.Id).Rows()
+  rows, _ := Db.Table("reactions").Select("reactions.id, reactions.sample_id, reactions.primer_id, primers.name, samples.hole, orders.urgent, orders.is_test, prechecks.code_id").Joins("INNER JOIN samples ON reactions.sample_id = samples.id INNER JOIN primers ON primers.id = reactions.primer_id INNER JOIN orders ON reactions.order_id = orders.id INNER JOIN prechecks ON samples.id = prechecks.sample_id").Where("samples.board_id = ? AND reactions.board_id = 0", board.Id).Rows()
   var records []map[string]interface{}
   for rows.Next() {
-    var reactionId, sampleId, primerId int
+    var urgent, isTest bool
+    var reactionId, sampleId, primerId, precheckCodeId int
     var primer, hole string
-    rows.Scan(&reactionId, &sampleId, &primerId, &primer, &hole)
+    rows.Scan(&reactionId, &sampleId, &primerId, &primer, &hole, &urgent, &isTest, &precheckCodeId)
     d := map[string]interface{}{
       "reaction_id": reactionId,
       "sample_id": sampleId,
       "primer_id": primerId,
       "primer": primer,
       "hole": hole,
+      "urgent": urgent,
+      "is_test": isTest,
+      "precheck_code_id": precheckCodeId,
     }
     records = append(records, d)
   }
