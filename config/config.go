@@ -43,6 +43,8 @@ func init() {
   Config = config_env[env].(map[interface{}]interface{})
   Config["env"] = env
 
+  os.MkdirAll(Config["upload_path"].(string) + "/upload", os.ModePerm)
+
   consts := Config["consts"].(map[interface{}]interface{})
   Consts = map[string]interface{}{}
   for k, v := range(consts) {

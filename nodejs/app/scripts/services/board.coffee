@@ -12,5 +12,6 @@ angular.module('sequencingApp').factory 'Board', ['Sequencing', '$resource', (Se
     nextProcedure: {method: 'PUT', url: Sequencing.api + '/boards/:id/nextProcedure'}
     typeseteReactionSampleBoards: {isArray: true, method: 'GET', url: Sequencing.api + '/typeset/reactionSampleBoards'}
     sampleBoardPrimers: {isArray: true, method: 'GET', url: Sequencing.api + '/sampleBoardPrimers/:id'}
+    attachments: {isArray: true, method: 'GET', url: Sequencing.api + '/attachments/boards/:id'}
   }
 ]

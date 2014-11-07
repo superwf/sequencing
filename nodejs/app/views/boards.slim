@@ -14,25 +14,41 @@ table.table.table-bordered.table-striped
   tbody
     tr ng-repeat='r in records' ng-click='click(r.id, r.sn)'
       td
-        a.btn.btn-success ng-click='show(r)'
-          | {{r.sn}}
-        span ng-if='r.status == "new" && r.count > 0 && r.board_head.board_type != "primer"'
+        .row
+          a.btn.btn-info ng-click='show(r)'
+            | {{r.sn}}
+          span ng-if='r.status == "new" && r.count > 0 && r.board_head.board_type != "primer"'
 
-          a.btn.btn-success ng-confirm-click='confirm(r)' message='{{"confirm" | translate}}{{"typeset" | translate}}'
-            | {{'confirm' | translate}}{{"typeset" | translate}}
-          a.btn.btn-warning ng-confirm-click='retypeset(r)' message='{{"confirm" | translate}}{{"retypeset" | translate}}'
-            | {{"retypeset" | translate}}
-        a.btn.btn-success ng-click='run(r)' message='{{"run" | translate}}' ng-show='r.procedure.id > 0'
-          | {{r.procedure.name}}
-        br ng-if='r.abi_record'
-        span.label.label-info ng-if='r.abi_record' style='font-size: 100%'
-          | {{'quadrant' | translate}}{{'sequence' | translate}}: {{r.abi_record.quadrant_sequence}}
-        span.label.label-primary ng-if='r.abi_record' style='font-size: 100%'
-          |{{'start' | translate}}{{'time' | translate}} : {{r.abi_record.run_time}}
-        span.label.label-success ng-if='r.abi_record' style='font-size: 100%'
-          |{{'instrument' | translate}}: {{r.abi_record.instrument}}
+            a.btn.btn-success ng-confirm-click='confirm(r)' message='{{"confirm" | translate}}{{"typeset" | translate}}'
+              | {{'confirm' | translate}}{{"typeset" | translate}}
+            a.btn.btn-warning ng-confirm-click='retypeset(r)' message='{{"confirm" | translate}}{{"retypeset" | translate}}'
+              | {{"retypeset" | translate}}
+          a.btn.btn-success ng-click='run(r)' message='{{"run" | translate}}' ng-show='r.procedure.id > 0'
+            | {{r.procedure.name}}
+          form method='POST' enctype='multipart/form-data' data-file-upload='r.uploadOptions' data-ng-class='{"fileupload-processing": processing() || loadingFiles}' ng-if='r.board_head.board_type == "sample"'
+            .btn.btn-primary.fileinput-button
+              i.glyphicon.glyphicon-plus
+              span
+                | {{'upload' | translate}}{{'electrophorogram' | translate}}
+              input type='file' name='file' ng-click='submit()'
+          a.btn.btn-info ng-repeat='a in r.electrophorogram' ng-click='attachment(a, r, $index)'
+            | {{'electrophorogram' | translate}}
+          a.btn.btn-warning ng-if='r.board_head.board_type == "reaction"' href='/reactionBoardConfig{{r.id}}'
+            | {{'download' | translate}}{{'config' | translate}}
+        .row ng-if='r.abi_record'
+          span.label.label-primary ng-if='r.abi_record' style='font-size: 100%'
+            | {{'quadrant' | translate}}{{'sequence' | translate}}: {{r.abi_record.quadrant_sequence}}
+          span.label.label-info ng-if='r.abi_record' style='font-size: 100%'
+            |{{'start' | translate}}{{'time' | translate}} : {{r.abi_record.run_time}}
+          span.label.label-primary ng-if='r.abi_record' style='font-size: 100%'
+            |{{'instrument' | translate}}: {{r.abi_record.instrument}}
         /.progress ng-if='r.procedure.record_name == "reaction_files"'
         /  .progress-bar.progress-bar-striped.active role='progressbar' aria-valuenow='45' aria-valuemin='0' aria-valuemax='100' style='width: 50%'
+        /span.btn.btn-success.fileinput-button
+        /  i.glyphicon.glyphicon-plus
+        /  span
+        /    | select
+        /  input id='fileupload' type='file' name='file'
       td
         | {{r.board_head.name}}
       td

@@ -15792,3 +15792,11 @@ Mysql2::Error: Cannot delete or update a parent row: a foreign key constraint fa
   [1m[35m (115.6ms)[0m  ALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT;
   [1m[36m (141.8ms)[0m  [1mALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE CASCADE;[0m
   [1m[35m (174.8ms)[0m  ALTER TABLE `board_records` ADD FOREIGN KEY ( `board_id` ) REFERENCES `boards` ( `id`) ON DELETE CASCADE;
+  [1m[36mActiveRecord::SchemaMigration Load (259.8ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateAttachments (20141107024628)
+  [1m[35m (1715.5ms)[0m  CREATE TABLE `attachments` (`id` int(11) auto_increment PRIMARY KEY, `table_name` varchar(255) NOT NULL, `record_id` INT(11) UNSIGNED NOT NULL, `url` varchar(255) NOT NULL) ENGINE=InnoDB
+  [1m[36m (5856.1ms)[0m  [1mCREATE  INDEX `table_record`  ON `attachments` (`table_name`, `record_id`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (33.9ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20141107024628')[0m
+  [1m[35m (74.8ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m

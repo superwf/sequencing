@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css">
+    <link rel="stylesheet" href="bower_components/jquery-file-upload/css/jquery.fileupload.css" />
     <!-- endbuild -->
   </head>
   <body>
@@ -73,6 +74,27 @@
     <script src="bower_components/angular-ui-date/src/date.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+
+      <!-- build:js({.tmp,app}) scripts/blueimp.js -->
+        <script src="bower_components/blueimp-load-image/js/load-image.js"></script>
+        <script src="bower_components/blueimp-load-image/js/load-image-ios.js"></script>
+        <script src="bower_components/blueimp-load-image/js/load-image-orientation.js"></script>
+        <script src="bower_components/blueimp-load-image/js/load-image-meta.js"></script>
+        <script src="bower_components/blueimp-load-image/js/load-image-exif.js"></script>
+        <script src="bower_components/blueimp-load-image/js/load-image-exif-map.js"></script>
+        <script src="bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js"></script>
+        <script src="bower_components/jquery-file-upload/js/cors/jquery.postmessage-transport.js"></script>
+        <script src="bower_components/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script>
+        <script src="bower_components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+        <script src="bower_components/jquery-file-upload/js/jquery.fileupload.js"></script>
+        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-process.js"></script>
+        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
+        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-image.js"></script>
+        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
+        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-video.js"></script>
+        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-angular.js"></script>
+        <script src="bower_components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+      <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js"></script>
@@ -166,6 +188,8 @@
     <script src="scripts/services/prepayment_record.js"></script>
     <script src="scripts/controllers/typeset_samples.js"></script>
     <script src="scripts/controllers/reactions.js"></script>
+    <script src="scripts/controllers/attachment.js"></script>
+    <script src="scripts/services/attachment.js"></script>
     <!-- endbuild -->
     <script src="http://localhost:35728/livereload.js?snipver=1" type="text/javascript"></script>
 </body>

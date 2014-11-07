@@ -93,3 +93,6 @@ func RetypesetBoard(params martini.Params, r render.Render){
     r.JSON(http.StatusNotAcceptable, Ok_false)
   }
 }
+
+func ReactionBoardConfig(params martini.Params, r render.Render){
+}

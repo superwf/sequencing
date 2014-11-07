@@ -17,4 +17,5 @@ nodejs/app/bower_components
 nodejs/app/views/*.html
 nodejs/app/scripts/*.js
 nodejs/app/scripts/*/*.js
+nodejs/app/upload
 nodejs/test/spec/*/*.js

@@ -35,8 +35,10 @@ default: &default
   reaction_file:
     path: '/home/wangfan/golang/src/sequencing/reaction_files'
     suffix: ['.ab1', '.seq']
+  upload_path: './nodejs/app'
 development:
   <<: *default
+  upload_path: './nodejs/app'
 test:
   <<: *default
   port: ":8079"
@@ -47,3 +49,5 @@ test:
     database: sequencing_test
     network: tcp
     port: "3306"
+production:
+  upload_path: './'

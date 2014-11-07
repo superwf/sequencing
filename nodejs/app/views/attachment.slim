@@ -1,0 +1,7 @@
+.modal-header
+  | {{attachment.name}}
+  a.btn.btn-danger ng-confirm-click='delete(attachment)' message='{{"confirm" | translate}}'
+    | {{'delete' | translate}}
+.modal-body
+  img ng-src="{{attachment.url}}" alt='{{attachment.name}}'
+.modal-footer.center

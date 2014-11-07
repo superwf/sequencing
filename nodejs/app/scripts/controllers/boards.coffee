@@ -2,6 +2,14 @@
 
 angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', 'Procedure', 'Sequencing', '$routeParams', 'BoardRecord', ($scope, Board, Modal, $modal, $location, Procedure, Sequencing, $routeParams, BoardRecord) ->
   $scope.searcher = $location.search()
+
+  uploadOptions = {
+    add: (e, data)->
+      data.submit()
+    success: (f)->
+      $scope.$broadcast 'event:uploaded', f
+  }
+
   if $scope.searcher.board_type
     $scope.$emit 'event:title', $scope.searcher.board_type + '_board'
   $scope.search = ->
@@ -10,7 +18,16 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
         d.create_date = new Date(d.create_date)
       $scope.records = data.records
       angular.forEach $scope.records, (record)->
+        Board.attachments id: record.id, (data)->
+          record.electrophorogram = data
         record.board_head = Sequencing.boardHeads[record.board_head_id]
+        record.uploadOptions = {}
+        angular.copy(uploadOptions, record.uploadOptions)
+        angular.extend(record.uploadOptions, {
+          url: Sequencing.api + '/attachments/boards/' + record.id
+          success: (f)->
+            record.electrophorogram.push f
+        })
         if record.procedure_id > 0
           if Sequencing.procedures[record.procedure_id]
             record.procedure = Sequencing.procedures[record.procedure_id]
@@ -29,6 +46,7 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
       $scope.totalItems = data.totalItems
       $scope.perPage = data.perPage
       return
+
   $scope.search()
  
   $scope.delete = (id, index)->
@@ -74,5 +92,20 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
   $scope.retypeset = (board)->
     Board.retypeset id: board.id, ->
       $scope.search()
+
+  $scope.upload_board = {}
+  $scope.uploadUrl = Sequencing.api + '/attachments/board/'
+
+  $scope.attachment = (a, r, index)->
+    $modal.open {
+      templateUrl: '/views/attachment.html'
+      controller: 'AttachmentCtrl'
+      resolve:
+        attachment: ->
+          a
+    }
+    .result.then (a)->
+      r.electrophorogram.splice index, 1
+    return
   return
 ]

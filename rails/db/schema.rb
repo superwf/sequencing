@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029025626) do
+ActiveRecord::Schema.define(version: 20141107024628) do
+
+  create_table "attachments", force: true do |t|
+    t.string  "table_name", null: false
+    t.integer "record_id",  null: false
+    t.string  "url",        null: false
+  end
+
+  add_index "attachments", ["table_name", "record_id"], name: "table_record", using: :btree
 
   create_table "bill_orders", primary_key: "order_id", force: true do |t|
     t.integer "bill_id",                                             null: false
@@ -72,6 +80,7 @@ ActiveRecord::Schema.define(version: 20141029025626) do
   end
 
   add_index "board_records", ["board_id", "procedure_id"], name: "board_procedure", using: :btree
+  add_index "board_records", ["procedure_id"], name: "procedure_id", using: :btree
 
   create_table "boards", force: true do |t|
     t.integer "board_head_id",                            null: false
@@ -147,6 +156,7 @@ ActiveRecord::Schema.define(version: 20141029025626) do
     t.integer  "creator_id", default: 0,  null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "order_id",                null: false
   end
 
   add_index "dilute_primers", ["created_at"], name: "created_at", using: :btree
@@ -267,12 +277,13 @@ ActiveRecord::Schema.define(version: 20141029025626) do
     t.date     "create_date",                                                      null: false
     t.decimal  "money",                     precision: 10, scale: 2, default: 0.0, null: false
     t.string   "remark",        limit: 500,                          default: "",  null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
+    t.integer  "creator_id",                                         default: 0,   null: false
   end
 
   add_index "prepayment_records", ["bill_id"], name: "bill_id", using: :btree
-  add_index "prepayment_records", ["prepayment_id"], name: "prepayment_id", using: :btree
+  add_index "prepayment_records", ["prepayment_id", "bill_id"], name: "prepayment_id_2", unique: true, using: :btree
 
   create_table "prepayments", force: true do |t|
     t.integer  "company_id",                                                     null: false
@@ -372,7 +383,6 @@ ActiveRecord::Schema.define(version: 20141029025626) do
     t.string  "return_type",   default: "",    null: false
     t.integer "board_id",      default: 0
     t.string  "hole",          default: "",    null: false
-    t.boolean "is_splice",     default: false, null: false
     t.string  "splice_status", default: "",    null: false
     t.boolean "is_through",    default: false, null: false
     t.integer "parent_id",     default: 0,     null: false
