@@ -57,7 +57,6 @@ angular.module('sequencingApp').controller 'PrimerCtrl', ['$scope', 'Primer', 'M
       null
 
   $scope.selectBoard = ->
-    Modal.resource = Board
     if $scope.obj.primer_head && $scope.board_number && $scope.record.create_date
       modal = $modal.open {
         templateUrl: '/views/boardHole.html'

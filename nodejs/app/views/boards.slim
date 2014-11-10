@@ -33,9 +33,9 @@ table.table.table-bordered.table-striped
               input type='file' name='file' ng-click='submit()'
           a.btn.btn-info ng-repeat='a in r.electrophorogram' ng-click='attachment(a, r, $index)'
             | {{'electrophorogram' | translate}}
-          a.btn.btn-warning ng-if='r.board_head.board_type == "reaction"' href='/reactionBoardConfig{{r.id}}'
+          a.btn.btn-warning ng-if='r.board_head.board_type == "reaction"' href='/api/v1/reactionBoardConfig/{{r.id}}' target='_blank'
             | {{'download' | translate}}{{'config' | translate}}
-        .row ng-if='r.abi_record'
+        .row.pointer ng-if='r.abi_record' ng-click='abi_record(r)'
           span.label.label-primary ng-if='r.abi_record' style='font-size: 100%'
             | {{'quadrant' | translate}}{{'sequence' | translate}}: {{r.abi_record.quadrant_sequence}}
           span.label.label-info ng-if='r.abi_record' style='font-size: 100%'

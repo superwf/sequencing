@@ -1,6 +1,10 @@
 'use strict'
 angular.module('sequencingApp').controller 'OrderReactionsCtrl', ['$scope', 'Order', 'Sequencing', 'Modal', '$modal', 'Client', ($scope, Order, Sequencing, Modal, $modal, Client) ->
   $scope.order = Modal.order
+  if typeof($scope.order.client) == 'string'
+    $scope.client = $scope.order.client
+  else if type($scope.order.client) == 'object'
+    $scope.client = $scope.order.client.name
   if !$scope.order.client
     Client.get id: $scope.order.client_id, (c)->
       $scope.order.client = c

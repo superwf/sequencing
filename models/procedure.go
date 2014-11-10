@@ -25,6 +25,10 @@ func GetProcedures(req *http.Request)([]Procedure, int){
   if flow_type != "" {
     db = db.Where("flow_type = ?", flow_type)
   }
+  recordName := req.FormValue("record_name")
+  if recordName != "" {
+    db = db.Where("record_name = ?", recordName)
+  }
   board_head_id := req.FormValue("board_head_id")
   if board_head_id != "" {
     db = db.Joins("INNER JOIN flows ON flows.procedure_id = procedures.id").Where("flows.board_head_id = ?", board_head_id).Order("flows.id")

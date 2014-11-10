@@ -68,9 +68,8 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
   $scope.run = (board)->
     Modal.board = board
     record_name = board.procedure.record_name
-    if board.procedure.record_name == 'reaction_files'
-      record_name = 'abi_records'
-      ctrl = 'BoardRecordsCtrl'
+    if record_name == 'reaction_files'
+      return
     else if board.procedure.board
       ctrl = 'BoardRecordsCtrl'
     else
@@ -87,6 +86,15 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
           board.procedure_id = procedure.id
         Modal.board = null
         return
+    return
+
+  $scope.abi_record = (board)->
+    Modal.board = board
+    $modal.open {
+      templateUrl: '/views/abi_records.html'
+      size: 'lg'
+      controller: 'BoardRecordsCtrl'
+    }
     return
 
   $scope.retypeset = (board)->

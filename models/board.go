@@ -51,7 +51,7 @@ func GetBoards(req *http.Request)([]map[string]interface{}, int){
   db := Db.Table("boards").Order("boards.id DESC").Select("boards.id, boards.sn, boards.create_date, boards.board_head_id, boards.procedure_id, boards.status").Where("board_heads.available = 1")
   sn := req.FormValue("sn")
   if sn != "" {
-    db = db.Where("boards.sn LIKE ?", sn)
+    db = db.Where("boards.sn = ?", sn)
   }
   board_type := req.FormValue("board_type")
   if board_type != "" {
@@ -232,7 +232,7 @@ func (board *Board)NextProcedure()(nextProcedure Procedure){
     procedureTable := currentProcedure.RecordName
     // samples or reactions
     recordTable := currentProcedure.FlowType + "s"
-    Db.Table(procedureTable).Joins("INNER JOIN samples ON " + procedureTable + "." + currentProcedure.FlowType + "_id = " + recordTable + ".id").Where(recordTable + ".board_id = ?", board.Id).Count(&existCount)
+    Db.Table(procedureTable).Joins("INNER JOIN " + currentProcedure.FlowType + "s ON " + procedureTable + "." + currentProcedure.FlowType + "_id = " + recordTable + ".id").Where(recordTable + ".board_id = ?", board.Id).Count(&existCount)
     var recordCount int
     Db.Table(recordTable).Where("board_id = ?", board.Id).Count(&recordCount)
     if existCount < recordCount {

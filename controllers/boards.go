@@ -8,6 +8,7 @@ import (
   "net/http"
   "strconv"
   "regexp"
+  "strings"
 )
 
 // get the record by sn or create it
@@ -94,5 +95,24 @@ func RetypesetBoard(params martini.Params, r render.Render){
   }
 }
 
-func ReactionBoardConfig(params martini.Params, r render.Render){
+// download reaction_board config file
+func ReactionBoardConfig(params martini.Params, r render.Render, rw http.ResponseWriter){
+  id := params["id"]
+  board := models.Board{}
+  models.Db.Where("id = ?", id).First(&board)
+  head := models.BoardHead{Id: board.BoardHeadId}
+  models.Db.First(&head)
+  rows := strings.Split(head.Rows, ",")
+  cols := strings.Split(head.Cols, ",")
+  holeNumber := len(rows) * len(cols)
+  data := "Container Name	Plate ID	Description	ContainerType	AppType	Owner	Operator	PlateSealing	SchedulingPref	\n"+ board.Sn + "	" + board.Sn + "	AutoBot	" + strconv.Itoa(holeNumber) + "-Well	Regular	CEXU	CEXU	Septa	1234	\nAppServer	AppInstance	\nSequencingAnalysis	\nWell	Sample Name	Comment	Results Group 1	Instrument Protocol 1	Analysis Protocol 1	\n"
+
+  result, _ := models.Db.Select("reactions.hole, samples.name").Table("reactions").Joins("INNER JOIN samples ON reactions.sample_id = samples.id").Where("reactions.board_id = ?", board.Id).Rows()
+  for result.Next() {
+    var sample, hole string
+    result.Scan(&hole, &sample)
+    data = data + hole + "	" + hole + "	" + sample + "	AUTO	Sequencing-50cm-BDV3	AUTO\n"
+  }
+  rw.Header().Set("Content-Disposition", "attachment; filename=" + board.Sn + ".txt")
+  r.Data(http.StatusOK, []byte(data))
 }

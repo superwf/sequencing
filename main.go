@@ -82,7 +82,7 @@ func main() {
     m.Post("/attachments/:table_name/:record_id", controllers.CreateAttachment)
     m.Get("/attachments/:table_name/:record_id", controllers.GetAttachments)
     m.Delete("/attachments/:id", controllers.DeleteAttachment)
-    m.Get("/reactionBoardConfig", controllers.ReactionBoardConfig)
+    m.Get("/reactionBoardConfig/:id", controllers.ReactionBoardConfig)
     //m.Post("/PrepaymentRecords", controllers.CreatePrepaymentRecord)
     //m.Post("/billRecords", controllers.CreateBillRecord)
     //m.Put("/billRecords", controllers.UpdateBillRecord)
