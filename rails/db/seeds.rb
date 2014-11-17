@@ -1,15 +1,6 @@
-db = ::Menu.connection
-
-db.execute("TRUNCATE TABLE dilute_primers")
-db.execute("TRUNCATE TABLE flows")
-db.execute("TRUNCATE TABLE board_records")
-db.execute("TRUNCATE TABLE prechecks")
-db.execute("TRUNCATE TABLE plasmids")
-db.execute("TRUNCATE TABLE plasmids")
-db.execute("TRUNCATE TABLE reaction_files")
-db.execute("DELETE FROM orders")
-db.execute("DELETE FROM primers")
-db.execute("DELETE FROM boards")
+require './lib/clean_database'
+CleanDatabase.clean
+db = Menu.connection
 
 seeds = %w{menus procedures}
 seeds.each do |f|
@@ -70,57 +61,85 @@ tables.each do |t|
 end
 
 # add forign key constaint
-# this should be test in rspec
+# these should be test in rspec
 
-# cascade order samples
-db.execute "ALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;"
-# cascade sample reactions
-db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;"
-# restrict primer reactions
-db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `primer_id` ) REFERENCES `primers` ( `id`) ON DELETE RESTRICT;"
-# restrict primer dilute_primers
-db.execute "ALTER TABLE `dilute_primers` ADD FOREIGN KEY ( `primer_id` ) REFERENCES `primers` ( `id`) ON DELETE RESTRICT;"
 # restrict company clients
-db.execute "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `clients` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 # restrict company prepayments
-db.execute "ALTER TABLE `prepayments` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `prepayments` ADD FOREIGN KEY ( `company_id` ) REFERENCES `companies` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 # restrict prepayment prepayment_records
-db.execute "ALTER TABLE `prepayment_records` ADD FOREIGN KEY ( `prepayment_id` ) REFERENCES `prepayments` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `prepayment_records` ADD FOREIGN KEY ( `prepayment_id` ) REFERENCES `prepayments` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
+# cascade order samples
+# tested
+db.execute "ALTER TABLE `samples` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
+# cascade sample reactions
+# tested
+db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
+# restrict primer reactions
+# tested
+db.execute "ALTER TABLE `reactions` ADD FOREIGN KEY ( `primer_id` ) REFERENCES `primers` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
+# restrict primer dilute_primers
+# tested
+db.execute "ALTER TABLE `dilute_primers` ADD FOREIGN KEY ( `primer_id` ) REFERENCES `primers` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
+# cascade order dilute_primers
+# tested
+db.execute "ALTER TABLE `dilute_primers` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
 # restrict bill prepayment_records
-db.execute "ALTER TABLE `prepayment_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;"
+# tested
+db.execute "ALTER TABLE `prepayment_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
 # cascade bill bill_orders
-db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;"
+# tested
+db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
 # cascade order bill_orders
-db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE;"
+# tested
+db.execute "ALTER TABLE `bill_orders` ADD FOREIGN KEY ( `order_id` ) REFERENCES `orders` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
 # cascade bill bill_records
-db.execute "ALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE;"
+# tested
+db.execute "ALTER TABLE `bill_records` ADD FOREIGN KEY ( `bill_id` ) REFERENCES `bills` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
 # restrict client primers
-db.execute "ALTER TABLE `primers` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `primers` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 # restrict board primers
-db.execute "ALTER TABLE `primers` ADD FOREIGN KEY ( `board_id` ) REFERENCES `boards` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `primers` ADD FOREIGN KEY ( `board_id` ) REFERENCES `boards` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 # restrict client orders
-db.execute "ALTER TABLE `orders` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `orders` ADD FOREIGN KEY ( `client_id` ) REFERENCES `clients` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 # restrict board_head boards
-db.execute "ALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `boards` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 # restrict board_head orders
-db.execute "ALTER TABLE `orders` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `orders` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 
 # restrict procedure flows
-db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 # restrict procedure board_records
-db.execute "ALTER TABLE `board_records` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `board_records` ADD FOREIGN KEY ( `procedure_id` ) REFERENCES `procedures` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 
 # restrict board_head flows
-db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `flows` ADD FOREIGN KEY ( `board_head_id` ) REFERENCES `board_heads` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 # restrict sample plasmids
-db.execute "ALTER TABLE `plasmids` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;"
+# tested
+db.execute "ALTER TABLE `plasmids` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
 # restrict plasmid_codes plasmids
-db.execute "ALTER TABLE `plasmids` ADD FOREIGN KEY ( `code_id` ) REFERENCES `plasmid_codes` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `plasmids` ADD FOREIGN KEY ( `code_id` ) REFERENCES `plasmid_codes` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 # restrict sample prechecks
-db.execute "ALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE;"
+# tested
+db.execute "ALTER TABLE `prechecks` ADD FOREIGN KEY ( `sample_id` ) REFERENCES `samples` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
 # restrict precheck_codes prechecks
-db.execute "ALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT;"
+# tested
+db.execute "ALTER TABLE `prechecks` ADD FOREIGN KEY ( `code_id` ) REFERENCES `precheck_codes` ( `id`) ON DELETE RESTRICT ON UPDATE NO ACTION;"
 # restrict reaction reaction_files
-db.execute "ALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE CASCADE;"
+# tested
+db.execute "ALTER TABLE `reaction_files` ADD FOREIGN KEY ( `reaction_id` ) REFERENCES `reactions` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
 # restrict board board_records
-db.execute "ALTER TABLE `board_records` ADD FOREIGN KEY ( `board_id` ) REFERENCES `boards` ( `id`) ON DELETE CASCADE;"
+# tested
+db.execute "ALTER TABLE `board_records` ADD FOREIGN KEY ( `board_id` ) REFERENCES `boards` ( `id`) ON DELETE CASCADE ON UPDATE NO ACTION;"

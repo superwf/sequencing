@@ -1,0 +1,32 @@
+module CleanDatabase
+  def self.clean
+    db = Company.connection
+    db.execute("TRUNCATE TABLE dilute_primers")
+    db.execute("TRUNCATE TABLE flows")
+    db.execute("TRUNCATE TABLE board_records")
+    db.execute("TRUNCATE TABLE prechecks")
+    db.execute("TRUNCATE TABLE plasmids")
+    db.execute("TRUNCATE TABLE prechecks")
+    db.execute("TRUNCATE TABLE reaction_files")
+    db.execute("TRUNCATE TABLE prepayment_records")
+    db.execute("TRUNCATE TABLE bill_records")
+    db.execute("TRUNCATE TABLE bill_orders")
+    db.execute("TRUNCATE TABLE dilute_primers")
+    db.execute("TRUNCATE TABLE plasmids")
+    db.execute("DELETE FROM plasmid_codes")
+    db.execute("DELETE FROM precheck_codes")
+    db.execute("DELETE FROM reactions")
+    db.execute("DELETE FROM samples")
+    db.execute("DELETE FROM procedures")
+    db.execute("DELETE FROM primers")
+    db.execute("DELETE FROM boards")
+    db.execute("DELETE FROM bills")
+    db.execute("DELETE FROM prepayments")
+    db.execute("DELETE FROM orders")
+    db.execute("DELETE FROM board_heads")
+    db.execute("DELETE FROM primers")
+    db.execute("DELETE FROM boards")
+    db.execute("DELETE FROM clients")
+    db.execute("DELETE FROM companies")
+  end
+end
