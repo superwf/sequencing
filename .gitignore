@@ -1,10 +1,11 @@
-config.yaml
+config.yml
 *.swp
 *.swo
 
 reaction_files
 
 rails/.bundle
+rails/config/database.yml
 rails/log/*.log
 rails/tmp
 
