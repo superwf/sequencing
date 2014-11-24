@@ -7,5 +7,6 @@ angular.module('sequencingApp').factory 'BoardHead', ['Sequencing', '$resource',
     create: {method: 'POST'}
     query: {isArray: false, method: 'GET'}
     all: {isArray: true, method: 'GET'}
+    procedures: {isArray: true, method: 'GET', url: Sequencing.api + '/boardHeads/:id/procedures'}
   }
 ]

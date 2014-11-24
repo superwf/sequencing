@@ -33,8 +33,8 @@ angular.module('sequencingApp').controller 'BoardRecordsCtrl', ['$scope', 'Modal
         $scope.$close data
   $scope.timepicker = (dom_selector)->
     angular.element(dom_selector).datetimepicker()
-    null
+    return
 
   $scope.instruments = Sequencing.abiInstruments
-  null
+  return
 ]

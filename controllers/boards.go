@@ -43,17 +43,17 @@ func BoardHoleRecords(params martini.Params, r render.Render){
   r.JSON(http.StatusOK, board.Records())
 }
 
-func ConfirmBoard(params martini.Params, r render.Render) {
-  id, _ := strconv.Atoi(params["id"])
-  board := models.Board{Id: id}
-  models.Db.First(&board)
-  procedure, err := board.Confirm()
-  if err != nil {
-    r.JSON(http.StatusNotAcceptable, map[string]string{"hint": err.Error()})
-  } else {
-    r.JSON(http.StatusOK, procedure)
-  }
-}
+//func ConfirmBoard(params martini.Params, r render.Render) {
+//  id, _ := strconv.Atoi(params["id"])
+//  board := models.Board{Id: id}
+//  models.Db.First(&board)
+//  procedure, err := board.Confirm()
+//  if err != nil {
+//    r.JSON(http.StatusNotAcceptable, map[string]string{"hint": err.Error()})
+//  } else {
+//    r.JSON(http.StatusOK, procedure)
+//  }
+//}
 
 func GetBoard(params martini.Params, r render.Render) {
   idsn := params["idsn"]
@@ -115,4 +115,13 @@ func ReactionBoardConfig(params martini.Params, r render.Render, rw http.Respons
   }
   rw.Header().Set("Content-Disposition", "attachment; filename=" + board.Sn + ".txt")
   r.Data(http.StatusOK, []byte(data))
+}
+
+// update board, only set status and procedure_id
+func UpdateBoard(params martini.Params, r render.Render, req *http.Request){
+  id, _ := strconv.Atoi(params["id"])
+  b := models.Board{Id: id}
+  parseJson(&b, req)
+  models.Db.Exec("UPDATE boards SET status = ?, procedure_id = ? WHERE id = ?", b.Status, b.ProcedureId, b.Id)
+  r.JSON(http.StatusOK, b)
 }

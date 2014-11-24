@@ -33,7 +33,3 @@
   name: 上机记录
   flow_type: reaction
   board: true
--
-  record_name: reaction_files
-  name: 上传测序文件
-  flow_type: 'reaction'

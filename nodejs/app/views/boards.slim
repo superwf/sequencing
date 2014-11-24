@@ -6,26 +6,27 @@ table.table.table-bordered.table-striped
         | {{'sn' | translate}}
       th ng-bind="'board_head' | translate"
       th ng-bind="'type' | translate"
+      th ng-bind="'procedure' | translate"
       th
         | {{'create' | translate}}{{'date' | translate}}
       th ng-bind="'status' | translate"
       th
-        | {{'record' | translate}}{{'count' | translate}}
+        | {{'count' | translate}}
   tbody
-    tr ng-repeat='r in records' ng-click='click(r.id, r.sn)'
+    tr ng-repeat='r in records' ng-click='click(r.id, r.sn)' ng-if='!(searcher.status == "unfinish" && r.status == "finish")'
       td
         .row
           a.btn.btn-info ng-click='show(r)'
             | {{r.sn}}
           span ng-if='r.status == "new" && r.count > 0 && r.board_head.board_type != "primer"'
 
-            a.btn.btn-success ng-confirm-click='confirm(r)' message='{{"confirm" | translate}}{{"typeset" | translate}}'
+            /a.btn.btn-success ng-confirm-click='confirm(r)' message='{{"confirm" | translate}}{{"typeset" | translate}}'
               | {{'confirm' | translate}}{{"typeset" | translate}}
-            a.btn.btn-warning ng-confirm-click='retypeset(r)' message='{{"confirm" | translate}}{{"retypeset" | translate}}'
+            a.btn.btn-warning ng-confirm-click='retypeset(r)' message='{{"confirm" | translate}}{{"retypeset" | translate}}' ng-if='r.status == "new"'
               | {{"retypeset" | translate}}
-          a.btn.btn-success ng-click='run(r)' message='{{"run" | translate}}' ng-show='r.procedure.id > 0'
+          a.btn.btn-success ng-click='run(r)' message='{{"run" | translate}}' ng-show='r.procedure.id > 0' ng-if='r.status == "run"'
             | {{r.procedure.name}}
-          form method='POST' enctype='multipart/form-data' data-file-upload='r.uploadOptions' data-ng-class='{"fileupload-processing": processing() || loadingFiles}' ng-if='r.board_head.board_type == "sample"'
+          form method='POST' enctype='multipart/form-data' data-file-upload='r.uploadOptions' data-ng-class='{"fileupload-processing": processing() || loadingFiles}' ng-if='r.board_head.board_type == "sample" && r.status == "run"'
             .btn.btn-primary.fileinput-button
               i.glyphicon.glyphicon-plus
               span
@@ -54,9 +55,15 @@ table.table.table-bordered.table-striped
       td
         | {{r.board_head.board_type | translate}}
       td
+        .btn-group
+          button.btn.btn-primary type='button' ng-model='r.procedure' btn-radio='p' ng-repeat='p in r.board_head.procedures' ng-click='procedure(r, p)'
+            | {{p.name}}
+      td
         | {{r.create_date | date: 'yyyy-MM-dd'}}
       td
-        | {{r.status | translate}}
+        .btn-group
+          button.btn.btn-primary type='button' ng-model='r.status' btn-radio='s' ng-repeat='s in board_status' required=''
+            | {{s | translate}}
       td
         | {{r.count}}
 ng-include src="'/views/pager.html'"

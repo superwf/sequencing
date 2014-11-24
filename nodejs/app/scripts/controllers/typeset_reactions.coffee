@@ -5,6 +5,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
   # first get the sampleboards those can be typeset to reaction
   Board.typeseteReactionSampleBoards (data)->
     $scope.sampleBoards = data
+    return
 
   $scope.activeSampleBoard = null
 
@@ -32,6 +33,7 @@ angular.module('sequencingApp').controller 'TypesetReactionsCtrl', ['$scope', 'V
             if d.is_test
               b.is_test += 1
             return
+          b.size = Object.keys(b.records).length
         return
     $scope.activeSampleBoard = b
     return

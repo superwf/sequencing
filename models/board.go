@@ -5,7 +5,7 @@ import(
   "strconv"
   "errors"
   "net/http"
-  "strings"
+  //"strings"
   "sequencing/config"
 )
 
@@ -174,37 +174,37 @@ func (board Board)RecordsCount()(int) {
 // when confirm, change board status from new to run
 // and get the first procedure to the board
 // update order status from new to run
-func (board *Board)Confirm()(Procedure, error){
-  procedure := Procedure{}
-  if board.Status == "new" {
-    flow := Flow{}
-    Db.Where("board_head_id = ?", board.BoardHeadId).Order("flows.id").First(&flow)
-    if flow.Id == 0 {
-      return procedure, errors.New("flow not_exist")
-    }
-    procedure.Id = flow.ProcedureId
-    Db.First(&procedure)
-    Db.Model(board).UpdateColumns(Board{Status: "run", ProcedureId: flow.ProcedureId})
-    // operate order
-    var boardHead BoardHead
-    Db.First(&boardHead)
-    if boardHead.BoardType == "sample" {
-      var orderIds []string
-      rows, _ := Db.Table("samples").Select("DISTINCT order_id").Joins("INNER JOIN orders ON samples.order_id = orders.id").Where("orders.status = 'new' AND board_id = ?", board.Id).Rows()
-      for rows.Next() {
-        var orderId int
-        rows.Scan(&orderId)
-        orderIds = append(orderIds, strconv.Itoa(orderId))
-      }
-      if len(orderIds) > 0 {
-        Db.Exec("UPDATE orders SET status = 'run' WHERE id IN(" + strings.Join(orderIds, ",") + ")")
-      }
-    }
-    return procedure, nil
-  } else {
-    return procedure, errors.New("status error")
-  }
-}
+//func (board *Board)Confirm()(Procedure, error){
+//  procedure := Procedure{}
+//  if board.Status == "new" {
+//    flow := Flow{}
+//    Db.Where("board_head_id = ?", board.BoardHeadId).Order("flows.id").First(&flow)
+//    if flow.Id == 0 {
+//      return procedure, errors.New("flow not_exist")
+//    }
+//    procedure.Id = flow.ProcedureId
+//    Db.First(&procedure)
+//    Db.Model(board).UpdateColumns(Board{Status: "run", ProcedureId: flow.ProcedureId})
+//    // operate order
+//    var boardHead BoardHead
+//    Db.First(&boardHead)
+//    if boardHead.BoardType == "sample" {
+//      var orderIds []string
+//      rows, _ := Db.Table("samples").Select("DISTINCT order_id").Joins("INNER JOIN orders ON samples.order_id = orders.id").Where("orders.status = 'new' AND board_id = ?", board.Id).Rows()
+//      for rows.Next() {
+//        var orderId int
+//        rows.Scan(&orderId)
+//        orderIds = append(orderIds, strconv.Itoa(orderId))
+//      }
+//      if len(orderIds) > 0 {
+//        Db.Exec("UPDATE orders SET status = 'run' WHERE id IN(" + strings.Join(orderIds, ",") + ")")
+//      }
+//    }
+//    return procedure, nil
+//  } else {
+//    return procedure, errors.New("status error")
+//  }
+//}
 
 func (board Board)Procedures()([]Procedure) {
   procedures := []Procedure{}
@@ -275,12 +275,12 @@ func TypesetingReactionBoards()(boards []Board){
 
 func UploadingReactionBoards()([]map[string][]string){
   var procedure Procedure
-  Db.Where("record_name = 'reaction_files'").First(&procedure)
+  Db.Where("record_name = 'abi_records'").First(&procedure)
   if procedure.Id == 0 {
-    panic(errors.New("no reaction_files procedure"))
+    panic(errors.New("no abi_records procedure"))
   }
   var boards []Board
-  Db.Table("boards").Where("status = 'run' AND procedure_id = ?", procedure.Id).Find(&boards)
+  Db.Select("boards.*").Table("boards").Joins("INNEER JOIN board_records ON boards.id = board_records.board_id").Where("boards.status = 'run' AND board_reocords.procedure_id = ?", procedure.Id).Find(&boards)
   var result []map[string][]string
   for _, board := range(boards) {
     rows, _ := Db.Table("reactions").Select("reactions.hole").Joins("LEFT JOIN reaction_files ON reactions.id = reaction_files.reaction_id").Where("reactions.board_id = ? AND reaction_files.reaction_id IS NULL ", board.Id).Rows()

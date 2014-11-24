@@ -7,7 +7,7 @@ angular.module('sequencingApp').factory 'Board', ['Sequencing', '$resource', (Se
     create: {method: 'POST'}
     query: {isArray: false, method: 'GET'}
     holeRecords: {isArray: true, method: 'GET', url: Sequencing.api + '/boardHoleRecords/:idsn'}
-    confirm: {method: 'PUT', url: Sequencing.api + '/boards/:id/confirm'}
+    #confirm: {method: 'PUT', url: Sequencing.api + '/boards/:id/confirm'}
     retypeset: {method: 'PUT', url: Sequencing.api + '/retypesetBoard/:id'}
     nextProcedure: {method: 'PUT', url: Sequencing.api + '/boards/:id/nextProcedure'}
     typeseteReactionSampleBoards: {isArray: true, method: 'GET', url: Sequencing.api + '/typeset/reactionSampleBoards'}

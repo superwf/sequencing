@@ -73,3 +73,9 @@ func (record *BoardHead) BeforeSave()(error) {
   // done by mysql unique index
   return nil
 }
+
+func (head *BoardHead)Procedures()([]Procedure) {
+  procedures := []Procedure{}
+  Db.Select("procedures.*").Table("procedures").Joins("INNER JOIN flows ON flows.procedure_id = procedures.id").Where("flows.board_head_id = ?", head.Id).Order("flows.id ASC").Find(&procedures)
+  return procedures
+}

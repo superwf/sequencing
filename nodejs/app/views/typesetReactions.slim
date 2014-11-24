@@ -1,5 +1,5 @@
 tabset#sample_boards
-  tab heading='{{b.sn}}[{{"urgent" | translate}}: {{b.urgent}}][{{"is_test" | translate}}: {{b.is_test}}][{{"precheck" | translate}}{{"not_ok" | translate}}: {{b.precheckNotOk}}][{{"all" | translate}}: {{b.records.length}}]' ng-repeat='b in sampleBoards' select='selectSampleBoard(b)'
+  tab heading='{{b.sn}}[{{"urgent" | translate}}: {{b.urgent}}][{{"is_test" | translate}}: {{b.is_test}}][{{"precheck" | translate}}{{"not_ok" | translate}}: {{b.precheckNotOk}}][{{"all" | translate}}: {{b.size}}]' ng-repeat='b in sampleBoards' select='selectSampleBoard(b)'
     table.table.table-bordered selectable='' selectable-options='{filter: ".reaction"}' index='{{$index}}'
       tr
         th

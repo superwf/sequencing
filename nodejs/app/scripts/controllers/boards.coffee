@@ -1,7 +1,9 @@
 'use strict'
 
-angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', 'Procedure', 'Sequencing', '$routeParams', 'BoardRecord', ($scope, Board, Modal, $modal, $location, Procedure, Sequencing, $routeParams, BoardRecord) ->
+angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Modal', '$modal', '$location', 'Procedure', 'Sequencing', '$routeParams', 'BoardRecord', 'BoardHead', ($scope, Board, Modal, $modal, $location, Procedure, Sequencing, $routeParams, BoardRecord, BoardHead) ->
   $scope.searcher = $location.search()
+
+  $scope.board_status = Sequencing.boardStatus
 
   uploadOptions = {
     add: (e, data)->
@@ -18,9 +20,20 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
         d.create_date = new Date(d.create_date)
       $scope.records = data.records
       angular.forEach $scope.records, (record)->
-        Board.attachments id: record.id, (data)->
-          record.electrophorogram = data
+        $scope.$watch ->
+          record.status
+        , (n, o)->
+          if n != o
+            Board.update record
+          return
         record.board_head = Sequencing.boardHeads[record.board_head_id]
+        if record.board_head.board_type == 'sample'
+          Board.attachments id: record.id, (data)->
+            record.electrophorogram = data
+        if !record.board_head.procedures
+          BoardHead.procedures id: record.board_head_id, (data)->
+            Sequencing.boardHeads[record.board_head_id].procedures = data
+            record.board_head.procedurs = data
         record.uploadOptions = {}
         angular.copy(uploadOptions, record.uploadOptions)
         angular.extend(record.uploadOptions, {
@@ -60,17 +73,19 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
       controller: 'BoardCtrl'
     }
 
-  $scope.confirm = (board)->
-    Board.confirm id: board.id, (procedure)->
-      board.status = 'run'
-      board.procedure = procedure
+  #$scope.confirm = (board)->
+  #  Board.confirm id: board.id, (procedure)->
+  #    board.status = 'run'
+  #    board.procedure = procedure
 
-  $scope.run = (board)->
+  $scope.procedure = (board, procedure)->
+    board.procedure_id = procedure.id
+    board.procedure = procedure
     Modal.board = board
-    record_name = board.procedure.record_name
+    record_name = procedure.record_name
     if record_name == 'reaction_files'
       return
-    else if board.procedure.board
+    else if procedure.board
       ctrl = 'BoardRecordsCtrl'
     else
       ctrl = Sequencing.camelcase(record_name) + 'Ctrl'
@@ -80,12 +95,8 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
       controller: ctrl
     }
     .result.then ->
-      Board.nextProcedure id: board.id, (procedure)->
-        if procedure.id
-          board.procedure = procedure
-          board.procedure_id = procedure.id
-        Modal.board = null
-        return
+      Board.update board
+      return
     return
 
   $scope.abi_record = (board)->
