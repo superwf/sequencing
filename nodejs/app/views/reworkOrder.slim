@@ -5,9 +5,9 @@ form.form-search.well name='searchForm'
     .col-md-2
       input.form-control ng-model='searcher.client' placeholder='{{"client" | translate}}' title="{{'client' | translate}}"
     .col-md-2
-      input.form-control ng-model='searcher.date_from' placeholder="{{'receive' | translate}}{{'date' | translate}}{{'from' | translate}}" ui-date='dateOption' ui-date-format='yy-mm-dd'
+      input.form-control ng-model='searcher.date_from' placeholder="{{'receive' | translate}}{{'date' | translate}}{{'from' | translate}}" datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='opened1' ng-click='selectDate($event, "opened1")'
     .col-md-2
-      input.form-control ng-model='searcher.date_to' placeholder="{{'to' | translate}}" ui-date='dateOption' ui-date-format='yy-mm-dd' title="{{'to' | translate}}"
+      input.form-control ng-model='searcher.date_to' placeholder="{{'to' | translate}}" title="{{'to' | translate}}" datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='opened2' ng-click='selectDate($event, "opened2")'
     .form-group.col-md-4
       label style='float: left;'
         | {{'sample' | translate}}{{'type' | translate}}

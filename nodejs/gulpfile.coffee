@@ -10,6 +10,9 @@ minifyCss = require("gulp-minify-css")
 rename = require("gulp-rename")
 sh = require("shelljs")
 wiredep = require("wiredep")
+uglify = require("gulp-uglify")
+minifycss = require('gulp-minify-css')
+mainBowerFiles = require('main-bower-files')
 
 wiredep
   directory: "app/bower_components"
@@ -28,7 +31,8 @@ gulp.task "sass", (done) ->
   null
 
 gulp.task "coffee", (done) ->
-  gulp.src("./app/scripts/*/*.coffee").pipe(coffee(bare: true)).pipe(gulp.dest("./app/scripts/")).on "end", done
+  gulp.src("./app/scripts/*/*.coffee").pipe(coffee(bare: true)).pipe(gulp.dest("./app/scripts/"))
+  gulp.src("./app/scripts/app.coffee").pipe(coffee(bare: true)).pipe(gulp.dest("./app/scripts/")).on "end", done
   return
 
 gulp.task "slim", (done) ->
@@ -85,3 +89,54 @@ gulp.task "serve", ["slim", "coffee", "sass", "watch"], ->
     port: 9000
     root: ["./app"]
   return
+
+gulp.task "pre-build", ['slim', 'coffee', 'sass'], ->
+  gulp.src('./app/views/*.html').pipe(gulp.dest('./www/views/'))
+  return
+
+gulp.task 'concat', ['pre-build'], ->
+  files = mainBowerFiles()
+  files.push './app/scripts/app.js'
+  files.push './app/scripts/controllers/*.js'
+  files.push './app/scripts/directives/*.js'
+  files.push './app/scripts/services/*.js'
+  files.push './app/bower_components/blueimp-load-image/js/load-image.js'
+  files.push './app/bower_components/blueimp-load-image/js/load-image-ios.js'
+  files.push './app/bower_components/blueimp-load-image/js/load-image-orientation.js'
+  files.push './app/bower_components/blueimp-load-image/js/load-image-meta.js'
+  files.push './app/bower_components/blueimp-load-image/js/load-image-exif.js'
+  files.push './app/bower_components/blueimp-load-image/js/load-image-exif-map.js'
+  files.push './app/bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js'
+  files.push './app/bower_components/jquery-file-upload/js/cors/jquery.postmessage-transport.js'
+  files.push './app/bower_components/jquery-file-upload/js/cors/jquery.xdr-transport.js'
+  files.push './app/bower_components/jquery-file-upload/js/vendor/jquery.ui.widget.js'
+  files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload.js'
+  files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload-process.js'
+  files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload-validate.js'
+  files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload-image.js'
+  files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload-audio.js'
+  files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload-video.js'
+  files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload-angular.js'
+  files.push './app/bower_components/jquery-file-upload/js/jquery.iframe-transport.js'
+  #files.push './app/bower_components/jquery-ui/jquery-ui.min.js'
+  #files.push './app/bower_components/angular-ui-date/src/date.js'
+  #files.push './app/bower_components/jquery-ui/ui/datepicker.js'
+
+  #files.push './app/bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js'
+  #files.push './app/bower_components/jqueryui-timepicker-addon/dist/i18n/jquery-ui-timepicker-zh-CN.js'
+  #files.push './app/bower_components/jquery-ui/ui/i18n/datepicker-zh-CN.js'
+  #gulp.src(files).pipe(concat('vendor.js')).pipe(uglify()).pipe(gulp.dest('./www/'))
+  gulp.src(files).pipe(concat('vendor.js')).pipe(gulp.dest('./www/'))
+
+  cssfiles = [
+    './app/styles/main.css'
+    './app/bower_components/jquery-ui/themes/smoothness/jquery-ui.css'
+    #'./app/bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css'
+    './app/bower_components/jquery-file-upload/css/jquery.fileupload.css'
+  ]
+  gulp.src(cssfiles).pipe(concat('main.css')).pipe(minifycss({keepBreaks: true})).pipe(gulp.dest('./www/'))
+  gulp.src('./app/cn.json').pipe(gulp.dest('./www/'))
+  return
+
+gulp.task 'build', ['concat'], ->
+  console.log mainBowerFiles()

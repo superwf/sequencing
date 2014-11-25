@@ -1,4 +1,15 @@
-ng-include src="'/views/boardSearch.html'"
+form.form-search.well name='searchForm'
+  .row
+    .col-md-2
+      input.form-control ng-model='searcher.sn' placeholder="{{'sn' | translate}}"
+    .col-md-2
+      input.form-control ng-model='searcher.board_head' placeholder="{{'board_head' | translate}}"
+    .col-md-2
+      input.form-control ng-model='searcher.date_from' placeholder="{{'create' | translate}}{{'date' | translate}}{{'from' | translate}}" datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='fromOpen' ng-click='selectDate($event, "fromOpen")'
+    .col-md-2
+      input.form-control ng-model='searcher.date_to' placeholder="{{'to' | translate}}" datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='toOpen' ng-click='selectDate($event, "toOpen")'
+    .col-md-1
+      button.btn.btn-success ng-click='search()' ng-bind='"search" | translate'
 table.table.table-bordered.table-striped
   thead
     tr
@@ -40,7 +51,7 @@ table.table.table-bordered.table-striped
           span.label.label-primary ng-if='r.abi_record' style='font-size: 100%'
             | {{'quadrant' | translate}}{{'sequence' | translate}}: {{r.abi_record.quadrant_sequence}}
           span.label.label-info ng-if='r.abi_record' style='font-size: 100%'
-            |{{'start' | translate}}{{'time' | translate}} : {{r.abi_record.run_time}}
+            |{{'start' | translate}}{{'time' | translate}} : {{r.abi_record.run_date | date: 'yyyy-MM-dd'}} {{r.abi_record.run_time | date: 'HH:mm'}}
           span.label.label-primary ng-if='r.abi_record' style='font-size: 100%'
             |{{'instrument' | translate}}: {{r.abi_record.instrument}}
         /.progress ng-if='r.procedure.record_name == "reaction_files"'

@@ -1,4 +1,44 @@
-ng-include src="'/views/primerSearch.html'"
+form.form-search.well name='searchForm'
+  .row
+    .form-group.col-md-2
+      input.form-control ng-model='searcher.name' placeholder="{{'name' | translate}}"
+    .form-group.col-md-2
+      input.form-control ng-model='searcher.board' placeholder="{{'primer' | translate}}{{'board' | translate}}"
+    .form-group.col-md-1
+      input.form-control ng-model='searcher.hole' placeholder="{{'hole' | translate}}" ng-disabled='!searcher.board'
+    .form-group.col-md-2
+      input.form-control ng-model='searcher.client' placeholder="{{'client' | translate}}"
+    .form-group.col-md-2
+      input.form-control placeholder="{{'receive' | translate}}{{'date' | translate}}{{'from' | translate}}" ng-model='searcher.date_from' datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='fromOpen' ng-click='selectDate($event, "fromOpen")'
+    .form-group.col-md-2
+      input.form-control placeholder="{{'to' | translate}}" ng-model='searcher.date_to' title="{{'to' | translate}}" datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='toOpen' ng-click='selectDate($event, "toOpen")'
+    .form-group.col-md-3
+      label style='float: left;'
+        | {{'status' | translate}}:
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='searcher.status' btn-radio='s' ng-repeat='s in config.primerStatus'
+          | {{s | translate}}
+    .form-group.col-md-3
+      label style='float: left;'
+        | {{'store' | translate}}:
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='searcher.store_type' btn-radio='s' ng-repeat='s in config.primerStoreType'
+          | {{s | translate}}
+    .form-group.col-md-2
+      label style='float: left;'
+        | {{'expire' | translate}}:
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='searcher.expire' btn-radio='y' ng-repeat='y in yesno'
+          | {{y | translate}}
+    .form-group.col-md-2
+      label style='float: left;'
+        | {{'return' | translate}}:
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='searcher.need_return' btn-radio='y' ng-repeat='y in yesno'
+          | {{y | translate}}
+    .col-md-1
+      button.btn.btn-success ng-click='search()' ng-bind='"search" | translate'
+/ng-include src="'/views/primerSearch.html'"
 table.table.table-bordered.table-striped
   thead
     tr

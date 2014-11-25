@@ -51,7 +51,7 @@ angular.module('sequencingApp').controller 'BoardsCtrl', ['$scope', 'Board', 'Mo
                 abi_record_procedure_id = i
                 abi_record_procedure = p
                 break
-            if record.procedure.record_name == 'reaction_files'
+            if record.procedure.record_name == 'abi_records'
               BoardRecord.query board_id: record.id, procedure_id: abi_record_procedure_id, (data)->
                 if data.records[0]
                   record.abi_record = $scope.$eval(data.records[0].data)

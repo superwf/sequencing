@@ -4,11 +4,12 @@ angular.module('sequencingApp').controller 'BoardRecordsCtrl', ['$scope', 'Modal
   $scope.board = Modal.board
 
   record_name = $scope.board.procedure.record_name
-  if record_name == 'abi_records' || record_name == 'reaction_files'
+  if record_name == 'abi_records'
     if $scope.board.abi_record
       $scope.record = {data: $scope.board.abi_record, board_id: $scope.board.id}
     else
-      $scope.record = {data: {quadrant_sequence: '1,2,3,4', run_time: ''}, board_id: $scope.board.id}
+      now = new Date()
+      $scope.record = {data: {quadrant_sequence: '1,2,3,4', run_date: now, run_time: now}, board_id: $scope.board.id}
   else
     $scope.record = {data: {remark: 'ok'}, board_id: $scope.board.id}
 

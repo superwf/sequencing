@@ -36,18 +36,6 @@
       <div ng-view=""></div>
     </div>
 
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       //(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       //(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       //m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       //})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-       //ga('create', 'UA-XXXXX-X');
-       //ga('send', 'pageview');
-    </script>
-
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -71,34 +59,35 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-drop/angular-drop.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-    <script src="bower_components/angular-ui-date/src/date.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
-      <!-- build:js({.tmp,app}) scripts/blueimp.js -->
-        <script src="bower_components/blueimp-load-image/js/load-image.js"></script>
-        <script src="bower_components/blueimp-load-image/js/load-image-ios.js"></script>
-        <script src="bower_components/blueimp-load-image/js/load-image-orientation.js"></script>
-        <script src="bower_components/blueimp-load-image/js/load-image-meta.js"></script>
-        <script src="bower_components/blueimp-load-image/js/load-image-exif.js"></script>
-        <script src="bower_components/blueimp-load-image/js/load-image-exif-map.js"></script>
-        <script src="bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js"></script>
-        <script src="bower_components/jquery-file-upload/js/cors/jquery.postmessage-transport.js"></script>
-        <script src="bower_components/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script>
-        <script src="bower_components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-        <script src="bower_components/jquery-file-upload/js/jquery.fileupload.js"></script>
-        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-process.js"></script>
-        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
-        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-image.js"></script>
-        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
-        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-video.js"></script>
-        <script src="bower_components/jquery-file-upload/js/jquery.fileupload-angular.js"></script>
-        <script src="bower_components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-      <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/blueimp.js -->
+      <!--<script src="bower_components/blueimp-load-image/js/load-image.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image-ios.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image-orientation.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image-meta.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image-exif.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image-exif-map.js"></script>
+      <script src="bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js"></script>
+      <script src="bower_components/jquery-file-upload/js/cors/jquery.postmessage-transport.js"></script>
+      <script src="bower_components/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script>
+      <script src="bower_components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+      <script src="bower_components/jquery-file-upload/js/jquery.fileupload.js"></script>
+      <script src="bower_components/jquery-file-upload/js/jquery.fileupload-process.js"></script>
+      <script src="bower_components/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
+      <script src="bower_components/jquery-file-upload/js/jquery.fileupload-image.js"></script>
+      <script src="bower_components/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
+      <script src="bower_components/jquery-file-upload/js/jquery.fileupload-video.js"></script>
+      <script src="bower_components/jquery-file-upload/js/jquery.fileupload-angular.js"></script>
+      <script src="bower_components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+      -->
+    <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js"></script>
+    <!--<script src="bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js"></script>
     <script src="bower_components/jqueryui-timepicker-addon/dist/i18n/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="bower_components/jquery-ui/ui/i18n/datepicker-zh-CN.js"></script>-->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/home.js"></script>
@@ -140,7 +129,6 @@
     <script src="scripts/services/order.js"></script>
     <script src="scripts/controllers/orders.js"></script>
     <script src="scripts/controllers/order.js"></script>
-    <script src="bower_components/jquery-ui/ui/i18n/datepicker-zh-CN.js"></script>
     <script src="scripts/services/board.js"></script>
     <script src="scripts/controllers/boards.js"></script>
     <script src="scripts/controllers/board.js"></script>
@@ -162,7 +150,6 @@
     <script src="scripts/controllers/typeset_reactions.js"></script>
     <script src="scripts/services/board_record.js"></script>
     <script src="scripts/controllers/board_records.js"></script>
-    <script src="scripts/directives/datetimepicker.js"></script>
     <script src="scripts/services/interprete_code.js"></script>
     <script src="scripts/controllers/interprete_codes.js"></script>
     <script src="scripts/controllers/interprete_code.js"></script>

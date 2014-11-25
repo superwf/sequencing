@@ -10,7 +10,7 @@ h3.text-center
           .col-md-5
             input.form-control ng-model='record.data.bill_signer' placeholder='{{"bill" | translate}}{{"signer" | translate}}' title='{{"bill" | translate}}{{"signer" | translate}}'
           .col-md-5
-            input.form-control ng-model='record.data.bill_sign_date' placeholder='{{"bill" | translate}}{{"sign" | translate}}{{"date" | translate}}' title='{{"bill" | translate}}{{"sign" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+            input.form-control ng-model='record.data.bill_sign_date' placeholder='{{"bill" | translate}}{{"sign" | translate}}{{"date" | translate}}' title='{{"bill" | translate}}{{"sign" | translate}}{{"date" | translate}}'  datepicker-options='{{dateOptions}}' datepicker-popup='{{dateFormat}}' is-open='opened' ng-click='selectDate($event, "opened")'
       .well
         h4.text-center
           | {{'make_invoice' | translate}}
@@ -28,13 +28,13 @@ h3.text-center
           .col-md-5
             input.form-control ng-model='record.data.confirm_detail_signer' placeholder='{{"confirm_detail" | translate}}{{"signer" | translate}}' title='{{"confirm_detail" | translate}}{{"signer" | translate}}'
           .col-md-5
-            input.form-control ng-model='record.data.confirm_detail_sign_date' placeholder='{{"confirm_detail" | translate}}{{"sign" | translate}}{{"date" | translate}}' title='{{"confirm_detail" | translate}}{{"sign" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+            input.form-control ng-model='record.data.confirm_detail_sign_date' placeholder='{{"confirm_detail" | translate}}{{"sign" | translate}}{{"date" | translate}}' title='{{"confirm_detail" | translate}}{{"sign" | translate}}{{"date" | translate}}' datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='opened1' ng-click='selectDate($event, "opened1")'
       .well
         h4.text-center
           | {{'pay' | translate}}
         .form-group
           .col-md-5
-            input.form-control ng-model='record.data.pay_date' placeholder='{{"pay" | translate}}{{"date" | translate}}' title='{{"pay" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+            input.form-control ng-model='record.data.pay_date' placeholder='{{"pay" | translate}}{{"date" | translate}}' title='{{"pay" | translate}}{{"date" | translate}}' datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='opened2' ng-click='selectDate($event, "opened2")'
           .col-md-5
             input.form-control ng-model='record.data.check_number' placeholder='{{"check_number" | translate}}' title='{{"check_number" | translate}}'
         .form-group

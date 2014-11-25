@@ -2,7 +2,7 @@
   .btn-group
     button.btn.btn-success ng-click='checkout()'
       | {{'create' | translate}}{{'bill' | translate}}
-    input.form-control style='float: left; width: 10em;' ng-model='today' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
+    input.form-control style='float: left; width: 13em;' ng-model='today' required='' datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='opened' ng-click='selectDate($event, "opened")'
 table.table.table-bordered
   thead
     tr

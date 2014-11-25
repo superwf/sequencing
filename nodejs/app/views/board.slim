@@ -2,7 +2,7 @@
   .col-md-8.col-md-offset-2
     form.form-horizontal.well.text-center name='form'
       .form-group
-        input.form-control ng-model='record.create_date' ng-required='true' placeholder='{{"create" | translate}}{{"date" | translate}}' title='{{"create" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd'
+        input.form-control ng-model='record.create_date' ng-required='true' placeholder='{{"create" | translate}}{{"date" | translate}}' title='{{"create" | translate}}{{"date" | translate}}' datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='opened' ng-click='selectDate($event, "opened")'
       .form-group
         input.form-control ng-model='record.number' placeholder='{{"number" | translate}}' title='{{"number" | translate}}' type='number' required=''
       .form-group

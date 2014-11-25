@@ -1,9 +1,15 @@
 'use strict'
 angular.module('sequencingApp').controller 'MainCtrl', ['Security', '$scope', '$rootScope', 'Sequencing', (Security, $scope, $rootScope, Sequencing)->
-  $rootScope.dateOption =
-    changeYear: true
-    changeMonth: true
-    dateFormat: 'yy-mm-dd'
+  $rootScope.selectDate = ($event, attr)->
+    $event.preventDefault()
+    $event.stopPropagation()
+    this[attr] = true
+    return true
+  $rootScope.dateOptions =
+    formatYear: 'yy'
+    startingDay: 1
+  $rootScope.dateFormat = 'yyyy-MM-dd'
+
   $rootScope.yesno = Sequencing.yesno
 
   $scope.title = 'sequencing'

@@ -9,13 +9,13 @@ angular.module('sequencingApp', [
   'ngTouch'
   'ui.bootstrap'
   'ui.drop'
-  'ui.date'
+  #'ui.date'
   'pascalprecht.translate'
-  'blueimp.fileupload'
+  #'blueimp.fileupload'
 ]).config ['$routeProvider', '$locationProvider', '$httpProvider', '$translateProvider', ($routeProvider, $locationProvider, $httpProvider, $translateProvider) ->
   $translateProvider.preferredLanguage 'cn'
   $translateProvider.useStaticFilesLoader {
-    prefix: '/scripts/'
+    prefix: '/'
     suffix: '.json'
   }
   $locationProvider.html5Mode(true)

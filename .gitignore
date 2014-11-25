@@ -20,3 +20,6 @@ nodejs/app/scripts/*.js
 nodejs/app/scripts/*/*.js
 nodejs/app/upload
 nodejs/test/spec/*/*.js
+nodejs/www/*.js
+nodejs/www/*.css
+nodejs/www/views

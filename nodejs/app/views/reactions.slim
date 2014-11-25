@@ -1,4 +1,44 @@
-ng-include src="'/views/reactionSearch.html'"
+form.form-search.well name='searchForm'
+  .row
+    .col-md-2
+      input.form-control ng-model='searcher.company_code' placeholder="{{'company' | translate}}{{'code' | translate}}" title="{{'company' | translate}}{{'code' | translate}}"
+    .col-md-2
+      input.form-control ng-model='searcher.client' placeholder="{{'client' | translate}}" title="{{'client' | translate}}"
+    .col-md-2
+      input.form-control ng-model='searcher.order' placeholder="{{'order' | translate}}" title="{{'order' | translate}}"
+    .col-md-2
+      input.form-control ng-model='searcher.date_from' placeholder="{{'receive' | translate}}{{'date' | translate}}{{'from' | translate}}" datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='fromOpen' ng-click='selectDate($event, "fromOpen")'
+    .col-md-2
+      input.form-control ng-model='searcher.date_to' placeholder="{{'to' | translate}}" title="{{'to' | translate}}" datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='toOpen' ng-click='selectDate($event, "toOpen")'
+    .form-group.col-md-2
+      input.form-control ng-model='searcher.sample_board' placeholder="{{'sample' | translate}}{{'board' | translate}}"
+    .form-group.col-md-1
+      input.form-control ng-model='searcher.sample_hole' placeholder="{{'hole' | translate}}" ng-disabled='!searcher.sample_board'
+    .form-group.col-md-2
+      input.form-control ng-model='searcher.reaction_board' placeholder="{{'reaction' | translate}}{{'board' | translate}}"
+    .form-group.col-md-1
+      input.form-control ng-model='searcher.reaction_hole' placeholder="{{'hole' | translate}}" ng-disabled='!searcher.reaction_board'
+    .form-group.col-md-3
+      label style='float: left;'
+        | {{'sample' | translate}}{{'type' | translate}}
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='searcher.board_head' btn-radio='h' ng-repeat='h in board_heads' required=''
+          | {{h.name}}
+    .form-group.col-md-2
+      label style='float: left;'
+        | {{'urgent' | translate}}:
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='searcher.urgent' btn-radio='y' ng-repeat='y in yesno'
+          | {{y | translate}}
+    .form-group.col-md-2
+      label style='float: left;'
+        | {{'is_test' | translate}}:
+      .btn-group
+        button.btn.btn-primary type='button' ng-model='searcher.is_test' btn-radio='y' ng-repeat='y in yesno'
+          | {{y | translate}}
+    .col-md-1
+      button.btn.btn-success ng-click='search()' ng-bind='"search" | translate'
+/ng-include src="'/views/reactionSearch.html'"
 table.table.table-bordered.table-striped
   thead
     tr

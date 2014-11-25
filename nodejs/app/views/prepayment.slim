@@ -4,7 +4,7 @@
       .form-group.col-md-6
         input.form-control ng-model='record.company.name' placeholder='{{"company" | translate}}' title='{{"company" | translate}}' ng-focus='selectCompany()' required=''
       .form-group.col-md-6
-        input.form-control ng-model='record.create_date' placeholder='{{"receive" | translate}}{{"date" | translate}}' title='{{"receive" | translate}}{{"date" | translate}}' ui-date='dateOption' ui-date-format='yy-mm-dd' required=''
+        input.form-control ng-model='record.create_date' placeholder='{{"receive" | translate}}{{"date" | translate}}' title='{{"receive" | translate}}{{"date" | translate}}' ng-required='true' datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='opened' ng-click='selectDate($event, "opened")'
       .form-group.col-md-6
         input.form-control ng-model='record.money' placeholder='{{"money" | translate}}' title='{{"money" | translate}}' required=''
       .form-group.col-md-6

@@ -1,7 +1,7 @@
-'use strict'
+#'use strict'
 
-angular.module('sequencingApp').directive 'datetimepicker', [->
-  restrict: 'A'
-  link: (scope, element, attrs) ->
-    angular.element(element).datetimepicker()
-]
+#angular.module('sequencingApp').directive 'datetimepicker', [->
+#  restrict: 'A'
+#  link: (scope, element, attrs) ->
+#    angular.element(element).datetimepicker()
+#]

@@ -16,8 +16,7 @@
     "angular-translate-loader-static-files": "~2.2.0",
     "angular-bootstrap": "~0.11.0",
     "angular-drop": "~0.0.1",
-    "angular-ui-date": "latest",
-    "jqueryui-timepicker-addon": "~1.5.0"
+    "jquery-ui": "~1.11.2"
   },
   "devDependencies": {
     "bootstrap-sass-official": "~3.2.0",
