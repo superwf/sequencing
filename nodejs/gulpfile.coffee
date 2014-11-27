@@ -118,13 +118,7 @@ gulp.task 'concat', ['pre-build'], ->
   files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload-video.js'
   files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload-angular.js'
   files.push './app/bower_components/jquery-file-upload/js/jquery.iframe-transport.js'
-  #files.push './app/bower_components/jquery-ui/jquery-ui.min.js'
-  #files.push './app/bower_components/angular-ui-date/src/date.js'
-  #files.push './app/bower_components/jquery-ui/ui/datepicker.js'
 
-  #files.push './app/bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js'
-  #files.push './app/bower_components/jqueryui-timepicker-addon/dist/i18n/jquery-ui-timepicker-zh-CN.js'
-  #files.push './app/bower_components/jquery-ui/ui/i18n/datepicker-zh-CN.js'
   #gulp.src(files).pipe(concat('vendor.js')).pipe(uglify()).pipe(gulp.dest('./www/'))
   gulp.src(files).pipe(concat('vendor.js')).pipe(gulp.dest('./www/'))
 
