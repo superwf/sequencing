@@ -52,8 +52,9 @@ func GetUsers(req *http.Request)([]User, int){
 // i do not kown how to emulate the php crypt function in golang, the golang blowfish crypt run in defferent way.
 // tested
 func Login(user *User)(int, map[string]interface{}){
+  errorMessage := map[string]interface{}{"ok": false, "error": "login_error"}
   if user.Email == "" {
-    return http.StatusUnauthorized, map[string]interface{}{"ok": false, "error": "login_error"}
+    return http.StatusUnauthorized, errorMessage
   }
   Db.Where("email = ?", user.Email).First(user)
   if(user.Id > 0) {
@@ -61,7 +62,7 @@ func Login(user *User)(int, map[string]interface{}){
     result, err := cmd.Output()
     if err != nil {
       log.Println(err)
-      return http.StatusUnauthorized, map[string]interface{}{"ok": false, "error": "password encrypt error"}
+      return http.StatusUnauthorized, errorMessage
     }
     if(string(result) == "1") {
       return http.StatusOK, map[string]interface{}{
@@ -69,9 +70,9 @@ func Login(user *User)(int, map[string]interface{}){
         "email": user.Email,
         "id": user.Id}
     } else {
-      return http.StatusUnauthorized, map[string]interface{}{"ok": false, "error": "login_error"}
+      return http.StatusUnauthorized, errorMessage
     }
   } else {
-    return http.StatusUnauthorized, map[string]interface{}{"ok": false, "error": "login_error"}
+    return http.StatusUnauthorized, errorMessage
   }
 }
