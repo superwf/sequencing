@@ -3,7 +3,6 @@ package models
 import (
   "os/exec"
   "log"
-  "time"
   "net/http"
 )
 
@@ -15,8 +14,6 @@ type User struct {
   Email string `json:"email"`
   Password string `json:"password" sql:"-"`
   EncryptedPassword string `json:"encrypted_password"`
-  CreatedAt time.Time
-  UpdatedAt time.Time
 }
 
 // tested

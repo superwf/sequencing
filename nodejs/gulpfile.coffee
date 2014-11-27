@@ -119,8 +119,7 @@ gulp.task 'concat', ['pre-build'], ->
   files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload-angular.js'
   files.push './app/bower_components/jquery-file-upload/js/jquery.iframe-transport.js'
 
-  #gulp.src(files).pipe(concat('vendor.js')).pipe(uglify()).pipe(gulp.dest('./www/'))
-  gulp.src(files).pipe(concat('vendor.js')).pipe(gulp.dest('./www/'))
+  gulp.src(files).pipe(concat('vendor.js')).pipe(uglify()).pipe(gulp.dest('./www/'))
 
   cssfiles = [
     './app/styles/main.css'
