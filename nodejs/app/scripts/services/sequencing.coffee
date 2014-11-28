@@ -58,41 +58,39 @@ angular.module('sequencingApp').factory 'Sequencing', ['$http', ($http)->
         3
       else if colRemainder == 1 && rowRemainder == 1
         4
+    getConfig: ->
+      $http.get(sequencing.api + '/config').success (data)->
+        for i, v of data.config
+          sequencing[i] = v
+
+        sequencing.procedures = {}
+        for i, v of data.procedures
+          sequencing.procedures[v.id] = v
+
+        sequencing.users = {}
+        for i, v of data.users
+          sequencing.users[v.id] = v
+
+        sequencing.boardHeads = {}
+        for i, v of data.boardHeads
+          sequencing.boardHeads[v.id] = v
+
+        sequencing.plasmidCodes = {}
+        for i, v of data.plasmidCodes
+          sequencing.plasmidCodes[v.id] = v
+
+        sequencing.precheckCodes = {}
+        for i, v of data.precheckCodes
+          sequencing.precheckCodes[v.id] = v
+
+        sequencing.interpreteCodes = {}
+        for i, v of data.interpreteCodes
+          sequencing.interpreteCodes[v.id] = v
+        return
+      return
   }
 
-  $http.get(sequencing.api + '/config').success (data)->
-    for i, v of data.config
-      sequencing[i] = v
-    null
+  sequencing.getConfig()
 
-    sequencing.procedures = {}
-    for i, v of data.procedures
-      sequencing.procedures[v.id] = v
-    null
-
-    sequencing.users = {}
-    for i, v of data.users
-      sequencing.users[v.id] = v
-    null
-
-    sequencing.boardHeads = {}
-    for i, v of data.boardHeads
-      sequencing.boardHeads[v.id] = v
-    null
-
-    sequencing.plasmidCodes = {}
-    for i, v of data.plasmidCodes
-      sequencing.plasmidCodes[v.id] = v
-    null
-
-    sequencing.precheckCodes = {}
-    for i, v of data.precheckCodes
-      sequencing.precheckCodes[v.id] = v
-    null
-
-    sequencing.interpreteCodes = {}
-    for i, v of data.interpreteCodes
-      sequencing.interpreteCodes[v.id] = v
-    null
   sequencing
 ]

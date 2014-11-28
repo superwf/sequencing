@@ -36,7 +36,12 @@ angular.module('sequencingApp').directive 'notifyFlash', ['$rootScope', '$transl
         scope.msg = l
       null
     $rootScope.$on 'event:loaded', ->
-      scope.msg = null
+      setTimeout ->
+        scope.$apply ->
+          scope.msg = null
+          return
+        return
+      , 200
       null
     $rootScope.$on 'event:ok', (e, msg)->
       scope.level = 'success'
