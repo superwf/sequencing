@@ -2,6 +2,7 @@ package models
 
 import(
   "net/http"
+  "os/exec"
   "errors"
 )
 
@@ -12,6 +13,8 @@ type Client struct{
   Email string `json:"email"`
   Address string `json:"address"`
   Tel string `json:"tel"`
+  Password string `json:"password" sql:"-"`
+  EncryptedPassword string `json:"encrypted_password"`
   Creator
 }
 
@@ -23,6 +26,14 @@ func (record *Client) BeforeSave() error {
   if len(record.Email) > 255 || len(record.Email) == 0 {
     return errors.New("email length error")
   }
+  return nil
+}
+
+func (c *Client)BeforeCreate()error{
+  c.Password = c.Email
+  cmd := exec.Command(`./blowfish.php`, c.Password)
+  result, _ := cmd.Output()
+  c.EncryptedPassword = string(result)
   return nil
 }
 

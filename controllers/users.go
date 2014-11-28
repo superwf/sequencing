@@ -8,6 +8,7 @@ import (
   "github.com/martini-contrib/render"
   "encoding/json"
   "log"
+  "os/exec"
   //"strconv"
 )
 
@@ -57,4 +58,25 @@ func Login(req *http.Request, session sessions.Session, r render.Render) {
 func Logout(session sessions.Session, r render.Render) {
   session.Clear()
   r.JSON(http.StatusOK, Ok_true)
+}
+
+func UpdatePassword(req *http.Request, session sessions.Session, r render.Render) {
+  d := map[string]string{}
+  parseJson(&d, req)
+  id := session.Get("id").(int)
+
+  if(len(d["oldpassword"]) > 0 && len(d["password"]) > 0 && len(d["confirm_password"]) > 0 && d["confirm_password"] == d["password"]) {
+    me := models.Client{Id: id}
+    models.Db.First(&me)
+    cmd := exec.Command(`./blowfish.php`, d["oldpassword"], me.EncryptedPassword)
+    result, _ := cmd.Output()
+    if(string(result) == "1") {
+      cmd = exec.Command(`./blowfish.php`, d["password"])
+      result, _ := cmd.Output()
+      models.Db.Exec("UPDATE users SET encrypted_password = ? WHERE id = ?", string(result), id)
+    }
+    r.JSON(http.StatusOK, Ok_true)
+  } else {
+    r.JSON(http.StatusNotAcceptable, Ok_false)
+  }
 }

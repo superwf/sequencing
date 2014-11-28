@@ -9,9 +9,10 @@ ul.nav.navbar-nav
           | {{m.name | translate}}
 ul.nav.navbar-nav.pull-right
   li ng-show="me"
-    a
-      i.glyphicon.glyphicon-user
-      | {{ me.name}}
+    form.navbar-form
+      a.btn.btn-info ng-click='editPassword()'
+        i.glyphicon.glyphicon-user
+          | {{ me.name}}
   li ng-show="me"
     form.navbar-form
       button.btn.btn-warning ng-click="logout()"
