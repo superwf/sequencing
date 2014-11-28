@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sequencingApp').controller 'MainCtrl', ['Security', '$scope', '$rootScope', 'Sequencing', (Security, $scope, $rootScope, Sequencing)->
+angular.module('sequencingApp').controller 'MainCtrl', ['Security', '$scope', '$rootScope', 'Sequencing', '$modal', (Security, $scope, $rootScope, Sequencing, $modal)->
   $rootScope.selectDate = ($event, attr)->
     $event.preventDefault()
     $event.stopPropagation()
@@ -36,6 +36,16 @@ angular.module('sequencingApp').controller 'MainCtrl', ['Security', '$scope', '$
 
   $scope.showLogin = ->
     Security.showLogin()
+
+  $scope.editPassword = ->
+    $modal.open {
+      templateUrl: '/views/editPassword.html'
+      controller: 'UserCtrl'
+      resolve:
+        me: ->
+          $scope.me
+    }
+    return
 
   null
 ]

@@ -85,6 +85,7 @@ func main() {
     m.Get("/attachments/:table_name/:record_id", controllers.GetAttachments)
     m.Delete("/attachments/:id", controllers.DeleteAttachment)
     m.Get("/reactionBoardConfig/:id", controllers.ReactionBoardConfig)
+    m.Put("/updatePassword", controllers.UpdatePassword)
     //m.Post("/PrepaymentRecords", controllers.CreatePrepaymentRecord)
     //m.Post("/billRecords", controllers.CreateBillRecord)
     //m.Put("/billRecords", controllers.UpdateBillRecord)
