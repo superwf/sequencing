@@ -8,6 +8,7 @@ rails/.bundle
 rails/config/database.yml
 rails/log/*.log
 rails/tmp
+rails/db/schema.rb
 
 
 nodejs/node_modules
@@ -19,6 +20,7 @@ nodejs/app/views/*.html
 nodejs/app/scripts/*.js
 nodejs/app/scripts/*/*.js
 nodejs/app/upload
+nodejs/app/styles/*.css
 nodejs/test/spec/*/*.js
 nodejs/www/*.js
 nodejs/www/*.css
