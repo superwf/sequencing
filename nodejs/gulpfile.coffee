@@ -27,16 +27,15 @@ paths =
 
 gulp.task "default", ["serve"]
 gulp.task "sass", (done) ->
-  gulp.src("./app/styles/*.scss").pipe(sass()).pipe(gulp.dest("./app/styles/")).pipe(minifyCss(keepSpecialComments: 0)).pipe(rename(extname: ".css")).pipe(gulp.dest("./app/styles/")).on "end", done
+  gulp.src(paths.sass).pipe(sass()).pipe(gulp.dest("./app/styles/")).pipe(minifyCss(keepSpecialComments: 0)).pipe(rename(extname: ".css")).pipe(gulp.dest("./app/styles/")).on "end", done
   null
 
 gulp.task "coffee", (done) ->
-  gulp.src("./app/scripts/*/*.coffee").pipe(coffee(bare: true)).pipe(gulp.dest("./app/scripts/"))
-  gulp.src("./app/scripts/app.coffee").pipe(coffee(bare: true)).pipe(gulp.dest("./app/scripts/")).on "end", done
+  gulp.src(paths.coffee).pipe(coffee(bare: true)).pipe(gulp.dest("./app/scripts/")).on "end", done
   return
 
 gulp.task "slim", (done) ->
-  gulp.src("./app/views/*.slim").pipe(slim(pretty: true)).pipe(gulp.dest("./app/views/")).on "end", done
+  gulp.src(paths.slim).pipe(slim(pretty: true)).pipe(gulp.dest("./app/views/")).on "end", done
   return
 
 gulp.task "watch", ->
