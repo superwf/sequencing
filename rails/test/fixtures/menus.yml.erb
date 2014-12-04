@@ -231,3 +231,15 @@ end
   name: email
   url: '/emails'
   parent_id: <%= email_id %>
+<% statistic_id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= statistic_id %>
+  name: statistic
+  url: ''
+  parent_id: 0
+<% id = ::FactoryGirl.generate :menu %>
+-
+  id: <%= id %>
+  name: reaction_statistic
+  url: '/reactionStatistic'
+  parent_id: <%= statistic_id %>

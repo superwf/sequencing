@@ -1,0 +1,67 @@
+form.form-search.well name='searchForm'
+  .row
+    .col-md-2
+      input.form-control ng-model='searcher.date_from' placeholder="{{'order' | translate}}{{'receive' | translate}}{{'date' | translate}}{{'from' | translate}}" datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='fromOpen' ng-click='selectDate($event, "fromOpen")'
+    .col-md-2
+      input.form-control ng-model='searcher.date_to' placeholder="{{'to' | translate}}" title="{{'to' | translate}}" datepicker-options='{{dateOptions}}' datepicker-popup='yyyy-MM-dd' is-open='toOpen' ng-click='selectDate($event, "toOpen")'
+    .col-md-3
+      input.form-control ng-model='searcher.heads'
+    .col-md-1
+      button.btn.btn-success ng-click='submit()' ng-bind='"submit" | translate'
+    .col-md-1
+      button.btn.btn-success ng-click='totalCountChart()'
+        | {{'total' | translate}}{{'count' | translate}}
+    .col-md-1
+      button.btn.btn-success ng-click='reworkCountChart()'
+        | {{'rework' | translate}}{{'count' | translate}}
+table.table.table-bordered
+  thead
+    tr
+      th ng-bind="'board_head' | translate"
+      th
+        | {{'total' | translate}}{{'count' | translate}}
+      th
+        | {{'interpreted' | translate}}{{'count' | translate}}
+      th
+        | {{'not_interpreted' | translate}}{{'count' | translate}}
+      th
+        | {{'not_interpreted' | translate}}{{'percent' | translate}}
+      th
+        | {{'ok' | translate}}{{'count' | translate}}
+      th
+        | {{'not_ok' | translate}}{{'count' | translate}}
+      th
+        | {{'ok' | translate}}{{'percent' | translate}}
+      th ng-bind="'concession' | translate"
+      th ng-bind="'rework' | translate"
+      th ng-bind="'reshake' | translate"
+      th
+        | {{'rework' | translate}}{{'percent' | translate}}
+  tbody
+    tr ng-repeat="r in records"
+      td
+        | {{r[0]}}
+      td
+        | {{r[1]}}
+      td
+        | {{r[1] - r[2]}}
+      td
+        span ng-if='r[1] > 0'
+          | {{(r[1] - r[2]) * 100 / r[1]}} %
+      td
+        | {{r[3]}}
+      td
+        | {{r[2] - r[3]}}
+      td
+        span ng-if='r[2] > 0'
+          | {{(r[3]) * 100 / r[2]}} %
+      td
+        | {{r[4]}}
+      td
+        | {{r[5]}}
+      td
+        | {{r[6]}}
+      td
+        span ng-if='r[2] > 0'
+          | {{(r[5]) * 100 / r[2]}} %
+div ui-chart='data' chart-options='chartOptions' style='height: 500px;' ng-if='data[0].length > 0'

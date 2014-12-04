@@ -5,6 +5,7 @@ import (
   "encoding/json"
   "sequencing/models"
   "net/http"
+  "strings"
 )
 
 func TypesetReactionSampleBoards(req *http.Request, r render.Render) {
@@ -39,4 +40,38 @@ func UpdateReaction(req *http.Request, r render.Render){
   } else {
     r.JSON(http.StatusNotAcceptable, err)
   }
+}
+
+func ReactionStatistic(req *http.Request, r render.Render){
+  dateFrom := req.FormValue("date_from")
+  dateTo := req.FormValue("date_to")
+  heads := req.FormValue("heads")
+  headsArray := strings.Split(heads, " ")
+  data := [][]interface{}{}
+  for _, head := range(headsArray) {
+    if len(head) > 0 {
+      h := models.BoardHead{}
+      models.Db.Where("name LIKE ?", head).First(&h)
+      if h.Id > 0 {
+        var totalCount, interpretedCount, okCount, concessionCount, reworkCount, reshakeCount int
+        models.Db.Table("reactions").Joins("INNER JOIN orders ON reactions.order_id = orders.id").Where("orders.board_head_id = ? AND orders.create_date >= ? AND orders.create_date <= ?", h.Id, dateFrom, dateTo).Count(&totalCount)
+        models.Db.Table("reactions").Joins("INNER JOIN orders ON reactions.order_id = orders.id INNER JOIN reaction_files ON reactions.id = reaction_files.reaction_id").Where("orders.board_head_id = ? AND orders.create_date >= ? AND orders.create_date <= ? AND reaction_files.code_id > 0", h.Id, dateFrom, dateTo).Count(&interpretedCount)
+        models.Db.Table("reactions").Joins("INNER JOIN orders ON reactions.order_id = orders.id INNER JOIN reaction_files ON reactions.id = reaction_files.reaction_id INNER JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id").Where("orders.board_head_id = ? AND orders.create_date >= ? AND orders.create_date <= ? AND interprete_codes.available = 1 AND interprete_codes.result = 'pass'", h.Id, dateFrom, dateTo).Count(&okCount)
+        models.Db.Table("reactions").Joins("INNER JOIN orders ON reactions.order_id = orders.id INNER JOIN reaction_files ON reactions.id = reaction_files.reaction_id INNER JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id").Where("orders.board_head_id = ? AND orders.create_date >= ? AND orders.create_date <= ? AND interprete_codes.available = 1 AND interprete_codes.result = 'concession'", h.Id, dateFrom, dateTo).Count(&concessionCount)
+        models.Db.Table("reactions").Joins("INNER JOIN orders ON reactions.order_id = orders.id INNER JOIN reaction_files ON reactions.id = reaction_files.reaction_id INNER JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id").Where("orders.board_head_id = ? AND orders.create_date >= ? AND orders.create_date <= ? AND interprete_codes.available = 1 AND interprete_codes.result = 'rework'", h.Id, dateFrom, dateTo).Count(&reworkCount)
+        models.Db.Table("reactions").Joins("INNER JOIN orders ON reactions.order_id = orders.id INNER JOIN reaction_files ON reactions.id = reaction_files.reaction_id INNER JOIN interprete_codes ON reaction_files.code_id = interprete_codes.id").Where("orders.board_head_id = ? AND orders.create_date >= ? AND orders.create_date <= ? AND interprete_codes.available = 1 AND interprete_codes.result = 'reshake'", h.Id, dateFrom, dateTo).Count(&reshakeCount)
+        d := []interface{}{
+          h.Name,
+          totalCount,
+          interpretedCount,
+          okCount,
+          concessionCount,
+          reworkCount,
+          reshakeCount,
+        }
+        data = append(data, d)
+      }
+    }
+  }
+  r.JSON(http.StatusOK, data)
 }

@@ -118,6 +118,15 @@ gulp.task 'concat', ['pre-build'], ->
   files.push './app/bower_components/jquery-file-upload/js/jquery.fileupload-angular.js'
   files.push './app/bower_components/jquery-file-upload/js/jquery.iframe-transport.js'
 
+
+  files.push './app/bower_components/jqplot/jquery.jqplot.js'
+  files.push './app/bower_components/jqplot/plugins/jqplot.canvasTextRenderer.min.js'
+  files.push './app/bower_components/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js'
+  files.push './app/bower_components/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js'
+  files.push './app/bower_components/jqplot/plugins/jqplot.categoryAxisRenderer.min.js'
+  files.push './app/bower_components/jqplot/plugins/jqplot.barRenderer.min.js'
+  files.push './app/bower_components/jqplot/plugins/jqplot.pointLabels.min.js'
+
   gulp.src(files).pipe(concat('vendor.js')).pipe(uglify()).pipe(gulp.dest('./www/'))
 
   cssfiles = [

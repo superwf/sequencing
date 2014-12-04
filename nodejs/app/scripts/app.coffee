@@ -9,6 +9,7 @@ angular.module('sequencingApp', [
   'ngTouch'
   'ui.bootstrap'
   'ui.drop'
+  'ui.chart'
   'pascalprecht.translate'
 ]).config ['$routeProvider', '$locationProvider', '$httpProvider', '$translateProvider', ($routeProvider, $locationProvider, $httpProvider, $translateProvider) ->
   $translateProvider.preferredLanguage 'cn'
@@ -108,6 +109,9 @@ angular.module('sequencingApp', [
     .when '/prepayments',
       templateUrl: 'views/prepayments.html',
       controller: 'PrepaymentsCtrl'
+    .when '/reactionStatistic',
+      templateUrl: 'views/reactionStatistic.html',
+      controller: 'ReactionStatisticCtrl'
     .otherwise
       redirectTo: '/'
   $httpProvider.interceptors.push 'notifyHttpInterceptor'

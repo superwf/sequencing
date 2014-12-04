@@ -43,18 +43,6 @@ func BoardHoleRecords(params martini.Params, r render.Render){
   r.JSON(http.StatusOK, board.Records())
 }
 
-//func ConfirmBoard(params martini.Params, r render.Render) {
-//  id, _ := strconv.Atoi(params["id"])
-//  board := models.Board{Id: id}
-//  models.Db.First(&board)
-//  procedure, err := board.Confirm()
-//  if err != nil {
-//    r.JSON(http.StatusNotAcceptable, map[string]string{"hint": err.Error()})
-//  } else {
-//    r.JSON(http.StatusOK, procedure)
-//  }
-//}
-
 func GetBoard(params martini.Params, r render.Render) {
   idsn := params["idsn"]
   board := models.Board{}

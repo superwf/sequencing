@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css">
     <link rel="stylesheet" href="bower_components/jquery-file-upload/css/jquery.fileupload.css" />
+    <link rel="bower_components/jqplot/jquery.jqplot.css"></script>
     <!-- endbuild -->
   </head>
   <body>
@@ -59,6 +60,7 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-drop/angular-drop.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/angular-ui-chart/src/chart.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -84,6 +86,13 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="bower_components/jqplot/jquery.jqplot.js"></script>
+    <script src="bower_components/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+    <script src="bower_components/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+    <script src="bower_components/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+    <script src="bower_components/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+    <script src="bower_components/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+    <script src="bower_components/jqplot/plugins/jqplot.pointLabels.min.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/home.js"></script>
@@ -174,6 +183,7 @@
     <script src="scripts/controllers/attachment.js"></script>
     <script src="scripts/services/attachment.js"></script>
     <script src="scripts/controllers/user.js"></script>
+    <script src="scripts/controllers/reaction_statistic.js"></script>
     <!-- endbuild -->
     <script src="http://localhost:35728/livereload.js?snipver=1" type="text/javascript"></script>
 </body>

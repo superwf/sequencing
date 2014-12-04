@@ -8,5 +8,6 @@ angular.module('sequencingApp').factory 'Reaction', ['Sequencing', '$resource', 
     dilute: {isArray: true, method: 'GET', url: Sequencing.api + '/dilutePrimers'}
     reworking: {isArray: true, method: 'GET', url: Sequencing.api + '/reworkingReactions'}
     typeset: {method: 'PUT', url: Sequencing.api + '/typeset/reactions'}
+    statistic: {isArray: true, method: 'GET', url: Sequencing.api + '/reactionStatistic'}
   }
 ]
