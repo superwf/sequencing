@@ -78,6 +78,7 @@ func main() {
     m.Get("/orderReactions/:id", controllers.OrderReactions)
     m.Get("/reworkingReactions", controllers.ReworkingReactions)
     m.Get("/clientReactions", controllers.GetClientReactions)
+    m.Put("/clients/:id", controllers.UpdateClient)
     m.Post("/receiveOrder", controllers.ReceiveOrder)
     m.Post("/generateRedoOrder/:boardHeadId", controllers.GenerateRedoOrder)
     m.Post("/attachments/:table_name/:record_id", controllers.CreateAttachment)
