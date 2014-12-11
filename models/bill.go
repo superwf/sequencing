@@ -94,11 +94,19 @@ func (bill *Bill)UpdateMoney(){
   Db.Model(&bill).UpdateColumns(b)
 }
 
-func (bill *Bill)AfterSave()(error){
+// when created, update orders status to checkout
+func (bill *Bill)AfterCreate()(error){
+  go func(){
+    Db.Exec("UPDATE orders, bill_orders SET orders.status = ? WHERE bill_orders.bill_id = ?", config.OrderStatus[3], bill.Id)
+  }()
+  return nil
+}
+
+// when finish, update orders status to finish
+func (bill *Bill)AfterUpdate()(error){
   if bill.Status == config.BillStatus[4] || bill.Status == config.BillStatus[3] {
     go func(){
-      lastOrderStatus := config.OrderStatus[len(config.OrderStatus) - 1]
-      Db.Exec("UPDATE orders, bill_orders SET orders.status = ? WHERE bill_orders.bill_id = ?", lastOrderStatus, bill.Id)
+      Db.Exec("UPDATE orders, bill_orders SET orders.status = ? WHERE bill_orders.bill_id = ?", config.OrderStatus[4], bill.Id)
     }()
   }
   return nil

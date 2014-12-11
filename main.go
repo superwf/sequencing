@@ -7,6 +7,7 @@ import (
   "sequencing/config"
   "github.com/martini-contrib/render"
   "sequencing/controllers"
+  "sequencing/models"
   "strings"
 )
 
@@ -108,6 +109,7 @@ func main() {
     m.Get("/uploading", controllers.UploadingReactionBoards)
     m.Post("/:board/:file", controllers.CreateReactionFile)
   })
+  go models.CheckOrderStatus()
   //m.Get("/api/consts", controllers.Consts)
 
   http.ListenAndServe(Config["port"].(string), m)

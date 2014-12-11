@@ -5,6 +5,7 @@ import (
   "github.com/go-martini/martini"
   "net/http"
   "sequencing/models"
+  "sequencing/config"
   "strconv"
   "github.com/martini-contrib/sessions"
   "time"
@@ -33,11 +34,7 @@ func CreateBill(params martini.Params, req *http.Request, r render.Render, sessi
         BillId: bill.Id,
         ChargeCount: count,
       }
-      s := models.Db.FirstOrCreate(&billOrder)
-      if s.Error == nil {
-        order := models.Order{Id: id}
-        order.CheckStatus()
-      }
+      models.Db.FirstOrCreate(&billOrder)
     }
   } else {
     panic(saved.Error)
@@ -53,7 +50,7 @@ func DeleteBill(params martini.Params, r render.Render) {
   d := models.Db.Delete(&b)
   if d.Error == nil {
     for _, o := range orders {
-      o.CheckStatus()
+      models.Db.Exec("UPDATE orders SET status = ? WHERE id = ?", config.OrderStatus[2], o.Id)
     }
   }
 }

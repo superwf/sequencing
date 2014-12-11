@@ -198,58 +198,11 @@ func (order *Order)InterpretedReactionFiles()([]map[string]interface{}){
 func (order *Order)SubmitInterpretedReactionFiles(){
   Db.Exec("UPDATE reaction_files, reactions SET reaction_files.status = 'sent' WHERE reactions.order_id = ? AND reactions.id = reaction_files.reaction_id AND reaction_files.status = 'interpreted'", order.Id)
   Db.First(order)
-  order.CheckStatus()
   order.GenerateReworkOrder()
 }
 
 func (order *Order)Reinterprete(interpreterId int){
   Db.Exec("UPDATE reaction_files, reactions SET reaction_files.status = 'interpreting', reaction_files.interpreter_id = ? WHERE reactions.order_id = ? AND reactions.id = reaction_files.reaction_id AND reaction_files.status = 'interpreted'", interpreterId, order.Id)
-}
-
-func (order *Order)CheckStatus() {
-  if order.Status == "" && order.Id > 0 {
-    Db.First(order)
-  }
-  bill := Bill{}
-  Db.Table("bills").Joins("INNER JOIN bill_orders ON bills.id = bill_orders.bill_id").Where("bill_orders.order_id = ?", order.Id).First(&bill)
-  if bill.Status != "" {
-    if bill.Status == config.BillStatus[3] || bill.Status == config.BillStatus[4] {
-      // finished
-      Db.Model(order).Update("status", config.OrderStatus[4])
-    } else {
-      // checkout
-      Db.Model(order).Update("status", config.OrderStatus[3])
-    }
-  } else {
-    var interpretedCount int
-    Db.Table("reaction_files").Joins("INNER JOIN reactions ON reaction_files.reaction_id = reactions.id").Where("reaction_files.status <> 'interpreting'").Count(&interpretedCount)
-    if interpretedCount == 0 {
-      var count int
-      Db.Table("samples").Joins("INNER JOIN boards ON samples.board_id = boards.id").Where("boards.status <> 'new' AND samples.order_id = ?", order.Id).Limit(1).Count(&count)
-      if count > 0 {
-        // run
-        Db.Model(order).Update("status", config.OrderStatus[1])
-      } else {
-        // new
-        Db.Table("samples").Where("samples.order_id = ?", order.Id).Count(&count)
-        if count > 0 {
-          Db.Model(order).Update("status", config.OrderStatus[0])
-        } else {
-          log.Fatalln("order has no samples, id: ", order.Id)
-        }
-      }
-    } else {
-      var reactionCount int
-      Db.Table("reactions").Where("reactions.order_id = ?", order.Id).Count(&reactionCount)
-      if reactionCount == interpretedCount {
-        // to_checkout
-        Db.Model(order).Update("status", config.OrderStatus[2])
-      } else {
-        // run
-        Db.Model(order).Update("status", config.OrderStatus[1])
-      }
-    }
-  }
 }
 
 func (order *Order)Reactions()([]map[string]interface{}){
@@ -283,4 +236,41 @@ func NewOrder(clientId, boardHeadId int, parentOrder *Order)Order{
     o.GenerateReworkSn(parentOrder)
   }
   return order
+}
+
+// should only be run in a loop go routine
+func CheckOrderStatus(){
+  for {
+    // for new order
+    newOrderCount := 0
+    Db.Table("orders").Joins("INNER JOIN samples ON orders.id = samples.order_id INNER JOIN boards ON samples.board_id = boards.id").Where("orders.status = ? AND boards.status <> ?", config.OrderStatus[0], config.BoardStatus[0]).Count(&newOrderCount)
+    if(newOrderCount > 0) {
+      Db.Exec("UPDATE orders INNER JOIN samples ON orders.id = samples.order_id INNER JOIN boards ON samples.board_id = boards.id SET orders.status = ? WHERE orders.status = ? AND boards.status <> ?", config.OrderStatus[1], config.OrderStatus[0], config.BoardStatus[0])
+    }
+    // todo for run order
+    runOrders := make([]Order, 0)
+    Db.Table("orders").Where("status = ?", config.OrderStatus[1]).Find(&runOrders)
+    if(len(runOrders) > 0) {
+      for _, o := range(runOrders) {
+        notPrecheckedSampleCount := 0
+        Db.Table("samples").Joins("LEFT JOIN prechecks ON samples.id = prechecks.sample_id").Where("prechecks.sample_id = NULL").Count(&notPrecheckedSampleCount)
+        if(notPrecheckedSampleCount > 0) {
+          continue
+        }
+        // now all samples are prehcecked
+        // check if all those can be interpreted reactions are interpreted
+        canInterpretedCount := 0
+        Db.Table("reactions").Joins("INNER JOIN prechecks ON prechecks.sample_id = reactions.sample_id INNER JOIN precheck_codes ON prechecks.code_id = precheck_codes.id").Where("reactions.order_id = ? AND precheck_codes.ok = 1", o.Id).Count(&canInterpretedCount)
+        interpretedCount := 0
+        Db.Table("reactions").Joins("INNER JOIN prechecks ON prechecks.sample_id = reactions.sample_id INNER JOIN precheck_codes ON prechecks.code_id = precheck_codes.id INNER JOIN reaction_files ON reactions.id = reaction_files.reaction_id").Where("reactions.order_id = ? AND precheck_codes.ok = 1 AND reaction_files.code_id <> 0", o.Id)
+        if(canInterpretedCount > interpretedCount) {
+          continue
+        } else {
+          Db.Exec("UPDATE orders SET status = ? WHERE orders.id = ?", config.OrderStatus[2], o.Id)
+        }
+      }
+    }
+    // bill can operate order status in bill AfterCreate and AfterSave hooks, not here
+    time.Sleep(time.Minute * 10)
+  }
 }

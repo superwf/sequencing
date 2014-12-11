@@ -3,6 +3,7 @@ package controllers
 import(
   "net/http"
   "sequencing/models"
+  "sequencing/config"
   "github.com/martini-contrib/render"
   "github.com/go-martini/martini"
   "strconv"
@@ -38,8 +39,7 @@ func DeleteBillOrder(r render.Render, params martini.Params){
   bo := models.BillOrder{OrderId: id}
   deleted := models.Db.Delete(&bo)
   if deleted.Error == nil {
-    order := models.Order{Id: id}
-    order.CheckStatus()
+    models.Db.Exec("UPDATE orders SET status = ? WHERE id = ?", config.OrderStatus[2], id)
   }
   renderDbResult(r, deleted, bo)
 }
