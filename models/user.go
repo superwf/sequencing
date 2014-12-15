@@ -55,8 +55,9 @@ func Login(user *User)(int, map[string]interface{}){
   }
   Db.Where("email = ?", user.Email).First(user)
   if(user.Id > 0) {
-    cmd := exec.Command(`./blowfish.php`, user.Password, user.EncryptedPassword)
+    cmd := exec.Command(`./blowfish.rb`, user.Password, user.EncryptedPassword)
     result, err := cmd.Output()
+    log.Println(result)
     if err != nil {
       log.Println(err)
       return http.StatusUnauthorized, errorMessage

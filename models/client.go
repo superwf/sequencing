@@ -31,7 +31,7 @@ func (record *Client) BeforeSave() error {
 
 func (c *Client)BeforeCreate()error{
   c.Password = c.Email
-  cmd := exec.Command(`./blowfish.php`, c.Password)
+  cmd := exec.Command(`./blowfish.rb`, c.Password)
   result, _ := cmd.Output()
   c.EncryptedPassword = string(result)
   return nil
