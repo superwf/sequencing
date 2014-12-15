@@ -60,6 +60,11 @@ table.reaction_board.table.table-bordered.ui-selectable ng-if='rb.showAs == "boa
 .navbar.text-center
   .col-md-12.text-center
     label
+      | {{'typeset_show' | translate}}
+    span ng-if='rb.board_head && rb.number'
+      button.btn.btn-info ng-click='showAsQudrant()' ng-bind='"quadrant" | translate'
+      button.btn.btn-primary ng-click='showAsBoard()' ng-bind='"normal" | translate'
+    label
       | {{'reaction' | translate}}{{'type' | translate}}
     .btn-group
       button.btn.btn-primary type='button' ng-model='rb.board_head' btn-radio='h' ng-repeat='h in board_heads' required=''
@@ -67,6 +72,4 @@ table.reaction_board.table.table-bordered.ui-selectable ng-if='rb.showAs == "boa
     input.form-control ng-model='rb.number' placeholder='{{"board" | translate}}{{"number" | translate}}' title='{{"board" | translate}}{{"number" | translate}}' type='number' required='' style="width: 60px; display: inline;"
     span ng-if='rb.board_head && rb.number'
       button.btn.btn-primary ng-click='typeset()' ng-bind='"typeset" | translate'
-      button.btn.btn-info ng-click='showAsQudrant()' ng-bind='"quadrant" | translate'
-      button.btn.btn-primary ng-click='showAsBoard()' ng-bind='"normal" | translate'
     button.btn.btn-success ng-confirm-click='submit()' ng-bind='"submit" | translate' message='{{"confirm" | translate}}' ng-if='canTypeset()'
