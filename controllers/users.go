@@ -68,10 +68,10 @@ func UpdatePassword(req *http.Request, session sessions.Session, r render.Render
   if(len(d["oldpassword"]) > 0 && len(d["password"]) > 0 && len(d["confirm_password"]) > 0 && d["confirm_password"] == d["password"]) {
     me := models.Client{Id: id}
     models.Db.First(&me)
-    cmd := exec.Command(`./blowfish.php`, d["oldpassword"], me.EncryptedPassword)
+    cmd := exec.Command(`./blowfish.rb`, d["oldpassword"], me.EncryptedPassword)
     result, _ := cmd.Output()
     if(string(result) == "1") {
-      cmd = exec.Command(`./blowfish.php`, d["password"])
+      cmd = exec.Command(`./blowfish.rb`, d["password"])
       result, _ := cmd.Output()
       models.Db.Exec("UPDATE users SET encrypted_password = ? WHERE id = ?", string(result), id)
     }
