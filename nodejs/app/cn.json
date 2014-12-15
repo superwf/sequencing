@@ -222,6 +222,7 @@
   "type": "类型",
   "to_typeset": "待排板",
   "typeset": "排板",
+  "typeset_show": "排版显示方式",
   "upload": "上传",
   "update": "更新",
   "updatedOK": "更新成功",
