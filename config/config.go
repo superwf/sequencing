@@ -27,7 +27,8 @@ func init() {
     env = "development"
   }
 
-  config_file := "config.yml"
+  gopath := os.Getenv("GOPATH")
+  config_file := gopath + "/src/sequencing/config.yml"
 
   config_content, err := ioutil.ReadFile(config_file)
   if err != nil {

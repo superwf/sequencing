@@ -66,7 +66,7 @@ func UpdatePassword(req *http.Request, session sessions.Session, r render.Render
   id := session.Get("id").(int)
 
   if(len(d["oldpassword"]) > 0 && len(d["password"]) > 0 && len(d["confirm_password"]) > 0 && d["confirm_password"] == d["password"]) {
-    me := models.Client{Id: id}
+    me := models.User{Id: id}
     models.Db.First(&me)
     cmd := exec.Command(`./blowfish.rb`, d["oldpassword"], me.EncryptedPassword)
     result, _ := cmd.Output()
