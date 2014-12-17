@@ -211,7 +211,7 @@ angular.module('sequencingApp').controller 'OrderCtrl', ['$scope', 'Order', 'Seq
           record.samples = samples
           Order.create record, (data)->
             if data.id > 0
-              $scope.record.id = 0
+              delete $scope.record.id
               $scope.samples = []
               getBoardRecords($scope.board.sn)
               angular.element(".ui-selected").removeClass("ui-selected")
