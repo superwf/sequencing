@@ -1,4 +1,6 @@
 main
+sequencing
+tmp/*.pid
 config.yml
 *.swp
 *.swo
