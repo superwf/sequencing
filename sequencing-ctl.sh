@@ -66,7 +66,7 @@ case "$1" in
 		do_stop
 		case "$?" in
 			0|1)
-				do_start
+				do_start &
 				case "$?" in
 					0) log_end_msg 0 ;;
 					1) log_end_msg 1 ;; # Old process is still running
