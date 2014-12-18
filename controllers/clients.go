@@ -16,12 +16,12 @@ func UpdateClient(params martini.Params, req *http.Request, session sessions.Ses
   originClient := models.Client{Id: client.Id}
   models.Db.First(&originClient)
   if(len(client.Password) > 0) {
-    cmd := exec.Command(`./blowfish.php`, client.Password)
+    cmd := exec.Command(`./blowfish.rb`, client.Password)
     result, _ := cmd.Output()
     client.EncryptedPassword = string(result)
   } else {
     if(len(originClient.EncryptedPassword) == 0) {
-      cmd := exec.Command(`./blowfish.php`, originClient.Email)
+      cmd := exec.Command(`./blowfish.rb`, originClient.Email)
       result, _ := cmd.Output()
       client.EncryptedPassword = string(result)
     } else {
