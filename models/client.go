@@ -3,6 +3,7 @@ package models
 import(
   "net/http"
   "os/exec"
+  "os"
   "errors"
 )
 
@@ -31,7 +32,9 @@ func (record *Client) BeforeSave() error {
 
 func (c *Client)BeforeCreate()error{
   c.Password = c.Email
-  cmd := exec.Command(`./blowfish.rb`, c.Password)
+  gopath := os.Getenv("GOPATH")
+  blowfish := gopath + "/src/sequencing/blowfish.rb"
+  cmd := exec.Command(blowfish, c.Password)
   result, _ := cmd.Output()
   c.EncryptedPassword = string(result)
   return nil

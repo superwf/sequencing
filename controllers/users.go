@@ -9,6 +9,7 @@ import (
   "encoding/json"
   "log"
   "os/exec"
+  "os"
   //"strconv"
 )
 
@@ -68,10 +69,12 @@ func UpdatePassword(req *http.Request, session sessions.Session, r render.Render
   if(len(d["oldpassword"]) > 0 && len(d["password"]) > 0 && len(d["confirm_password"]) > 0 && d["confirm_password"] == d["password"]) {
     me := models.User{Id: id}
     models.Db.First(&me)
-    cmd := exec.Command(`./blowfish.rb`, d["oldpassword"], me.EncryptedPassword)
+    gopath := os.Getenv("GOPATH")
+    blowfish := gopath + "/src/sequencing/blowfish.rb"
+    cmd := exec.Command(blowfish, d["oldpassword"], me.EncryptedPassword)
     result, _ := cmd.Output()
     if(string(result) == "1") {
-      cmd = exec.Command(`./blowfish.rb`, d["password"])
+      cmd = exec.Command(blowfish, d["password"])
       result, _ := cmd.Output()
       models.Db.Exec("UPDATE users SET encrypted_password = ? WHERE id = ?", string(result), id)
     }
