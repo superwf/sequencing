@@ -2,6 +2,7 @@ package models
 
 import (
   "os/exec"
+  "os"
   "log"
   "net/http"
 )
@@ -55,9 +56,9 @@ func Login(user *User)(int, map[string]interface{}){
   }
   Db.Where("email = ?", user.Email).First(user)
   if(user.Id > 0) {
-    cmd := exec.Command(`./blowfish.rb`, user.Password, user.EncryptedPassword)
+    gopath := os.Getenv("GOPATH")
+    cmd := exec.Command(gopath + "/src/sequencing/blowfish.rb", user.Password, user.EncryptedPassword)
     result, err := cmd.Output()
-    log.Println(result)
     if err != nil {
       log.Println(err)
       return http.StatusUnauthorized, errorMessage
