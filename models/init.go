@@ -31,10 +31,9 @@ func init() {
   Db, err = gorm.Open("mysql", mysql_source)
 
   env := os.Getenv("GOENV")
-  fmt.Println(env)
-  //if env != "production"  {
+  if env != "production"  {
     Db.LogMode(true)
-  //}
+  }
 
   if err != nil {
     fmt.Println("mysql connection error ", err)
