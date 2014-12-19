@@ -57,7 +57,7 @@ func Login(user *User)(int, map[string]interface{}){
   Db.Where("email = ?", user.Email).First(user)
   if(user.Id > 0) {
     gopath := os.Getenv("GOPATH")
-    cmd := exec.Command(gopath + "/src/sequencing/blowfish.rb", user.Password, user.EncryptedPassword)
+    cmd := exec.Command(gopath + "/src/sequencing/blowfish.php", user.Password, user.EncryptedPassword)
     result, err := cmd.Output()
     if err != nil {
       log.Println(err)
